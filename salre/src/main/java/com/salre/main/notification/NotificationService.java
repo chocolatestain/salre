@@ -46,12 +46,15 @@ public class NotificationService {
 	}
 
 	private void sendToClient(String userId, Object data) {
-		SseEmitter sseEmitter = emitterRepository.findById(userId);
-		try {
-			sseEmitter.send(SseEmitter.event().id(userId.toString()).name("sse").data(data));
-		} catch (IOException ex) {
-			emitterRepository.deleteById(userId);
-			throw new RuntimeException("연결 오류 발생");
-		}
+	    SseEmitter sseEmitter = emitterRepository.findById(userId);
+	    if (sseEmitter == null) {
+	        throw new RuntimeException("해당 userId에 대한 Emitter가 없습니다: " + userId);
+	    }
+	    try {
+	        sseEmitter.send(SseEmitter.event().id(userId).name("sse").data(data));
+	    } catch (IOException ex) {
+	        emitterRepository.deleteById(userId);
+	        throw new RuntimeException("SSE 연결 중 오류 발생: " + ex.getMessage());
+	    }
 	}
 }

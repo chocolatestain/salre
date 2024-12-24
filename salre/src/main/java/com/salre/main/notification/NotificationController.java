@@ -19,7 +19,7 @@ public class NotificationController {
 
 	@GetMapping("/")
 	public ModelAndView viewNotification() {
-		return new ModelAndView("notification");
+		return new ModelAndView("notification/notification");
 	}
 
 	// 클라이언트의 이벤트 구독을 수락한다. 서버 -> 클라이언트로 이벤트를 보낼 수 있게된다.
