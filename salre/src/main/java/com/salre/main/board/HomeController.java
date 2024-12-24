@@ -1,4 +1,4 @@
-package com.salre.board;
+package com.salre.main.board;
 
 import java.text.DateFormat;
 import java.util.Date;
