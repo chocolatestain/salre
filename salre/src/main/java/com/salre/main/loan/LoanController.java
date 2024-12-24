@@ -21,7 +21,7 @@ public class LoanController {
 
 	@Autowired
 	private LoanService loanService;
-
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
