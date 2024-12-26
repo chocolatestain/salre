@@ -116,7 +116,7 @@ footer a {
 	<header>
 		<div class="logo">살래?</div>
 		<nav>
-			<a href="notification/">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a> <a
+			<a href="loan/main">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a> <a
 				href="#">매물</a> <a href="#">관심매물</a> <a href="#">방내놓기</a>
 		</nav>
 		<div class="auth">

@@ -7,6 +7,18 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>살래?</title>
+
+		<script>
+			function validateForm() {
+				var age = document.querySelector('input[name="age"]').value;
+				if (!age) {
+					alert('나이를 입력해주세요');
+					return false;
+				}
+				return true;
+			}
+		</script>
+
 		<style>
 			body {
 				font-family: Arial, sans-serif;
@@ -44,17 +56,19 @@
 			}
 
 			.main-banner {
+				background-color: #f5f5f5;
 				text-align: center;
 				display: flex;
-				justify-content: space-around;
-				background: url('resources/images/mainpage_bg.webp') no-repeat center center/cover;
-				color: #333;
 				padding: 60px 20px;
+				width: 100%;
 			}
 
-			.main-banner img {
-				opacity: 0.5;
-				/* 이미지 투명도 설정 */
+			.main-banner>div {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
 			}
 
 			.form-box {
@@ -64,32 +78,27 @@
 				border-radius: 10px;
 				max-width: 400px;
 				width: 100%;
+				text-align: left;
 			}
 
-			h1 {
+			.main-banner h1 {
 				font-size: 2.5rem;
 				color: #333;
 			}
 
-			h2 {
+			.main-banner h2 {
 				font-size: 1.25rem;
 				color: #666;
-				margin-bottom: 2rem;
+				margin-bottom: 3rem;
 			}
 
-			h3 {
-				text-align: left;
+			.form-box h3 {
+				margin: 0 auto;
+				font-size: 1.25rem;
+				padding-bottom: 1.5rem;
 			}
 
-			input {
-				width: calc(100% - 25px);
-				padding: 0.75rem;
-				margin: 1rem 0;
-				font-size: 1rem;
-				border-radius: 5px;
-				border: 1px solid #ccc;
-			}
-
+			input,
 			select,
 			button {
 				width: 100%;
@@ -98,6 +107,7 @@
 				font-size: 1rem;
 				border-radius: 5px;
 				border: 1px solid #ccc;
+				box-sizing: border-box;
 			}
 
 			button {
@@ -109,13 +119,6 @@
 
 			button:hover {
 				background-color: #2C3562;
-			}
-
-			.stats {
-				text-align: center;
-				padding: 20px;
-				background-color: #f9f9f9;
-				font-size: 18px;
 			}
 
 			footer {
@@ -142,8 +145,8 @@
 		<header>
 			<div class="logo">살래?</div>
 			<nav>
-				<a href="notification">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a> <a href="#">매물</a> <a
-					href="#">관심매물</a> <a href="#">방내놓기</a>
+				<a href="main">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a> <a href="#">매물</a> <a href="#">관심매물</a>
+				<a href="#">방내놓기</a>
 			</nav>
 			<div class="auth">
 				<a href="login.jsp">로그인</a> <a href="register.jsp">회원가입</a>
@@ -157,30 +160,23 @@
 				<h2>나에게 딱 맞는 대출을 찾아드려요</h2>
 
 				<div class="form-box">
-					<form>
-						<label for="age">
-							<h3>나이</h3>
-						</label>
-						<input type="number" id="age" min="19" placeholder="만 나이 입력">
-						<hr>
-						<label for="income">
-							<h3>연 소득</h3>
-						</label>
-						<select id="income">
-							<option value="3500down">3500만원 이하</option>
-							<option value="5000down">5000만원 이하</option>
-							<option value="5000up">5000만원 이상</option>
+					<form action="result" method="POST" onsubmit="return validateForm()">
+						<h3>
+						<label for="age">나이</label>
+						<input type="number" name="age" min="19" max="100" placeholder="만 나이 입력">
+						<label for="income">연 소득</label>
+						<select name="income">
+							<option value="3500l">3500만원 이하</option>
+							<option value="5000l">5000만원 이하</option>
+							<option value="5000h">5000만원 이상</option>
 						</select>
-						<hr>
-						<label for="property">
-							<h3>매물유형</h3>
-						</label>
-						<select id="property">
-							<option value="월세">월세</option>
-							<option value="전세">전세</option>
+						<label for="product_type">매물유형</label>
+						<select name="product_type">
+							<option value="month">월세</option>
+							<option value="2year">전세</option>
 						</select>
-						<br>
-						<button type="submit">확인</button>
+						</h3>
+						<button type="submit">조회</button>
 					</form>
 				</div>
 			</div>

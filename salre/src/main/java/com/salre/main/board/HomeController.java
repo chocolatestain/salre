@@ -10,9 +10,4 @@ public class HomeController {
 	public ModelAndView viewHome() {
 		return new ModelAndView("home");
 	}
-	
-	@GetMapping("/loan")
-	public ModelAndView viewLoan() {
-		return new ModelAndView("loan/loan");
-	}
 }

@@ -3,20 +3,32 @@
 
 <mapper namespace="loanMapper">
 	<resultMap type="loanDTO" id="loanVO">
-        <id column="loan_id" property="loan_id" />
-        <result column="loan_name" property="loan_name" />
-        <result column="bank_name" property="bank_name" />
-        <result column="interest_type" property="interest_type" />
-        <result column="repayment_type" property="repayment_type" />
-        <result column="loan_rate" property="loan_rate" />
-        <result column="loan_limit" property="loan_limit" />
-        <result column="max_age" property="max_age" />
-        <result column="max_income" property="max_income" />
-    </resultMap>
+		<id column="loan_id" property="loan_id" />
+		<result column="loan_name" property="loan_name" />
+		<result column="bank_name" property="bank_name" />
+		<result column="interest_type" property="interest_type" />
+		<result column="repayment_type" property="repayment_type" />
+		<result column="loan_rate" property="loan_rate" />
+		<result column="loan_limit" property="loan_limit" />
+		<result column="max_age" property="max_age" />
+		<result column="max_income" property="max_income" />
+	</resultMap>
 
-	<select id="selectAll" resultMap="loanVO">
+	<select id="selectByRate" resultMap="loanVO"
+		parameterType="map">
 		SELECT *
 		FROM loan
-		ORDER BY 1;
+		WHERE  max_age >= #{age}
+		AND max_income >= #{income}
+		ORDER BY 6;
+	</select>
+	
+	<select id="selectByLimit" resultMap="loanVO"
+		parameterType="map">
+		SELECT *
+		FROM loan
+		WHERE  max_age >= #{age}
+		AND max_income >= #{income}
+		ORDER BY 7;
 	</select>
 </mapper>
