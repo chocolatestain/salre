@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -37,6 +38,25 @@ public class LoanController {
 		return "loan/result";
 	}
 
+	// 금리순으로 대출 상품 조회
+	@GetMapping("/sortByRate")
+	@ResponseBody
+	public List<LoanDTO> sortByRate(@RequestParam("age") int age, @RequestParam("income") int incomeValue) {
+		return loanService.selectByRate(age, incomeValue);
+	}
+
+	// 한도순으로 대출 상품 조회
+	@GetMapping("/sortByLimit")
+	@ResponseBody
+	public List<LoanDTO> sortByLimit(@RequestParam("age") int age, @RequestParam("income") int incomeValue) {
+		return loanService.selectByLimit(age, incomeValue);
+	}
+
+	@GetMapping("/detail")
+	public ModelAndView viewDetail() {
+		return new ModelAndView("loan/detail");
+	}
+
 	private int getIncome(String income) {
 		switch (income) {
 		case "3500l":
@@ -46,10 +66,5 @@ public class LoanController {
 		default:
 			return Integer.MAX_VALUE;
 		}
-	}
-
-	@GetMapping("/detail")
-	public ModelAndView viewDetail() {
-		return new ModelAndView("loan/detail");
 	}
 }
