@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salre.board">
+	<select id="selectAll" resultType="boardDTO">
+		SELECT * FROM BOARD ORDER BY 1 DESC
+	</select>
+	
+	<select id="selectByBoardId" parameterType="Long" resultType="boardDTO">
+		SELECT * FROM BOARD WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<!-- 2024-12-26, 회원 정보(user_id, writer) 추가 필요 -->
+	<insert id="insert" parameterType="boardDTO">
+		INSERT INTO
+		BOARD(board_title,
+			  board_content)
+		VALUES(#{board_title},
+			   #{board_content})
+	</insert>
+	
+	<update id="updateClickCnt" parameterType="Long">
+		UPDATE BOARD
+		SET CLICK_CNT = CLICK_CNT + 1
+		WHERE BOARD_ID = #{board_id}
+	</update>
+	
+	<delete id="delete" parameterType="Long">
+		DELETE FROM BOARD WHERE BOARD_ID = #{board_id}
+	</delete>
+</mapper>

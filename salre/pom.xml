@@ -31,12 +31,13 @@
 			<version>3.5.6</version>
 		</dependency>
  
-<!-- 		 -->
+		<!-- 		 -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.17.2</version>
-		</dependency> 
+		</dependency>
+		
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
@@ -71,20 +72,21 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<!-- Connection Pooling사용하기 -->
+		
+		<!-- Connection Pooling 사용하기 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
 			<version>2.7.0</version>
 		</dependency>
 
+		<!-- SQL 문을 로그로 남기는 것을 지원 -->
 		<dependency>
 			<groupId>org.lazyluke</groupId>
 			<artifactId>log4jdbc-remix</artifactId>
 			<version>0.2.7</version>
 		</dependency>
 		
-
 		<!-- 롬복라이브러리(자동으로 기본함수들 만들기) -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -92,7 +94,8 @@
 			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
-		<!--  Swagger  -->
+		
+		<!-- Swagger -->
 		<dependency>
 		    <groupId>io.swagger.core.v3</groupId>
 		    <artifactId>swagger-annotations</artifactId>
@@ -112,9 +115,6 @@
 			<artifactId>ojdbc8</artifactId>
 			<version>12.2.0.1</version>
 		</dependency>
-
-
-
 
 		<!-- Spring -->
 		<dependency>
