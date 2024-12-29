@@ -140,7 +140,7 @@
 							</div>
 							<!-- Pagination END -->
 							
-							<a class="list-item" href="${contextPath}/board/insert"><i class="bi bi-pencil-square fa-fw me-2"></i>글쓰기</a>
+							<a class="btn btn-secondary float-end mt-3" href="${contextPath}/board/insert"><i class="bi bi-pencil-square fa-fw me-2"></i>글쓰기</a>
 						</div>
 						<!-- Card body END -->
 					</div>

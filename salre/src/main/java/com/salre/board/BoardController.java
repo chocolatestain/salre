@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	// °Ô½ÃÆÇ ¸ñ·Ï Á¶È¸
+	// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	@GetMapping(value = "/list")
 	public String boardList(Model model) {
 		model.addAttribute("boardList", boardService.selectAllService());
@@ -28,45 +29,65 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	// °Ô½Ã±Û µî·Ï È­¸é
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ È­ï¿½ï¿½
 	@GetMapping(value = "/insert")
 	public String boardInsertPage() {
 		return "board/boardInsert";
 	}
 	
-	// °Ô½Ã±Û µî·Ï
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½
 	@ResponseBody
 	@PostMapping(value = "/insert", consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = "text/plain;charset=utf-8")
 	public String boardInsert(@RequestBody BoardDTO boardDTO) {
-		// ÇÑ±Û ÀÎÄÚµù?
+		// ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½Úµï¿½?
 		
-		// ¼¼¼Ç °ªÀ¸·Î user_id, writer(¾ÆÀÌµð) ¹Þ¾Æ¿À±â
-		// °øÁö»çÇ× : °ü¸®ÀÚ¸¸ µî·Ï °¡´É, ÀÚÀ¯°Ô½ÃÆÇ : ´©±¸³ª °¡´É
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ user_id, writer(ï¿½ï¿½ï¿½Ìµï¿½) ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int result = boardService.insertService(boardDTO);
 		
-		return result > 0 ? "°Ô½Ã±ÛÀÌ µî·ÏµÇ¾ú½À´Ï´Ù." : "°Ô½Ã±Û µî·Ï¿¡ ½ÇÆÐÇß½À´Ï´Ù.";
+		return result > 0 ? "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ÏµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." : "ï¿½Ô½Ã±ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.";
 	}
 	
-	// °Ô½Ã±Û »ó¼¼º¸±â
+	// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
 	@GetMapping(value = "/detail")
 	public String boardDetail(Long board_id, Model model) {
-		BoardDTO boardDTO = boardService.selectByBoardIdService(board_id);
-		
-		// °Ô½Ã±Û »ó¼¼º¸±â ½Ã Á¶È¸¼ö Áõ°¡
+		// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		boardService.updateClickCnt(board_id);
+		
+		BoardDTO boardDTO = boardService.selectByBoardIdService(board_id);
 		
 		model.addAttribute("boardDTO", boardDTO);
 		
 		return "board/boardDetail";
 	}
 	
-	// °Ô½Ã±Û »èÁ¦
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@GetMapping(value = "/delete")
 	public String boardDelete(Long board_id) {
 		boardService.deleteService(board_id);
 		
 		return "redirect:list";
+	}
+	
+	// ê²Œì‹œê¸€ ìˆ˜ì • í™”ë©´
+	@GetMapping(value = "/update")
+	public String boardUpdate(Long board_id, Model model) {
+		BoardDTO boardDTO = boardService.selectByBoardIdService(board_id);
+		
+		model.addAttribute("boardDTO", boardDTO);
+		
+		return "board/boardUpdate";
+	}
+	
+	// ê²Œì‹œê¸€ ìˆ˜ì •
+	@ResponseBody
+	@PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = "text/plain;charset=utf-8")
+	public String boardUpdate(@RequestBody BoardDTO boardDTO) {
+		int result = boardService.updateService(boardDTO);
+		
+		return result > 0 ? "ê³µì§€ì‚¬í•­ì´ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤." : "ê³µì§€ì‚¬í•­ ìˆ˜ì •ì„ ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.";
 	}
 	
 }

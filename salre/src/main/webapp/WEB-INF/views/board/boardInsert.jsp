@@ -11,11 +11,11 @@
 	Steps START -->
 	<section>
 		<div class="container">
-			<div class="card bg-transparent border rounded-3 mb-5">
+			<div class="card bg-transparent border rounded-3 mb-4">
 				<!-- Course description -->
 				<div class="col-12">
 					<div class="card-header bg-transparent border-bottom">
-						<h3 class="mb-0">글쓰기</h3>
+						<h3 class="mb-0">공지사항 글쓰기</h3>
 					</div>
 					
 					<div class="col-12 p-2">
@@ -66,9 +66,9 @@
 				</div>
 			</div>
 			<!-- Button -->
-			<div class="d-flex align-items-center mt-2 mt-md-0">
+			<div class="d-flex justify-content-end mt-2 mt-md-0">
 				<a href="javascript:doCheck(doInsert);" class="btn btn-success mb-0">등록</a>
-				<a href="${contextPath}/board/list" class="btn btn-secondary mb-0">취소</a>
+				<a href="${contextPath}/board/list" class="btn btn-secondary mb-0 ms-2">취소</a>
 			</div>
 		</div>
 	</section>
@@ -95,12 +95,9 @@
 	<script type="text/javascript">
 		// 콜백 함수로 게시글 등록 함수 호출
 		function doCheck(callback) {
-			var board_title = $('[name="board_title"]').val();
-			var board_content = $('.ql-editor').text();
-			var board_content_imgCheck = $('.ql-editor').find('img').length;
-			console.log(board_title)
-			console.log(board_content)
-			console.log(board_content_imgCheck)
+			let board_title = $('[name="board_title"]').val();
+			let board_content = $('.ql-editor').text();
+			let board_content_imgCheck = $('.ql-editor').find('img').length;
 			
 			if (board_title == "") {
 				alert("제목을 입력하시기 바랍니다.");
@@ -116,7 +113,6 @@
 			
 			// text와 img가 없으면 내용 없음
 			if (board_content == "" && board_content_imgCheck == "0") {
-				console.log("hello");
 				alert("내용을 입력하시기 바랍니다.");
 				return false;
 			}
@@ -132,10 +128,11 @@
 		
 		// 게시글 등록 함수
 		function doInsert() {
-			var board_title = $('[name="board_title"]').val();
-			var board_content = $('.ql-editor').html();
+			let board_title = $('[name="board_title"]').val();
+			let board_content = $('.ql-editor').html();
 			
-			var jsonData = {
+			let jsonData = {
+					"board_class": "공지사항",
 					"board_title": board_title,
 					"board_content": board_content
 			};
@@ -158,11 +155,11 @@
 		
 		// 글자 길이 바이트 단위로 체크하기(바이트값 전달)
         function calBytes(str) {
-		    var tcount = 0;  // 최종 바이트 수를 저장할 변수
-		    var strCnt = str.length;  // 문자열의 길이 (문자 수)
+		    let tcount = 0;  // 최종 바이트 수를 저장할 변수
+		    let strCnt = str.length;  // 문자열의 길이 (문자 수)
 		
-		    var onechar;  // 개별 문자를 저장할 변수
-		    for (var i = 0; i < strCnt; i++) {
+		    let onechar;  // 개별 문자를 저장할 변수
+		    for (let i = 0; i < strCnt; i++) {
 		        onechar = str.charAt(i);  // 문자열에서 i번째 문자 추출
 		
 		        // encodeURIComponent를 사용하여 해당 문자의 URL 인코딩된 문자열 길이를 확인

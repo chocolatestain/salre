@@ -18,23 +18,23 @@ public class BoardDAOMybatis implements BoardDAOInterface {
 	// boardMapper.xml
 	String namespace = "com.salre.board.";
 	
-	// °Ô½ÃÆÇ ¸ñ·Ï Á¶È¸
+	// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	public List<BoardDTO> selectAll() {
 		List<BoardDTO> boardList = sqlSession.selectList(namespace + "selectAll");
-		log.info("[selectAll] boardList °Ç¼ö : " + boardList.size());
+		log.info("[selectAll] boardList ï¿½Ç¼ï¿½ : " + boardList.size());
 
 		return boardList;
 	}
 
-	// °Ô½Ã±Û µî·Ï
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½
 	public int insert(BoardDTO boardDTO) {
 		int result = sqlSession.insert(namespace + "insert", boardDTO);
-		log.info("[insert] µî·Ï °Ç¼ö : " + result);
+		log.info("[insert] ï¿½ï¿½ï¿½ ï¿½Ç¼ï¿½ : " + result);
 		
 		return result;
 	}
 
-	// °Ô½Ã±Û »ó¼¼º¸±â
+	// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
 	public BoardDTO selectByBoardId(Long board_id) {
 		BoardDTO boardDTO = sqlSession.selectOne(namespace + "selectByBoardId", board_id);
 		log.info("[selectByBoardId] boardDTO : " + boardDTO);
@@ -42,14 +42,22 @@ public class BoardDAOMybatis implements BoardDAOInterface {
 		return boardDTO;
 	}
 
-	// °Ô½Ã±Û »ó¼¼º¸±â ½Ã Á¶È¸¼ö Áõ°¡
+	// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void updateClickCnt(Long boardId) {
 		sqlSession.update(namespace + "updateClickCnt", boardId);
 	}
 
-	// °Ô½Ã±Û »èÁ¦
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void delete(Long board_id) {
 		sqlSession.delete(namespace + "delete", board_id);
+	}
+
+	// ê²Œì‹œê¸€ ìˆ˜ì •
+	public int update(BoardDTO boardDTO) {
+		int result = sqlSession.update(namespace + "update", boardDTO);
+		log.info("[update] ìˆ˜ì • ê±´ìˆ˜ : " + result);
+		
+		return result;
 	}
 
 }

@@ -11,29 +11,34 @@ public class BoardService {
 	@Autowired
 	BoardDAOMybatis boardDAOMybatis;
 	
-	// °Ô½ÃÆÇ ¸ñ·Ï Á¶È¸
+	// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	public List<BoardDTO> selectAllService() {
 		return boardDAOMybatis.selectAll();
 	}
 
-	// °Ô½Ã±Û µî·Ï
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½
 	public int insertService(BoardDTO boardDTO) {
 		return boardDAOMybatis.insert(boardDTO);
 	}
 
-	// °Ô½Ã±Û »ó¼¼º¸±â
+	// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
 	public BoardDTO selectByBoardIdService(Long board_id) {
 		return boardDAOMybatis.selectByBoardId(board_id);
 	}
 
-	// °Ô½Ã±Û »ó¼¼º¸±â ½Ã Á¶È¸¼ö Áõ°¡
+	// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void updateClickCnt(Long boardId) {
 		boardDAOMybatis.updateClickCnt(boardId);
 	}
 
-	// °Ô½Ã±Û »èÁ¦
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void deleteService(Long board_id) {
 		boardDAOMybatis.delete(board_id);
+	}
+
+	// ê²Œì‹œê¸€ ìˆ˜ì •
+	public int updateService(BoardDTO boardDTO) {
+		return boardDAOMybatis.update(boardDTO);
 	}
 
 }
