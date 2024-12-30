@@ -68,6 +68,9 @@
             border: none;
             cursor: pointer;
         }
+        #map1{
+        	margin: 0 auto;
+        }
         .stats {
             text-align: center;
             padding: 20px;
@@ -123,18 +126,79 @@
         <p>현재 <span>@@</span>개의 지역에서 <span>@@@</span>명이 <span>@@@@</span>개의 집을 보고 있습니다.</p>
     </section>
  
-	    <div id="map1" style="width: 500px; height: 400px">!!!!!!!!!!</div>
+	    <div id="map1" style="width: 70%; height: 600px"></div>
+ 	
+     <script>
+        // 지도를 표시할 div
+        var mapContainer = document.getElementById('map1');
+
+        // 지도 옵션
+        var mapOption = { 
+            center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 서울 중심 좌표
+            draggable: false,
+            level: 8 // 확대 레벨
+        };
+
+        // 지도 생성
+        var map = new kakao.maps.Map(mapContainer, mapOption); 
+        
+        // 마커 이미지 설정
+        var imageSrc = 'https://cdn-icons-png.flaticon.com/512/5973/5973800.png',
+            imageSize = new kakao.maps.Size(40, 40),
+            imageOption = { offset: new kakao.maps.Point(20, 40) };
+
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+        // 서울 각 구의 중심 좌표와 이름
+        var districts = [
+            { name: "종로구", lat: 37.573050, lng: 126.979189 },
+            { name: "중구", lat: 37.563759, lng: 126.997671 },
+            { name: "용산구", lat: 37.532598, lng: 126.990611 },
+            { name: "성동구", lat: 37.563513, lng: 127.036431 },
+            { name: "광진구", lat: 37.538378, lng: 127.082218 },
+            { name: "동대문구", lat: 37.574368, lng: 127.039617 },
+            { name: "중랑구", lat: 37.606324, lng: 127.092253 },
+            { name: "성북구", lat: 37.589453, lng: 127.016743 },
+            { name: "강북구", lat: 37.639749, lng: 127.025596 },
+            { name: "도봉구", lat: 37.668687, lng: 127.047128 },
+            { name: "노원구", lat: 37.654360, lng: 127.056516 },
+            { name: "은평구", lat: 37.617612, lng: 126.922700 },
+            { name: "서대문구", lat: 37.579115, lng: 126.936880 },
+            { name: "마포구", lat: 37.563682, lng: 126.908016 },
+            { name: "양천구", lat: 37.516770, lng: 126.866577 },
+            { name: "강서구", lat: 37.550964, lng: 126.849532 },
+            { name: "구로구", lat: 37.495485, lng: 126.887823 },
+            { name: "금천구", lat: 37.460096, lng: 126.900202 },
+            { name: "영등포구", lat: 37.526414, lng: 126.896430 },
+            { name: "동작구", lat: 37.512409, lng: 126.939957 },
+            { name: "관악구", lat: 37.478229, lng: 126.951394 },
+            { name: "서초구", lat: 37.483545, lng: 127.032368 },
+            { name: "강남구", lat: 37.517236, lng: 127.047325 },
+            { name: "송파구", lat: 37.514575, lng: 127.105193 },
+            { name: "강동구", lat: 37.530125, lng: 127.123770 }
+        ];
+
+        // 마커 추가 및 클릭 이벤트 등록
+        districts.forEach(function(district) {
+            var markerPosition = new kakao.maps.LatLng(district.lat, district.lng);
+
+            var marker = new kakao.maps.Marker({
+                position: markerPosition,
+                image: markerImage,
+                map: map // 지도에 마커 표시
+            });
+
+            // 마커 클릭 이벤트
+            kakao.maps.event.addListener(marker, 'click', function() {
+                var query = encodeURIComponent(district.name);
  
-  		 <script>
-  		var mapContainer = document.getElementById('map1'), // 지도를 표시할 div 
-	    mapOption = { 
-	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-	        level: 3 // 지도의 확대 레벨
-	    };
-	
-	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-  		 </script>
+                var basePath = window.location.pathname.split('/')[1];  
+                var url = "/" + basePath + "/search?search=" + query;
+
+                window.location.href = url;
+            });
+        });
+    </script>
     <!-- Footer -->
     <footer>
         <div>

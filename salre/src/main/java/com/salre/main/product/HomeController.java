@@ -19,8 +19,10 @@ public class HomeController {
     @Autowired
     private ProductService productservice;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home() {
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("productCount", productservice.countProduct());
+
         return "home";
     }
 
