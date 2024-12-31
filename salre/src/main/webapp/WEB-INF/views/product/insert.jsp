@@ -272,7 +272,7 @@ button[type="submit"]:hover {
 <div class="form-group">
     <label for="address">매물 주소 *</label>
     <br>
-    <input type="text" id="address" placeholder="주소" style="width: calc(100%); padding: 10px;">
+    <input type="text" name = "address" id="address" placeholder="주소" style="width: calc(100%); padding: 10px;">
   <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" style="width: 30%; padding: 5px 10px; font-size: 0.9rem; display: inline-block; align: center">
     <br>
     <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
@@ -330,7 +330,7 @@ button[type="submit"]:hover {
 
             <div class="form-group">
             	<label for ="address">상세 주소 </label>
-            	<input type = "text" id = "address_detail" name = "address" placeholder = "상세 주소(없는 경우 비움)">
+            	<input type = "text" id = "address_detail" name = "address_detail" placeholder = "상세 주소(없는 경우 비움)">
             	</div>
             <div class="form-group">
                 <label for="area">매물 크기 *</label>
@@ -340,7 +340,14 @@ button[type="submit"]:hover {
                 <label for="room_count">방 정보 *</label>
                 <input type="number" id="room_count" name="room_count" placeholder="방 개수" required>
             </div>
-
+            <div class="form-group">
+                <label for="direction">방향 *</label>
+                <input type="radio" id="direction" name="direction" value="동" required> 동
+                <input type="radio" id="direction" name="direction" value="서" required> 서
+                <input type="radio" id="direction" name="direction" value="남" required> 남
+                <input type="radio" id="direction" name="direction" value="북" required> 북
+            </div>
+			
             <!-- 거래 정보 -->
             <h2>거래 정보</h2>
             <div class="form-group">
@@ -405,6 +412,10 @@ button[type="submit"]:hover {
 					<label for = "rental_area">임대할 부분</label>
 					<input id = "rental_area" name = "rental_area" placeholder = "'전체', '1층', '2층 일부', '사무실 한 칸'"></input>
 				</div>
+				<div class="form-group">
+                <label for="approve_day">사용 승인일 *</label>
+                <input type="date" id="approve_day" name="approve_day" required>
+            </div>
 				<h2>TESTTEST</h2>
 				<div class = "form-group">
 					<label for = "user_id">사용자 id</label>

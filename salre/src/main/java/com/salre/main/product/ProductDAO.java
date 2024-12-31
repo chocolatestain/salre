@@ -51,4 +51,8 @@ public class ProductDAO implements ProductInterface {
 	public int countProduct() {
 		return sqlSession.selectOne(namespace + "countProduct");
 	}
+	@Override
+	public int nextId() {
+		return sqlSession.selectOne(namespace + "nextId");
+	}
 }

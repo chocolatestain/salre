@@ -49,6 +49,9 @@ public class ProductService {
 	public int countProduct() {
 		return productDAO.countProduct();
 	}
+	public int nextId() {
+		return productDAO.nextId();
+	}
 }
 
 

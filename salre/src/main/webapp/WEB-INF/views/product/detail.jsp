@@ -413,58 +413,56 @@
 
               marker.setMap(map)
             </script>
-<div class="product-address" id="address">
-  서울특별시 종로구 옥인길 59-11 경복궁역
-</div>
-<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-
-<script>
-  document.getElementById("address").addEventListener("click", function() {
-    var copyText = document.getElementById("address");
-    var notification = document.getElementById("copyNotification");
-
-    // 텍스트 색상 변경 (선택사항)
-    copyText.style.color = "#f4a261"; // 복사된 후 텍스트 색 변경
-
-    navigator.clipboard.writeText(copyText.innerText)
-      .then(function() {
-        // 복사 성공 후 알림 메시지 표시
-        notification.style.display = "block";
-        setTimeout(function() {
-          notification.style.display = "none";
-        }, 2000); // 2초 후 알림 숨기기
-      })
-      .catch(function(err) {
-        alert("복사 실패: " + err);
-      });
-  });
-</script>
-
-            </div>
-          </div>
-       </div>
-      </div>  
-    </div>
-  </div>
-</body>
-
-<footer>
-  <div>
-      <h3>형태 별 검색</h3>
-      <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
-  </div>
-  <div>
-      <h3>고객 지원</h3>
-      <a href="#">자주 묻는 질문(FAQ)</a><br>
-      <a href="#">Android</a><br>
-      <a href="#">iOS</a>
-  </div>
-  <div>
-      <h3>저희 회사는</h3>
-      <a href="#">회사소개</a><br>
-      <a href="#">오시는 길</a><br>
-      <a href="#">제휴문의</a><br>
-      <a href="#">채용</a><br>
-  </div>
+		<div class="product-address" id="address">
+		  서울특별시 종로구 옥인길 59-11 경복궁역
+		</div>
+		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
+		
+		<script>
+		  document.getElementById("address").addEventListener("click", function() {
+		    var copyText = document.getElementById("address");
+		    var notification = document.getElementById("copyNotification");
+		
+		    // 텍스트 색상 변경 (선택사항)
+		    copyText.style.color = "#f4a261"; // 복사된 후 텍스트 색 변경
+		
+		    navigator.clipboard.writeText(copyText.innerText)
+		      .then(function() {
+		        // 복사 성공 후 알림 메시지 표시
+		        notification.style.display = "block";
+		        setTimeout(function() {
+		          notification.style.display = "none";
+		        }, 2000); // 2초 후 알림 숨기기
+		      })
+		      .catch(function(err) {
+		        alert("복사 실패: " + err);
+		      });
+		  });
+		</script> 
+	            </div>
+	          </div>
+	       </div>
+	      </div>  
+	    </div>
+	  </div>
+  <footer>
+	  <div>
+	      <h3>형태 별 검색</h3>
+	      <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
+	  </div>
+	  <div>
+	      <h3>고객 지원</h3>
+	      <a href="#">자주 묻는 질문(FAQ)</a><br>
+	      <a href="#">Android</a><br>
+	      <a href="#">iOS</a>
+	  </div>
+	  <div>
+	      <h3>저희 회사는</h3>
+	      <a href="#">회사소개</a><br>
+	      <a href="#">오시는 길</a><br>
+	      <a href="#">제휴문의</a><br>
+	      <a href="#">채용</a><br>
+	  </div>
 </footer>
+</body> 
 </html>

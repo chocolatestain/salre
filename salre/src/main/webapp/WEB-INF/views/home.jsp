@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>살래?</title>
   		 <script type = "text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78">
-		  		
   		 </script> 
     <style>
         body {
@@ -124,7 +123,7 @@
     </section>
 
     <section class="stats">
-        <p>현재 <span>${regionCount }</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount } </span>개의 집을 보고 있습니다.</p>
+        <p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount } </span>개의 집을 보고 있습니다.</p>
     </section>
  
 	    <div id="map1" style="width: 70%; height: 600px"></div>

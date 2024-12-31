@@ -11,4 +11,5 @@ public interface ProductInterface {
 	public List<ProductDTO> searchProductsByKeyword(String keyword);
 	public List<ProductDTO> searchByConditions();
     public int countProduct();
+    public int nextId();
 }

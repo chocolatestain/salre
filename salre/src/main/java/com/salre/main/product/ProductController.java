@@ -1,5 +1,7 @@
 package com.salre.main.product;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
  
 @Controller
@@ -25,20 +29,43 @@ public class ProductController {
     }
 
     @PostMapping("/insert")
-    public String createProduct(@ModelAttribute ProductDTO productDTO, Model model) {
-      
-        // productDTO 객체로 매핑된 데이터를 확인
-        System.out.println(productDTO);
- 
-        // 비즈니스 로직 처리
-        productService.insertProduct(productDTO);
+    public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
+        
+        // MultipartHttpServletRequest를 사용하여 파일 처리
+        MultipartFile file = request.getFile("photo"); // "photo"는 HTML input의 name 값과 일치해야 함
+        
+        if (file != null && !file.isEmpty()) {
+            
+            // 파일을 저장할 디렉토리 경로 지정
+            String directoryPath = "src/main/resources/static/images/products/";
 
-        // 결과 페이지로 이동
-        model.addAttribute("message", "매물이 성공적으로 등록되었습니다.");
- 
-        return "redirect:/product/list";
-    } 
-    
+            // 실제 경로로 변환 (서버 내에서 실제 경로를 얻기 위한 방법)
+            String realPath = new File(directoryPath).getAbsolutePath();
+            System.out.println(realPath);
+            // 디렉토리가 없으면 생성
+            File directory = new File(realPath);
+            if (!directory.exists()) {
+                directory.mkdirs(); // 디렉토리 생성
+            }
+
+            // 파일 경로 설정 (파일명은 product_id를 기반으로 설정)
+            File dest = new File(realPath + "/" + productService.nextId() + ".jpg");
+
+            try {
+                // 파일을 해당 경로로 저장
+                file.transferTo(dest);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 비즈니스 로직 처리 (상품 등록)
+        productService.insertProduct(productDTO);
+        
+        return "redirect:/";
+    }
+
+
     @GetMapping("/list")
     public String listProducts(Model model) {
         List<ProductDTO> products = productService.selectAllProducts();

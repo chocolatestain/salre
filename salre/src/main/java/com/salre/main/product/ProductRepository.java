@@ -32,4 +32,7 @@ public class ProductRepository {
 	public int countProduct() {
 		return sqlSession.selectOne(namespace + "countProduct");
 	}
+	public int nextId() {
+		return sqlSession.selectOne(namespace + "nextid");
+	}
 }
