@@ -1,6 +1,7 @@
 package com.salre.board;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +19,37 @@ public class BoardDAOMybatis implements BoardDAOInterface {
 	// boardMapper.xml
 	String namespace = "com.salre.board.";
 	
-	// �Խ��� ��� ��ȸ
+	// 게시판 목록 조회
 	public List<BoardDTO> selectAll() {
 		List<BoardDTO> boardList = sqlSession.selectList(namespace + "selectAll");
-		log.info("[selectAll] boardList �Ǽ� : " + boardList.size());
+		log.info("[selectAll] boardList 건수 : " + boardList.size());
 
 		return boardList;
 	}
 
-	// �Խñ� ���
+	// 게시글 등록
 	public int insert(BoardDTO boardDTO) {
 		int result = sqlSession.insert(namespace + "insert", boardDTO);
-		log.info("[insert] ��� �Ǽ� : " + result);
+		log.info("[insert] 등록 건수 : " + result);
 		
 		return result;
 	}
 
-	// �Խñ� �󼼺���
-	public BoardDTO selectByBoardId(Long board_id) {
+	// 게시글 상세보기
+	public BoardDTO selectByBoardId(Integer board_id) {
 		BoardDTO boardDTO = sqlSession.selectOne(namespace + "selectByBoardId", board_id);
 		log.info("[selectByBoardId] boardDTO : " + boardDTO);
 		
 		return boardDTO;
 	}
 
-	// �Խñ� �󼼺��� �� ��ȸ�� ����
-	public void updateClickCnt(Long boardId) {
+	// 게시글 상세보기 시 조회수 증가
+	public void updateClickCnt(Integer boardId) {
 		sqlSession.update(namespace + "updateClickCnt", boardId);
 	}
 
-	// �Խñ� ����
-	public void delete(Long board_id) {
+	// 게시글 삭제
+	public void delete(Integer board_id) {
 		sqlSession.delete(namespace + "delete", board_id);
 	}
 
@@ -58,6 +59,16 @@ public class BoardDAOMybatis implements BoardDAOInterface {
 		log.info("[update] 수정 건수 : " + result);
 		
 		return result;
+	}
+
+	// 해당 페이지에서 보여줄 게시글 목록
+	public List<BoardDTO> selectByPage(Map<String, Integer> pagingParams) {
+		return sqlSession.selectList(namespace + "paging", pagingParams);
+	}
+
+	// 전체 글 갯수 조회
+	public int selectBoardCount() {
+		return sqlSession.selectOne(namespace + "boardCount");
 	}
 
 }

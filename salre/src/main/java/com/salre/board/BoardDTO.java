@@ -1,6 +1,6 @@
 package com.salre.board;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,13 +16,13 @@ import lombok.ToString;
 @ToString
 @Builder
 public class BoardDTO {
-	Integer board_id; // °Ô½Ã±Û ¹øÈ£
-	Integer user_id; // È¸¿ø ¹øÈ£
-	String writer; // ÀÛ¼ºÀÚ
-	String board_class; // °Ô½ÃÆÇ ºĞ·ù(°øÁö»çÇ×, ÀÚÀ¯°Ô½ÃÆÇ)
-	String board_title; // °Ô½Ã±Û Á¦¸ñ
-	String board_content; // °Ô½Ã±Û ³»¿ë
-	Date created_at; // »ı¼ºÀÏ½Ã(ÀÛ¼ºÀÏÀÚ)
-	Date updated_at; // ¼öÁ¤ÀÏ½Ã
-	Integer click_cnt; // Á¶È¸¼ö
+	Integer board_id; // ê²Œì‹œê¸€ ë²ˆí˜¸
+	Integer user_id; // íšŒì› ë²ˆí˜¸
+	String writer; // ì‘ì„±ì
+	String board_class; // ê²Œì‹œíŒ ë¶„ë¥˜(ê³µì§€ì‚¬í•­, ììœ ê²Œì‹œíŒ)
+	String board_title; // ê²Œì‹œê¸€ ì œëª©
+	String board_content; // ê²Œì‹œê¸€ ë‚´ìš©
+	Timestamp created_at; // ìƒì„±ì¼ì‹œ(ì‘ì„±ì¼ì)
+	Timestamp updated_at; // ìˆ˜ì •ì¼ì‹œ
+	Integer click_cnt; // ì¡°íšŒìˆ˜
 }

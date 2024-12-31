@@ -16,7 +16,7 @@ public class CommentDAOMybatis implements CommentDAOInterface {
 	SqlSession sqlSession;
 	
 	// commentMapper.xml
-	String namespace = "com.salre.comment.";
+	String namespace = "com.salre.board.comment.";
 
 	// 댓글 등록
 	public void register(CommentDTO commentDTO) {
@@ -26,6 +26,11 @@ public class CommentDAOMybatis implements CommentDAOInterface {
 	// 해당 게시글에 작성된 댓글 리스트 가져오기
 	public List<CommentDTO> selectAll(Integer board_id) {
 		return sqlSession.selectList(namespace + "selectAll", board_id);
+	}
+
+	// 해당 댓글 정보 조회
+	public CommentDTO selectByCommentId(Integer comment_id) {
+		return sqlSession.selectOne(namespace + "selectByCommentId", comment_id);
 	}
 
 }

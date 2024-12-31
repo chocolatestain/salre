@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 	
+	// 메인 홈페이지
 	@GetMapping("/index")
 	public String index() {
 		return "index";

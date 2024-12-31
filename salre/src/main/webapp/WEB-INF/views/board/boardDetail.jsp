@@ -46,7 +46,10 @@
 						<!-- Card header -->
 						<div class="card-header bg-transparent border-bottom">
 							<h3 class="card-header-title mb-0">${boardDTO.board_title}</h3>
-							<span class="me-3 small">${boardDTO.writer}</span><span class="me-3 small">${boardDTO.created_at}</span><span class="me-3 small">조회 ${boardDTO.click_cnt}</span><span class="small float-end">댓글 수 "추가"</span>
+							<span class="me-3 small">${boardDTO.writer}</span>
+							<span class="me-3 small"><fmt:formatDate value="${boardDTO.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
+							<span class="me-3 small">조회 ${boardDTO.click_cnt}</span>
+							<span class="small float-end">댓글 수 "추가"</span>
 						</div>
 						<!-- Card body START -->
 						<div class="card-body">
@@ -55,19 +58,42 @@
 							<div class="bg-body border rounded-bottom h-400px overflow-y-auto p-2">
 								${boardDTO.board_content}
 							</div>
+							<hr>
 							
 							<!-- 댓글 -->
 							<div class="mt-4">
-								<div class="mb-3 d-sm-flex justify-content-sm-between align-items-center">
-									<!-- Title -->
-									<div>
-										<h6 class="m-0">Frances Guerrero</h6>
-										<span class="me-3 small">June 11, 2021 at 6:01 am </span>
-									</div>
+								<div id="comment_area" class="d-flex flex-column">
+									<c:forEach items="${commentDTOList}" var="comment" varStatus="status">
+										<!-- 작성자, 작성일자 -->
+										<div id="comment_item${comment.comment_id}" class="mb-2 d-flex flex-column">
+											<div class="d-flex align-items-center">
+												<h6 class="m-0">${comment.comment_writer}</h6>
+												
+												<!-- 댓글 수정, 삭제 버튼 -->
+												<div class="dropdown ms-auto me-2">
+													<button class="btn btn-link p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="bi bi-three-dots text-dark"></i>
+													</button>
+													<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										                <li><a class="dropdown-item" href="javascript:doUpdatePage(${comment.comment_id});">수정</a></li>
+										                <li><a class="dropdown-item" href="javascript:doDeleteComment(${comment.comment_id});">삭제</a></li>
+										            </ul>
+									            </div>
+											</div>
+											<%-- 날짜 형식 변환; 2024-12-30 11:20:30.0 => 2024-12-30 11:20:30 --%>
+											<span class="me-3 small">
+												<fmt:formatDate value="${comment.created_at}" pattern="yyyy-MM-dd HH:mm" />
+											</span>
+										
+											<!-- Content -->
+											<div>
+												<p>${comment.comment_content}</p>
+												<hr>
+											</div>
+										</div>
+									</c:forEach>
 								</div>
-								<!-- Content -->
-								<h6><span class="text-body fw-light">Review on:</span> How to implement sitemap on sass</h6>
-								<p>Satisfied conveying a dependent contented he gentleman agreeable do be. Warrant private blushes removed an in equally totally if. Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. </p>
+								
 								<!-- Button -->
 								<div class="text-end">
 									<a class="btn btn-sm btn-light mb-0" data-bs-toggle="collapse" href="#collapseComment" role="button" aria-expanded="false" aria-controls="collapseComment">
@@ -187,7 +213,123 @@
 					comment_content: comment_content
 				}),
 				success: function(commentDTOList) {
-					console.log(commentDTOList);
+					// 댓글 입력 칸 비우기
+					$('#comment_content').val("");
+					
+					// 댓글 목록을 출력할 때 날짜 형식(타임스탬프)을 사람이 읽을 수 있는 형식으로 변환
+			        commentDTOList.forEach(function(comment) {
+			            let timestamp = comment.created_at; // 예: 1735538039000
+			            let date = new Date(timestamp);
+			            
+			         	// UTC에서 9시간을 더해 한국 시간(KST)으로 변환
+			            date.setHours(date.getHours() + 9);
+			            
+			         	// 한국 시간으로 변환된 날짜를 원하는 형식으로 출력
+			            comment.created_at = date.toISOString().slice(0, 16).replace("T", " "); // 예: 2024-12-30 14:53
+			        });
+					
+					// 댓글 목록을 출력하는 함수 호출
+					let output = printCommentList(commentDTOList);
+					console.log(output);
+					
+					// 댓글 영역에 새로운 댓글 목록 삽입
+					$("#comment_area").html(output);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+		
+		// 댓글 등록 후 리스트 보여주기(commentRegister 함수에서 호출)
+		function printCommentList(commentList) {
+			let dynamicRows = "";
+			$.each(commentList, function(index, comment) {
+				dynamicRows += `
+					<!-- 작성자, 작성일자 -->
+					<div id="comment_item\${comment.comment_id}" class="mb-2 d-flex flex-column">
+						<div class="d-flex align-items-center">
+							<h6 class="m-0">\${comment.comment_writer}</h6>
+							
+							<!-- 댓글 수정, 삭제 버튼 -->
+							<div class="dropdown ms-auto me-2">
+								<button class="btn btn-link p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="bi bi-three-dots text-dark"></i>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					                <li><a class="dropdown-item" href="javascript:doUpdatePage(\${comment.comment_id});">수정</a></li>
+					                <li><a class="dropdown-item" href="javascript:doDeleteComment(\${comment.comment_id});">삭제</a></li>
+					            </ul>
+				            </div>
+						</div>
+						<span class="me-3 small">
+							\${comment.created_at}
+						</span>
+					
+						<!-- Content -->
+						<div>
+							<p>\${comment.comment_content}</p>
+							<hr>
+						</div>
+					</div>
+				`
+			});
+			
+			let output = `
+				\${dynamicRows}
+			`
+			
+			return output;
+		}
+	</script>
+	
+	<!-- 댓글 수정 -->
+	<script type="text/javascript">
+		// 기존 댓글을 댓글 수정 화면으로 바꿔서 표시
+		function doUpdatePage(comment_id) {
+			$.ajax({
+				url: "${contextPath}/comment/update",
+				type: "GET",
+				data: { comment_id: comment_id },
+				success: function(commentDTO) {
+					alert("수정 화면 이동 성공");
+					console.log(commentDTO);
+					
+					// 댓글 수정할 수 있는 영역
+					let output = printCommentUpdate(commentDTO);
+					
+					$("#comment_item").html(output);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+		
+		// 댓글 수정할 수 있는 영역
+		function printCommentUpdate(commentInfo) {
+			let output = `
+				<div class="collapse show" id="collapseComment">
+					<div class="d-flex mt-3">
+						<textarea id="comment_content" class="form-control mb-0" rows="2" spellcheck="false">\${commentInfo.comment_content}</textarea>
+						<button onclick="doCheck(commentRegister)" class="btn btn-sm btn-primary-soft ms-2 px-4 mb-0 flex-shrink-0"><i class="fas fa-paper-plane fs-5"></i></button>
+					</div>
+				</div>
+			`
+			
+			return output;
+		}
+	</script>
+	
+	<!-- 댓글 삭제 -->
+	<script type="text/javascript">
+		function doDeleteComment(comment_id) {
+			$.ajax({
+				url: "${contextPath}/comment/deleteComment",
+				type: "GET",
+				data: { comment_id: comment_id },
+				success: function(res) {
+					alert("댓글 삭제 성공");
 				},
 				error: function(err) {
 					alert(err);

@@ -1,6 +1,6 @@
 package com.salre.board;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +16,11 @@ import lombok.ToString;
 @ToString
 @Builder
 public class CommentDTO {
-	Integer comment_id;
-	Integer user_id;
-	Integer board_id;
-	String comment_writer;
-	String comment_content;
-	Date created_at;
-	Date updated_at;
+	Integer comment_id; // 댓글 번호
+	Integer user_id; // 회원 번호
+	Integer board_id; // 게시글 번호
+	String comment_writer; // 댓글 작성자
+	String comment_content; // 댓글 내용
+	Timestamp created_at; // 댓글 작성일자
+	Timestamp updated_at; // 댓글 수정일자
 }

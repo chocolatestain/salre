@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ public class CommentController {
 	public List<CommentDTO> commentRegister(@RequestBody CommentDTO commentDTO) {
 		log.info("commentDTO : " + commentDTO);
 		
+		// 댓글 등록
 		commentService.register(commentDTO);
 		
 		// 해당 게시글에 작성된 댓글 리스트 가져오기
@@ -33,5 +36,20 @@ public class CommentController {
 		
 		return commentDTOList;
 	}
+	
+	// 댓글 수정 화면
+	@ResponseBody
+	@GetMapping(value = "/update")
+	public CommentDTO commentUpdate(Integer comment_id) {
+		// 해당 댓글 정보 조회
+		CommentDTO commentDTO = commentService.selectByCommentIdService(comment_id);
+		
+		return commentDTO;
+	}
+	
+	// 댓글 수정
+	
+	// 댓글 삭제
+	
 
 }

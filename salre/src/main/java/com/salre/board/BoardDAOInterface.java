@@ -4,16 +4,22 @@ import java.util.List;
 
 public interface BoardDAOInterface {
 	
-	// °Ô½ÃÆÇ ¸ñ·Ï Á¶È¸
+	// ê²Œì‹œíŒ ëª©ë¡ ì¡°íšŒ
 	public List<BoardDTO> selectAll();
 	
-	// °Ô½Ã±Û µî·Ï
+	// ê²Œì‹œê¸€ ë“±ë¡
 	public int insert(BoardDTO boardDTO);
 	
-	// °Ô½Ã±Û »ó¼¼º¸±â
-	public BoardDTO selectByBoardId(Long board_id);
+	// ê²Œì‹œê¸€ ìƒì„¸ë³´ê¸°
+	public BoardDTO selectByBoardId(Integer board_id);
 	
-	// °Ô½Ã±Û »ó¼¼º¸±â ½Ã Á¶È¸¼ö Áõ°¡
-	public void updateClickCnt(Long board_id);
+	// ê²Œì‹œê¸€ ìƒì„¸ë³´ê¸° ì‹œ ì¡°íšŒìˆ˜ ì¦ê°€
+	public void updateClickCnt(Integer board_id);
+	
+	// ê²Œì‹œê¸€ ì‚­ì œ
+	public void delete(Integer board_id);
+	
+	// ê²Œì‹œê¸€ ìˆ˜ì •
+	public int update(BoardDTO boardDTO);
 
 }

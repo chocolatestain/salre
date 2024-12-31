@@ -107,7 +107,9 @@
 												</td>
 				
 												<!-- Table data -->
-												<td>${board.created_at}</td>
+												<td>
+													<fmt:formatDate value="${board.created_at}" pattern="yyyy-MM-dd HH:mm" />
+												</td>
 				
 												<!-- Table data -->
 												<td>댓글 수</td>
@@ -130,11 +132,39 @@
 								<!-- Pagination -->
 								<nav class="d-flex justify-content-center mb-0" aria-label="navigation">
 									<ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-										<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
-										<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-										<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
-										<li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
-										<li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+										<c:choose>
+											<%-- 현재 페이지가 1페이지면 '<'만 보여줌 --%>
+											<c:when test="${pageDTO.page <= 1}">
+												<li class="page-item mb-0"><a class="page-link" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+											</c:when>
+											<%-- 1페이지가 아닌 경우에는 '<'을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
+											<c:otherwise>
+												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/paing?page=${pageDTO.page - 1}" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+											</c:otherwise>
+										</c:choose>
+										
+										<%-- for(int i = startPage; i <= endPage; i++) --%>
+										<c:forEach begin="${pageDTO.startPage}" end="${pageDTO.endPage}" var="i" step="1">
+											<c:choose>
+												<%-- 요청한 페이지에 있는 경우 현재 페이지 번호는 숫자만 보이게 --%>
+												<c:when test="${i eq pageDTO.page}">
+													<li class="page-item mb-0"><a class="page-link">${i}</a></li>
+												</c:when>
+												
+												<c:otherwise>
+													<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/paging?page=${i}">${i}</a></li>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+										
+										<c:choose>
+											<c:when test="${pageDTO.page >= pageDTO.maxPage}">
+												<li class="page-item mb-0"><a class="page-link"><i class="fas fa-angle-right"></i></a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/paing?page=${pageDTO.page + 1}"><i class="fas fa-angle-right"></i></a></li>
+											</c:otherwise>
+										</c:choose>
 									</ul>
 								</nav>
 							</div>

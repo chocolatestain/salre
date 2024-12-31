@@ -21,4 +21,9 @@ public class CommentService {
 		return commentDAOMybatis.selectAll(board_id);
 	}
 
+	// 해당 댓글 정보 조회
+	public CommentDTO selectByCommentIdService(Integer comment_id) {
+		return commentDAOMybatis.selectByCommentId(comment_id);
+	}
+
 }
