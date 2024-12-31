@@ -137,7 +137,7 @@
 		<header>
 			<div class="logo">살래?</div>
 			<nav>
-				<a href="loan/main">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a> <a href="#">매물</a> <a href="#">관심매물</a>
+				<a href="main">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a> <a href="#">매물</a> <a href="#">관심매물</a>
 				<a href="#">방내놓기</a>
 			</nav>
 			<div class="auth">
@@ -151,11 +151,18 @@
 				<h1>대출 상세정보</h1>
 				<h2>내가 선택한 대출 정보를 확인하세요</h2>
 			</div>
+
+			<div>
+				<h2>${loan.loan_name}</h2>
+				<p>은행: ${loan.bank_name}</p>
+				<p>금리: ${loan.loan_rate}%</p>
+				<p>한도: ${loan.loan_limit}원</p>
+			</div>
 		</section>
 
 		<!-- Footer -->
 		<footer>
-			<div>	
+			<div>
 				<h3>형태 별 검색</h3>
 				<p>
 					전세<br>월세<br>아파트<br>빌라<br>상가

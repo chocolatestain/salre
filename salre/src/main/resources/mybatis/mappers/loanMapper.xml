@@ -14,21 +14,17 @@
 		<result column="max_income" property="max_income" />
 	</resultMap>
 
-	<select id="selectByRate" resultMap="loanVO"
-		parameterType="map">
+	<select id="select" resultMap="loanVO" parameterType="map">
 		SELECT *
 		FROM loan
 		WHERE  max_age >= #{age}
 		AND max_income >= #{income}
 		ORDER BY 6 ASC, 7 DESC;
 	</select>
-	
-	<select id="selectByLimit" resultMap="loanVO"
-		parameterType="map">
+
+	<select id="selectById" resultMap="loanVO" parameterType="int">
 		SELECT *
 		FROM loan
-		WHERE  max_age >= #{age}
-		AND max_income >= #{income}
-		ORDER BY 7 DESC, 6 ASC;
+		WHERE loan_id = #{id};
 	</select>
 </mapper>

@@ -14,27 +14,18 @@ public class LoanRepository {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
-    // 공통된 파라미터를 설정하는 메서드
-    private Map<String, Object> createParams(int age, int income) {
-        Map<String, Object> map = new HashMap<>();
-        
+    // 대출 조회
+    public List<LoanDTO> select(int age, int income) {
+        Map<String, Object> map = new HashMap<>(age, income);
+
         map.put("age", age);
         map.put("income", income);
-        
-        return map;
+
+        return sqlSession.selectList("loanMapper.select", map);
     }
 
-    // 금리 순으로 대출상품 조회
-    public List<LoanDTO> selectByRate(int age, int income) {
-    	Map<String, Object> map = createParams(age, income);
-    	
-        return sqlSession.selectList("loanMapper.selectByRate", map);
-    }
-
-    // 한도 순으로 대출상품 조회
-    public List<LoanDTO> selectByLimit(int age, int income) {
-    	Map<String, Object> map = createParams(age, income);
-    	
-        return sqlSession.selectList("loanMapper.selectByLimit", map);
+    // 대출 상세 조회
+    public LoanDTO selectById(int id) {
+        return sqlSession.selectOne("loanMapper.selectById", id);
     }
 }

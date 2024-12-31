@@ -10,13 +10,13 @@ public class LoanService {
     @Autowired
     private LoanRepository loanRepository;
 
-    // 금리순으로 대출 조회
-    public List<LoanDTO> selectByRate(int age, int income) {
-        return loanRepository.selectByRate(age, income);
+    // 대출 조회
+    public List<LoanDTO> select(int age, int income) {
+        return loanRepository.select(age, income);
     }
 
-    // 한도순으로 대출 조회
-    public List<LoanDTO> selectByLimit(int age, int income) {
-        return loanRepository.selectByLimit(age, income);
+    // 대출 상세 조회
+    public LoanDTO selectById(int id) {
+        return loanRepository.selectById(id);
     }
 }

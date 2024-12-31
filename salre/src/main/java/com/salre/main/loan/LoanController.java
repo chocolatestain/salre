@@ -29,7 +29,7 @@ public class LoanController {
 		int incomeValue = getIncome(income);
 
 		// 대출 조건에 맞는 상품을 조회
-		List<LoanDTO> loanList = loanService.selectByRate(age, incomeValue);
+		List<LoanDTO> loanList = loanService.select(age, incomeValue);
 
 		// Model에 데이터를 추가하여 JSP로 전달
 		model.addAttribute("loanList", loanList);
@@ -38,33 +38,33 @@ public class LoanController {
 		return "loan/result";
 	}
 
-	// 금리순으로 대출 상품 조회
-	@GetMapping("/sortByRate")
+	// 대출 상품 조회
+	@GetMapping("/select")
 	@ResponseBody
-	public List<LoanDTO> sortByRate(@RequestParam("age") int age, @RequestParam("income") int incomeValue) {
-		return loanService.selectByRate(age, incomeValue);
+	public List<LoanDTO> select(@RequestParam("age") int age, @RequestParam("income") int incomeValue) {
+		return loanService.select(age, incomeValue);
 	}
 
-	// 한도순으로 대출 상품 조회
-	@GetMapping("/sortByLimit")
-	@ResponseBody
-	public List<LoanDTO> sortByLimit(@RequestParam("age") int age, @RequestParam("income") int incomeValue) {
-		return loanService.selectByLimit(age, incomeValue);
-	}
+	@PostMapping("/detail")
+	public String getDetail(@RequestParam("id") int id, Model model) {
+		// 대출 조건에 맞는 상품을 조회
+		LoanDTO loan = loanService.selectById(id);
 
-	@GetMapping("/detail")
-	public ModelAndView viewDetail() {
-		return new ModelAndView("loan/detail");
+		// Model에 데이터를 추가하여 JSP로 전달
+		model.addAttribute("loan", loan);
+
+		// detail.jsp로 이동
+		return "loan/detail";
 	}
 
 	private int getIncome(String income) {
 		switch (income) {
-		case "3500l":
-			return 35000000;
-		case "5000l":
-			return 50000000;
-		default:
-			return Integer.MAX_VALUE;
+			case "3500l":
+				return 35000000;
+			case "5000l":
+				return 50000000;
+			default:
+				return Integer.MAX_VALUE;
 		}
 	}
 }

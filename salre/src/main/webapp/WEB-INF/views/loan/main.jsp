@@ -8,17 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>살래?</title>
 
-    <script>
-      function validateForm() {
-        var age = document.querySelector('input[name="age"]').value;
-        if (!age) {
-          alert("나이를 입력해주세요");
-          return false;
-        }
-        return true;
-      }
-    </script>
-
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -203,6 +192,18 @@
         <a href="#">채용</a><br />
       </div>
     </footer>
+
+    <script>
+      function validateForm() {
+        var age = document.querySelector('input[name="age"]').value;
+
+        if (!age) {
+          alert("나이를 입력해주세요");
+
+          return false;
+        }
+      }
+    </script>
   </body>
 
   </html>
