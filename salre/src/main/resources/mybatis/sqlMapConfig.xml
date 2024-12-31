@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.salre.main.contract.ContractDTO" alias="contractVO"/>
+		<typeAlias type="com.salre.main.contract.ContractUserDTO" alias="contractuserVO"/>
+		<typeAlias type="com.salre.main.product.ProductContractDTO" alias="productcontractVO"/>
+		<typeAlias type="com.salre.main.user.UserDTO" alias="userVO"/>
+		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" /> 
+		 
+	</typeAliases>
+</configuration>
