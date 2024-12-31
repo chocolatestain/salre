@@ -241,20 +241,6 @@
                     margin-top: 30px;
                 }
 
-                .pagination button {
-                    padding: 10px 20px;
-                    background: #455F9E;
-                    color: #fff;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 5px;
-                }
-
-                .pagination span {
-                    font-size: 1rem;
-                    padding: 10px;
-                }
-
                 footer {
                     display: flex;
                     justify-content: space-around;
@@ -375,8 +361,6 @@
 
                     <div class="loan-results" id="loanResults"></div>
                 </div>
-
-                <div class="pagination" id="pagination"></div>
             </section>
 
             <!-- Footer -->
