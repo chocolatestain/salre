@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service 
-public class ProductService {
-    
-	//@Autowired : type�� ������ �ڵ����� Injection�Ѵ�.
-	//����Ÿ���� ������������ ���� 
-	//@Qualifier : �̸����� Injection�Ѵ�.
+public class ProductService { 
+
 	@Autowired  
 	@Qualifier("Product")
 	ProductInterface productDAO ;
@@ -44,6 +41,14 @@ public class ProductService {
     public List<ProductDTO> searchProducts(String keyword) {
         return productDAO.searchProductsByKeyword(keyword);
     }
+
+	public List<ProductDTO> searchByConditions() {
+		return productDAO.searchByConditions();
+	}
+	
+	public int countProduct() {
+		return productDAO.countProduct();
+	}
 }
 
 

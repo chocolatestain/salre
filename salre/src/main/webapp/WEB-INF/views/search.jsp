@@ -152,7 +152,7 @@
             <a href="#">게시판</a>
             <a href="#">매물</a>
             <a href="#">관심매물</a>
-            <a href="#">방내놓기</a>
+            <a href="insert">방내놓기</a>
         </nav>
     </header>
 
@@ -216,12 +216,13 @@
     <section class="search-results" id="search-results">
         <c:if test="${not empty searchResults}">
             <c:forEach var="product" items="${searchResults}">
+             <a href="product/detail/${product.product_id}" class="product-card-link">
                 <div class="product-card">
                     <img class="product-image" 
                          src="resources/images/products/${product.product_id}.jpeg" 
                          alt="${product.product_name}" 
                          onerror="this.src='https://placehold.co/200x200';">
-                    <h3>${product.product_name}</h3>
+                    <h3 style="color: black;">${product.product_name}</h3>
                     <p>${product.address}, ${product.address_detail}</p>
                     <p>방 수: ${product.room_count} | 욕실 수: ${product.bath_count}</p>
                     <p>층수: ${product.floor}층 | 면적: ${product.area}㎡</p>
@@ -251,6 +252,7 @@
                         </c:if>
                     </div> 
                 </div>
+                </a>
             </c:forEach>
         </c:if>
         <c:if test="${empty searchResults}">

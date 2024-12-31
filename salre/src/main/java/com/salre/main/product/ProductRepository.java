@@ -29,4 +29,7 @@ public class ProductRepository {
 	public int deleteProduct(int product_id) {
 		return sqlSession.delete(namespace + "deleteProduct", product_id); 
 	}
+	public int countProduct() {
+		return sqlSession.selectOne(namespace + "countProduct");
+	}
 }

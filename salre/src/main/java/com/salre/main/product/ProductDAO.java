@@ -20,9 +20,9 @@ public class ProductDAO implements ProductInterface {
         List<ProductDTO> productlist = sqlSession.selectList(namespace + "selectAllProducts");
         return productlist;
     }
-	public int InsertProduct(ProductDTO product) {
-		int result = sqlSession.insert(namespace + "insert");
-		
+	public int InsertProduct(ProductDTO product) { 
+		System.out.println("DAO : InsertProduct : " + product);
+		int result = sqlSession.insert(namespace + "insert", product);
 		return result;
 	}
 	public ProductDTO getProductById(int productId) {
@@ -42,4 +42,13 @@ public class ProductDAO implements ProductInterface {
         log.info("검색어로 DB에서 검색: {}", keyword);  // 로그로 검색어 확인
         return sqlSession.selectList(namespace + "searchProductsByKeyword", keyword);
     }
+	@Override
+	public List<ProductDTO> searchByConditions() {
+		 
+		return null;
+	}
+
+	public int countProduct() {
+		return sqlSession.selectOne(namespace + "countProduct");
+	}
 }

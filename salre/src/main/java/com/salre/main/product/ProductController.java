@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
  
 @Controller
 @RequestMapping("/product")
@@ -21,16 +20,24 @@ public class ProductController {
     private ProductService productService;
     
     @GetMapping("/insert")
-    public String showCreateForm(Model model) {
-        model.addAttribute("productDTO", new ProductDTO());
+    public String showCreateForm() { 
         return "product/insert";
     }
 
     @PostMapping("/insert")
-    public String createProduct(@ModelAttribute ProductDTO productDTO) {
+    public String createProduct(@ModelAttribute ProductDTO productDTO, Model model) {
+      
+        // productDTO 객체로 매핑된 데이터를 확인
+        System.out.println(productDTO);
+ 
+        // 비즈니스 로직 처리
         productService.insertProduct(productDTO);
+
+        // 결과 페이지로 이동
+        model.addAttribute("message", "매물이 성공적으로 등록되었습니다.");
+ 
         return "redirect:/product/list";
-    }
+    } 
     
     @GetMapping("/list")
     public String listProducts(Model model) {
@@ -38,7 +45,12 @@ public class ProductController {
         model.addAttribute("products", products);
         return "product/list";
     }
-
+    @GetMapping("/search")
+    public String searchByConditions(Model model) {
+    	List<ProductDTO> products = productService.searchByConditions();
+    	model.addAttribute("products", products);
+    	return "product/search";
+    }
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") int product_id, Model model) {
         ProductDTO productDTO = productService.selectByIdService(product_id);
@@ -59,7 +71,10 @@ public class ProductController {
         productService.deleteProduct(product_id);
         return "redirect:/product/list";
     }
-    
-
-
+    @GetMapping("/detail/{id}")
+    public String viewProduct(@PathVariable("id") int product_id, Model model) {
+    	ProductDTO product = productService.selectByIdService(product_id);
+    	model.addAttribute("product", product);
+    	return "product/detail";
+    }  
 }
