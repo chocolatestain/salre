@@ -1,6 +1,7 @@
 package com.salre.board;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardDAOInterface {
 	
@@ -21,5 +22,11 @@ public interface BoardDAOInterface {
 	
 	// 게시글 수정
 	public int update(BoardDTO boardDTO);
+	
+	// 해당 페이지에서 보여줄 게시글 목록
+	public List<BoardDTO> selectByPage(Map<String, Integer> pagingParams);
+	
+	// 전체 글 갯수 조회
+	public int selectBoardCount();
 
 }

@@ -126,11 +126,9 @@
 							<!-- Order list table END -->
 			
 							<!-- Pagination START -->
-							<div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
-								<!-- Content -->
-								<p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+							<div class="d-sm-flex justify-content-sm-center align-items-sm-center mt-4 mt-sm-3">
 								<!-- Pagination -->
-								<nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+								<nav aria-label="navigation">
 									<ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
 										<c:choose>
 											<%-- 현재 페이지가 1페이지면 '<'만 보여줌 --%>
@@ -139,7 +137,7 @@
 											</c:when>
 											<%-- 1페이지가 아닌 경우에는 '<'을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
 											<c:otherwise>
-												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/paing?page=${pageDTO.page - 1}" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?page=${pageDTO.page - 1}" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
 											</c:otherwise>
 										</c:choose>
 										
@@ -152,7 +150,7 @@
 												</c:when>
 												
 												<c:otherwise>
-													<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/paging?page=${i}">${i}</a></li>
+													<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?page=${i}">${i}</a></li>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -162,7 +160,7 @@
 												<li class="page-item mb-0"><a class="page-link"><i class="fas fa-angle-right"></i></a></li>
 											</c:when>
 											<c:otherwise>
-												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/paing?page=${pageDTO.page + 1}"><i class="fas fa-angle-right"></i></a></li>
+												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?page=${pageDTO.page + 1}"><i class="fas fa-angle-right"></i></a></li>
 											</c:otherwise>
 										</c:choose>
 									</ul>

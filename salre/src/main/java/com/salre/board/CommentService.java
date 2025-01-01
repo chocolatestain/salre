@@ -26,4 +26,14 @@ public class CommentService {
 		return commentDAOMybatis.selectByCommentId(comment_id);
 	}
 
+	// 댓글 수정
+	public int updateCommentService(CommentDTO commentDTO) {
+		return commentDAOMybatis.updateComment(commentDTO);
+	}
+
+	// 댓글 삭제
+	public void deleteService(Integer comment_id) {
+		commentDAOMybatis.deleteComment(comment_id);
+	}
+
 }

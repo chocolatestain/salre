@@ -26,10 +26,21 @@ public class BoardController {
 	@Autowired
 	CommentService commentService;
 
-	// 게시판 목록 조회
+	// 게시판 목록 조회(게시글 페이징; 처음 페이지 요청은 1페이지를 보여줌)
 	@GetMapping(value = "/list")
-	public String boardList(Model model) {
-		model.addAttribute("boardList", boardService.selectAllService());
+	public String boardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			Model model) {
+		// 해당 페이지에서 보여줄 게시글 목록
+		List<BoardDTO> boardList = boardService.selectByPageService(page);
+		log.info("boardList : " + boardList);
+		
+		// /board/list/page=2 이런 식으로 요청하게 됨
+		PageDTO pageDTO = boardService.pagingParam(page);
+		log.info("pageDTO : " + pageDTO);
+		
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageDTO", pageDTO);
+//		model.addAttribute("boardList", boardService.selectAllService());
 		
 		return "board/boardList";
 	}

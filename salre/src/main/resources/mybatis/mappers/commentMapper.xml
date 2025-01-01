@@ -14,4 +14,12 @@
 	<select id="selectByCommentId" parameterType="Integer" resultType="commentDTO">
 		SELECT * FROM COMMENT WHERE COMMENT_ID = #{comment_id}
 	</select>
+	
+	<update id="updateComment" parameterType="commentDTO">
+		UPDATE COMMENT SET COMMENT_CONTENT = #{comment_content} WHERE COMMENT_ID = #{comment_id}
+	</update>
+	
+	<delete id="deleteComment" parameterType="Integer">
+		DELETE FROM COMMENT WHERE COMMENT_ID = #{comment_id}
+	</delete>
 </mapper>

@@ -33,4 +33,17 @@ public class CommentDAOMybatis implements CommentDAOInterface {
 		return sqlSession.selectOne(namespace + "selectByCommentId", comment_id);
 	}
 
+	// 댓글 수정
+	public int updateComment(CommentDTO commentDTO) {
+		int result = sqlSession.update(namespace + "updateComment", commentDTO);
+		log.info("[updateComment] 수정 건수 : " + result);
+		
+		return result;
+	}
+
+	// 댓글 삭제
+	public void deleteComment(Integer comment_id) {
+		sqlSession.delete(namespace + "deleteComment", comment_id);
+	}
+
 }

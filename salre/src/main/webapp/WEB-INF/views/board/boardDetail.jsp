@@ -76,7 +76,7 @@
 													</button>
 													<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 										                <li><a class="dropdown-item" href="javascript:doUpdatePage(${comment.comment_id});">수정</a></li>
-										                <li><a class="dropdown-item" href="javascript:doDeleteComment(${comment.comment_id});">삭제</a></li>
+										                <li><a class="dropdown-item" href="javascript:doDeleteComment(${comment.comment_id}, ${comment.board_id});">삭제</a></li>
 										            </ul>
 									            </div>
 											</div>
@@ -230,7 +230,6 @@
 					
 					// 댓글 목록을 출력하는 함수 호출
 					let output = printCommentList(commentDTOList);
-					console.log(output);
 					
 					// 댓글 영역에 새로운 댓글 목록 삽입
 					$("#comment_area").html(output);
@@ -258,7 +257,7 @@
 								</button>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					                <li><a class="dropdown-item" href="javascript:doUpdatePage(\${comment.comment_id});">수정</a></li>
-					                <li><a class="dropdown-item" href="javascript:doDeleteComment(\${comment.comment_id});">삭제</a></li>
+					                <li><a class="dropdown-item" href="javascript:doDeleteComment(\${comment.comment_id}, \${comment.board_id});">삭제</a></li>
 					            </ul>
 				            </div>
 						</div>
@@ -292,13 +291,10 @@
 				type: "GET",
 				data: { comment_id: comment_id },
 				success: function(commentDTO) {
-					alert("수정 화면 이동 성공");
-					console.log(commentDTO);
-					
 					// 댓글 수정할 수 있는 영역
 					let output = printCommentUpdate(commentDTO);
 					
-					$("#comment_item").html(output);
+					$("#comment_item" + commentDTO.comment_id).html(output);
 				},
 				error: function(err) {
 					alert(err);
@@ -307,34 +303,130 @@
 		}
 		
 		// 댓글 수정할 수 있는 영역
-		function printCommentUpdate(commentInfo) {
+		function printCommentUpdate(commentDTOInfo) {
 			let output = `
 				<div class="collapse show" id="collapseComment">
 					<div class="d-flex mt-3">
-						<textarea id="comment_content" class="form-control mb-0" rows="2" spellcheck="false">\${commentInfo.comment_content}</textarea>
-						<button onclick="doCheck(commentRegister)" class="btn btn-sm btn-primary-soft ms-2 px-4 mb-0 flex-shrink-0"><i class="fas fa-paper-plane fs-5"></i></button>
+						<textarea id="comment_content\${commentDTOInfo.comment_id}" class="form-control mb-0" rows="2" spellcheck="false">\${commentDTOInfo.comment_content}</textarea>
+						<button onclick="doUpdate(\${commentDTOInfo.comment_id}, \${commentDTOInfo.board_id})" class="btn btn-sm btn-primary-soft ms-2 mb-0 flex-shrink-0">등록</button>
+						<button onclick="doUpdateCancel(\${commentDTOInfo.board_id})" class="btn btn-sm btn-secondary-soft ms-2 mb-0 flex-shrink-0">취소</button>
 					</div>
+					<hr>
 				</div>
 			`
 			
 			return output;
 		}
-	</script>
-	
-	<!-- 댓글 삭제 -->
-	<script type="text/javascript">
-		function doDeleteComment(comment_id) {
+		
+		// 댓글 수정
+		function doUpdate(comment_id, board_id) {
 			$.ajax({
-				url: "${contextPath}/comment/deleteComment",
-				type: "GET",
-				data: { comment_id: comment_id },
-				success: function(res) {
-					alert("댓글 삭제 성공");
+				url: "${contextPath}/comment/update",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify({
+					comment_id: comment_id,
+					board_id: board_id,
+					comment_content: $('#comment_content' + comment_id).val()
+				}),
+				success: function(response) {
+					alert(response.resultMessage);
+					
+					// 댓글 목록을 출력할 때 날짜 형식(타임스탬프)을 사람이 읽을 수 있는 형식으로 변환
+			        response.commentDTOList.forEach(function(comment) {
+			            let timestamp = comment.created_at; // 예: 1735538039000
+			            let date = new Date(timestamp);
+			            
+			         	// UTC에서 9시간을 더해 한국 시간(KST)으로 변환
+			            date.setHours(date.getHours() + 9);
+			            
+			         	// 한국 시간으로 변환된 날짜를 원하는 형식으로 출력
+			            comment.created_at = date.toISOString().slice(0, 16).replace("T", " "); // 예: 2024-12-30 14:53
+			        });
+					
+					// 댓글 수정 완료 후 댓글 목록을 출력하는 함수 호출
+					let output = printCommentList(response.commentDTOList);
+					
+					// 댓글 영역에 댓글 목록 삽입
+					$("#comment_area").html(output);
 				},
 				error: function(err) {
 					alert(err);
 				}
 			});
+		}
+		
+		// 댓글 수정 취소
+		function doUpdateCancel(board_id) {
+			$.ajax({
+				url: "${contextPath}/comment/updateCancel",
+				type: "GET",
+				data: { board_id: board_id },
+				success: function(commentDTOList) {
+					// 댓글 목록을 출력할 때 날짜 형식(타임스탬프)을 사람이 읽을 수 있는 형식으로 변환
+			        commentDTOList.forEach(function(comment) {
+			            let timestamp = comment.created_at; // 예: 1735538039000
+			            let date = new Date(timestamp);
+			            
+			         	// UTC에서 9시간을 더해 한국 시간(KST)으로 변환
+			            date.setHours(date.getHours() + 9);
+			            
+			         	// 한국 시간으로 변환된 날짜를 원하는 형식으로 출력
+			            comment.created_at = date.toISOString().slice(0, 16).replace("T", " "); // 예: 2024-12-30 14:53
+			        });
+					
+					// 댓글 수정 취소 후 댓글 목록을 출력하는 함수 호출
+					let output = printCommentList(commentDTOList);
+					
+					// 댓글 영역에 댓글 목록 삽입
+					$("#comment_area").html(output);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+	</script>
+	
+	<!-- 댓글 삭제 -->
+	<script type="text/javascript">
+		function doDeleteComment(comment_id, board_id) {
+			const msg = confirm("댓글을 삭제하시겠습니까?");
+			
+			if (msg == true) { // 확인 누를 경우
+				$.ajax({
+					url: "${contextPath}/comment/deleteComment",
+					type: "GET",
+					data: {
+						comment_id: comment_id,
+						board_id: board_id
+					},
+					success: function(commentDTOList) {
+						// 댓글 목록을 출력할 때 날짜 형식(타임스탬프)을 사람이 읽을 수 있는 형식으로 변환
+				        commentDTOList.forEach(function(comment) {
+				            let timestamp = comment.created_at; // 예: 1735538039000
+				            let date = new Date(timestamp);
+				            
+				         	// UTC에서 9시간을 더해 한국 시간(KST)으로 변환
+				            date.setHours(date.getHours() + 9);
+				            
+				         	// 한국 시간으로 변환된 날짜를 원하는 형식으로 출력
+				            comment.created_at = date.toISOString().slice(0, 16).replace("T", " "); // 예: 2024-12-30 14:53
+				        });
+						
+						// 댓글 수정 취소 후 댓글 목록을 출력하는 함수 호출
+						let output = printCommentList(commentDTOList);
+						
+						// 댓글 영역에 댓글 목록 삽입
+						$("#comment_area").html(output);
+					},
+					error: function(err) {
+						alert(err);
+					}
+				});
+			} else {
+				return false; // 삭제 취소
+			}
 		}
 	</script>
 </body>
