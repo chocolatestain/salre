@@ -23,7 +23,7 @@
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
-
+ 
     <!-- Component scan for Spring Beans -->
     <context:component-scan base-package="com.salre.main" />
 
@@ -32,5 +32,4 @@
         <property name="maxUploadSize" value="10485760" /> <!-- 10MB -->
         <property name="uploadTempDir" value="/tmp" />
     </bean>
-
-</beans>
+ 

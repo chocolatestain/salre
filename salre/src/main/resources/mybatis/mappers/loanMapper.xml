@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="loanMapper">
+	<resultMap type="loanDTO" id="loanVO">
+		<id column="loan_id" property="loan_id" />
+		<result column="loan_name" property="loan_name" />
+		<result column="bank_name" property="bank_name" />
+		<result column="interest_type" property="interest_type" />
+		<result column="repayment_type" property="repayment_type" />
+		<result column="loan_rate" property="loan_rate" />
+		<result column="loan_limit" property="loan_limit" />
+		<result column="max_age" property="max_age" />
+		<result column="max_income" property="max_income" />
+	</resultMap>
+
+	<select id="select" resultMap="loanVO" parameterType="map">
+		SELECT *
+		FROM loan
+		WHERE  max_age >= #{age}
+		AND max_income >= #{income}
+		ORDER BY 6 ASC, 7 DESC;
+	</select>
+
+	<select id="selectById" resultMap="loanVO" parameterType="int">
+		SELECT *
+		FROM loan
+		WHERE loan_id = #{id};
+	</select>
+</mapper>

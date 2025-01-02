@@ -14,5 +14,6 @@
 	<typeAliases> 
 		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" /> 
 		<typeAlias type="com.salre.main.product.RegionDTO" alias="regionVO"/>
-	</typeAliases>
+    <typeAlias type="com.salre.main.loan.LoanDTO" alias="loanDTO" />
+	</typeAliases> 
 </configuration>

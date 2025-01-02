@@ -188,6 +188,6 @@
             <a href="#">제휴문의</a><br>
             <a href="#">채용</a><br>
         </div>
-    </footer>
+    </footer> 
 </body>
 </html>
