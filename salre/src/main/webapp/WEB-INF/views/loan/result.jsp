@@ -461,7 +461,7 @@
                                             </div>
                                             <hr>
                                                 <p>기준금리: \${item.loan_rate}%</p>
-                                                <p>최대한도: \${item.loan_limit / 100000000}억원</p>
+                                                <p>최대한도: \${item.loan_limit.toLocaleString()}원</p>
                                                 <p>상환방식: \${item.repayment_type}</p>
                                         </div>
                                 </form>
