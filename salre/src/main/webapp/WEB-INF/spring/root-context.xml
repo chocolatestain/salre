@@ -13,9 +13,9 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<!-- 2024-12-23 추가, 빈으로 등록 될 준비를 마친 클래스들을 스캔하여, 빈으로 등록 -->
+	<!-- 2024-12-27 수정, 빈으로 등록 될 준비를 마친 클래스들을 스캔하여, 빈으로 등록 -->
 	<!-- @Controller, @Service, @Component, @Repository 어노테이션을 붙인 클래스들이 빈으로 등록 될 준비를 한 것 -->
-	<context:component-scan base-package="com.shinhan.salre"></context:component-scan>
+	<context:component-scan base-package="com.salre.main"></context:component-scan>
 	
 	<!-- 2024-12-23 추가, DriverManager 사용하기 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
