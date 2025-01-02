@@ -33,10 +33,10 @@ public class NotificationController {
 	public void broadcast(@PathVariable String userId, @RequestParam String message) {
 		notificationService.broadcast(userId, message);
 	}
-	
+
 	// 특정 유저에게 메시지를 보낸다.
-    @PostMapping("/sendToClient/{targetUserId}")
-    public void sendToClient(@PathVariable String targetUserId, @RequestParam String message) {
-        notificationService.sendMessageToClient(targetUserId, message);
-    }
+	@PostMapping("/sendToClient/{targetUserId}")
+	public void sendToClient(@PathVariable String targetUserId, @RequestParam String message) {
+		notificationService.sendMessageToClient(targetUserId, message);
+	}
 }

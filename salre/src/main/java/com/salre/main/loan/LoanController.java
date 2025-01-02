@@ -28,17 +28,17 @@ public class LoanController {
 			@RequestParam("product_type") String productType, Model model) {
 		int incomeValue = getIncome(income);
 
-		// 대출 조건에 맞는 상품을 조회
+		// ��異� 議곌굔�뿉 留욌뒗 �긽�뭹�쓣 議고쉶
 		List<LoanDTO> loanList = loanService.select(age, incomeValue);
 
-		// Model에 데이터를 추가하여 JSP로 전달
+		// Model�뿉 �뜲�씠�꽣瑜� 異붽��븯�뿬 JSP濡� �쟾�떖
 		model.addAttribute("loanList", loanList);
 
-		// result.jsp로 이동
+		// result.jsp濡� �씠�룞
 		return "loan/result";
 	}
 
-	// 대출 상품 조회
+	// ��異� �긽�뭹 議고쉶
 	@GetMapping("/select")
 	@ResponseBody
 	public List<LoanDTO> select(@RequestParam("age") int age, @RequestParam("income") int incomeValue) {
@@ -47,13 +47,13 @@ public class LoanController {
 
 	@PostMapping("/detail")
 	public String getDetail(@RequestParam("id") int id, Model model) {
-		// 대출 조건에 맞는 상품을 조회
+		// ��異� 議곌굔�뿉 留욌뒗 �긽�뭹�쓣 議고쉶
 		LoanDTO loan = loanService.selectById(id);
 
-		// Model에 데이터를 추가하여 JSP로 전달
+		// Model�뿉 �뜲�씠�꽣瑜� 異붽��븯�뿬 JSP濡� �쟾�떖
 		model.addAttribute("loan", loan);
 
-		// detail.jsp로 이동
+		// detail.jsp濡� �씠�룞
 		return "loan/detail";
 	}
 

@@ -472,37 +472,30 @@
                     }
 
                     // Ajax 요청 함수
-                    function ajax(url) {
-                        $.ajax({
-                            url: url,
-                            type: 'GET',
-                            data: {
-                                age: userAge,
-                                income: userIncome
-                            },
-                            success: function (response) {
-                                list = response;
-                                view = response;
+                    $.ajax({
+                        url: `${pageContext.request.contextPath}/loan/select`,
+                        type: 'GET',
+                        data: {
+                            age: userAge,
+                            income: userIncome
+                        },
+                        success: function (response) {
+                            preloadImages();
 
-                                length = view.length;
+                            list = response;
+                            view = response;
 
-                                saveList();
-                                saveView();
+                            length = view.length;
 
-                                draw(view);
-                            },
-                            error: function (xhr, status, error) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    }
+                            saveList();
+                            saveView();
 
-                    preloadImages();
-
-                    let url = '${pageContext.request.contextPath}/loan/select';
-
-                    // 초기 데이터 불러오기
-                    ajax(url);
+                            draw(view);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                        }
+                    });
 
                     // 금리순 버튼이 기본적으로 활성화된 상태
                     $('#sortRate').addClass('active');

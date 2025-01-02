@@ -13,7 +13,7 @@ public class LoanRepository {
 
     @Autowired
     private SqlSessionTemplate sqlSession;
-
+    
     // 대출 조회
     public List<LoanDTO> select(int age, int income) {
         Map<String, Object> map = new HashMap<>(age, income);
