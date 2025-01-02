@@ -36,4 +36,9 @@ public class CommentService {
 		commentDAOMybatis.deleteComment(comment_id);
 	}
 
+	// 댓글 수
+	public int selectCommentCnt(Integer board_id) {
+		return commentDAOMybatis.selectCommentCnt(board_id);
+	}
+
 }

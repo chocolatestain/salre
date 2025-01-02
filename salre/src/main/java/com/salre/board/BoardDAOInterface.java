@@ -23,10 +23,10 @@ public interface BoardDAOInterface {
 	// 게시글 수정
 	public int update(BoardDTO boardDTO);
 	
-	// 해당 페이지에서 보여줄 게시글 목록
-	public List<BoardDTO> selectByPage(Map<String, Integer> pagingParams);
+	// 해당 페이지에서 보여줄 공지사항 게시글 목록
+	public List<BoardDTO> selectByPage(Map<String, Object> pagingParams);
 	
 	// 전체 글 갯수 조회
-	public int selectBoardCount();
+	public int selectBoardCount(String type);
 
 }

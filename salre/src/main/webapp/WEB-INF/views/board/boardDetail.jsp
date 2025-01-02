@@ -49,7 +49,7 @@
 							<span class="me-3 small">${boardDTO.writer}</span>
 							<span class="me-3 small"><fmt:formatDate value="${boardDTO.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
 							<span class="me-3 small">조회 ${boardDTO.click_cnt}</span>
-							<span class="small float-end">댓글 수 "추가"</span>
+							<span class="small float-end">댓글 수 ${commentCnt}</span>
 						</div>
 						<!-- Card body START -->
 						<div class="card-body">

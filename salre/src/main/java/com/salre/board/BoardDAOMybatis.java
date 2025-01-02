@@ -61,14 +61,14 @@ public class BoardDAOMybatis implements BoardDAOInterface {
 		return result;
 	}
 
-	// 해당 페이지에서 보여줄 게시글 목록
-	public List<BoardDTO> selectByPage(Map<String, Integer> pagingParams) {
+	// 해당 페이지에서 보여줄 공지사항 게시글 목록
+	public List<BoardDTO> selectByPage(Map<String, Object> pagingParams) {
 		return sqlSession.selectList(namespace + "paging", pagingParams);
 	}
 
 	// 전체 글 갯수 조회
-	public int selectBoardCount() {
-		return sqlSession.selectOne(namespace + "boardCount");
+	public int selectBoardCount(String type) {
+		return sqlSession.selectOne(namespace + "boardCount", type);
 	}
 
 }

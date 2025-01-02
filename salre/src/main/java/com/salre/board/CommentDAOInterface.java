@@ -18,5 +18,8 @@ public interface CommentDAOInterface {
 	
 	// 댓글 삭제
 	public void deleteComment(Integer comment_id);
+	
+	// 댓글 수
+	public int selectCommentCnt(Integer board_id);
 
 }

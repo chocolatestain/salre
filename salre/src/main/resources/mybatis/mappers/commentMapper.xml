@@ -22,4 +22,8 @@
 	<delete id="deleteComment" parameterType="Integer">
 		DELETE FROM COMMENT WHERE COMMENT_ID = #{comment_id}
 	</delete>
+	
+	<select id="selectCommentCnt" parameterType="Integer" resultType="int">
+		SELECT COUNT(comment_id) FROM COMMENT WHERE board_id = #{board_id};
+	</select>
 </mapper>

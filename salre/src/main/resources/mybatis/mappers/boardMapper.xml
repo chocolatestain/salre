@@ -39,10 +39,10 @@
 	</update>
 	
 	<select id="paging" parameterType="HashMap" resultType="boardDTO">
-		SELECT * FROM BOARD ORDER BY 1 DESC LIMIT #{start}, #{limit}
+		SELECT * FROM BOARD WHERE board_class = #{type} ORDER BY 1 DESC LIMIT #{start}, #{limit}
 	</select>
 	
-	<select id="boardCount" resultType="Integer">
-		SELECT COUNT(board_id) FROM BOARD
+	<select id="boardCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(board_id) FROM BOARD WHERE board_class = #{type}
 	</select>
 </mapper>

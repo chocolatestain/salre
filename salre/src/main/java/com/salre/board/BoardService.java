@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BoardService {
@@ -29,6 +30,7 @@ public class BoardService {
 	}
 
 	// 게시글 상세보기 시 조회수 증가
+	@Transactional
 	public void updateClickCnt(Integer boardId) {
 		boardDAOMybatis.updateClickCnt(boardId);
 	}
@@ -45,8 +47,8 @@ public class BoardService {
 
 	int pageLimit = 10; // 한 페이지 당 보여지는 글 갯수
 	int blockLimit = 5; // 하단에 보여줄 페이지 번호 갯수
-	// 해당 페이지에서 보여줄 게시글 목록
-	public List<BoardDTO> selectByPageService(int page) {
+	// 해당 페이지에서 보여줄 게시글(공지사항, 자유게시판) 목록
+	public List<BoardDTO> selectByPageService(String type, int page) {
 		/*
 		 * 한 페이지 당 보여지는 글 갯수 10
 		 * 1페이지 => 0(index)
@@ -54,18 +56,19 @@ public class BoardService {
 		 * 3페이지 => 20(index)
 		 */
 		int pageStart = (page - 1) * pageLimit;
-		Map<String, Integer> pagingParams = new HashMap<>();
+		Map<String, Object> pagingParams = new HashMap<>();
 		pagingParams.put("start", pageStart);
 		pagingParams.put("limit", pageLimit);
+		pagingParams.put("type", type);
 		
 		List<BoardDTO> pagingList = boardDAOMybatis.selectByPage(pagingParams);
 		
 		return pagingList;
 	}
 
-	public PageDTO pagingParam(int page) {
+	public PageDTO pagingParam(String type, int page) {
 		// 전체 글 갯수 조회
-		int boardCount = boardDAOMybatis.selectBoardCount();
+		int boardCount = boardDAOMybatis.selectBoardCount(type);
 		
 		// 전체 페이지 갯수 계산*(10 / 3 = 3.333 => 4)
 		int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));

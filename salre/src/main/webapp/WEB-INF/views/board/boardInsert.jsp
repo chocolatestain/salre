@@ -15,7 +15,7 @@
 				<!-- Course description -->
 				<div class="col-12">
 					<div class="card-header bg-transparent border-bottom">
-						<h3 class="mb-0">공지사항 글쓰기</h3>
+						<h3 class="mb-0">${type} 글쓰기</h3>
 					</div>
 					
 					<div class="col-12 p-2">
@@ -68,7 +68,7 @@
 			<!-- Button -->
 			<div class="d-flex justify-content-end mt-2 mt-md-0">
 				<a href="javascript:doCheck(doInsert);" class="btn btn-success mb-0">등록</a>
-				<a href="${contextPath}/board/list" class="btn btn-secondary mb-0 ms-2">취소</a>
+				<a href="${contextPath}/board/list?type=${type}" class="btn btn-secondary mb-0 ms-2">취소</a>
 			</div>
 		</div>
 	</section>
@@ -91,13 +91,14 @@
 	<!-- Template Functions -->
 	<script src="${contextPath}/resources/bootstrap/assets/js/functions.js"></script>
 	
-	<!-- 공지사항 등록 -->
+	<!-- 게시글 등록 -->
 	<script type="text/javascript">
 		// 콜백 함수로 게시글 등록 함수 호출
 		function doCheck(callback) {
 			let board_title = $('[name="board_title"]').val();
 			let board_content = $('.ql-editor').text();
 			let board_content_imgCheck = $('.ql-editor').find('img').length;
+			let type = "${type}";
 			
 			if (board_title == "") {
 				alert("제목을 입력하시기 바랍니다.");
@@ -123,16 +124,16 @@
                 return false;
             }
 			
-			callback(); // 유효성 검사 후 게시글 등록
+			callback(type); // 유효성 검사 후 게시글 등록
 		}
 		
 		// 게시글 등록 함수
-		function doInsert() {
+		function doInsert(type) {
 			let board_title = $('[name="board_title"]').val();
 			let board_content = $('.ql-editor').html();
 			
 			let jsonData = {
-					"board_class": "공지사항",
+					"board_class": type,
 					"board_title": board_title,
 					"board_content": board_content
 			};

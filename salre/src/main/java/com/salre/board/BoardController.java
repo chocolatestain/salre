@@ -1,5 +1,6 @@
 package com.salre.board;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,15 @@ public class BoardController {
 
 	// 게시판 목록 조회(게시글 페이징; 처음 페이지 요청은 1페이지를 보여줌)
 	@GetMapping(value = "/list")
-	public String boardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+	public String boardList(@RequestParam(value = "type", required = false, defaultValue = "공지사항") String type,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			Model model) {
-		// 해당 페이지에서 보여줄 게시글 목록
-		List<BoardDTO> boardList = boardService.selectByPageService(page);
+		// 해당 페이지에서 보여줄 게시글(공지사항 or 자유게시판) 목록
+		List<BoardDTO> boardList = boardService.selectByPageService(type, page);
 		log.info("boardList : " + boardList);
 		
 		// /board/list/page=2 이런 식으로 요청하게 됨
-		PageDTO pageDTO = boardService.pagingParam(page);
+		PageDTO pageDTO = boardService.pagingParam(type, page);
 		log.info("pageDTO : " + pageDTO);
 		
 		model.addAttribute("boardList", boardList);
@@ -47,7 +49,12 @@ public class BoardController {
 	
 	// 게시글 등록 화면
 	@GetMapping(value = "/insert")
-	public String boardInsertPage() {
+	public String boardInsertPage(@RequestParam(value = "type", required = false, defaultValue = "공지사항") String type,
+			Model model) {
+		String board_class = type;
+		
+		model.addAttribute("type", board_class);
+		
 		return "board/boardInsert";
 	}
 	
@@ -77,8 +84,13 @@ public class BoardController {
 		// 해당 게시글에 작성된 댓글 리스트 가져오기
 		List<CommentDTO> commentDTOList = commentService.selectAllService(board_id);
 		
+		// 댓글 수
+		int commentCnt = commentService.selectCommentCnt(board_id);
+		log.info("commentCnt : " + commentCnt);
+		
 		model.addAttribute("boardDTO", boardDTO);
 		model.addAttribute("commentDTOList", commentDTOList);
+		model.addAttribute("commentCnt", commentCnt);
 		
 		return "board/boardDetail";
 	}
@@ -109,27 +121,6 @@ public class BoardController {
 		int result = boardService.updateService(boardDTO);
 		
 		return result > 0 ? "공지사항이 수정되었습니다." : "공지사항 수정을 실패했습니다.";
-	}
-	
-	// 게시글 페이징
-	// /board/paging/page=2
-	// 처음 페이지 요청은 1 페이지를 보여줌
-	@GetMapping("/paging")
-	public String boardPaging(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			Model model) {
-		log.info("page : " + page);
-		
-		// 해당 페이지에서 보여줄 게시글 목록
-		List<BoardDTO> pagingList = boardService.selectByPageService(page);
-		log.info("pagingList : " + pagingList);
-		
-		PageDTO pageDTO = boardService.pagingParam(page);
-		log.info("pageDTO : " + pageDTO);
-		
-		model.addAttribute("pagingList", pagingList);
-		model.addAttribute("pageDTO", pageDTO);
-		
-		return "pageDTO";
 	}
 	
 }
