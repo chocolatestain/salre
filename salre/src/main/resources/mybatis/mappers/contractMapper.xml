@@ -28,15 +28,21 @@
 		join user on contract.user_id = user.user_id
 		where contract_id = #{aa}
 	</select> -->
-	<insert id="insert" parameterType="contractVO">
-		insert into contract (contract_id,user_id,product_id,price,account,contract_status)
-		values(
-		#{contract_id},
-		#{user_id},
-		#{product_id},
-		#{price},
-		#{account},
-		#{contract_status})
+	<insert id="insertContract" parameterType="contractVO">
+		insert into contract (
+			deposit, 
+            middle_payment, 
+            balance_payment, 
+            balance_payment_day, 
+            enter_day, 
+            contract_date
+            ) values(
+		#{deposit},
+		#{middle_payment},
+		#{balance_payment},
+		#{balance_payment_day},
+		#{enter_day},
+		#{contract_date})
 	</insert>
 	<update id="update" parameterType="contractVO">
 		update contract

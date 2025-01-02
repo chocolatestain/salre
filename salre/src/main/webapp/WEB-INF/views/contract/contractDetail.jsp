@@ -1,125 +1,162 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-
-
 <title>계약서 조회</title>
-
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/table1.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style2.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	$(document).ready(function() {
-		console.log(${pageContext.request.contextPath})
-		$("#testForm").submit(function(event) {
-			event.preventDefault(); // 기본 제출 동작 방지
-			var url = $(this).attr("action");
-			var data = $(this).serialize();
 
-			$.post(url, data).done(function(response) {
-				alert("제출 성공: " + response);
-			}).fail(function(error) {
-				alert("제출 실패!");
-				console.error(error);
-			});
-		});
-	});
-	
-</script>
 </head>
 <body>
-	<form id="checkForm"
-		action="${pageContext.request.contextPath}/contract/submitContract"
-		method="post">
-		<h1>계약 조회</h1>
-		<!-- 계약 정보 테이블 -->
-		<table class="table">
-			<thead>
-				<tr>
-					<th>계약번호</th>
-					<th>회원번호</th>
-					<th>매물번호</th>
-					<th>거래금액</th>
-					<th>계좌번호</th>
-					<th>거래상태</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${contractP.contract_id}</td>
-					<td>${contractP.user_id}</td>
-					<td>${contractP.product_id}</td>
-					<td>${contractP.price}</td>
-					<td>${contractP.account}</td>
-					<td>${contractP.contract_status}</td>
-				</tr>
-			</tbody>
-		</table>
 
-		<h2>회원 정보</h2>
-		<!-- 회원 정보 테이블 -->
-		<table class="table">
-			<thead>
-				<tr>
-					<th>회원번호</th>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>전화번호</th>
-					<th>이메일</th>
-					<th>판매자인증여부</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${user.user_id}</td>
-					<td>${user.id}</td>
-					<td>${user.user_name}</td>
-					<td>${user.phone_num}</td>
-					<td>${user.email}</td>
-					<td>${user.auth_seller}</td>
-				</tr>
-			</tbody>
-		</table>
-		<h2>매물 정보</h2>
-		<!-- 매물 정보 테이블 -->
-		<table class="table">
-			<thead>
-				<tr>
-					<th>이름</th>
-					<th>전/월세</th>
-					<th>월세</th>
-					<th>보증금</th>
-					<th>지역</th>
-					<th>액션</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${contractP.product_name}</td>
-					<td>${contractP.payment_type}</td>
-					<td>${contractP.rentfee}</td>
-					<td>${contractP.deposit}</td>
-					<td>${contractP.area}</td>
-				</tr>
-			</tbody>
-		</table>
+<%-- <form id ="contractDetail" action="${pageContext.request.contextPath}/contract/input/${contractP.contract_id}" method="post">
+    --%> <div class="container">
+        <h1 class="title">부동산 정보확인</h1>
+        <!-- 계약 정보 -->
+        <section class="section">
+            <h2>계약 정보</h2>
+            <div class="form-group">
+                <label>계약번호:</label>
+                <span id = "contract_id">${contractP.contract_id}</span>
+              
+            </div>
+            <div class="form-group">
+                <label>회원번호:</label>
+                <span>${contractP.user_id}</span>
+            </div>
+            <div class="form-group">
+                <label>매물번호:</label>
+                <span>${contractP.product_id}</span>
+            </div>
+            <div class="form-group">
+                <label>거래금액:</label>
+                <span>${contractP.price}</span>
+            </div>
+         
+        </section>
 
-		<h2>특약사항 입력</h2>
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text">특약사항</span>
-			</div>
-			<input type="text" name="contract_rule" class="form-control" required>
-		</div>
+        <!-- 회원 정보 -->
+        <section class="section">
+            <h2>판매자 정보</h2>
+            <div class="form-group">
+                <label>아이디:</label>
+                <span>${user.id}</span>
+            </div>
+            <div class="form-group">
+                <label>이름:</label>
+                <span>${user.user_name}</span>
+            </div>
+            <div class="form-group">
+                <label>전화번호:</label>
+                <span>${user.phone_num}</span>
+            </div>
+            <div class="form-group">
+                <label>이메일:</label>
+                <span>${user.email}</span>
+            </div>
+            <div class="form-group">
+                <label>판매자인증여부:</label>
+                <span>${user.auth_seller}</span>
+            </div>
+        </section>
 
-		<div>
-			<button type="submit" class="btn btn-primary">다음</button>
-		</div>
-	</form>
+        <!-- 매물 정보 -->
+        <section class="section">
+            <h2>매물 정보</h2>
+            <div class="form-group">
+                <label>매물번호:</label>
+                <span>${contractP.product_id}</span>
+            </div>
+            <div class="form-group">
+                <label>매물명:</label>
+                <span>${contractP.product_name}</span>
+            </div>
+            <div class="form-group">
+                <label>주소:</label>
+                <span>${contractP.address}
+                ${contractP.address_detail}
+            </span>
+            </div>
+            <!-- 거래유형 출력 조건 -->
+            <c:choose>
+            <c:when test ="${contractP.payment_type=='전세'}">
+            <div class="form-group">
+                <label>거래유형:</label>
+                <span>${contractP.payment_type}</span>
+            </div>
+            <div class="form-group">
+                <label>보증금:</label>
+                <span>${contractP.deposit}</span>
+            </div>
+            </c:when> 
+            <c:when test = "${contractP.payment_type=='월세'}">
+            <div class="form-group">
+                <label>거래유형:</label>
+                <span>${contractP.payment_type}</span>
+            </div>
+            <div class="form-group">
+                <label>월세:</label>
+                <span>${contractP.rentfee}</span>
+            </div>
+            <div class="form-group">
+                <label>보증금:</label>
+                <span>${contractP.deposit} 원</span>
+            </div>
+            </c:when>
+     </c:choose>
+            <div class="form-group">
+                <label>면적:</label>
+                <span>${contractP.area} ㎡</span>
+            </div>
+        </section>
+
+        <!-- 특약사항 입력 -->
+        <section class="section">
+            <h2>매물 사진</h2>
+            <div class="form-group">
+                <label for="image"> </label>
+               </div>
+            
+            
+            <div id="imagePreviewContainer" class="image-preview-container">
+        <!-- 이미지 미리보기 영역 -->
+    </div>
+        </section>
+
+        <!-- 제출 버튼 -->
+        <div class="button-group">
+        	<button type="button" class="btn btn-secondary">취소</button>
+            <button type="button" class="btn btn-primary" onclick="goToNextPage()">다음</button>
+        </div>
+    </div>
+    
+
+    <script>
+    function goToNextPage(){
+    	console.log("Next button clicked");
+    	// 'contract_id' 엘리먼트가 있는지 확인
+        const contractElement = document.getElementById('contract_id');
+        if (!contractElement) {
+            alert("계약번호 요소를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 'contract_id' 값 추출
+        const contract_id = contractElement.textContent.trim();
+        if (!contract_id) {
+            alert("계약번호를 찾을 수 없습니다.");
+            return;
+        }
+    	
+    	console.log("Contract ID: ",contract_id);
+    	
+    	const contextPath = "<%= request.getContextPath() %>"; // JSP에서 contextPath 추가
+        window.location.href = `${contextPath}/salre/contract/input?contract_id=${contract_id}`;
+    }
+   	window.goToNextPage = goToNextPage;
+    </script> 
 </body>
 </html>

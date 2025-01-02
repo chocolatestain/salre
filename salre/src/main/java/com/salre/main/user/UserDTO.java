@@ -1,4 +1,4 @@
-package com.salre.main.contract;
+package com.salre.main.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,16 +12,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ContractUserDTO {
-	int contract_id;
+public class UserDTO {
 	int user_id;
-	int product_id;
-	int price;
-	String account;
-	int contract_status;
-	
-	
-	
 	String id;
 	String password;
 	String user_name;

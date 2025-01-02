@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
+<mapper namespace="com.salre.main.user">
+
+	<select id="selectAll" resultType="userVO">
+		select *
+		from user
+		order by 1
+	</select>
+	<select id="selectById" parameterType="int" resultType="userVO">
+		select *
+		from user
+		where user_id = #{aa}
+	</select>
+	
+</mapper>

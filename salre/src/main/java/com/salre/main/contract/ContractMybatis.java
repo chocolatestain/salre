@@ -48,8 +48,8 @@ public class ContractMybatis implements ContractDAOInterface{
 
 		}
 
-		public int insert(ContractDTO contract) {
-			int result = sqlSession.insert(namespace + "insert",contract);
+		public int saveContract(ProductContractDTO contractDTO) {
+			int result = sqlSession.insert(namespace + "insertContract",contractDTO);
 			log.info("입력건수: " + result);
 			return result;
 		}

@@ -6,6 +6,57 @@ body {
     background-color: #f8f9fa;
     color: #333;
 }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.section {
+    margin-bottom: 30px;
+}
+.form-row, .form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-row label, .form-grid div label {
+    flex: 1 0 30%;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.form-row, .form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-row label, .form-grid div label {
+    flex: 1 0 30%;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    flex: 1 0 65%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
 
 h1 {
     font-size: 2em;

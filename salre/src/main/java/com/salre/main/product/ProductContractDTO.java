@@ -42,4 +42,7 @@ public class ProductContractDTO {
 	int price;
 	String account;
 	int contract_status;
+	
+	int middle_payment;
+	int balance_payment;
 }

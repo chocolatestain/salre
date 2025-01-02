@@ -1,8 +1,7 @@
 package com.salre.main.contract;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -24,17 +23,7 @@ public class ContractService {
     public ContractDTO getContractById(int contract_id) {
         return contractDAO.selectById(contract_id);
     }
-    // 계약 ID로 모든 매물, 판매자조회
-    public ContractUserDTO getContractAllById(int contract_id) {
-    	return contractDAO.selectAllById(contract_id);
-    }
-  
-    
-    // 계약 생성
-    public int createContract(ContractDTO contract) {
-        return contractDAO.insert(contract);
-    }
-
+ 
     //계약서 데이터 추가
     public Map<String, String> getContractData(String payment_type, String address, String deposit_CHAR){
     	Map<String, String> contractData = new HashMap<>();
@@ -52,8 +41,6 @@ public class ContractService {
     private Map<String, String> fetchDataFromOtherPage() {
         // 여기서 다른 데이터 가져오기 (예: API, DB 조회)
         Map<String, String> data = new HashMap<>();
-        //data.put("landlord_name", "홍길동");
-        //data.put("landlord_phone_num", "010-1234-5678");
         return data;
     }
     // 계약 ID로 모든 매물, 판매자조회
@@ -62,7 +49,7 @@ public class ContractService {
     }
     
     //계약서 변환(excel > pdf > image)
-    public String processContract(int contract_id, String imagePath) throws Exception {
+    public String processContract(Map<String,String> formData, int contract_id, String imagePath) throws Exception {
         // 1. 데이터 조회
     	ProductContractDTO contract = contractDAO.selectContractPById(contract_id);
     	System.out.println("계약서 데이터 조회완료");
@@ -78,14 +65,22 @@ public class ContractService {
         data.put("building_area", "184.1분의12.483"); //임대할 부분 건물면적
         data.put("rental_area", "3층의 제303호 전유 전부"); // 임대할부분 글자
         data.put("area",String.valueOf(contract.getArea()));//임대할부분 면적
+        
         //(2).계약 내용
         data.put("deposit_INT", String.valueOf(contract.getDeposit()));//보증금 숫자
         data.put("deposit_CHAR", "금오천만원정"); //보증금 문자
         data.put("manage_fee", String.valueOf(contract.getManage_fee()));//관리비 숫자
         data.put("manage_feeCHAR","금일십오만원정"); //관리비 글자
-        data.put("middle_payment", "300,000"); //중도금
-        data.put("balance_payment", "4,000,000"); //잔금
+        data.put("middle_payment", "0"); //중도금
+        data.put("balance_payment", "0"); //잔금
         data.put("price", String.valueOf(contract.getPrice())); //계약금
+        
+        for(Map.Entry<String, String> entry: formData.entrySet()) {
+        	data.put(entry.getKey(), entry.getValue());
+        }
+        
+        System.out.println("폼 데이터 병합 완료"+data);
+        
         //(3) 서명부분
         data.put("landlord_address", "경기도 시흥시 블바라 999-34");//임대인 주소
         data.put("landlord_resident_num", "951111-222222");//임대인 주민등록번호
@@ -112,10 +107,8 @@ public class ContractService {
         data.put("contract_date2(y)", String.valueOf(today.getYear())); //계약일(y)
         data.put("contract_date2(m)", String.valueOf(today.getMonthValue())); //계약일(m)
         data.put("contract_date2(d)", String.valueOf(today.getDayOfMonth())); //계약일(d)
-        data.put("contract_rule1", "임대인과 임차인은 계약에 충실한다.");//특약사항 1
-        data.put("contract_rule2", "동해물과 백두산이");//특약사항 2
-        data.put("contract_rule3", "마르고 닳도록");//특약사항 3
-        data.put("contract_rule4", "봉준호 손흥민 레스고");//특약사항 4
+        data.put("contract_rule", "임대인과 임차인은 계약에 충실한다.");//특약사항 1
+
         
         data.put("contract_id", String.valueOf(contract.getContract_id()));
         data.put("user_id", String.valueOf(contract.getUser_id()));
@@ -143,16 +136,13 @@ public class ContractService {
         
         return "/salre/" + imageName; // 최종 이미지 경로 반환
     }
-    
-    
-//    // 계약 수정
-//    public int updateContract(ContractDTO contract) {
-//    	return  contractDAO.update(contract);
-//    }
-//
-//    // 계약 삭제
-//    public int deleteContract(int contract_id) {
-//    	return contractDAO.delete(contract_id);
+    // 계약 생성
+    public int saveContract(ProductContractDTO contractDTO) {
+        return contractDAO.saveContract(contractDTO);
+    }
+//    // 계약 ID로 모든 매물, 판매자조회
+//    public ContractUserDTO getContractAllById(int contract_id) {
+//    	return contractDAO.selectAllById(contract_id);
 //    }
 }
 

@@ -62,9 +62,6 @@ public class ExcelWriter {
                   Map.entry("contract_date2(m)", "K46"),//INPUT
                   Map.entry("contract_date2(d)", "M46"),//INPUT
                   Map.entry("contract_rule1", "C37"),//INPUT
-                  Map.entry("contract_rule2", "C38"),//INPUT
-                  Map.entry("contract_rule3", "C39"),//INPUT
-                  Map.entry("contract_rule4", "C40"),//INPUT
                   Map.entry("tenant_sign", "Y50")//INPUT
         );
 
