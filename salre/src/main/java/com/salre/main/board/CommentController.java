@@ -1,4 +1,4 @@
-package com.salre.board;
+package com.salre.main.board;
 
 import java.util.HashMap;
 import java.util.List;

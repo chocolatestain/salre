@@ -1,4 +1,4 @@
-package com.salre.board;
+package com.salre.main.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

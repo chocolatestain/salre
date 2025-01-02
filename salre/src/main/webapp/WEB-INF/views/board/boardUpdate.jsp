@@ -72,21 +72,8 @@
 	<!-- =======================
 	Steps END -->
 	
-	<!-- Back to top -->
-	<div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i></div>
-	
-	<!-- Bootstrap JS -->
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	
-	<!-- Vendors -->
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/choices/js/choices.min.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/aos/aos.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/glightbox/js/glightbox.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/quill/js/quill.min.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/stepper/js/bs-stepper.min.js"></script>
-	
-	<!-- Template Functions -->
-	<script src="${contextPath}/resources/bootstrap/assets/js/functions.js"></script>
+	<!-- Footer -->
+	<%@ include file="../common/footer.jsp" %>
 	
 	<!-- 공지사항 수정 -->
 	<script type="text/javascript">

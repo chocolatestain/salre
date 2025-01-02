@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.salre.board.comment">
+<mapper namespace="com.salre.main.board.comment">
 	<insert id="register" parameterType="commentDTO">
 		INSERT INTO COMMENT(board_id, comment_content) VALUES(#{board_id}, #{comment_content})
 	</insert>

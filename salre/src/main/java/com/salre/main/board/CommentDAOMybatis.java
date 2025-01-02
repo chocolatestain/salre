@@ -1,4 +1,4 @@
-package com.salre.board;
+package com.salre.main.board;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class CommentDAOMybatis implements CommentDAOInterface {
 	SqlSession sqlSession;
 	
 	// commentMapper.xml
-	String namespace = "com.salre.board.comment.";
+	String namespace = "com.salre.main.board.comment.";
 
 	// 댓글 등록
 	public void register(CommentDTO commentDTO) {

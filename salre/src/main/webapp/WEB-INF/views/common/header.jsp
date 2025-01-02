@@ -15,6 +15,7 @@
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
+	
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
 	
@@ -30,6 +31,8 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/glightbox/css/glightbox.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/aos/aos.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/choices/css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/quill/css/quill.snow.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/stepper/css/bs-stepper.min.css">
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/css/style.css">

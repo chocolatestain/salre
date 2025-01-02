@@ -5,9 +5,6 @@
 <html>
 <head>
 	<title>게시판 상세보기</title>
-	
-	<!-- jQuery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 	<!-- =======================
@@ -30,7 +27,7 @@
 								<!-- Dashboard menu -->
 								<div class="list-group list-group-dark list-group-borderless">
 									<a class="list-group-item" href="${contextPath}/board/list"><i class="bi bi-pencil-square fa-fw me-2"></i>공지사항</a>
-									<a class="list-group-item" href=""><i class="bi bi-pencil-square fa-fw me-2"></i>자유게시판</a>
+									<a class="list-group-item" href="${contextPath}/board/list?type=자유게시판"><i class="bi bi-pencil-square fa-fw me-2"></i>자유게시판</a>
 								</div>
 							</div>
 						</div>
@@ -128,17 +125,8 @@
 	<!-- =======================
 	Page content END -->
 	
-	<!-- Back to top -->
-	<div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i></div>
-	
-	<!-- Bootstrap JS -->
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	
-	<!-- Vendors -->
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/choices/js/choices.min.js"></script>
-	
-	<!-- Template Functions -->
-	<script src="${contextPath}/resources/bootstrap/assets/js/functions.js"></script>
+	<!-- Footer -->
+	<%@ include file="../common/footer.jsp" %>
 	
 	<!-- 게시글 삭제 -->
 	<script type="text/javascript">

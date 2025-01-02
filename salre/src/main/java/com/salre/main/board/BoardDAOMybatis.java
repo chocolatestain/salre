@@ -1,4 +1,4 @@
-package com.salre.board;
+package com.salre.main.board;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class BoardDAOMybatis implements BoardDAOInterface {
 	SqlSession sqlSession;
 	
 	// boardMapper.xml
-	String namespace = "com.salre.board.";
+	String namespace = "com.salre.main.board.";
 	
 	// 게시판 목록 조회
 	public List<BoardDTO> selectAll() {
