@@ -39,5 +39,9 @@
         SELECT COUNT(*)
         FROM region
     </select>
-
+	<select id="selectIdByRegion" resultType = "int">
+		SELECT region_id
+		FROM region
+		WHERE province = #{regionName};
+	</select>
 </mapper>

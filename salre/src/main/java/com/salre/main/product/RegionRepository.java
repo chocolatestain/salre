@@ -29,4 +29,7 @@ public class RegionRepository {
 	public int countProduct() {
 		return sqlSession.selectOne(namespace + "countProduct");
 	}
+	public int selectIdByRegion(String regionName) {
+		return sqlSession.selectOne(namespace + "selectIdByRegion", regionName);
+	}
 }

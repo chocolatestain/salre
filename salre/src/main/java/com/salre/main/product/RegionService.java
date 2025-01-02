@@ -17,7 +17,9 @@ public class RegionService {
 	public RegionDTO selectRegionById(int region_id) {
 		return RegionDAO.selectRegionById(region_id);
 	}
-	
+	public int selectIdByRegion(String regionName) {
+		return RegionDAO.selectIdByRegion(regionName);
+	}
 	public int insertRegion(RegionDTO region) {
 		return RegionDAO.insertRegion(region);
 	}
@@ -31,4 +33,5 @@ public class RegionService {
 	public int countRegion() {
 		return RegionDAO.countRegion();
 	}
+ 
 }

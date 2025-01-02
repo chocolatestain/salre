@@ -44,5 +44,10 @@ public class RegionDAO implements RegionInterface{
 	public int countRegion() {
 		return sqlSession.selectOne(namespace + "countProduct");
 	}
+
+	@Override
+	public int selectIdByRegion(String regionName) {
+		return sqlSession.selectOne(namespace + "selectIdByRegion" , regionName);
+	}
 	
 }

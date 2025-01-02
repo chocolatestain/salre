@@ -23,6 +23,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     
+    @Autowired
+    private RegionService regionService;
     @GetMapping("/insert")
     public String showCreateForm() { 
         return "product/insert";
@@ -30,9 +32,17 @@ public class ProductController {
 
     @PostMapping("/insert")
     public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
-        
+ 
+ 
         // MultipartHttpServletRequest를 사용하여 파일 처리
         MultipartFile file = request.getFile("photo"); // "photo"는 HTML input의 name 값과 일치해야 함
+        // 일반 요청 파라미터 처리
+        String sigungu = request.getParameter("sigungu"); // "sigungu"는 HTML에서 지정한 name 값과 일치해야 함
+
+        // sigungu 값 출력 (테스트용)
+        System.out.println("시군구: " + sigungu);
+        System.out.println(productDTO);
+        productDTO.setRegion_id(regionService.selectIdByRegion(sigungu));
         
         if (file != null && !file.isEmpty()) {
             

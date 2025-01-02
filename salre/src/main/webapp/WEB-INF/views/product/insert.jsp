@@ -272,8 +272,8 @@ button[type="submit"]:hover {
 <div class="form-group">
     <label for="address">매물 주소 *</label>
     <br>
-    <input type="text" name = "address" id="address" placeholder="주소" style="width: calc(100%); padding: 10px;">
-  <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" style="width: 30%; padding: 5px 10px; font-size: 0.9rem; display: inline-block; align: center">
+    <input type="text" name="address" id="address" placeholder="주소" style="width: calc(100%); padding: 10px;">
+    <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" style="width: 30%; padding: 5px 10px; font-size: 0.9rem; display: inline-block;">
     <br>
     <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
@@ -287,11 +287,11 @@ button[type="submit"]:hover {
                 draggable: false
             };
 
-        //지도를 미리 생성
+        // 지도를 미리 생성
         var map = new daum.maps.Map(mapContainer, mapOption);
-        //주소-좌표 변환 객체를 생성
+        // 주소-좌표 변환 객체를 생성
         var geocoder = new daum.maps.services.Geocoder();
-        //마커를 미리 생성
+        // 마커를 미리 생성
         var marker = new daum.maps.Marker({
             position: new daum.maps.LatLng(37.537187, 127.005476),
             map: map
@@ -300,33 +300,35 @@ button[type="submit"]:hover {
         function sample5_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function(data) {
-                    var addr = data.address; // 최종 주소 변수
+                    var addr = data.address; // 최종 주소
+                    var sigungu = data.sigungu; // 시군구 정보
 
-                    // 주소 정보를 해당 필드에 넣는다.
+                    // 주소 정보를 해당 필드에 넣는다
                     document.getElementById("address").value = addr;
-                    // 주소로 상세 정보를 검색
+
+                    // 지도 관련 로직
                     geocoder.addressSearch(data.address, function(results, status) {
-                        // 정상적으로 검색이 완료됐으면
                         if (status === daum.maps.services.Status.OK) {
-
-                            var result = results[0]; //첫번째 결과의 값을 활용
-
-                            // 해당 주소에 대한 좌표를 받아서
+                            var result = results[0]; // 첫 번째 결과
                             var coords = new daum.maps.LatLng(result.y, result.x);
-                            // 지도를 보여준다.
                             mapContainer.style.display = "block";
                             map.relayout();
-                            // 지도 중심을 변경한다.
                             map.setCenter(coords);
-                            // 마커를 결과값으로 받은 위치로 옮긴다.
-                            marker.setPosition(coords)
+                            marker.setPosition(coords);
                         }
                     });
+
+                    // sigungu를 필요한 경우 다른 숨겨진 필드에 저장
+                    var sigunguInput = document.getElementById("sigungu");
+                    if (sigunguInput) {
+                        sigunguInput.value = sigungu;
+                    }
                 }
             }).open();
         }
     </script>
 </div>
+
 
             <div class="form-group">
             	<label for ="address">상세 주소 </label>
@@ -337,8 +339,16 @@ button[type="submit"]:hover {
                 <input type="number" id="area" name="area" placeholder="크기 입력 (㎡)" required>
             </div>
             <div class="form-group">
-                <label for="room_count">방 정보 *</label>
+                <label for="room_count">방 개수 *</label>
                 <input type="number" id="room_count" name="room_count" placeholder="방 개수" required>
+            </div>
+            <div class="form-group">
+                <label for="room_count">화장실 수*</label>
+                <input type="number" id="bath_count" name="bath_count" placeholder="화장실 개수" required>
+            </div>
+            <div class="form-group">
+                <label for="room_count">층 *</label>
+                <input type="number" id="floor" name="floor" placeholder="층" required>
             </div>
             <div class="form-group">
                 <label for="direction">방향 *</label>
@@ -349,20 +359,38 @@ button[type="submit"]:hover {
             </div>
 			
             <!-- 거래 정보 -->
-            <h2>거래 정보</h2>
-            <div class="form-group">
-                <label for="payment_type">거래 종류 *</label>
-                <input type="radio" id="rent" name="payment_type" value="월세" required> 월세
-                <input type="radio" id="sell" name="payment_type" value="전세" required> 전세
-            </div>
-            <div class="form-group">
-                <label for="deposit">보증금 *</label>
-                <input type="text" id="deposit" name="deposit" required placeholder = "원">
-            </div>
-            <div class="form-group">
-                <label for="rent">월세 </label>
-                <input type="text" id="rent" name="rent" placeholder = "원">
-            </div>
+          <h2>거래 정보</h2>
+<div class="form-group">
+    <label for="payment_type">거래 종류 *</label>
+    <input type="radio" id="rent" name="payment_type" value="월세" required onclick="toggleRentField()"> 월세
+    <input type="radio" id="sell" name="payment_type" value="전세" required onclick="toggleRentField()"> 전세
+</div>
+<div class="form-group">
+    <label for="deposit">보증금 *</label>
+    <input type="text" id="deposit" name="deposit" required placeholder="원">
+</div>
+<div class="form-group" id="rentField">
+    <label for="rent">월세</label>
+    <input type="text" id="rentfee" name="rentfee" placeholder="원">
+</div>
+
+<script>
+    // 페이지 로드 시 초기 상태 설정
+    document.addEventListener("DOMContentLoaded", function() {
+        toggleRentField();
+    });
+
+    // 라디오 버튼 선택에 따라 월세 필드 보이기/숨기기
+    function toggleRentField() {
+        var rentField = document.getElementById("rentField");
+        var rentRadio = document.getElementById("rent");
+        if (rentRadio.checked) {
+            rentField.style.display = "block"; // 월세 보이기
+        } else {
+            rentField.style.display = "none"; // 월세 숨기기
+        }
+    }
+</script>
             <div class="form-group">
                 <label for="manage_fee">관리비 *</label>
                 <input type="text" id="manage_fee" name="manage_fee" placeholder="월 5만원">
@@ -423,65 +451,9 @@ button[type="submit"]:hover {
 				</div>
             <!-- 제출 버튼 -->          
             <button type="submit">매물 등록</button> 
+                    <input type="hidden" id="sigungu" name="sigungu">
         </form>
-    </section>
-
-<section class="form-section">
-    <h2>입력된 정보 확인</h2>
-    <button type="button" onclick="previewData()">보기</button>
-    <div id="preview" style="display:none; margin-top: 20px;">
-        <h3>입력된 정보</h3>
-        <ul id="previewList"></ul>
-        <button type="button" onclick="submitForm()">전송</button>
-    </div>
-</section>
-
-<script>
-
-    function previewData() {
-        var previewContainer = document.getElementById("preview");
-        var previewList = document.getElementById("previewList");
-        previewList.innerHTML = ''; 
-        
-        var formData = {
-            '매물 유형': document.getElementById("product_type").value,
-            '매물 주소': document.getElementById("address").value,
-            '상세 주소': document.getElementById("address_detail").value,
-            '매물 크기': document.getElementById("area").value + "㎡",
-            '방 개수': document.getElementById("room_count").value,
-            '거래 종류': document.querySelector('input[name="payment_type"]:checked') ? document.querySelector('input[name="payment_type"]:checked').value : '',
-            '보증금': document.getElementById("deposit").value + "원",
-            '월세': document.getElementById("rent").value ? document.getElementById("rent").value + "원" : '없음',
-            '관리비': document.getElementById("manage_fee").value + "원",
-            '입주 가능일': document.getElementById("enter_day").value,
-            '제목': document.getElementById("product_name").value,
-            '상세 설명': document.getElementById("description").value,
-            '토지 - 지목': document.getElementById("land_type").value,
-            '토지 - 면적': document.getElementById("land_area").value,
-            '건물 - 구조': document.getElementById("building_structure").value,
-            '건물 - 용도': document.getElementById("building_usage").value,
-            '임대할 부분': document.getElementById("rental_area").value,
-            '사용자 id': document.getElementById("user_id").value
-        };
-
-        for (var key in formData) {
-            if (formData[key]) { 
-                var listItem = document.createElement("li");
-                listItem.textContent = key + ": " + formData[key];
-                previewList.appendChild(listItem);
-            }
-        }
-        
-        previewContainer.style.display = "block";
-        console.log(formData);
-    }
-	
-    function submitForm() {
-        var form = document.querySelector("form");
-        form.submit(); 
-    }
-</script>
-
+    </section> 
     <!-- 푸터 -->
 <footer>
   <div>

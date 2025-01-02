@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
-  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
   <style>
     /* 기본 설정 */
     body, html {
@@ -351,70 +351,89 @@
         <div class="right">
      
           <div class="product-info">
-            <div class="info-row">
-              <div class="info-category">면적</div>
-              <div class="info-content">7평 · 전용 23.1㎡</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">방/욕실 수</div>
-              <div class="info-content">방 1개 / 욕실 1개</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">층</div>
-              <div class="info-content">1층 / 2층</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">대출가능여부</div>
-              <div class="info-content">확인필요</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">입주 가능일</div>
-              <div class="info-content">즉시 가능</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">반려동물</div>
-              <div class="info-content">불가능</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">주차</div>
-              <div class="info-content">불가능</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">내부 시설</div>
-              <div class="info-content">에어컨, 침대, 옥탑, 세탁기</div>
-             </div>
-            </div>  
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div style="display: flex; justify-content: space-between; align-items: center;">
               <p class="product-descript-name" style="margin-top : 30px;">상세 내용</p>
               <a href="report_page.html" id="report" style="text-decoration: none; color: #f4a261; cursor: pointer;">신고하기</a>
             </div>
+                      <div class="info-row">
+              <div class="info-category">주소</div>
+              <div class="info-content">${product.address } + ${product.address_detail }</div>
+            </div> 
+            
+            <div class="info-row">
+              <div class="info-category">면적</div>
+              <div class="info-content">${product.area } 평</div>
+            </div>
+            <div class="info-row">
+              <div class="info-category">방/욕실 수</div>
+              <div class="info-content">방 ${product.room_count } 개 / 욕실 ${product.bath_count }</div>
+            </div>
+            <div class="info-row">
+              <div class="info-category">층</div>
+              <div class="info-content">${product.floor }</div>
+            </div> 
+            <div class="info-row">
+              <div class="info-category">전세/월세</div>
+              <div class="info-content">${product.payment_type }</div>
+            </div> 
+            
+                        <div class="info-row">
+              <div class="info-category">보증금</div>
+              <div class="info-content">${product.deposit }</div>
+            </div> 
+            
+                        <div class="info-row">
+              <div class="info-category">월세</div>
+              <div class="info-content">${product.rentfee }</div>
+            </div> 
+            
+                        <div class="info-row">
+              <div class="info-category">방향</div>
+              <div class="info-content">${product.direction} 향</div>
+            </div> 
+            
+            </div>   
             <p class="product-descript">
-              대문이 하나 더 있어 여자 혼자 살기 좋은 원룸입니다. 원하시면 1년도 안 쓴 2층 침대와 소파도 드립니다. 냉장고는 8만원에 판매 예정입니다.
+              ${product.description }
             </p>
             
-          	<div id="map" style="width:550px;height:200px;"></div>
-            <script>
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                mapOption = { 
-                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                    level: 3, // 지도의 확대 레벨
-                    draggable: false
+			<div id="map" style="width:550px;height:200px;"></div>
+			
+			<script>
+    var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+    var mapOption = { 
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 초기 중심좌표
+        level: 3 // 확대 레벨
+    };
 
-                };
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
 
-            // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-            var map = new kakao.maps.Map(mapContainer, mapOption); 
- 
-            var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
+    if (kakao.maps.services) {
+        var geocoder = new kakao.maps.services.Geocoder(); // Geocoder 객체 생성
 
-              var marker = new kakao.maps.Marker({
-                  position: markerPosition
-              });
+        var address = "${product.address}"; // 동적 주소
 
-              marker.setMap(map)
-            </script>
+        geocoder.addressSearch(address, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });            
+                map.setCenter(coords);
+            } else {
+                console.error("주소 검색 실패: ", status);
+            }
+        });
+    } else {
+        console.error("Kakao Maps 서비스 객체를 초기화할 수 없습니다.");
+    }
+</script>
+
+
 		<div class="product-address" id="address">
-		  서울특별시 종로구 옥인길 59-11 경복궁역
+		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
 		
@@ -446,23 +465,23 @@
 	    </div>
 	  </div>
   <footer>
-	  <div>
-	      <h3>형태 별 검색</h3>
-	      <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
-	  </div>
-	  <div>
-	      <h3>고객 지원</h3>
-	      <a href="#">자주 묻는 질문(FAQ)</a><br>
-	      <a href="#">Android</a><br>
-	      <a href="#">iOS</a>
-	  </div>
-	  <div>
-	      <h3>저희 회사는</h3>
-	      <a href="#">회사소개</a><br>
-	      <a href="#">오시는 길</a><br>
-	      <a href="#">제휴문의</a><br>
-	      <a href="#">채용</a><br>
-	  </div>
-</footer>
+		  <div>
+		      <h3>형태 별 검색</h3>
+		      <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
+		  </div>
+		  <div>
+		      <h3>고객 지원</h3>
+		      <a href="#">자주 묻는 질문(FAQ)</a><br>
+		      <a href="#">Android</a><br>
+		      <a href="#">iOS</a>
+		  </div>
+		  <div>
+		      <h3>저희 회사는</h3>
+		      <a href="#">회사소개</a><br>
+		      <a href="#">오시는 길</a><br>
+		      <a href="#">제휴문의</a><br>
+		      <a href="#">채용</a><br>
+		  </div>
+	</footer>
 </body> 
 </html>

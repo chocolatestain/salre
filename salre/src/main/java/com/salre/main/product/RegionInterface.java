@@ -18,4 +18,7 @@ public interface RegionInterface {
 	public int deleteRegion(int region_id);
 
 	public int countRegion();
+
+	public int selectIdByRegion(String regionName);
+ 
 }

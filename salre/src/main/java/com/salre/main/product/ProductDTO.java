@@ -42,7 +42,7 @@ public class ProductDTO {
 	String description;
 	String land_type;
 	String land_area;
-	String building_structure;
+	String building_structure;	
 	String building_usage;
 	String rental_area;
 }
