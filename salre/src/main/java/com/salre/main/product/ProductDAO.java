@@ -15,14 +15,18 @@ public class ProductDAO implements ProductInterface {
 	SqlSession sqlSession;
 	
 	String namespace = "com.salre.main.product.";
-    public List<ProductDTO> selectAllProducts() {
-        // SQL ì¿¼ë¦¬ í˜¸ì¶œ
+	//contract_id·Î ¸Å¹°Á¤º¸ ÀüÃ¼ Á¶È¸
+	public ProductDTO selectAllByContractId(int contract_id) {
+		return sqlSession.selectOne(namespace + "selectAllByContractId",contract_id);	
+	}
+	
+	
+	public List<ProductDTO> selectAllProducts() {
         List<ProductDTO> productlist = sqlSession.selectList(namespace + "selectAllProducts");
         return productlist;
     }
 	public int InsertProduct(ProductDTO product) {
 		int result = sqlSession.insert(namespace + "insert");
-		
 		return result;
 	}
 	public ProductDTO getProductById(int productId) {
@@ -39,7 +43,12 @@ public class ProductDAO implements ProductInterface {
 	}
 
     public List<ProductDTO> searchProductsByKeyword(String keyword) {
-        log.info("ê²€ìƒ‰ì–´ë¡œ DBì—ì„œ ê²€ìƒ‰: {}", keyword);  // ë¡œê·¸ë¡œ ê²€ìƒ‰ì–´ í™•ì¸
+        log.info("", keyword);  
         return sqlSession.selectList(namespace + "searchProductsByKeyword", keyword);
     }
+
+	public ProductDTO selectByIdService(int product_id) {
+		return sqlSession.selectOne(namespace + "selectByIdService", product_id);
+		
+	}
 }

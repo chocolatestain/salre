@@ -21,10 +21,18 @@ public class ProductService {
 		return productDAO.selectAllProducts();
 	}
 
-	// 2.?ï¿½ï¿½?ï¿½ï¿½ë³´ê¸°
-	public ProductDTO selectByIdService(int productId) {
-		return productDAO.getProductById(productId);
+	// ¸Å¹° Á¤º¸ Á¶È£
+	public ProductDTO selectByIdService(int product_id) {
+		ProductDTO product = productDAO.getProductById(product_id);
+		if (product == null) {
+            throw new IllegalArgumentException("Invalid product ID: " + product_id);
+        }
+		return productDAO.getProductById(product_id);
 	}
+	public ProductDTO selectByContractId(int contract_id) {
+		return productDAO.selectAllByContractId(contract_id);
+	}
+	
 
 	// 3.?ï¿½ï¿½?ï¿½ï¿½
 	public int insertProduct(ProductDTO product) {

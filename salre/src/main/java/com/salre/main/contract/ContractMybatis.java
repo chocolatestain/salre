@@ -43,12 +43,18 @@ public class ContractMybatis implements ContractDAOInterface{
 //		}
 		public ContractDTO selectById(int contract_id) {
 			ContractDTO contract = sqlSession.selectOne(namespace +"selectById",contract_id);
-			log.info("contract 1건:" + contract);
+			log.info("contract건:" + contract);
 			return contract;
 
 		}
 
-		public int saveContract(ProductContractDTO contractDTO) {
+		public int saveContract(ContractDTO contractDTO) {
+			int result = sqlSession.insert(namespace + "updateContract",contractDTO);
+			log.info("쿼리" + contractDTO);
+			log.info("수정건수: " + result);
+			return contractDTO.getContract_id();
+		}
+		public int saveContract2(ProductContractDTO contractDTO) {
 			int result = sqlSession.insert(namespace + "insertContract",contractDTO);
 			log.info("입력건수: " + result);
 			return result;

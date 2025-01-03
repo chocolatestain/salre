@@ -42,7 +42,14 @@ public class ProductContractDTO {
 	int price;
 	String account;
 	int contract_status;
+	Date contract_startdate;
+	Date contract_enddate;
+	Date contract_date;
+	String contract_rule;	
 	
+	
+	//계약 추가
 	int middle_payment;
 	int balance_payment;
+	Date balance_payment_day;
 }

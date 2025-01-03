@@ -2,6 +2,7 @@ package com.salre.main.contract;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.salre.main.product.ProductContractDTO;
+import com.salre.main.product.ProductDTO;
 import com.salre.main.product.ProductService;
+import com.salre.main.user.UserDTO;
 import com.salre.main.user.UserService;
 
 @Controller
@@ -23,7 +26,9 @@ import com.salre.main.user.UserService;
 public class ContractController {
 	@Autowired
 	public ContractService contractService;
+	@Autowired
 	public UserService userService;
+	@Autowired
 	public ProductService productService;
 
 	@GetMapping("/input")
@@ -33,7 +38,6 @@ public class ContractController {
 	        model.addAttribute("errorMessage", "계약번호가 제공되지 않았습니다.");
 	        return "errorPage"; // 에러 페이지로 이동
 	    }
-		
 		ProductContractDTO contract = contractService.getContractPById(contract_id);
 	    // 데이터를 모델에 추가
 	    model.addAttribute("contract", contract);
@@ -48,13 +52,38 @@ public class ContractController {
 	    return ResponseEntity.ok("Success");
 	}
 
-	// 계약 ID로 조회
-	@GetMapping("/list/{contract_id}")
-	public String getContractById(@PathVariable int contract_id, Model model) {
-		ProductContractDTO contractP = contractService.getContractPById(contract_id);
-		model.addAttribute("contractP", contractP);
+	// 1.거래 시작 누리고 첫화면  "정보확인"(매물,회원정보 조회)
+	@GetMapping("/dealstart")
+	public String beforeContract(HttpServletRequest request,Model model) {
+		//int p_id = (int)request.getAttribute("product_id");
+		//int user_id = (int)request.getAttribute("user_id");
+		int p_id = 34;
+		int user_id = 12;
+		ProductDTO product = productService.selectByIdService(p_id);
+		UserDTO user = userService.getUserById(user_id);
+		model.addAttribute("product", product);
+		model.addAttribute("user", user);
 		return "contract/contractDetail";
 	}
+	
+	// 2.계약정보 입력
+		@GetMapping("/inputContract") 
+		public String selectAllContractById(HttpServletRequest request, Model model) {
+			// HttpSession session = request.getSession();
+			// Integer user_id = (Integer) session.getAttribute("user_id");
+		//	ContractDTO contract = contractService.getContractById(contract_id);
+			
+			int user_id = 12;
+			int p_id = 34;
+			ProductDTO product = productService.selectByIdService(p_id);
+			UserDTO user = userService.getUserById(user_id);
+			
+			//model.addAttribute("contract", contract);
+			model.addAttribute("product", product);
+			model.addAttribute("user", user);
+			
+			return "contract/contractInput";
+		}
 
 
 //	
@@ -76,10 +105,33 @@ public class ContractController {
 	            return "error";
 	        }
 	}
+		//3. 계약서 저장 
 	     @PostMapping("/save") //입력받은 계약내용, 특약내용 저장
-	     public String saveContract(ProductContractDTO contractDTO) {
-	         contractService.saveContract(contractDTO);
-	         return "redirect:/contract/success"; // 저장 완료 후 성공 페이지로 리다이렉트
+	     public String saveContract(ContractDTO contractDTO, Model model) {
+	    	 contractDTO.setUser_id(12); //임시
+	    	 contractDTO.setProduct_id(34); //임시
+	 
+	    	 if(contractDTO.getBalance_payment_day().equals("")) {
+	    		 contractDTO.setBalance_payment_day("1900-01-01");
+	    	 } 
+	    	 // 계약 저장후 계약번호 반환
+	         int contractId = contractService.saveContract(contractDTO);
+	         // 저장된 계약 정보를 조회하는 페이지로 리다이렉트
+	         return "redirect:/contract/contractTotal?contract_id=" + contractId; 
+	     }
+	     //4.계약서 최종확인
+	     @GetMapping("/contractTotal")
+	     public String showContractTotal(@RequestParam("contract_id") int contract_id, Model model) {
+			ContractDTO contract = contractService.getContractById(contract_id);
+			UserDTO user = userService.getUserById(contract.getUser_id());
+			ProductDTO product = productService.selectByIdService(contract.getProduct_id());
+			
+			
+			 model.addAttribute("contract", contract);
+			    model.addAttribute("user", user);
+			    model.addAttribute("product", product);
+			    System.out.println("contract_id 받음: " + contract_id);
+	    	 return "contract/contractTotal";
 	     }
 	     
 	     

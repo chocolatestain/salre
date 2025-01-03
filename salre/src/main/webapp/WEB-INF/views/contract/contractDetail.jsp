@@ -17,24 +17,24 @@
         <h1 class="title">부동산 정보확인</h1>
         <!-- 계약 정보 -->
         <section class="section">
-            <h2>계약 정보</h2>
+            <%-- <h2>계약 정보</h2>
             <div class="form-group">
                 <label>계약번호:</label>
                 <span id = "contract_id">${contractP.contract_id}</span>
               
-            </div>
+            </div> --%>
             <div class="form-group">
                 <label>회원번호:</label>
-                <span>${contractP.user_id}</span>
+                <span>${user.user_id}</span>
             </div>
             <div class="form-group">
                 <label>매물번호:</label>
-                <span>${contractP.product_id}</span>
+                <span>${product.product_id}</span>
             </div>
-            <div class="form-group">
+            <%-- <div class="form-group">
                 <label>거래금액:</label>
                 <span>${contractP.price}</span>
-            </div>
+            </div> --%>
          
         </section>
 
@@ -68,48 +68,48 @@
             <h2>매물 정보</h2>
             <div class="form-group">
                 <label>매물번호:</label>
-                <span>${contractP.product_id}</span>
+                <span>${product.product_id}</span>
             </div>
             <div class="form-group">
                 <label>매물명:</label>
-                <span>${contractP.product_name}</span>
+                <span>${product.product_name}</span>
             </div>
             <div class="form-group">
                 <label>주소:</label>
-                <span>${contractP.address}
-                ${contractP.address_detail}
+                <span>${product.address}
+                ${product.address_detail}
             </span>
             </div>
             <!-- 거래유형 출력 조건 -->
             <c:choose>
-            <c:when test ="${contractP.payment_type=='전세'}">
+            <c:when test ="${product.payment_type=='전세'}">
             <div class="form-group">
                 <label>거래유형:</label>
-                <span>${contractP.payment_type}</span>
+                <span>${product.payment_type}</span>
             </div>
             <div class="form-group">
                 <label>보증금:</label>
-                <span>${contractP.deposit}</span>
+                <span>${product.deposit}</span>
             </div>
             </c:when> 
-            <c:when test = "${contractP.payment_type=='월세'}">
+            <c:when test = "${product.payment_type=='월세'}">
             <div class="form-group">
                 <label>거래유형:</label>
-                <span>${contractP.payment_type}</span>
+                <span>${product.payment_type}</span>
             </div>
             <div class="form-group">
                 <label>월세:</label>
-                <span>${contractP.rentfee}</span>
+                <span>${product.rentfee}</span>
             </div>
             <div class="form-group">
                 <label>보증금:</label>
-                <span>${contractP.deposit} 원</span>
+                <span>${product.deposit} 원</span>
             </div>
             </c:when>
      </c:choose>
             <div class="form-group">
                 <label>면적:</label>
-                <span>${contractP.area} ㎡</span>
+                <span>${product.area} ㎡</span>
             </div>
         </section>
 
@@ -136,25 +136,8 @@
 
     <script>
     function goToNextPage(){
-    	console.log("Next button clicked");
-    	// 'contract_id' 엘리먼트가 있는지 확인
-        const contractElement = document.getElementById('contract_id');
-        if (!contractElement) {
-            alert("계약번호 요소를 찾을 수 없습니다.");
-            return;
-        }
-
-        // 'contract_id' 값 추출
-        const contract_id = contractElement.textContent.trim();
-        if (!contract_id) {
-            alert("계약번호를 찾을 수 없습니다.");
-            return;
-        }
-    	
-    	console.log("Contract ID: ",contract_id);
-    	
     	const contextPath = "<%= request.getContextPath() %>"; // JSP에서 contextPath 추가
-        window.location.href = `${contextPath}/salre/contract/input?contract_id=${contract_id}`;
+        window.location.href = `${contextPath}/salre/contract/inputContract`;
     }
    	window.goToNextPage = goToNextPage;
     </script> 

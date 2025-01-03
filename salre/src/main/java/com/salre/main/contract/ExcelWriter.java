@@ -39,16 +39,17 @@ public class ExcelWriter {
                   Map.entry("landlord_address", "D47"),
                   Map.entry("landlord_resident_num", "D48"),
                   Map.entry("landlord_phone_num", "K48"),
-                  Map.entry("landlord_name", "V48"),
+                  Map.entry("landlord_name", "R48"),
                   Map.entry("tenant_address", "D50"),
                   Map.entry("tenant_resident_num", "D51"),
                   Map.entry("tenant_phone_num", "K51"),
-                  Map.entry("tenant_name", "V51"),
+                  Map.entry("tenant_name", "R51"),
                   
                   Map.entry("price", "C12"), //INPUT
                   Map.entry("middle_payment", "C13"),//INPUT
                   Map.entry("balance_payment", "C14"),//INPUT
-                  Map.entry("landlord_sign", "Y47"),//INPUT
+                  Map.entry("landlord_sign2", "X12"),//INPUT
+                  Map.entry("landlord_sign", "V48"),//INPUT
                   Map.entry("contract_startdate(y)", "O18"),//INPUT
                   Map.entry("contract_startdate(m)", "S18"),//INPUT
                   Map.entry("contract_startdate(d)", "V18"),//INPUT
@@ -62,7 +63,7 @@ public class ExcelWriter {
                   Map.entry("contract_date2(m)", "K46"),//INPUT
                   Map.entry("contract_date2(d)", "M46"),//INPUT
                   Map.entry("contract_rule1", "C37"),//INPUT
-                  Map.entry("tenant_sign", "Y50")//INPUT
+                  Map.entry("tenant_sign", "V51")//INPUT
         );
 
         // µ•¿Ã≈Õ∏¶ ø¢ºø ºøø° ¿‘∑¬

@@ -1,5 +1,11 @@
 package com.salre.main.contract;
 
+import java.sql.Date;
+
+import org.springframework.lang.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,4 +25,15 @@ public class ContractDTO {
 	int price;
 	String account;
 	int contract_status;
+	
+	Date contract_startdate;
+	Date contract_enddate;
+	Date contract_date;
+	String contract_rule;
+	
+	int middle_payment;
+	int balance_payment;
+	
+	 
+	String balance_payment_day;
 }

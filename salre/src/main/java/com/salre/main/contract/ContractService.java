@@ -23,26 +23,11 @@ public class ContractService {
     public ContractDTO getContractById(int contract_id) {
         return contractDAO.selectById(contract_id);
     }
- 
-    //계약서 데이터 추가
-    public Map<String, String> getContractData(String payment_type, String address, String deposit_CHAR){
-    	Map<String, String> contractData = new HashMap<>();
-    	 // 웹 입력 데이터 추가
-        contractData.put("payment_type", payment_type);
-        contractData.put("address", address);
-        contractData.put("deposit_CHAR", deposit_CHAR);
-
-        // 다른 페이지에서 데이터 가져오기
-        Map<String, String> additionalData = fetchDataFromOtherPage();
-        contractData.putAll(additionalData);
-
-        return contractData;
+    //매물,회원정보 조회 화면
+    public void beforeContract() {
+  
     }
-    private Map<String, String> fetchDataFromOtherPage() {
-        // 여기서 다른 데이터 가져오기 (예: API, DB 조회)
-        Map<String, String> data = new HashMap<>();
-        return data;
-    }
+  
     // 계약 ID로 모든 매물, 판매자조회
     public ProductContractDTO getContractPById(int contract_id) {
     	return contractDAO.selectContractPById(contract_id);
@@ -93,14 +78,16 @@ public class ContractService {
        
         //(4) 날짜
         LocalDate today = LocalDate.now();
-        Date sqlDate = contract.getEnter_day();
-        LocalDate localDate = sqlDate.toLocalDate();
-        data.put("contract_startdate(y)", String.valueOf(localDate.getYear()));//임대시작일(y)
-        data.put("contract_startdate(m)", String.valueOf(localDate.getMonthValue()));//임대시작일(m)
-        data.put("contract_startdate(d)",String.valueOf(localDate.getDayOfMonth()));//임대시작일(d)
-        data.put("contract_enddate(y)", "2025");//임대종료일(y)
-        data.put("contract_enddate(m)", "12");//임대종료일(m)
-        data.put("contract_enddate(d)", "25");//임대종료일(d)
+        Date sqlStartDate = contract.getContract_startdate();
+        Date sqlEndDate = contract.getContract_enddate();
+        LocalDate localStartDate = sqlStartDate.toLocalDate();
+        LocalDate localEndDate = sqlEndDate.toLocalDate();
+        data.put("contract_startdate(y)", String.valueOf(localStartDate.getYear()));//임대시작일(y)
+        data.put("contract_startdate(m)", String.valueOf(localStartDate.getMonthValue()));//임대시작일(m)
+        data.put("contract_startdate(d)",String.valueOf(localStartDate.getDayOfMonth()));//임대시작일(d)
+        data.put("contract_enddate(y)", String.valueOf(localEndDate.getYear()));//임대종료일(y)
+        data.put("contract_enddate(m)", String.valueOf(localEndDate.getMonthValue()));//임대종료일(m)
+        data.put("contract_enddate(d)", String.valueOf(localEndDate.getDayOfMonth()));//임대종료일(d)
         data.put("contract_date(y)", String.valueOf(today.getYear())); //계약일(y)
         data.put("contract_date(m)", String.valueOf(today.getMonthValue())); //계약일(m)
         data.put("contract_date(d)", String.valueOf(today.getDayOfMonth())); //계약일(d)
@@ -137,7 +124,8 @@ public class ContractService {
         return "/salre/" + imageName; // 최종 이미지 경로 반환
     }
     // 계약 생성
-    public int saveContract(ProductContractDTO contractDTO) {
+    public int saveContract(ContractDTO contractDTO) {
+        // DB 저장 로직
         return contractDAO.saveContract(contractDTO);
     }
 //    // 계약 ID로 모든 매물, 판매자조회

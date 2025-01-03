@@ -6,7 +6,8 @@ public interface ContractDAOInterface {
 	public ContractDTO selectById(int  contract_id);
 	public ContractUserDTO selectAllById(int  contract_id);
 	public ProductContractDTO selectContractPById(int  contract_id);
-	public int saveContract(ProductContractDTO contractDTO);
+	public int saveContract2(ProductContractDTO contractDTO);
+	public int saveContract(ContractDTO contractDTO);
 	public int update(ContractDTO  contract);
 	public int delete(int  contract_id);
 	public int deleteArray(Integer[]  contract_id);

@@ -13,6 +13,8 @@
 		<typeAlias type="com.salre.main.product.ProductContractDTO" alias="productcontractVO"/>
 		<typeAlias type="com.salre.main.user.UserDTO" alias="userVO"/>
 		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" /> 
-		 
+		
+		
+  
 	</typeAliases>
 </configuration>
