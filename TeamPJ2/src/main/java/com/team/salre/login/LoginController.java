@@ -28,23 +28,24 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
- 
+
 	// ȸ������ ������
 	@GetMapping("/signup")
 	public String signupPage() {
 		return "logIn/signup"; // signup.jsp ��ȯ
 	}
-	
+
 	@GetMapping("/logout")
 	public String logout() {
 		return "common/logout";
 	}
+
 	// ȸ������ ó��
 	@PostMapping("/signup")
 	public String registerUser(UserDTO user, Model model) {
 		int result = userService.registerUser(user);
 		model.addAttribute("message", result > 0 ? "ȸ������ ����" : "ȸ������ ����");
-		
+
 		return "redirect:login"; // ȸ������ �� �α��� �������� �̵� //salre/ �߰�����
 	}
 
@@ -54,6 +55,10 @@ public class LoginController {
 		return "logIn/login"; // login.jsp ��ȯ
 	}
 
+	@GetMapping("/admin/myPage")
+	public void admin() {
+	}
+
 	// �α��� ó��
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {
@@ -61,18 +66,28 @@ public class LoginController {
 		// System.out.println("user : " + user);
 		if (user != null) {
 			session.setAttribute("loggedInUser", user);
-			 if (id.equals("test15")) {		 
-					return "admin/myPage";
-				} 
+			if (id.equals("test15")) {
+				session.setAttribute("contractStatusPending", 10); // 진행 전
+				session.setAttribute("contractStatusNegotiating", 5); // 조율 중
+				session.setAttribute("contractStatusOngoing", 15); // 진행 중
+				session.setAttribute("contractStatusCompleted", 20); // 계약 완료
+				session.setAttribute("propertyReportCount", 30); // 매물 신고 건수
+				session.setAttribute("boardReportCount", 12); // 게시판 신고 건수
+				session.setAttribute("userReportCount", 8); // 유저 신고 건수
+				session.setAttribute("board1PostCount", 150); // 게시판 1 게시글 수
+				session.setAttribute("board2PostCount", 120); // 게시판 2 게시글 수
+				session.setAttribute("board3PostCount", 130); // 게시판 3 게시글 수
+				session.setAttribute("contractCount", 50); // 전체 계약 건수
+				return "redirect:admin/myPage";
+			}
 			model.addAttribute("user", user);
 			return "myPage/transactions"; // �α��� ���� �� transactions.jsp�� �̵�
 
 			// return "redirect:/home"; // �α��� ���� �� Ȩ���� �̵�
-		} 
-		
-		
+		}
+
 		else {
-			model.addAttribute("error", "�α��� ����: ���̵� �Ǵ� ��й�ȣ�� �߸��Ǿ����ϴ�.");
+			model.addAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
 			return "logIn/login"; // �α��� ���� �� �ٽ� �α��� ������
 		}
 	}
@@ -102,11 +117,12 @@ public class LoginController {
 	// ȸ��Ż�� ó��
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
-		
+
 		try {
 			userService.deleteUser(id);
-			redirectAttributes.addFlashAttribute("message", "ȸ��Ż�� �Ϸ�Ǿ����ϴ�."); // addFlashAttribute�� ����ϸ� �����̷�Ʈ�� ������������
-																				// �޽����� ��ȿ
+			redirectAttributes.addFlashAttribute("message", "ȸ��Ż�� �Ϸ�Ǿ����ϴ�."); // addFlashAttribute�� ����ϸ�
+																					// �����̷�Ʈ�� ������������
+																					// �޽����� ��ȿ
 			return "redirect:/login";
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", "ȸ��Ż�� �� ������ �߻��߽��ϴ�.");
@@ -141,14 +157,14 @@ public class LoginController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		
+
 		String token = rootNode.path("response").path("access_token").asText();
-		
-		HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
-				.header("Content-Type", "application/json")
-				.header("Authorization", "Bearer " + token)
+
+		HttpRequest request2 = HttpRequest.newBuilder()
+				.uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
+				.header("Content-Type", "application/json").header("Authorization", "Bearer " + token)
 				.method("GET", HttpRequest.BodyPublishers.ofString("")).build();
-		
+
 		HttpResponse<String> response2 = null;
 		try {
 			response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
@@ -156,25 +172,34 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		String jsonResponse2 = response2.body();
- 
-		
-		System.out.println(jsonResponse2); 
-		
-		return  jsonResponse2;
+
+		System.out.println(jsonResponse2);
+
+		return jsonResponse2;
 
 	}
-	
-	
+
 	@GetMapping("/admin/boardreport")
 	public String boardReport() {
-		
+
 		return "admin/boardreport";
 	}
-	
+
 	@GetMapping("/admin/productreport")
 	public String productReport() {
-		
+
 		return "admin/productreport";
 	}
-  
+
+	@PostMapping("/admin/myPage")
+	public String handleAdminPost(HttpSession session) {
+		UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
+		if (user == null) {
+			return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+		}
+
+		// 세션 데이터 확인 후 필요하면 추가 작업
+		return "redirect:/admin/myPage"; // GET 요청으로 리다이렉트
+	}
+
 }

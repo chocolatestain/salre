@@ -159,7 +159,6 @@
             </div>
         </div>
     </div>
- 
     <script>
         function togglePassword() {
             const passwordInput = document.getElementById('password');
