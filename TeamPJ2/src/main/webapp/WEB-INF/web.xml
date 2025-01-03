@@ -54,13 +54,9 @@
 	</filter-mapping>
 
 
-	<web-app>
 	<!-- Session Timeout 설정 -->
 		<session-config>
 			<session-timeout>30</session-timeout> <!-- 30분 -->
 		</session-config>
-	</web-app>
-
-
 
 </web-app>

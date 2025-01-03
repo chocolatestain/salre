@@ -22,7 +22,7 @@
     IMP.certification(
       {
         // param
-        channelKey: "",
+        channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
         merchant_uid: "ORD" + new Date().getTime(),  //"ORD20180131-0000011", // 주문 번호
         popup: false
         //m_redirect_url: "{https://your-service.com/signup/complete}", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile

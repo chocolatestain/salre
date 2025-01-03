@@ -35,9 +35,7 @@
 				<br> <br>
 
 				<h4 class="mb-4">나의 정보</h4>
-				<!-- <form> -->
-				
-	
+				<!-- <form> -->]
 					<div class="row mb-3">
 						<div class="col-md-6">
 							<label for="id" class="form-label">ID</label> <input type="text"
@@ -82,14 +80,7 @@
 							<label for="password" class="form-label">Password</label>
 							<input
 								type="password" id="password" class="form-control"
-								value="${loggedInUser.password}" >
-						<%-- 	<div class="input-group">
-								<input type="password" id="password" class="form-control"
-									value="${loggedInUser.password}" >
-								<button type="button" class="btn btn-outline-secondary"
-									onclick="togglePassword()">👁</button> 
-							</div> --%>
-
+								value="${loggedInUser.password}" > 
 						</div>
 					</div>
 
@@ -98,9 +89,7 @@
 					<form action="${contextPath}/deleteUser" method="post" onsubmit="return confirm('정말로 탈퇴하시겠습니까?');">
 					    <input type="hidden" name="id" value="${loggedInUser.id}">
 					    <button type="submit" class="btn btn-danger">회원탈퇴</button>
-					</form>
-			
-
+					</form>7
 			</div>
 		</div>
 	</div>
@@ -114,9 +103,7 @@
     			success:function(a){
     				alert(a);
     			}
-    		});
-    			
-    		
+    		});	
     	}
     </script>
 

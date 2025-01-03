@@ -28,59 +28,65 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired 
-	ProductService productService;
-	
-	// È¸¿ø°¡ÀÔ ÆäÀÌÁö
+ 
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@GetMapping("/signup")
 	public String signupPage() {
-		return "logIn/signup"; // signup.jsp ¹ÝÈ¯
+		return "logIn/signup"; // signup.jsp ï¿½ï¿½È¯
 	}
-
-	// È¸¿ø°¡ÀÔ Ã³¸®
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "common/logout";
+	}
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	@PostMapping("/signup")
 	public String registerUser(UserDTO user, Model model) {
 		int result = userService.registerUser(user);
-		model.addAttribute("message", result > 0 ? "È¸¿ø°¡ÀÔ ¼º°ø" : "È¸¿ø°¡ÀÔ ½ÇÆÐ");
+		model.addAttribute("message", result > 0 ? "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" : "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		
-		return "redirect:login"; // È¸¿ø°¡ÀÔ ÈÄ ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿ //salre/ Ãß°¡ÇßÀ½
+		return "redirect:login"; // È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ //salre/ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 
-	// ·Î±×ÀÎ ÆäÀÌÁö
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@GetMapping("/login")
 	public String loginPage() {
-		return "logIn/login"; // login.jsp ¹ÝÈ¯
+		return "logIn/login"; // login.jsp ï¿½ï¿½È¯
 	}
 
-	// ·Î±×ÀÎ Ã³¸®
+	// ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {
 		UserDTO user = userService.loginUser(id, password);
 		// System.out.println("user : " + user);
 		if (user != null) {
 			session.setAttribute("loggedInUser", user);
+			 if (id.equals("test15")) {		 
+					return "admin/myPage";
+				} 
 			model.addAttribute("user", user);
-			return "myPage/transactions"; // ·Î±×ÀÎ ¼º°ø ½Ã transactions.jsp·Î ÀÌµ¿
+			return "myPage/transactions"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ transactions.jspï¿½ï¿½ ï¿½Ìµï¿½
 
-			// return "redirect:/home"; // ·Î±×ÀÎ ¼º°ø ½Ã È¨À¸·Î ÀÌµ¿
-
-		} else {
-			model.addAttribute("error", "·Î±×ÀÎ ½ÇÆÐ: ¾ÆÀÌµð ¶Ç´Â ºñ¹Ð¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.");
-			return "logIn/login"; // ·Î±×ÀÎ ½ÇÆÐ ½Ã ´Ù½Ã ·Î±×ÀÎ ÆäÀÌÁö
+			// return "redirect:/home"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È¨ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+		} 
+		
+		
+		else {
+			model.addAttribute("error", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+			return "logIn/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		}
 	}
 
-	// ID Ã£±â ÆäÀÌÁö
+	// ID Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@GetMapping("/findId")
 	public String findIdPage() {
 		return "/logIn/findId";
 	}
 
-	// ID Ã£±â Ã³¸®
+	// ID Ã£ï¿½ï¿½ Ã³ï¿½ï¿½
 	@PostMapping("/findId")
 	public String processFindId(@RequestParam("email") String email, Model model) {
-		// ÀÌ¸ÞÀÏ·Î ID¸¦ Ã£´Â ¼­ºñ½º È£Ãâ
+		// ï¿½Ì¸ï¿½ï¿½Ï·ï¿½ IDï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 		String userId = userService.findIdByEmail(email);
 		System.out.println("userID###### : " + userId);
 
@@ -93,17 +99,17 @@ public class LoginController {
 		return "/logIn/findId";
 	}
 
-	// È¸¿øÅ»Åð Ã³¸®
+	// È¸ï¿½ï¿½Å»ï¿½ï¿½ Ã³ï¿½ï¿½
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
 		
 		try {
 			userService.deleteUser(id);
-			redirectAttributes.addFlashAttribute("message", "È¸¿øÅ»Åð°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù."); // addFlashAttribute¸¦ »ç¿ëÇÏ¸é ¸®´ÙÀÌ·ºÆ®µÈ ÆäÀÌÁö¿¡¼­¸¸
-																				// ¸Þ½ÃÁö°¡ À¯È¿
+			redirectAttributes.addFlashAttribute("message", "È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½."); // addFlashAttributeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+																				// ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿
 			return "redirect:/login";
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("error", "È¸¿øÅ»Åð Áß ¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù.");
+			redirectAttributes.addFlashAttribute("error", "È¸ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 			return "redirect:/myPage";
 		}
 	}
@@ -157,50 +163,18 @@ public class LoginController {
 		return  jsonResponse2;
 
 	}
- 
 	
 	
-	 
-    
+	@GetMapping("/admin/boardreport")
+	public String boardReport() {
+		
+		return "admin/boardreport";
+	}
 	
-
-	/*
-	 * ±¤Áø Å×½ºÆ®ÄÚµå º»ÀÎÀÎÁõ //rspTest
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping(value = "/rspTest", consumes=MediaType.APPLICATION_JSON_VALUE,
-	 * produces="text/plain;charset=utf-8") public String rspTest(String imp_uid) {
-	 * String uid = imp_uid;
-	 * 
-	 * return uid; }
-	 */
-
-	/*
-	 * Å×½ºÆ®ÄÚµå º»ÀÎÀÎÁõ //rspTest
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/rspTest") public String rspTest(String imp_uid) { String uid =
-	 * imp_uid;
-	 * 
-	 * return "/logIn/rspTest"; }
-	 */
-
-	/*
-	 * Å×½ºÆ®ÄÚµå º»ÀÎÀÎÁõ ºí·Î±×Âü°í // º»ÀÎÀÎÁõ¿Ï·á ÈÄ »©³» ¿Â Á¤º¸ Áß ÇÚµåÆù ¹øÈ£¿Í ÀÔ·ÂÇÑ ÇÚµåÆù ¹øÈ£°¡ ÀÏÄ¡ÇÑÁö È®ÀÎÇÏ°í // ÀÏÄ¡ÇÏ¸é
-	 * true ¾Æ´Ï¸é false ¸¦ ¹ÝÈ¯ÇØ¼­ ¿Ïº®ÇÏ°Ô ÀÌ·ç¾î Á³³ª È®ÀÎ ÇÑ´Ù.
-	 * 
-	 * @GetMapping("/rspTest") public Map handleRedirect(@RequestParam("imp_uid")
-	 * String impUid, @RequestParam("email") String email) { boolean flag = false;
-	 * Map map = new HashMap<>(); System.out.println("Received imp_uid: " + impUid);
-	 * map = SignUpService.getAccessToken(impUid); UserDTO dto =
-	 * UserService.getMember(email);
-	 * 
-	 * String phone = (String) map.get("phone"); String name = (String)
-	 * map.get("name");
-	 * 
-	 * if (dto != null) { if (dto.getPhone_num().equals(phone)) { flag = true; } }
-	 * map.put("flag", flag); map.put("name", name); return map; }
-	 */
+	@GetMapping("/admin/productreport")
+	public String productReport() {
+		
+		return "admin/productreport";
+	}
+  
 }
