@@ -21,43 +21,13 @@
     } 
 </style>
 </head>
-<body>
-<script>
-function submitFormWithUserData() {
-    // 세션에서 user 데이터를 가져오기 (예시: 세션에 저장된 'loggedInUser' 객체)
-    const user = ${loggedInUser};  // Thymeleaf를 사용하여 세션의 user 객체를 JavaScript로 전달
-
-    // POST할 데이터를 담은 form 생성
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '${contextPath}/admin/myPage';  // 목표 URL 설정
-
-    // user 데이터에서 필요한 정보를 form 데이터로 추가
-    const userIdInput = document.createElement('input');
-    userIdInput.type = 'hidden';
-    userIdInput.name = 'id';  // 전달할 데이터의 key (예: id)
-    userIdInput.value = user.id;  // 세션에서 받아온 id 값
-    form.appendChild(userIdInput);
-
-    const userNameInput = document.createElement('input');
-    userNameInput.type = 'hidden';
-    userNameInput.name = 'password';  // 전달할 데이터의 key (예: name)
-    userNameInput.value = user.password;  // 세션에서 받아온 name 값
-    form.appendChild(userNameInput);
-
-    // 필요한 다른 데이터를 추가할 수 있습니다
-    // ...
-
-    // form을 body에 추가하고 제출
-    document.body.appendChild(form);
-    form.submit();  // POST 요청 전송
-}
-</script>
+<body> 
 	<!-- Sidebar -->
 	<div class="col-md-3 sidebar">
 
 		<div class="container mt-5">
-			<div class="profile-container" onclick="submitFormWithUserData()">
+				<div class="profile-container" onclick="window.location.href='${contextPath}/admin/myPage';">
+				 
 			    <!-- Profile Image -->
 			    <img src="https://via.placeholder.com/100" alt="Profile Image">
 			    <!-- Toggle Buyer/Seller -->
