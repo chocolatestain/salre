@@ -100,7 +100,7 @@
     <header>
         <div class="logo">살래?</div>
         <nav>
-            <a href="#">대출상품</a>
+            <a href="loan/main">대출상품</a>
             <a href="#">채팅</a>
             <a href="#">게시판</a>
             <a href="#">매물</a>

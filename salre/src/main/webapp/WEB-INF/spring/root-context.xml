@@ -13,9 +13,9 @@
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3307/salre" />
-		<property name="username" value="user" />
-		<property name="password" value="1313" />
+			value="jdbc:mysql://localhost:3306/salre" />
+		<property name="username" value="root" />
+		<property name="password" value="1234" />
 	</bean>
 
 	<bean id="sqlSessionFactory"
