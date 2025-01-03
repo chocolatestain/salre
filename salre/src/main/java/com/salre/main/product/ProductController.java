@@ -15,25 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
- 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
-    
+
     @Autowired
     private RegionService regionService;
+
     @GetMapping("/insert")
-    public String showCreateForm() { 
+    public String showCreateForm() {
         return "product/insert";
     }
 
     @PostMapping("/insert")
-    public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
- 
- 
+    public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request,
+            Model model) {
+
         // MultipartHttpServletRequest를 사용하여 파일 처리
         MultipartFile file = request.getFile("photo"); // "photo"는 HTML input의 name 값과 일치해야 함
         // 일반 요청 파라미터 처리
@@ -43,9 +43,9 @@ public class ProductController {
         System.out.println("시군구: " + sigungu);
         System.out.println(productDTO);
         productDTO.setRegion_id(regionService.selectIdByRegion(sigungu));
-        
+
         if (file != null && !file.isEmpty()) {
-            
+
             // 파일을 저장할 디렉토리 경로 지정
             String directoryPath = "src/main/resources/static/images/products/";
 
@@ -71,10 +71,9 @@ public class ProductController {
 
         // 비즈니스 로직 처리 (상품 등록)
         productService.insertProduct(productDTO);
-        
+
         return "redirect:/";
     }
-
 
     @GetMapping("/list")
     public String listProducts(Model model) {
@@ -82,12 +81,14 @@ public class ProductController {
         model.addAttribute("products", products);
         return "product/list";
     }
+
     @GetMapping("/search")
     public String searchByConditions(Model model) {
-    	List<ProductDTO> products = productService.searchByConditions();
-    	model.addAttribute("products", products);
-    	return "product/search";
+        List<ProductDTO> products = productService.searchByConditions();
+        model.addAttribute("products", products);
+        return "product/search";
     }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") int product_id, Model model) {
         ProductDTO productDTO = productService.selectByIdService(product_id);
@@ -108,10 +109,11 @@ public class ProductController {
         productService.deleteProduct(product_id);
         return "redirect:/product/list";
     }
+
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
-    	ProductDTO product = productService.selectByIdService(product_id);
-    	model.addAttribute("product", product);
-    	return "product/detail";
-    }  
+        ProductDTO product = productService.selectByIdService(product_id);
+        model.addAttribute("product", product);
+        return "product/detail";
+    }
 }
