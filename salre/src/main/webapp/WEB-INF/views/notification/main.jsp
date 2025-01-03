@@ -1,123 +1,195 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="icon" href="${pageContext.request.contextPath}/resources/favicon.ico" type="image/x-icon">
-<meta charset="UTF-8">
-<title>알림 테스트</title>
-<script type="text/javascript">
-	var sse;
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<!DOCTYPE html>
+	<html lang="ko">
 
-	// 로그인 버튼을 누르면 해당 userId로 SSE 연결을 시도한다.
-	function subscribe() {
-		var userId = document.getElementById("userId").value;
-		if (!userId) {
-			alert("로그인 필요");
-			return;
-		}
-
-		// SSE 연결을 열고, 서버로부터 오는 메시지를 처리
-		sse = new EventSource("/notification/subscribe/" + userId);
-		sse.onmessage = function(event) {
-			var log = document.getElementById("log");
-			// 서버에서 전송된 메시지를 Log에 추가
-			log.innerHTML += "Received message: " + event.data + "<br>";
-			// 스크롤을 맨 아래로 내리기
-			log.scrollTop = log.scrollHeight;
-		};
-
-		sse.onerror = function(event) {
-			console.error("Error: ", event);
-			sse.close();
-		};
-
-		document.getElementById("status").innerText = "현재 접속중인 ID: " + userId;
-	}
-
-	// 공지사항 발송 버튼을 누르면 메시지를 해당 userId로 보낸다.
-	function broadcast() {
-		var userId = document.getElementById("userId").value;
-		var message = document.getElementById("message").value;
-		if (!userId || !message) {
-			alert("오류 발생");
-			return;
-		}
-
-		// 공지사항 메시지를 서버로 전송
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "/notification/broadcast/" + userId, true);
-		xhr.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded");
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				var log = document.getElementById("log");
-				// 공지사항 발송이 성공적으로 이루어졌을 때 Log에 메시지를 표시
-				log.innerHTML += "📢&ensp;공지사항 보냄 >> " + message + "<br>";
-				log.scrollTop = log.scrollHeight; // 스크롤을 맨 아래로 내리기
+	<head>
+		<link rel="icon" href="${pageContext.request.contextPath}/resources/favicon.ico" type="image/x-icon" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>살래?</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
 			}
-		};
-		xhr.send("message=" + encodeURIComponent(message)); // 메시지 전송
-	}
 
-	// 메시지 보내기 버튼을 누르면 특정 유저에게 메시지를 전송
-	function sendToClient() {
-		var targetUserId = document.getElementById("targetUserId").value; // 메시지를 받을 유저 ID
-		var message = document.getElementById("message2").value; // 보낼 메시지
-		if (!targetUserId || !message) {
-			alert("오류 발생");
-			return;
-		}
-
-		// 메시지를 서버로 전송
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "/notification/sendToClient/" + targetUserId,
-				true);
-		xhr.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded");
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				var log = document.getElementById("log");
-				// 메시지가 성공적으로 전송된 후 Log에 표시
-				log.innerHTML += "👂&ensp;" + targetUserId + "에게 보냄 >> "
-						+ message + "<br>";
-				log.scrollTop = log.scrollHeight; // 스크롤을 맨 아래로 내리기
+			header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 20px;
+				background-color: #fff;
+				border-bottom: 1px solid #ddd;
 			}
-		};
-		xhr.send("message=" + encodeURIComponent(message2)); // 메시지 전송
-	}
-</script>
-</head>
 
-<body>
-	<h1>🔔 알림 테스트</h1>
-	<hr>
-	<div>
-		<label for="userId">아이디: </label> <input type="text" id="userId"
-			placeholder="아이디 입력" />
-		<button onclick="subscribe()">로그인</button>
-		<p id="status"></p>
-	</div>
-	<hr>
-	<div>
-		<h2>공지사항</h2>
-		<label for="message">내용: </label> <input type="text" id="message"
-			placeholder="내용 입력" />
-		<button onclick="broadcast()">발송</button>
-	</div>
+			header .logo {
+				font-size: 24px;
+				font-weight: bold;
+			}
 
-	<div>
-		<h2>귓속말</h2>
-		<label for="targetUserId">수신자 ID: </label> <input type="text"
-			id="targetUserId" placeholder="수신자 입력" /> <label for="message2">내용:
-		</label> <input type="text" id="message2" placeholder="내용 입력" />
-		<button onclick="sendToClient()">발송</button>
-	</div>
-	<hr>
-	<div>
-		<h2>메시지 기록</h2>
-		<div id="log"
-			style="border: 1px solid black; height: 200px; overflow-y: scroll;"></div>
-	</div>
-</body>
+			header nav a {
+				margin: 0 10px;
+				text-decoration: none;
+				color: #333;
+			}
 
-</html>
+			header .auth a {
+				margin-left: 15px;
+				padding: 10px 20px;
+				background-color: #f4a261;
+				color: #fff;
+				border-radius: 5px;
+				text-decoration: none;
+			}
+
+			.main-banner {
+				background-color: #f5f5f5;
+				text-align: center;
+				display: flex;
+				padding: 60px 20px;
+				width: 100%;
+			}
+
+			.main-banner>div {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.form-box {
+				background-color: white;
+				padding: 2rem;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+				border-radius: 10px;
+				max-width: 400px;
+				width: 100%;
+				text-align: left;
+			}
+
+			.main-banner h1 {
+				font-size: 2.5rem;
+				color: #333;
+			}
+
+			.main-banner h2 {
+				font-size: 1.25rem;
+				color: #666;
+				margin-bottom: 3rem;
+			}
+
+			.form-box h3 {
+				margin: 0 auto;
+				font-size: 1.25rem;
+				padding-bottom: 1.5rem;
+			}
+
+			input,
+			select,
+			button {
+				width: 100%;
+				padding: 0.75rem;
+				margin: 1rem 0;
+				font-size: 1rem;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+				box-sizing: border-box;
+			}
+
+			button {
+				background-color: #455f9e;
+				color: white;
+				cursor: pointer;
+				border: none;
+			}
+
+			button:hover {
+				background-color: #2c3562;
+			}
+
+			footer {
+				display: flex;
+				justify-content: space-around;
+				background-color: #222;
+				color: #fff;
+				padding: 20px 0;
+			}
+
+			footer div {
+				text-align: left;
+			}
+
+			footer a {
+				color: #f4a261;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- Header -->
+		<header>
+			<div class="logo">살래?</div>
+			<nav>
+				<a href="${pageContext.request.contextPath}/loan/main">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a>
+				<a href="#">매물</a> <a href="#">관심매물</a>
+				<a href="#">방내놓기</a>
+			</nav>
+			<div class="auth">
+				<a href="login.jsp">로그인</a> <a href="register.jsp">회원가입</a>
+			</div>
+		</header>
+
+		<!-- Main Banner -->
+		<section class="main-banner">
+			<input type="number" name="id" placeholder="아이디 입력" />
+			<button id="login">로그인</button>
+		</section>
+
+		<!-- Footer -->
+		<footer>
+			<div>
+				<h3>형태 별 검색</h3>
+				<p>전세<br />월세<br />아파트<br />빌라<br />상가</p>
+			</div>
+			<div>
+				<h3>고객 지원</h3>
+				<a href="#">자주 묻는 질문(FAQ)</a><br />
+				<a href="#">Android</a><br />
+				<a href="#">iOS</a>
+			</div>
+			<div>
+				<h3>저희 회사는</h3>
+				<a href="#">회사소개</a><br />
+				<a href="#">오시는 길</a><br />
+				<a href="#">제휴문의</a><br />
+				<a href="#">채용</a><br />
+			</div>
+		</footer>
+
+		<script>
+			$('#login').click(function () {
+				const userId = $("input[name='id']").val();
+
+				const eventSource = new EventSource(`${pageContext.request.contextPath}/notification/subscribe/\${userId}`);
+
+				console.log('연결된 userId:', userId);
+				console.log('EventSource URL:', `${pageContext.request.contextPath}/notification/subscribe/\${userId}`);
+
+				eventSource.onmessage = function (event) {
+					const message = event.data;
+					alert('알림 수신:' + message);
+				};
+
+				eventSource.onerror = function (error) {
+					alert('SSE 연결 오류');
+					eventSource.close();
+				};
+			});
+		</script>
+	</body>
+
+	</html>

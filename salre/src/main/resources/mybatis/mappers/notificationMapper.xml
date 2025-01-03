@@ -10,7 +10,12 @@
 
 	<select id="select" resultMap="notificationVO" parameterType="map">
 		SELECT *
-		FROM loan
-		WHERE loan_id = #{id};
+		FROM notification
+		WHERE user_id = #{user_id};
 	</select>
+
+	<insert id="insert" parameterType="map">
+		INSERT INTO notification
+		VALUES (#{user_id}, #{content}, CURRENT_TIMESTAMP);
+	</insert>
 </mapper>
