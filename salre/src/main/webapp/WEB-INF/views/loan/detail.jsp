@@ -105,6 +105,10 @@
 					line-height: 0;
 				}
 
+				.info ul {
+					padding-left: 20px;
+				}
+
 				h1 {
 					font-size: 2rem;
 					color: #333;
@@ -114,6 +118,21 @@
 					font-size: 1.5rem;
 					color: #666;
 					margin-bottom: 2rem;
+				}
+
+				.table-box {
+					background-color: #fff;
+					padding: 2rem;
+					border-radius: 10px;
+					box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+					margin-bottom: 2rem;
+					width: 100%;
+					max-width: 1200px;
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-direction: column;
 				}
 
 				.data {
@@ -150,8 +169,30 @@
 
 				table {
 					width: 100%;
-					border-collapse: collapse;
-					margin-top: 20px;
+					border-collapse: separate;
+					border-spacing: 0;
+					margin-bottom: 20px;
+					background-color: #fff;
+					box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+					border-radius: 5px;
+					overflow: hidden;
+				}
+
+				th,
+				td {
+					padding: 10px;
+					text-align: center;
+					border: 1px solid #666;
+				}
+
+				th {
+					background-color: #f4a261;
+					color: white;
+					font-weight: bold;
+				}
+
+				td {
+					color: #333;
 				}
 
 				footer {
@@ -169,6 +210,19 @@
 				footer a {
 					color: #f4a261;
 					text-decoration: none;
+				}
+
+				#scroll {
+					position: fixed;
+					bottom: 30px;
+					right: 30px;
+					z-index: 9999;
+					border: none;
+					background-color: #999;
+					cursor: pointer;
+					padding: 10px;
+					border-radius: 10px;
+					font-size: 2rem;
 				}
 			</style>
 		</head>
@@ -206,10 +260,10 @@
 
 				<h1>대출이자 계산기</h1>
 
-				<div class="form-box">
+				<div class="table-box">
 					<div class="data">
 						<h3>
-							<label for="amount">대출 금액&nbsp;(억 원)</label>
+							<label for="amount">대출 금액&nbsp;(만 원)</label>
 							<input type="number" name="amount" placeholder="금액 입력" />
 							<label for="period">대출 기간&nbsp;(개월)</label>
 							<input type="number" name="period" placeholder="기간 입력" />
@@ -241,6 +295,8 @@
 				</div>
 			</footer>
 
+			<button onclick="scrollToTop()" id="scroll">⬆️</button>
+
 			<script>
 				$(document).ready(function () {
 					const bank_name = "${ loan.bank_name }";
@@ -265,9 +321,11 @@
 					\${bank_img}
 					<h1>${loan.loan_name}</h1>
 					<h2>${loan.bank_name}</h2>
-					<h3>${loan.repayment_type}</h3>
-					<h3>기준금리: ${loan.loan_rate}%</h3>
-					<h3>최대한도: <fmt:formatNumber value="${loan.loan_limit}" pattern="#,###"/>원</h3>
+					<ul>
+						<li><h3>${loan.repayment_type}</h3></li> <br>
+						<li><h3>기준금리: ${loan.loan_rate}%</h3></li> <br>
+						<li><h3>최대한도: <fmt:formatNumber value="${loan.loan_limit}" pattern="#,###"/>원</h3></li>
+					</ul>
 				`);
 
 					$("#doCalc").click(function () {
@@ -275,18 +333,18 @@
 						let period = parseFloat($("input[name='period']").val());
 
 						if (!amount || !period) {
-							alert("모든 항목을 입력해주세요");
+							alert("모든 항목을 입력해주세요.");
 
 							return false;
 						}
 
 						let maxAmount = `${loan.loan_limit}`;
 
-						if (parseFloat(amount * 100000000) > maxAmount) {
-							alert(`최대 대출 금액은 \${maxAmount / 100000000}억 원입니다.`);
+						if (parseFloat(amount * 10000) > maxAmount) {
+							alert(`해당 상품의 최대 한도는 \${maxAmount / 100000000}억 원입니다.`);
 
-							$("input[name='amount']").val(maxAmount / 100000000);
-							amount = maxAmount / 100000000;
+							$("input[name='amount']").val(maxAmount / 10000);
+							amount = maxAmount / 10000;
 						}
 
 						$('.calc').html(`
@@ -306,7 +364,7 @@
 
 						let repayment_type = "${loan.repayment_type}";
 						let rate = `${loan.loan_rate}`;
-						let balance = amount * 100000000;
+						let balance = Math.round(amount * 10000);
 						let principal = 0;
 						let interest = 0;
 						let payment = 0;
@@ -315,46 +373,82 @@
 						let val2 = 0;
 						let dpLg1 = "";
 						let dpLg2 = "";
+						let avg = 0;
+
+						function draw(i, principal, interest, payment, balance) {
+							$('.calc tbody').append(`
+								<tr>
+									<td>\${i}회</td>
+									<td>\${principal.toLocaleString()}원</td>
+									<td>\${interest.toLocaleString()}원</td>
+									<td>\${payment.toLocaleString()}원</td>
+									<td>\${balance.toLocaleString()}원</td>
+								</tr>
+							`);
+						}
 
 						if (repayment_type == "원리금분할상환") {
-							val1 = 0;
+							let monthly_rate = rate / 100 / 12;
+							payment = Math.round(amount * 10000 * (monthly_rate * Math.pow(1 + monthly_rate, period)) / (Math.pow(1 + monthly_rate, period) - 1));
+
+							val1 = payment;
 							val2 = 0;
 
 							dpLg1 = "(대출금액) / (대출기간)";
 							dpLg2 = "상환 테이블 참고";
+
+							avg = payment;
+
+							for (let i = 1; i <= period; i++) {
+								interest = Math.round(balance * monthly_rate);
+								principal = payment - interest;
+								balance -= principal;
+
+								val2 += interest;
+
+								if (i == period) {
+									balance = 0;
+								}
+
+								draw(i, principal, interest, payment, balance);
+							}
 						}
 
 						else if (repayment_type == "원금분할상환") {
-							val1 = Math.round(amount / period * 100000000);
+							val1 = Math.round(amount / period * 10000);
 
 							dpLg1 = "(대출금액) / (대출기간)";
 							dpLg2 = "상환 테이블 참고";
 
 							for (let i = 1; i <= period; i++) {
-								principal = amount * 100000000 / period;
-								interest = balance * rate / 100 / 12;
-								payment = parseFloat(principal) + parseFloat(interest);
+								principal = Math.round(amount * 10000 / period);
+								interest = Math.round(balance * rate / 100 / 12);
+								payment = principal + interest;
 								balance -= principal;
-								val2 += interest;
 
-								$('.calc tbody').append(`
-									<tr>
-										<td>\${i}회</td>
-										<td>\${principal.toLocaleString()}원</td>
-										<td>\${interest.toLocaleString()}원</td>
-										<td>\${payment.toLocaleString()}원</td>
-										<td>\${balance.toLocaleString()}원</td>
-									</tr>
-								`);
+								val2 += interest;
+								avg += payment;
+
+								if (i == period) {
+									balance = 0;
+								}
+
+								draw(i, principal, interest, payment, balance);
 							}
+
+							avg /= period;
 						}
 
 						else if (repayment_type == "만기일시상환") {
 							val1 = 0;
-							val2 = amount * rate / 12 * period * 1000000;
+							val2 = Math.round(amount * rate / 12 * period * 100);
 
 							dpLg1 = "해당사항 없음";
 							dpLg2 = "(대출금액) * (연 이자율) / 12 * (대출기간)";
+
+							interest = Math.round(balance * rate / 100 / 12);
+							payment = interest;
+							avg = payment;
 
 							for (let i = 1; i <= period; i++) {
 								if (i == period) {
@@ -363,19 +457,13 @@
 									balance = 0;
 								}
 
-								$('.calc tbody').append(`
-									<tr>
-										<td>\${i}회</td>
-										<td>\${principal.toLocaleString()}원</td>
-										<td>\${interest.toLocaleString()}원</td>
-										<td>\${payment.toLocaleString()}원</td>
-										<td>\${balance.toLocaleString()}원</td>
-									</tr>
-								`);
+								draw(i, principal, interest, payment, balance);
 							}
 						}
 
 						$('.calcValue').html(`
+							<h2>계산 결과</h2>
+							<h3>한 달에 평균 \${Math.round(avg).toLocaleString()}원씩 납부하면 돼요 🥰</h3>
 							<table>
 								<thead>
 									<tr>
@@ -387,7 +475,7 @@
 								<tbody>
 									<tr>
 										<td class="구분">금액</td>
-										<td class="값">\${amount}억원</td>
+										<td class="값">\${amount}만원</td>
 										<td class="비고">사용자 입력값</td>
 									</tr>
 									<tr>
@@ -415,6 +503,19 @@
 						`);
 					});
 				});
+
+				function scrollToTop() {
+					const position =
+						document.documentElement.scrollTop || document.body.scrollTop;
+
+					if (position) {
+						window.requestAnimationFrame(() => {
+							window.scrollTo(0, position - position / 10);
+
+							scrollToTop();
+						});
+					}
+				}
 			</script>
 		</body>
 
