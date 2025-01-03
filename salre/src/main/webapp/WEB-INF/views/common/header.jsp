@@ -15,7 +15,6 @@
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
-	
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
 	
@@ -51,7 +50,7 @@
 		        <!-- Nav Main menu -->
 		        <ul class="navbar-nav mx-auto">
 		            <li class="nav-item"><a class="nav-link" href="#">대출 상품</a></li>
-		            <li class="nav-item"><a class="nav-link" href="#">채팅</a></li>
+		            <li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main" target="_blank">채팅</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/board/list">게시판</a></li>
 		            <li class="nav-item"><a class="nav-link" href="#">매물</a></li>
 		            <li class="nav-item"><a class="nav-link" href="#">관심 매물</a></li>
