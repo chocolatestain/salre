@@ -1,0 +1,265 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="contextPath" value="${pageContext.servletContext.contextPath}" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - 회원정보입력</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .image-section {
+            flex: 1;
+            background: url('resources/house.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-section h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-section p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .residenseTop{
+         margin-bottom: 20px;
+        }
+
+        .form-group-inline  {
+            display: flex;
+            align-items: center;/* 세로 중앙 정렬 */
+            gap: 15px;/* 입력 필드와 버튼 사이 간격 */
+          
+        }
+
+        .form-group-inline input  {
+           
+            flex: 1; /* 입력 필드가 남은 공간을 차지하도록 설정 */
+		    padding: 10px;
+		    font-size: 14px;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    /*background-color: #f8f9fa;  입력 필드 배경색 */
+		    background-color: white;
+		    color: #6c757d; /* 텍스트 색상 */
+    		
+    		width : 75%
+        }
+
+           .labelInput{
+           
+            flex: 1; /* 입력 필드가 남은 공간을 차지하도록 설정 */
+	 		
+    		width : 75%
+        }
+        
+        .form-group-inline button {
+   
+            padding: 10px; /* 버튼 내부 좌우 여백 */
+		    font-size: 14px;
+		    /* font-weight: bold; */
+		    color: white;
+		    background-color: #007bff; /* 버튼 배경색 */
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    width:25%
+        }
+
+        .form-group-inline button:hover {
+            background-color: #0056b3; /* 마우스 오버 시 버튼 색상 */
+        }
+
+        input {
+            
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navigation-buttons button {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        a {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 좌측 이미지 섹션 -->
+        <div class="image-section"></div>
+
+        <!-- 우측 폼 섹션 -->
+        <div class="form-section">
+            <h1>Sign Up / 회원정보입력</h1>
+            <p>회원님의 정보를 입력해주세요.</p>
+            <form action="${contextPath}/signUpProcess" method="post"> 
+                
+                 <div class="form-group">
+	                <label for="id">ID</label>     
+	                <div class="form-group-inline">              
+	 				      
+	                    <input type="text" id="id" name="id" placeholder="ID" required>
+	                    <button type="button" id="idcheck" onclick="checkIdAvailability()">ID 중복체크</button>
+	                    <br>
+	                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+
+				<div class="form-group-inline">                                             
+                        <label for="name"  class="labelInput">Name</label>            
+                        <label for="phone" class="labelInput">Phone</label>                  
+                </div>
+                
+                <div class="form-group-inline residenseTop">                                             
+                        <input type="text" id="name" name="name" placeholder="Name" required>            
+                        <input type="text" id="phone" name="phone" placeholder="Phone" required>                  
+                </div>
+
+                <div class="form-group">
+                    <label for="resident-number">Resident Number</label>
+                    <input type="text" id="resident-number" name="residentNumber" placeholder="Resident Number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Address" required>
+                </div>
+
+
+                <div class="navigation-buttons">
+                    <button type="button" onclick="history.back()">이전</button>
+                    <button type="submit">다음</button>
+                </div>
+            </form>
+            <a href="${contextPath}/login">Already have an account?</a>
+        </div>
+    </div>
+    <script>
+        function checkIdAvailability() {
+            const id = document.querySelector('[name="id"]').value.trim();
+            if (!id) {
+                alert("ID를 입력하세요.");
+                return;
+            }
+            // AJAX 요청을 통해 ID 중복 체크
+            $.ajax({
+            	url: "${contextPath}/checkId",
+                type: "GET",
+                data: { id },
+                success: function (response) {
+                    if (response === "available") {
+                        alert("사용 가능한 ID입니다.");
+                    } else {
+                        alert("이미 사용 중인 ID입니다.");
+                    }
+                },
+                error: function () {
+                    alert("ID 중복 체크 중 오류가 발생했습니다.");
+                },
+            });
+        }
+    </script>
+</body>
+</html>
+ 
+ 
+ 
+ 
+ 
+ 

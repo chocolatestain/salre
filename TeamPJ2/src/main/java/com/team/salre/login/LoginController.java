@@ -1,6 +1,7 @@
 package com.team.salre.login;
 
 import java.io.IOException;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -9,13 +10,14 @@ import java.net.http.HttpResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,15 +31,31 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired 
-	ProductService productService;
+//	@Autowired 
+//	ProductService productService; //설 코드 합칠경우
 	
-	// 회원가입 페이지
+	// 본인인증 페이지
 	@GetMapping("/signup")
 	public String signupPage() {
-		return "logIn/signup"; // signup.jsp 반환
+		return "logIn/signUpAuth"; // signup.jsp 반환
 	}
-
+	
+	
+	  // 본인인증 처리
+	  @PostMapping("/certify")
+//	  @ResponseBody //메서드의 반환값을 JSON 또는 문자열과 같은 HTTP 응답 본문에 직접 포함
+	  public ResponseEntity<String> processCertification(@RequestParam("certificationResult") boolean certificationResult, HttpSession session){ 
+	  if(certificationResult) {
+	  session.setAttribute("isCertified", true); // 인증 성공 상태 저장 return
+	  return ResponseEntity.ok("Certification Successful"); 
+	  }else {
+	  session.setAttribute("isCertified", false); // 인등 실패 상태 저장 return
+	  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Certification Failed"); 
+	  	}
+	  }
+	  
+	
+	
 	// 회원가입 처리
 	@PostMapping("/signup")
 	public String registerUser(UserDTO user, Model model) {
@@ -47,6 +65,30 @@ public class LoginController {
 		return "redirect:login"; // 회원가입 후 로그인 페이지로 이동 //salre/ 추가했음
 	}
 
+	
+	// 회원정보입력 페이지
+		@GetMapping("/signUpInfo")
+		public String signupInfoPage() {
+			return "logIn/signUpInfo"; // signup.jsp 반환
+		}
+		
+		
+/*		
+	// 회원정보입력 페이지
+	@GetMapping("/signUpInfo")
+	public String signUpInfoPage(HttpSession session) {
+		// 본인인증 여부 확인(세션에 인증 여부 저장한다고 가정)
+		Boolean isCertified=(Boolean) session.getAttribute("isCertified");
+		
+		if(isCertified !=null&& isCertified) {
+			return "logIn/signUpInfo";//회원정보입력 페이지 반환
+		}else {
+			return "redirect:/signup";//인증이 완료되지 않았다면 다시 본인인증 페이지로 리다이렉트
+		}
+	}
+	
+	*/
+	
 	// 로그인 페이지
 	@GetMapping("/login")
 	public String loginPage() {

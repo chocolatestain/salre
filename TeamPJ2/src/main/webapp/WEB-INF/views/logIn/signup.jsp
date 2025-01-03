@@ -22,7 +22,7 @@
     IMP.certification(
       {
         // param
-        channelKey: "",
+        channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
         merchant_uid: "ORD" + new Date().getTime(),  //"ORD20180131-0000011", // 주문 번호
         popup: false
         //m_redirect_url: "{https://your-service.com/signup/complete}", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
@@ -45,10 +45,22 @@
             	   success: function(responseData){
             		   var myInfo = JSON.parse(responseData); // 응답 데이터를 객체로 파싱
             		   
-            		   if(myInfo.response){
-            			   document.querySelector('[name="phone_num"]').value=myInfo.response.phone;
-            			   document.querySelector('[name="user_name"]').value=myInfo.response.name;
-            		   }
+            		   if (myInfo.response) {
+            	            // 각 입력 필드를 선택
+            	            var phoneInput = document.querySelector('[name="phone_num"]');
+            	            var nameInput = document.querySelector('[name="user_name"]');
+            	            var residentInput = document.querySelector('[name="resident_num"]');
+
+            	            // 필드 값 설정
+            	            phoneInput.value = myInfo.response.phone;
+            	            nameInput.value = myInfo.response.name;
+            	            residentInput.value = myInfo.response.birthday;
+
+            	            // 필드를 읽기 전용으로 설정
+            	            phoneInput.readOnly = true;
+            	            nameInput.readOnly = true;
+            	            residentInput.readOnly = true;
+            	        }
             			   
             			   
             		   /*
@@ -182,6 +194,13 @@
         }
         .input-field { width: 100%; margin-bottom: 10px; }
         button { width: 100%; }
+        
+        input[readonly] {
+        background-color: #f0f0f0; /* 회색 배경 */
+        color: #999; /* 텍스트 색상도 회색으로 */
+        border: 1px solid #ccc; /* 테두리 색상 */
+        cursor: not-allowed; /* 마우스 커서를 비활성화된 모양으로 */
+    }
     </style>
     
     

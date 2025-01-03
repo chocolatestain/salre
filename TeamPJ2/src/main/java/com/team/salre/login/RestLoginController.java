@@ -17,6 +17,7 @@ public class RestLoginController {
     @GetMapping("/checkId")
     public ResponseEntity<String> checkId(@RequestParam("id") String id) {
         boolean isAvailable = userService.isIdAvailable(id);
+        System.out.println("@@@id = "+ id);
         return isAvailable ? ResponseEntity.ok("available") : ResponseEntity.ok("unavailable");
     }
 

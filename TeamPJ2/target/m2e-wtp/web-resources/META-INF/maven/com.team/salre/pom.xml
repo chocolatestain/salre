@@ -8,15 +8,17 @@
 	<name>TeamPJ2</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
 	<properties>
 		<java-version>1.11</java-version>
 		<org.springframework-version>5.3.5</org.springframework-version>
 		<org.aspectj-version>1.9.6</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+	
+	
+	
 	<dependencies>
-
-
 
 	  <!-- JSON-Simple -->
 	    <dependency>
@@ -127,6 +129,12 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
 
 		<!-- AspectJ -->
 		<dependency>
