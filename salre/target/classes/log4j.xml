@@ -10,6 +10,23 @@
 		</layout>
 	</appender>
 	
+	<!-- 2024-12-26 추가, DailyFile Appenders -->
+	<appender name="dailyFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="C:\\spring\\logs\\output.log" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+			<param name="ConversionPattern" value="[%d{HH:mm:ss}][%-5p](%F:%L)-%m%n"/>
+		</layout>
+	</appender>
+	
+	<!-- 2024-12-26 추가, Query Loggers -->
+	<logger name="jdbc.sqlonly">
+		<level value="INFO" />
+		<!-- <appender-ref ref="console" /> -->
+		<appender-ref ref="dailyFileAppender" />
+	</logger>
+	
 	<!-- Application Loggers -->
 	<logger name="com.salre.main">
 		<level value="info" />
