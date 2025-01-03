@@ -34,14 +34,14 @@ public class ContractPaper {
 		HttpSession session = request.getSession();
 		userId = (String) session.getAttribute("SESSION_USER_ID");
 
-		// ÇÁ·ÎÁ§Æ® ¾È¿¡ ¿¢¼¿ ¾ç½ÄÀ» ³Ö¾îµÒ
+		// í”„ë¡œì íŠ¸ ì•ˆì— ì—‘ì…€ ì–‘ì‹ì„ ë„£ì–´ë‘ 
 		String path = this.getClass().getClassLoader().getResource("").getPath();
 		String fullPath = URLDecoder.decode(path, "UTF-8");
 		String pathArr[] = fullPath.split("/WEB-INF/classes/");
 		fullPath = pathArr[0] + "/WEB-INF/views/contractPaper";
 		String reponsePath = "";
 
-		// ±âº» ¾ç½Ä ¿¢¼¿ ÆÄÀÏÀ» º¹»çÇÑ´Ù.
+		// ê¸°ë³¸ ì–‘ì‹ ì—‘ì…€ íŒŒì¼ì„ ë³µì‚¬í•œë‹¤.
 		String baseFolder = new File(fullPath).getPath() + File.separatorChar;
 		String baseFileName = "contractPaper.xlsx";
 		String outFileName = "contractPaper_" + userId + ".xlsx";
@@ -53,7 +53,7 @@ public class ContractPaper {
 		Workbook wb = WorkbookFactory.create(workFileInputStream);
 		Sheet sheet = wb.getSheetAt(0);
 
-		// ¿¢¼¿¿¡ ³»¿ë ÀÔ·ÂÇÏ±â
+		// ì—‘ì…€ì— ë‚´ìš© ì…ë ¥í•˜ê¸°
 		JSONArray jsonDataArray = new JSONArray(request.getParameter("param").toString());
 		int iLength = jsonDataArray.length();
 		for (int rownum = 0; rownum < iLength; rownum++) {
@@ -81,12 +81,12 @@ public class ContractPaper {
 			row.createCell(4).setCellValue(value);
 		}
 
-		// ¿¢¼¿¿¡ ¾²±â
+		// ì—‘ì…€ì— ì“°ê¸°
 		FileOutputStream fileOut = new FileOutputStream(reponsePath);
 		wb.write(fileOut);
 		fileOut.close();
 
-		// ¿¢¼¿ ´Ù¿î·Îµå Ã³¸®
+		// ì—‘ì…€ ë‹¤ìš´ë¡œë“œ ì²˜ë¦¬
 		FileInputStream fileInputStream = null;
 		ServletOutputStream servletOutputStream = null;
 
@@ -94,7 +94,7 @@ public class ContractPaper {
 			String downName = null;
 			String browser = request.getHeader("User-Agent");
 
-			// ÆÄÀÏ ÀÎÄÚµù
+			// íŒŒì¼ ì¸ì½”ë”©
 			if (browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")) {
 				downName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
 			} else {

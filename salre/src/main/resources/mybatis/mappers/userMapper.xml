@@ -6,11 +6,6 @@
 <!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
 <mapper namespace="com.salre.main.user">
 
-
-
-
-
-
 	<select id="selectAll" resultType="userVO">
 		select *
 		from user

@@ -14,16 +14,16 @@ public class ExcelRangeReader {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            // ½ÃÀÛ ¼¿°ú Á¾·á ¼¿ÀÇ Çà/¿­ °è»ê
-            CellReference startRef = new CellReference("A1"); // ¿¹: "A1"
-            CellReference endRef = new CellReference("Y53");     // ¿¹: "Y53"
+            // ì‹œì‘ ì…€ê³¼ ì¢…ë£Œ ì…€ì˜ í–‰/ì—´ ê³„ì‚°
+            CellReference startRef = new CellReference("A1"); // ì˜ˆ: "A1"
+            CellReference endRef = new CellReference("Y53");     // ì˜ˆ: "Y53"
 
             int startRow = startRef.getRow();
             int endRow = endRef.getRow();
             int startCol = startRef.getCol();
             int endCol = endRef.getCol();
 
-            // ¹üÀ§¸¦ ÀĞ¾î 2Â÷¿ø ¹è¿­¿¡ ÀúÀå
+            // ë²”ìœ„ë¥¼ ì½ì–´ 2ì°¨ì› ë°°ì—´ì— ì €ì¥
             String[][] rangeData = new String[endRow - startRow + 1][endCol - startCol + 1];
 
             for (int rowIdx = startRow; rowIdx <= endRow; rowIdx++) {
@@ -32,11 +32,11 @@ public class ExcelRangeReader {
 
                 for (int colIdx = startCol; colIdx <= endCol; colIdx++) {
                     Cell cell = row.getCell(colIdx, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                    rangeData[rowIdx - startRow][colIdx - startCol] = cell.toString(); // ¼¿ µ¥ÀÌÅÍ¸¦ ¹®ÀÚ¿­·Î ÀúÀå
+                    rangeData[rowIdx - startRow][colIdx - startCol] = cell.toString(); // ì…€ ë°ì´í„°ë¥¼ ë¬¸ìì—´ë¡œ ì €ì¥
                 }
             }
 
-            return rangeData; // 2Â÷¿ø ¹è¿­ ¹İÈ¯
+            return rangeData; // 2ì°¨ì› ë°°ì—´ ë°˜í™˜
         }
     }
 }

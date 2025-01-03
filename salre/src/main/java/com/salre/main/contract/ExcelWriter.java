@@ -14,13 +14,13 @@ public class ExcelWriter {
 	
 
     public static void writeContractData(String filePath, Map<String, String> data) throws IOException {
-        // ¿¢¼¿ ÆÄÀÏ ÀĞ±â
+        // ì—‘ì…€ íŒŒì¼ ì½ê¸°
         FileInputStream fis = new FileInputStream(filePath);
-        System.out.println(fis+"¹®¼­·Îµå ¿Ï·á");
+        System.out.println(fis+"ë¬¸ì„œë¡œë“œ ì™„ë£Œ");
         Workbook workbook = new XSSFWorkbook(fis);
-        Sheet sheet = workbook.getSheetAt(0); // Ã¹ ¹øÂ° ½ÃÆ® »ç¿ë
+        Sheet sheet = workbook.getSheetAt(0); // ì²« ë²ˆì§¸ ì‹œíŠ¸ ì‚¬ìš©
 
-        // µ¥ÀÌÅÍ ¸ÅÇÎ: µ¥ÀÌÅÍ¸í°ú ¼¿ À§Ä¡¸¦ ¼³Á¤
+        // ë°ì´í„° ë§¤í•‘: ë°ì´í„°ëª…ê³¼ ì…€ ìœ„ì¹˜ë¥¼ ì„¤ì •
         Map<String, String> cellMappings = Map.ofEntries(
         		  Map.entry("payment_type", "C2"),
                   Map.entry("address", "C5"),
@@ -66,16 +66,16 @@ public class ExcelWriter {
                   Map.entry("tenant_sign", "V51")//INPUT
         );
 
-        // µ¥ÀÌÅÍ¸¦ ¿¢¼¿ ¼¿¿¡ ÀÔ·Â
+        // ë°ì´í„°ë¥¼ ì—‘ì…€ ì…€ì— ì…ë ¥
         for (Map.Entry<String, String> entry : data.entrySet()) {
-            String dataKey = entry.getKey(); // µ¥ÀÌÅÍ ÀÌ¸§
-            String value = entry.getValue(); // ÀÔ·Â°ª
-            String cellRef = cellMappings.get(dataKey); // ¼¿ À§Ä¡
+            String dataKey = entry.getKey(); // ë°ì´í„° ì´ë¦„
+            String value = entry.getValue(); // ì…ë ¥ê°’
+            String cellRef = cellMappings.get(dataKey); // ì…€ ìœ„ì¹˜
             
             if (cellRef != null) {
-                // ¼¿ À§Ä¡¸¦ ÇØ¼® (¿¹: "C2" ¡æ 1Çà 2¿­)
-                int rowIndex = Integer.parseInt(cellRef.replaceAll("[^0-9]", "")) - 1; // Çà ¹øÈ£
-                int colIndex = cellRef.charAt(0) - 'A'; // ¿­ ¹øÈ£
+                // ì…€ ìœ„ì¹˜ë¥¼ í•´ì„ (ì˜ˆ: "C2" â†’ 1í–‰ 2ì—´)
+                int rowIndex = Integer.parseInt(cellRef.replaceAll("[^0-9]", "")) - 1; // í–‰ ë²ˆí˜¸
+                int colIndex = cellRef.charAt(0) - 'A'; // ì—´ ë²ˆí˜¸
                 Row row = sheet.getRow(rowIndex);
                 if (row == null) {
                     row = sheet.createRow(rowIndex);
@@ -84,20 +84,19 @@ public class ExcelWriter {
                 if (cell == null) {
                     cell = row.createCell(colIndex);
                 }
-                cell.setCellValue(value); // ¼¿¿¡ °ª ¼³Á¤
+                cell.setCellValue(value); // ì…€ì— ê°’ ì„¤ì •
             }
         }
 
-        // ¿¢¼¿ ÆÄÀÏ ÀúÀå
+        // ì—‘ì…€ íŒŒì¼ ì €ì¥
         String outputPath = "C:/Users/User/git/salre/salre/src/main/webapp/excel/contractTmp_last_output.xlsx";
         FileOutputStream fos = new FileOutputStream(outputPath);
-        System.out.println("ÆÄÀÏÀÌ ÀúÀåµÉ Àı´ë °æ·Î: " + new File(outputPath).getAbsolutePath());
+        System.out.println("íŒŒì¼ì´ ì €ì¥ë  ì ˆëŒ€ ê²½ë¡œ: " + new File(outputPath).getAbsolutePath());
         workbook.write(fos);
 
-        // ÀÚ¿ø Á¤¸®
+        // ìì› ì •ë¦¬
         fos.close();
         workbook.close();
         fis.close();
     }
 }
-

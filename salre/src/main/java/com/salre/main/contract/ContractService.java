@@ -19,82 +19,82 @@ public class ContractService {
 	@Autowired
 	public ContractMybatis contractDAO;
 	
-	// °è¾à ID·Î Á¶È¸
+	// ê³„ì•½ IDë¡œ ì¡°íšŒ
     public ContractDTO getContractById(int contract_id) {
         return contractDAO.selectById(contract_id);
     }
-    //¸Å¹°,È¸¿øÁ¤º¸ Á¶È¸ È­¸é
+    //ë§¤ë¬¼,íšŒì›ì •ë³´ ì¡°íšŒ í™”ë©´
     public void beforeContract() {
   
     }
   
-    // °è¾à ID·Î ¸ğµç ¸Å¹°, ÆÇ¸ÅÀÚÁ¶È¸
+    // ê³„ì•½ IDë¡œ ëª¨ë“  ë§¤ë¬¼, íŒë§¤ìì¡°íšŒ
     public ProductContractDTO getContractPById(int contract_id) {
     	return contractDAO.selectContractPById(contract_id);
     }
     
-    //°è¾à¼­ º¯È¯(excel > pdf > image)
+    //ê³„ì•½ì„œ ë³€í™˜(excel > pdf > image)
     public String processContract(Map<String,String> formData, int contract_id, String imagePath) throws Exception {
-        // 1. µ¥ÀÌÅÍ Á¶È¸
+        // 1. ë°ì´í„° ì¡°íšŒ
     	ProductContractDTO contract = contractDAO.selectContractPById(contract_id);
-    	System.out.println("°è¾à¼­ µ¥ÀÌÅÍ Á¶È¸¿Ï·á");
-        // 2. ¿¢¼¿¿¡ µ¥ÀÌÅÍ ÀÔ·Â
+    	System.out.println("ê³„ì•½ì„œ ë°ì´í„° ì¡°íšŒì™„ë£Œ");
+        // 2. ì—‘ì…€ì— ë°ì´í„° ì…ë ¥
         Map<String, String> data = new HashMap<>();
-       //(1).ºÎµ¿»êÀÇ Ç¥½Ã
-        data.put("payment_type", contract.getPayment_type()); //°Å·¡À¯Çü C2
-        data.put("address",contract.getAddress());//¼ÒÀçÁö
-        data.put("land_type", "´ë");//ÅäÁö Áö¸ñ
-        data.put("land_area", "22");//ÅäÁö ¸éÀû
-        data.put("building_structure", "Ã¶±ÙÄÜÅ©¸®Æ®");//°Ç¹° ¿ëµµ
-        data.put("building_usage", "´Ù¼¼´ëÁÖÅÃ¹×Á¦2Á¾±Ù¸°»ıÈ°½Ã¼³"); //°Ç¹° ¿ëµµ
-        data.put("building_area", "184.1ºĞÀÇ12.483"); //ÀÓ´ëÇÒ ºÎºĞ °Ç¹°¸éÀû
-        data.put("rental_area", "3ÃşÀÇ Á¦303È£ ÀüÀ¯ ÀüºÎ"); // ÀÓ´ëÇÒºÎºĞ ±ÛÀÚ
-        data.put("area",String.valueOf(contract.getArea()));//ÀÓ´ëÇÒºÎºĞ ¸éÀû
+       //(1).ë¶€ë™ì‚°ì˜ í‘œì‹œ
+        data.put("payment_type", contract.getPayment_type()); //ê±°ë˜ìœ í˜• C2
+        data.put("address",contract.getAddress());//ì†Œì¬ì§€
+        data.put("land_type", "ëŒ€");//í† ì§€ ì§€ëª©
+        data.put("land_area", "22");//í† ì§€ ë©´ì 
+        data.put("building_structure", "ì² ê·¼ì½˜í¬ë¦¬íŠ¸");//ê±´ë¬¼ ìš©ë„
+        data.put("building_usage", "ë‹¤ì„¸ëŒ€ì£¼íƒë°ì œ2ì¢…ê·¼ë¦°ìƒí™œì‹œì„¤"); //ê±´ë¬¼ ìš©ë„
+        data.put("building_area", "184.1ë¶„ì˜12.483"); //ì„ëŒ€í•  ë¶€ë¶„ ê±´ë¬¼ë©´ì 
+        data.put("rental_area", "3ì¸µì˜ ì œ303í˜¸ ì „ìœ  ì „ë¶€"); // ì„ëŒ€í• ë¶€ë¶„ ê¸€ì
+        data.put("area",String.valueOf(contract.getArea()));//ì„ëŒ€í• ë¶€ë¶„ ë©´ì 
         
-        //(2).°è¾à ³»¿ë
-        data.put("deposit_INT", String.valueOf(contract.getDeposit()));//º¸Áõ±İ ¼ıÀÚ
-        data.put("deposit_CHAR", "±İ¿ÀÃµ¸¸¿øÁ¤"); //º¸Áõ±İ ¹®ÀÚ
-        data.put("manage_fee", String.valueOf(contract.getManage_fee()));//°ü¸®ºñ ¼ıÀÚ
-        data.put("manage_feeCHAR","±İÀÏ½Ê¿À¸¸¿øÁ¤"); //°ü¸®ºñ ±ÛÀÚ
-        data.put("middle_payment", "0"); //Áßµµ±İ
-        data.put("balance_payment", "0"); //ÀÜ±İ
-        data.put("price", String.valueOf(contract.getPrice())); //°è¾à±İ
+        //(2).ê³„ì•½ ë‚´ìš©
+        data.put("deposit_INT", String.valueOf(contract.getDeposit()));//ë³´ì¦ê¸ˆ ìˆ«ì
+        data.put("deposit_CHAR", "ê¸ˆì˜¤ì²œë§Œì›ì •"); //ë³´ì¦ê¸ˆ ë¬¸ì
+        data.put("manage_fee", String.valueOf(contract.getManage_fee()));//ê´€ë¦¬ë¹„ ìˆ«ì
+        data.put("manage_feeCHAR","ê¸ˆì¼ì‹­ì˜¤ë§Œì›ì •"); //ê´€ë¦¬ë¹„ ê¸€ì
+        data.put("middle_payment", "0"); //ì¤‘ë„ê¸ˆ
+        data.put("balance_payment", "0"); //ì”ê¸ˆ
+        data.put("price", String.valueOf(contract.getPrice())); //ê³„ì•½ê¸ˆ
         
         for(Map.Entry<String, String> entry: formData.entrySet()) {
         	data.put(entry.getKey(), entry.getValue());
         }
         
-        System.out.println("Æû µ¥ÀÌÅÍ º´ÇÕ ¿Ï·á"+data);
+        System.out.println("í¼ ë°ì´í„° ë³‘í•© ì™„ë£Œ"+data);
         
-        //(3) ¼­¸íºÎºĞ
-        data.put("landlord_address", "°æ±âµµ ½ÃÈï½Ã ºí¹Ù¶ó 999-34");//ÀÓ´ëÀÎ ÁÖ¼Ò
-        data.put("landlord_resident_num", "951111-222222");//ÀÓ´ëÀÎ ÁÖ¹Îµî·Ï¹øÈ£
-        data.put("landlord_phone_num","010-8987-9999");//ÀÓ´ëÀÎ ÀüÈ­
-        data.put("landlord_name", "ÀÌÅÂÇÑ");//ÀÓ´ëÀÎ ÀÌ¸§
-        data.put("tenant_address", "¼­¿ï½Ã ¸¶Æ÷±¸ ºí¹Ù¶ó 239-34");//ÀÓÂ÷ÀÎ ÁÖ¼Ò
-        data.put("tenant_resident_num", "031211-11111");//ÀÓÂ÷ÀÎ ÁÖ¹Îµî·Ï¹øÈ£
-        data.put("tenant_phone_num","010-4544-9343");//ÀÓÂ÷ÀÎ ÀüÈ­¹øÈ£
-        data.put("tenant_name", "¹Ú½ºÇÁ¸µ");//ÀÓÂ÷ÀÎ ÀÌ¸§
+        //(3) ì„œëª…ë¶€ë¶„
+        data.put("landlord_address", "ê²½ê¸°ë„ ì‹œí¥ì‹œ ë¸”ë°”ë¼ 999-34");//ì„ëŒ€ì¸ ì£¼ì†Œ
+        data.put("landlord_resident_num", "951111-222222");//ì„ëŒ€ì¸ ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸
+        data.put("landlord_phone_num","010-8987-9999");//ì„ëŒ€ì¸ ì „í™”
+        data.put("landlord_name", "ì´íƒœí•œ");//ì„ëŒ€ì¸ ì´ë¦„
+        data.put("tenant_address", "ì„œìš¸ì‹œ ë§ˆí¬êµ¬ ë¸”ë°”ë¼ 239-34");//ì„ì°¨ì¸ ì£¼ì†Œ
+        data.put("tenant_resident_num", "031211-11111");//ì„ì°¨ì¸ ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸
+        data.put("tenant_phone_num","010-4544-9343");//ì„ì°¨ì¸ ì „í™”ë²ˆí˜¸
+        data.put("tenant_name", "ë°•ìŠ¤í”„ë§");//ì„ì°¨ì¸ ì´ë¦„
        
-        //(4) ³¯Â¥
+        //(4) ë‚ ì§œ
         LocalDate today = LocalDate.now();
         Date sqlStartDate = contract.getContract_startdate();
         Date sqlEndDate = contract.getContract_enddate();
         LocalDate localStartDate = sqlStartDate.toLocalDate();
         LocalDate localEndDate = sqlEndDate.toLocalDate();
-        data.put("contract_startdate(y)", String.valueOf(localStartDate.getYear()));//ÀÓ´ë½ÃÀÛÀÏ(y)
-        data.put("contract_startdate(m)", String.valueOf(localStartDate.getMonthValue()));//ÀÓ´ë½ÃÀÛÀÏ(m)
-        data.put("contract_startdate(d)",String.valueOf(localStartDate.getDayOfMonth()));//ÀÓ´ë½ÃÀÛÀÏ(d)
-        data.put("contract_enddate(y)", String.valueOf(localEndDate.getYear()));//ÀÓ´ëÁ¾·áÀÏ(y)
-        data.put("contract_enddate(m)", String.valueOf(localEndDate.getMonthValue()));//ÀÓ´ëÁ¾·áÀÏ(m)
-        data.put("contract_enddate(d)", String.valueOf(localEndDate.getDayOfMonth()));//ÀÓ´ëÁ¾·áÀÏ(d)
-        data.put("contract_date(y)", String.valueOf(today.getYear())); //°è¾àÀÏ(y)
-        data.put("contract_date(m)", String.valueOf(today.getMonthValue())); //°è¾àÀÏ(m)
-        data.put("contract_date(d)", String.valueOf(today.getDayOfMonth())); //°è¾àÀÏ(d)
-        data.put("contract_date2(y)", String.valueOf(today.getYear())); //°è¾àÀÏ(y)
-        data.put("contract_date2(m)", String.valueOf(today.getMonthValue())); //°è¾àÀÏ(m)
-        data.put("contract_date2(d)", String.valueOf(today.getDayOfMonth())); //°è¾àÀÏ(d)
-        data.put("contract_rule", "ÀÓ´ëÀÎ°ú ÀÓÂ÷ÀÎÀº °è¾à¿¡ Ãæ½ÇÇÑ´Ù.");//Æ¯¾à»çÇ× 1
+        data.put("contract_startdate(y)", String.valueOf(localStartDate.getYear()));//ì„ëŒ€ì‹œì‘ì¼(y)
+        data.put("contract_startdate(m)", String.valueOf(localStartDate.getMonthValue()));//ì„ëŒ€ì‹œì‘ì¼(m)
+        data.put("contract_startdate(d)",String.valueOf(localStartDate.getDayOfMonth()));//ì„ëŒ€ì‹œì‘ì¼(d)
+        data.put("contract_enddate(y)", String.valueOf(localEndDate.getYear()));//ì„ëŒ€ì¢…ë£Œì¼(y)
+        data.put("contract_enddate(m)", String.valueOf(localEndDate.getMonthValue()));//ì„ëŒ€ì¢…ë£Œì¼(m)
+        data.put("contract_enddate(d)", String.valueOf(localEndDate.getDayOfMonth()));//ì„ëŒ€ì¢…ë£Œì¼(d)
+        data.put("contract_date(y)", String.valueOf(today.getYear())); //ê³„ì•½ì¼(y)
+        data.put("contract_date(m)", String.valueOf(today.getMonthValue())); //ê³„ì•½ì¼(m)
+        data.put("contract_date(d)", String.valueOf(today.getDayOfMonth())); //ê³„ì•½ì¼(d)
+        data.put("contract_date2(y)", String.valueOf(today.getYear())); //ê³„ì•½ì¼(y)
+        data.put("contract_date2(m)", String.valueOf(today.getMonthValue())); //ê³„ì•½ì¼(m)
+        data.put("contract_date2(d)", String.valueOf(today.getDayOfMonth())); //ê³„ì•½ì¼(d)
+        data.put("contract_rule", "ì„ëŒ€ì¸ê³¼ ì„ì°¨ì¸ì€ ê³„ì•½ì— ì¶©ì‹¤í•œë‹¤.");//íŠ¹ì•½ì‚¬í•­ 1
 
         
         data.put("contract_id", String.valueOf(contract.getContract_id()));
@@ -106,31 +106,30 @@ public class ContractService {
         String excelPath = imagePath + "/excel/contractTmp_last.xlsx";
         ExcelWriter.writeContractData(excelPath, data);
       
-        System.out.println("¿¢¼¿¿¡ µ¥ÀÌÅÍ ÀÔ·Â¿Ï·á");
+        System.out.println("ì—‘ì…€ì— ë°ì´í„° ì…ë ¥ì™„ë£Œ");
         
-        // 3. PDF·Î º¯È¯
+        // 3. PDFë¡œ ë³€í™˜
         String pdfPath = imagePath + "/pdf/contractTmp.pdf";
         excelPath = imagePath + "/excel/contractTmp_last_output.xlsx";
         AsposePdfConverter.convertExcelToPdf(excelPath, pdfPath);
         
-        System.out.println("pdfº¯È¯ ¿Ï·á");
-        // 4. ÀÌ¹ÌÁö·Î º¯È¯    C:\Users\User\git\salre\salre\src\main\webapp\images
+        System.out.println("pdfë³€í™˜ ì™„ë£Œ");
+        // 4. ì´ë¯¸ì§€ë¡œ ë³€í™˜    C:\Users\User\git\salre\salre\src\main\webapp\images
         //String imagePath =   "/salre/src/main/webapp/resources/images/contract.png";
         String imageName  = "/resources/paperImages/" + UUID.randomUUID() + "_contract.png";
         String upload_imagePath = imagePath + imageName;
         ImageConverter.convertPdfToImage(pdfPath, upload_imagePath  );
-        System.out.println("ÀÌ¹ÌÁö·Î º¯È¯ ¿Ï·á");
+        System.out.println("ì´ë¯¸ì§€ë¡œ ë³€í™˜ ì™„ë£Œ");
         
-        return "/salre/" + imageName; // ÃÖÁ¾ ÀÌ¹ÌÁö °æ·Î ¹İÈ¯
+        return "/salre/" + imageName; // ìµœì¢… ì´ë¯¸ì§€ ê²½ë¡œ ë°˜í™˜
     }
-    // °è¾à »ı¼º
+    // ê³„ì•½ ìƒì„±
     public int saveContract(ContractDTO contractDTO) {
-        // DB ÀúÀå ·ÎÁ÷
+        // DB ì €ì¥ ë¡œì§
         return contractDAO.saveContract(contractDTO);
     }
-//    // °è¾à ID·Î ¸ğµç ¸Å¹°, ÆÇ¸ÅÀÚÁ¶È¸
+//    // ê³„ì•½ IDë¡œ ëª¨ë“  ë§¤ë¬¼, íŒë§¤ìì¡°íšŒ
 //    public ContractUserDTO getContractAllById(int contract_id) {
 //    	return contractDAO.selectAllById(contract_id);
 //    }
 }
-

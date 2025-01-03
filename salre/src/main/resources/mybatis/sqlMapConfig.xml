@@ -8,13 +8,21 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.salre.main.contract.ContractDTO" alias="contractVO"/>
-		<typeAlias type="com.salre.main.contract.ContractUserDTO" alias="contractuserVO"/>
-		<typeAlias type="com.salre.main.product.ProductContractDTO" alias="productcontractVO"/>
-		<typeAlias type="com.salre.main.user.UserDTO" alias="userVO"/>
-		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" /> 
-		
-		
-  
+		<typeAlias type="com.salre.main.contract.ContractDTO"
+			alias="contractVO" />
+		<typeAlias type="com.salre.main.contract.ContractUserDTO"
+			alias="contractuserVO" />
+		<typeAlias type="com.salre.main.product.ProductContractDTO"
+			alias="productcontractVO" />
+		<typeAlias type="com.salre.main.user.UserDTO" alias="userVO" />
+		<typeAlias type="com.salre.main.product.ProductDTO"
+			alias="productVO" />
+		<!-- Mapper에서 사용, type이 너무 길기 때문에 alias로 대신해줌 -->
+		<typeAlias type="com.salre.main.board.BoardDTO"
+			alias="boardDTO" />
+		<typeAlias type="com.salre.main.board.CommentDTO"
+			alias="commentDTO" />
+		<typeAlias type="com.salre.main.board.PageDTO"
+			alias="pageDTO" />
 	</typeAliases>
 </configuration>

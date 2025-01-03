@@ -20,55 +20,55 @@ public class ContractMybatis implements ContractDAOInterface{
 		String namespace = "com.salre.main.contract.";
 		public List<ContractDTO> selectAll() {
 			List<ContractDTO> contractlist = sqlSession.selectList(namespace+"selectAll");
-			log.info("contractÁ¶È¸°Ç¼ö:"+contractlist.size());
+			log.info("contractì¡°íšŒê±´ìˆ˜:"+contractlist.size());
 			return contractlist;
 		}
 		public ContractUserDTO selectAllById(int contract_id) {
 			ContractUserDTO contractAll = sqlSession.selectOne(namespace+"selectAllById",contract_id);
 			return contractAll;
 		}
-		//contract_id·Î ¸Å¹° Á¶È¸
+		//contract_idë¡œ ë§¤ë¬¼ ì¡°íšŒ
 		public ProductContractDTO selectContractPById(int contract_id) {
 			ProductContractDTO productContract = sqlSession.selectOne(namespace +"selectContractPById",contract_id);
-			log.info("productById 1°Ç:" + productContract);
+			log.info("productById 1ê±´:" + productContract);
 			return productContract;
 			
 		}
-//		//contract_id·Î ÆÇ¸ÅÀÚ Á¶È¸
+//		//contract_idë¡œ íŒë§¤ì ì¡°íšŒ
 //		public int selectSellerById(int contract_id) {
 //			Integer user_id= sqlSession.selectOne(namespace +"selectSellerById",contract_id);
-//			log.info("sellerById 1°Ç:" + user_id);
+//			log.info("sellerById 1ê±´:" + user_id);
 //			return user_id;
 //			
 //		}
 		public ContractDTO selectById(int contract_id) {
 			ContractDTO contract = sqlSession.selectOne(namespace +"selectById",contract_id);
-			log.info("contract°Ç:" + contract);
+			log.info("contractê±´:" + contract);
 			return contract;
 
 		}
 
 		public int saveContract(ContractDTO contractDTO) {
 			int result = sqlSession.insert(namespace + "updateContract",contractDTO);
-			log.info("Äõ¸®" + contractDTO);
-			log.info("¼öÁ¤°Ç¼ö: " + result);
+			log.info("ì¿¼ë¦¬" + contractDTO);
+			log.info("ìˆ˜ì •ê±´ìˆ˜: " + result);
 			return contractDTO.getContract_id();
 		}
 		public int saveContract2(ProductContractDTO contractDTO) {
 			int result = sqlSession.insert(namespace + "insertContract",contractDTO);
-			log.info("ÀÔ·Â°Ç¼ö: " + result);
+			log.info("ì…ë ¥ê±´ìˆ˜: " + result);
 			return result;
 		}
 
 		public int update(ContractDTO contract) {
 			int result = sqlSession.update(namespace + "update",contract);
-			log.info("¼öÁ¤°Ç¼ö: " + result);
+			log.info("ìˆ˜ì •ê±´ìˆ˜: " + result);
 			return result;
 			}
 
 		public int delete(int contract_id) {
 			int result = sqlSession.delete(namespace + "delete",contract_id);
-			log.info("»èÁ¦°Ç¼ö: " + result);
+			log.info("ì‚­ì œê±´ìˆ˜: " + result);
 			return result;
 		}
 
@@ -77,4 +77,3 @@ public class ContractMybatis implements ContractDAOInterface{
 		}
 
 	}
-

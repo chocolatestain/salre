@@ -6,18 +6,18 @@ import com.aspose.cells.Workbook;
 public class AsposePdfConverter {
 	 public static void convertExcelToPdf(String excelPath, String pdfPath) {
 	        try {
-	            // Excel ÆÄÀÏ ·Îµå
-	        	System.out.println("pdfº¯È¯Àü excel ÆÄÀÏ·Îµå"+excelPath);
+	        	 // Excel íŒŒì¼ ë¡œë“œ
+	        	System.out.println("pdfë³€í™˜ì „ excel íŒŒì¼ë¡œë“œ"+excelPath);
 	            Workbook workbook = new Workbook(excelPath);
 
-	            // PDF ÀúÀå ¿É¼Ç ¼³Á¤
+	         // PDF ì €ì¥ ì˜µì…˜ ì„¤ì •
 	            PdfSaveOptions saveOptions = new PdfSaveOptions();
-	            saveOptions.setOnePagePerSheet(false); // ½ÃÆ® Å©±â¿¡ µû¶ó ÆäÀÌÁö ³ª´©±â
+	            saveOptions.setOnePagePerSheet(false); // ì‹œíŠ¸ í¬ê¸°ì— ë”°ë¼ í˜ì´ì§€ ë‚˜ëˆ„ê¸°
 
-	            // PDF·Î ÀúÀå
+	         // PDFë¡œ ì €ì¥
 	            workbook.save(pdfPath, saveOptions);
 
-	            System.out.println("PDF º¯È¯ ¿Ï·á: " + pdfPath);
+	            System.out.println("PDF ë³€í™˜ ì™„ë£Œ: " + pdfPath);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }

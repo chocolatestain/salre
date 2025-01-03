@@ -48,7 +48,7 @@ public class ProductContractDTO {
 	String contract_rule;	
 	
 	
-	//°è¾à Ãß°¡
+	//ì¶”ê°€ê³„ì•½ ì •ë³´
 	int middle_payment;
 	int balance_payment;
 	Date balance_payment_day;

@@ -28,21 +28,21 @@ public class UserMybatis implements UserDAOInterface{
 //	}
 	public List<UserDTO> selectAll() {
 		List<UserDTO> userlist = sqlSession.selectList(namespace+"selectAll");
-		log.info("userÁ¶È¸°Ç¼ö:"+userlist.size());
+		log.info("userì¡°íšŒ"+userlist.size());
 		return userlist;
 	}
 	
 	
 	public UserDTO selectById(HttpServletRequest user_id) {
 		UserDTO user = sqlSession.selectOne(namespace +"selectById",user_id);
-		log.info("user 1°Ç:" + user);
+		log.info("user 1ê±´:" + user);
 		return user;
 
 	}
 	
 	public UserDTO selectById(int user_id) {
 		UserDTO user = sqlSession.selectOne(namespace +"selectById",user_id);
-		log.info("user 1°Ç:" + user);
+		log.info("user 1ê±´:" + user);
 		return user;
 		
 	}

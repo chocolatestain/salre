@@ -35,24 +35,24 @@ public class ContractController {
 	public String showContractInputPage(@RequestParam(value = "contract_id",required=false,defaultValue="0") Integer contract_id,
 	        Model model) {
 		if (contract_id == 0) {
-	        model.addAttribute("errorMessage", "°è¾à¹øÈ£°¡ Á¦°øµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-	        return "errorPage"; // ¿¡·¯ ÆäÀÌÁö·Î ÀÌµ¿
+	        model.addAttribute("errorMessage", "ê³„ì•½ë²ˆí˜¸ê°€ ì œê³µë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+	        return "errorPage"; // ì—ëŸ¬ í˜ì´ì§€ë¡œ ì´ë™
 	    }
 		ProductContractDTO contract = contractService.getContractPById(contract_id);
-	    // µ¥ÀÌÅÍ¸¦ ¸ğµ¨¿¡ Ãß°¡
+	    // ë°ì´í„°ë¥¼ ëª¨ë¸ì— ì¶”ê°€
 	    model.addAttribute("contract", contract);
-	    return "contract/contractInput"; // contractInput.jsp·Î ÀÌµ¿
+	    return "contract/contractInput"; // contractInput.jspë¡œ ì´ë™
 	}
 	@PostMapping("/input")
 	public ResponseEntity<String> handleInputData(@RequestParam("contract_id") Integer contract_id, Model model) {
-	    // µ¥ÀÌÅÍ Ã³¸® (ÇÊ¿ä½Ã contractId¸¦ ±â¹İÀ¸·Î µ¥ÀÌÅÍ Á¶È¸/ÀúÀå)
+	    // ë°ì´í„° ì²˜ë¦¬ (í•„ìš”ì‹œ contractIdë¥¼ ê¸°ë°˜ìœ¼ë¡œ ë°ì´í„° ì¡°íšŒ/ì €ì¥)
 	    System.out.println("Contract ID received: " + contract_id);
 
-	    // ¿äÃ» ¼º°ø ÀÀ´ä
+	    // ìš”ì²­ ì„±ê³µ ì‘ë‹µ
 	    return ResponseEntity.ok("Success");
 	}
 
-	// 1.°Å·¡ ½ÃÀÛ ´©¸®°í Ã¹È­¸é  "Á¤º¸È®ÀÎ"(¸Å¹°,È¸¿øÁ¤º¸ Á¶È¸)
+	// 1.ê±°ë˜ ì‹œì‘ ëˆ„ë¦¬ê³  ì²«í™”ë©´  "ì •ë³´í™•ì¸"(ë§¤ë¬¼,íšŒì›ì •ë³´ ì¡°íšŒ)
 	@GetMapping("/dealstart")
 	public String beforeContract(HttpServletRequest request,Model model) {
 		//int p_id = (int)request.getAttribute("product_id");
@@ -66,7 +66,7 @@ public class ContractController {
 		return "contract/contractDetail";
 	}
 	
-	// 2.°è¾àÁ¤º¸ ÀÔ·Â
+	// 2.ê³„ì•½ì •ë³´ ì…ë ¥
 		@GetMapping("/inputContract") 
 		public String selectAllContractById(HttpServletRequest request, Model model) {
 			// HttpSession session = request.getSession();
@@ -92,34 +92,34 @@ public class ContractController {
 			@RequestParam Map<String,String> formData,
 			Model model, HttpSession session) {
 	     try {
-	            // ¼­ºñ½º °èÃş È£Ãâ
+	            // ì„œë¹„ìŠ¤ ê³„ì¸µ í˜¸ì¶œ
 	    	    String imagePath = session.getServletContext().getRealPath(".");
 	            String upload_imagePath = contractService.processContract(formData,contract_id,imagePath);
 
-	            // ÀÌ¹ÌÁö °æ·Î¸¦ JSP¿¡ Àü´Ş
+	            // ì´ë¯¸ì§€ ê²½ë¡œë¥¼ JSPì— ì „ë‹¬
 	            model.addAttribute("imagePath", upload_imagePath);
-	            return "contract/viewContract"; // °è¾à¼­ ÀÌ¹ÌÁö¸¦ º¸¿©ÁÖ´Â JSP
+	            return "contract/viewContract"; // ê³„ì•½ì„œ ì´ë¯¸ì§€ë¥¼ ë³´ì—¬ì£¼ëŠ” JSP
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	            model.addAttribute("errorMessage", "°è¾à¼­ Ã³¸® Áß ¿À·ù ¹ß»ı: " + e.getMessage());
+	            model.addAttribute("errorMessage", "ê³„ì•½ì„œ ì²˜ë¦¬ ì¤‘ ì˜¤ë¥˜ ë°œìƒ: " + e.getMessage());
 	            return "error";
 	        }
 	}
-		//3. °è¾à¼­ ÀúÀå 
-	     @PostMapping("/save") //ÀÔ·Â¹ŞÀº °è¾à³»¿ë, Æ¯¾à³»¿ë ÀúÀå
+		//3. ê³„ì•½ì„œ ì €ì¥ 
+	     @PostMapping("/save") //ì…ë ¥ë°›ì€ ê³„ì•½ë‚´ìš©, íŠ¹ì•½ë‚´ìš© ì €ì¥
 	     public String saveContract(ContractDTO contractDTO, Model model) {
-	    	 contractDTO.setUser_id(12); //ÀÓ½Ã
-	    	 contractDTO.setProduct_id(34); //ÀÓ½Ã
+	    	 contractDTO.setUser_id(12); //ì„ì‹œ
+	    	 contractDTO.setProduct_id(34); //ì„ì‹œ
 	 
 	    	 if(contractDTO.getBalance_payment_day().equals("")) {
 	    		 contractDTO.setBalance_payment_day("1900-01-01");
 	    	 } 
-	    	 // °è¾à ÀúÀåÈÄ °è¾à¹øÈ£ ¹İÈ¯
+	    	 // ê³„ì•½ ì €ì¥í›„ ê³„ì•½ë²ˆí˜¸ ë°˜í™˜
 	         int contractId = contractService.saveContract(contractDTO);
-	         // ÀúÀåµÈ °è¾à Á¤º¸¸¦ Á¶È¸ÇÏ´Â ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+	         // ì €ì¥ëœ ê³„ì•½ ì •ë³´ë¥¼ ì¡°íšŒí•˜ëŠ” í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
 	         return "redirect:/contract/contractTotal?contract_id=" + contractId; 
 	     }
-	     //4.°è¾à¼­ ÃÖÁ¾È®ÀÎ
+	     //4.ê³„ì•½ì„œ ìµœì¢…í™•ì¸
 	     @GetMapping("/contractTotal")
 	     public String showContractTotal(@RequestParam("contract_id") int contract_id, Model model) {
 			ContractDTO contract = contractService.getContractById(contract_id);
@@ -130,7 +130,7 @@ public class ContractController {
 			 model.addAttribute("contract", contract);
 			    model.addAttribute("user", user);
 			    model.addAttribute("product", product);
-			    System.out.println("contract_id ¹ŞÀ½: " + contract_id);
+			    System.out.println("contract_id ë°›ìŒ: " + contract_id);
 	    	 return "contract/contractTotal";
 	     }
 	     
@@ -142,18 +142,18 @@ public class ContractController {
 //	public String submitContract(@RequestParam String payment_type, @RequestParam String address,
 //			@RequestParam String deposit_CHAR) {
 //		try {
-//			// ¼­ºñ½º °èÃş È£Ãâ
+//			// ì„œë¹„ìŠ¤ ê³„ì¸µ í˜¸ì¶œ
 //			Map<String, String> contractData = contractService.getContractData(payment_type, address, deposit_CHAR);
 //
-//			// ExcelWriter È£Ãâ
+//			// ExcelWriter í˜¸ì¶œ
 //			ExcelWriter excelWriter = new ExcelWriter();
 //			String filePath = "src/main/webapp/excel/contractPaper_NEW.xlsx";
 //			excelWriter.writeContractData(filePath, contractData);
 //
-//			return "¿¢¼¿ ÀúÀå ¼º°ø!";
+//			return "ì—‘ì…€ ì €ì¥ ì„±ê³µ!";
 //		} catch (Exception e) {
 //			e.printStackTrace();
-//			return "¿¢¼¿ ÀúÀå ½ÇÆĞ: " + e.getMessage();
+//			return "ì—‘ì…€ ì €ì¥ ì‹¤íŒ¨: " + e.getMessage();
 //		}
 //
 //	}
