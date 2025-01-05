@@ -42,6 +42,10 @@
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- SockJS, STOMP -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 </head>
 <body>
 	<!-- Layout -->
@@ -77,93 +81,38 @@
 	
 	                            <!-- Chats -->
 	                            <div class="card-list">
-	                                <!-- Card -->
-	                                <a href="javascript:enterChatRoom();" class="card border-0 text-reset">
-	                                    <div class="card-body">
-	                                        <div class="row gx-5">
-	                                            <div class="col-auto">
-	                                                <div class="avatar avatar-online">
-	                                                    <img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/6.jpg" alt="#" class="avatar-img">
-	                                                </div>
-	                                            </div>
-	
-	                                            <div class="col">
-	                                                <div class="d-flex align-items-center mb-3">
-	                                                    <h5 class="me-auto mb-0">Ollie Chandler</h5>
-	                                                    <span class="text-muted extra-small ms-2">08:45 PM</span>
-	                                                </div>
-	
-	                                                <div class="d-flex align-items-center">
-	                                                    <div class="line-clamp me-auto">
-	                                                        Hello! Yeah, I'm going to meet friend of mine at the departments stores now.
-	                                                    </div>
-	
-	                                                    <div class="badge badge-circle bg-primary ms-5">
-	                                                        <span>3</span>
-	                                                    </div>
-	                                                </div>
-	                                            </div>
-	                                        </div>
-	                                    </div><!-- .card-body -->
-	                                </a>
-	                                <!-- Card -->
-	
-	                                <!-- Card -->
-	                                <a href="chat-empty.html" class="card border-0 text-reset">
-	                                    <div class="card-body">
-	                                        <div class="row gx-5">
-	                                            <div class="col-auto">
-	                                                <div class="avatar avatar-online">
-	                                                    <img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/8.jpg" alt="#" class="avatar-img">
-	                                                </div>
-	                                            </div>
-	
-	                                            <div class="col">
-	                                                <div class="d-flex align-items-center mb-3">
-	                                                    <h5 class="me-auto mb-0">Elise Dennis</h5>
-	                                                    <span class="text-muted extra-small ms-2">08:35 PM</span>
-	                                                </div>
-	
-	                                                <div class="d-flex align-items-center">
-	                                                    <div class="line-clamp me-auto">
-	                                                        is typing<span class='typing-dots'><span>.</span><span>.</span><span>.</span></span>
-	                                                    </div>
-	                                                </div>
-	                                            </div>
-	                                        </div>
-	                                    </div><!-- .card-body -->
-	                                </a>
-	                                <!-- Card -->
-	
-	                                <!-- Card -->
-	                                <a href="chat-direct.html" class="card border-0 text-reset">
-	                                    <div class="card-body">
-	                                        <div class="row gx-5">
-	                                            <div class="col-auto">
-	                                                <div class="avatar">
-	                                                    <svg class="avatar-img placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-	                                                        <title>Placeholder</title>
-	                                                        <rect width="100%" height="100%" fill="#868e96"></rect>
-	                                                    </svg>
-	                                                </div>
-	                                            </div>
-	
-	                                            <div class="col">
-	                                                <div class="d-flex align-items-center mb-3">
-	                                                    <h5 class="placeholder-glow  w-100  mb-0">
-	                                                        <span class="placeholder col-5"></span>
-	                                                    </h5>
-	                                                </div>
-	
-	                                                <div class="placeholder-glow">
-	                                                    <span class="placeholder col-12"></span>
-	                                                    <span class="placeholder col-8"></span>
-	                                                </div>
-	                                            </div>
-	                                        </div>
-	                                    </div><!-- .card-body -->
-	                                </a>
-	                                <!-- Card -->
+	                            	<c:forEach items="${chatRoomDTOList}" var="chatRoom">
+		                                <!-- Card -->
+		                                <a href="javascript:enterChatRoom(${chatRoom.chatRoom_id});" class="card border-0 text-reset">
+		                                    <div class="card-body">
+		                                        <div class="row gx-5">
+		                                            <div class="col-auto">
+		                                                <div class="avatar avatar-online">
+		                                                    <img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/6.jpg" alt="#" class="avatar-img">
+		                                                </div>
+		                                            </div>
+		
+		                                            <div class="col">
+		                                                <div class="d-flex align-items-center mb-3">
+		                                                    <h5 class="me-auto mb-0">${chatRoom.room_name}</h5>
+		                                                    <span class="text-muted extra-small ms-2">08:45 PM</span>
+		                                                </div>
+		
+		                                                <div class="d-flex align-items-center">
+		                                                    <div class="line-clamp me-auto">
+		                                                        내용
+		                                                    </div>
+		
+		                                                    <div class="badge badge-circle bg-primary ms-5">
+		                                                        <span>3</span>
+		                                                    </div>
+		                                                </div>
+		                                            </div>
+		                                        </div>
+		                                    </div><!-- .card-body -->
+		                                </a>
+		                                <!-- Card -->
+	                                </c:forEach>
 	                            </div>
 	                            <!-- Chats -->
 	                        </div>
@@ -202,21 +151,116 @@
 	
 	<!-- 채팅방 입장 -->
 	<script type="text/javascript">
-		function enterChatRoom() {
-			let user_id = 1;
+		function enterChatRoom(chatRoom_id) {
+			let user_id = 2;
+			let id = 'gjk0635';
+			let user_name = '김광진';
 			
 			$.ajax({
 				url: "${contextPath}/chat/enterChatRoom",
 				type: "GET",
-				data: { user_id: user_id },
+				data: {
+					chatRoom_id: chatRoom_id
+				},
 				success: function(res) {
-					$("#chatRoomArea").html(res);
+					/* $("#chatRoomArea").html(res); */
+					document.getElementById("chatRoomArea").innerHTML = res;
 				},
 				error: function(err) {
 					alert(err);
 				}
 			});
 		}
+		
+		let stompClient;
+
+	    function connectWebSocket() {
+	        const socket = new SockJS('/chat-websocket'); // WebSocketConfig에서 설정한 Endpoint
+	        stompClient = Stomp.over(socket);
+
+	        stompClient.connect({}, function (frame) {
+	            console.log('Connected : ' + frame);
+
+	            // 서버로부터 메시지를 구독
+	            stompClient.subscribe('/topic/chatRoom/{chatRoom_id}', function (message) {
+	                displayMessage(message.body);
+	            });
+	        });
+	    }
+	    
+	    function disconnect() {
+	        if (stompClient !== null) {
+	            stompClient.disconnect();
+	        }
+	        setConnected(false);
+	        console.log("웹소켓 Disconnected");
+	    }
+
+	    function sendMessage() {
+	        const input = document.getElementById("chatInput"); // chatRoom.jsp > id="chatInput"
+	        const messageContent = input.value.trim();
+	        
+	        if (messageContent) {
+	            // WebSocket/STOMP 등을 통해 서버에 메시지 전송
+	            if (stompClient && stompClient.connected) {
+	                stompClient.send("/app/sendMessage", {}, messageContent);
+	            }
+
+	            // 화면에 메시지 표시 (보내는 사람)
+	            displayMessage({
+	                sender: "self",
+	                content: messageContent,
+	            });
+
+	            // 입력 필드 비우기
+	            input.value = "";
+	        } else {
+	        	alert("WebSocket is not connected.");
+	        }
+	    }
+
+	    /*
+	    displayMessage({ sender: "self", content: "Hello, this is me!" });
+	    displayMessage({ sender: "other", content: "Hi, nice to meet you!" });
+	    */
+	    function displayMessage(message) {
+	        const chatBody = document.querySelector(".chat-body-inner > .py-6");
+
+	        // 메시지의 방향에 따라 클래스 설정
+	        const messageDiv = document.createElement("div");
+	        if (message.sender === "self") {
+	            messageDiv.className = "message message-out"; // 보내는 사람
+	        } else {
+	            messageDiv.className = "message"; // 상대방
+	        }
+
+	        // 메시지 내용을 설정
+	        messageDiv.innerHTML = `
+	            <div class="message-text">
+	                \${escapeHtml(message.content)}
+	            </div>
+	        `;
+
+	        // 메시지를 채팅 영역에 추가
+	        chatBody.appendChild(messageDiv);
+
+	        // 스크롤을 맨 아래로 이동
+	        chatBody.scrollTop = chatBody.scrollHeight;
+	    }
+
+	    // HTML 특수문자 이스케이프 처리 (XSS 방지)
+	    function escapeHtml(unsafe) {
+	    	console.log("unsafe 문자 : " + unsafe);
+	        return unsafe
+	            .replace(/&/g, "&amp;")
+	            .replace(/</g, "&lt;")
+	            .replace(/>/g, "&gt;")
+	            .replace(/"/g, "&quot;")
+	            .replace(/'/g, "&#039;");
+	    }
+	    
+	 	// 페이지 로드 시 웹소켓 연결
+		window.onload = connectWebSocket();
 	</script>
 </body>
 </html>
