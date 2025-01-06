@@ -15,8 +15,8 @@
 	<!-- Mapper에서 사용, type이 너무 길기 때문에 alias로 대신해줌 -->
 	<typeAliases><typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" /> 
 		<typeAlias type="com.salre.main.product.RegionDTO" alias="regionVO"/>
-		<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanDTO" />
-		<typeAlias type="com.salre.main.notification.NotificationDTO" alias="notificationDTO" />
+		<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanVO" />
+		<typeAlias type="com.salre.main.notify.NotifyDTO" alias="notifyVO" />
 	</typeAliases>
 
 </configuration>
