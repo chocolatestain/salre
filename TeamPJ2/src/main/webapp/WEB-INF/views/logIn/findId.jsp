@@ -41,19 +41,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find ID</title>
+    <title>ID찾기</title>
+    
+     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+         .image-section {
+        flex: 1;
+        background: url('resources/house.jpg') no-repeat center center;
+        background-size: cover;
+  		}
+
+        .form-section {
+            flex: 1;
+            padding: 40px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-section h1 {
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: #333;
+        }
+
+        .form-section form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-section form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-section form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-section form input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-section form .password-toggle {
+            position: relative;
+        }
+
+        .form-section form .password-toggle input {
+            padding-right: 40px;
+        }
+
+        .form-section form .password-toggle .toggle {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #007bff;
+        }
+
+        .form-section form .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-section form .actions a {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-section form button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-section .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-section .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
+<div class="container">
+        <div class="image-section">
+        </div>
+         <div class="form-section">
+        
     <h1>Find Your ID</h1>
     <form action="${contextPath}/findId" method="post">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
         <button type="submit">Find ID</button>
     </form>
-    
-   <!-- ID찾기 결과 -->
-   ${message}
+    <br>
+       <!-- ID찾기 결과 -->
+   		${message}
+     </div>
    
+    
+
    
 </body>
 </html>

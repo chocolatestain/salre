@@ -1,11 +1,14 @@
 package com.team.salre.login;
 
 import java.io.IOException;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -135,6 +138,62 @@ public class LoginController {
 		return "/logIn/findId";
 	}
 
+	// PW 찾기 페이지
+	@GetMapping("/findPassword")
+	public String findPasswordPage() {
+		return "/logIn/findPassword";
+	}
+	
+	
+	// PW 찾기 처리_20250105
+	 @PostMapping("/sendVerificationCode")
+	    @ResponseBody
+	    public Map<String, Object> sendVerificationCode(@RequestParam String id, @RequestParam String email) {
+	        Map<String, Object> response = new HashMap<>();
+	        boolean isValidUser = userService.validateUser(id, email);
+	        System.out.println("@@ id email = " + id + email);
+
+	        if (!isValidUser) {
+	            response.put("success", false);
+	            response.put("message", "ID와 이메일이 일치하지 않습니다.");
+	            return response;
+	        }
+
+	        userService.generateVerificationCode(email);
+	        response.put("success", true);
+	        response.put("message", "인증번호가 이메일로 발송되었습니다.");
+	        return response;
+	    }
+
+	    @PostMapping("/verifyCode")
+	    @ResponseBody
+	    public Map<String, Object> verifyCode(@RequestParam String verificationCode, @RequestParam String email) {
+	        Map<String, Object> response = new HashMap<>();
+	        boolean isCodeValid = userService.verifyCode(email, verificationCode);
+
+	        if (isCodeValid) {
+	            response.put("success", true);
+	            response.put("message", "인증번호가 확인되었습니다. 새 비밀번호를 입력하세요.");
+	        } else {
+	            response.put("success", false);
+	            response.put("message", "인증번호가 유효하지 않습니다.");
+	        }
+	        return response;
+	    }
+
+	    @PostMapping("/resetPassword")
+	    @ResponseBody
+	    public Map<String, Object> resetPassword(@RequestParam String email, @RequestParam String newPassword) {
+	        Map<String, Object> response = new HashMap<>();
+
+	        userService.updatePassword(email, newPassword);
+	        response.put("success", true);
+	        response.put("message", "비밀번호가 성공적으로 변경되었습니다.");
+	        return response;
+	    }
+
+	
+	
 	// 회원탈퇴 처리
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
@@ -150,6 +209,8 @@ public class LoginController {
 		}
 	}
 
+	
+	// 회원가입 - 본인인증
 	@ResponseBody
 	@PostMapping(value = "/rspTest")
 	public String rspTest(String imp_uid) {
@@ -200,6 +261,91 @@ public class LoginController {
 
 	}
  
+	
+	@ResponseBody
+	@PostMapping(value = "/rspTest2")
+	public String rspTest(String imp_uid, HttpSession session) {
+
+	    String impKey = "3773152135261483";
+	    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+
+	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+
+	    HttpRequest request = HttpRequest.newBuilder()
+	            .uri(URI.create("https://api.iamport.kr/users/getToken"))
+	            .header("Content-Type", "application/json")
+	            .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody))
+	            .build();
+
+	    HttpResponse<String> response = null;
+	    try {
+	        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+	    } catch (IOException | InterruptedException e) {
+	        e.printStackTrace();
+	    }
+	    String jsonResponse = response.body();
+	    ObjectMapper objectMapper = new ObjectMapper();
+
+	    JsonNode rootNode = null;
+	    try {
+	        rootNode = objectMapper.readTree(jsonResponse);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	    }
+
+	    String token = rootNode.path("response").path("access_token").asText();
+
+	    HttpRequest request2 = HttpRequest.newBuilder()
+	            .uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
+	            .header("Content-Type", "application/json")
+	            .header("Authorization", "Bearer " + token)
+	            .method("GET", HttpRequest.BodyPublishers.ofString(""))
+	            .build();
+
+	    HttpResponse<String> response2 = null;
+	    try {
+	        response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
+	    } catch (IOException | InterruptedException e) {
+	        e.printStackTrace();
+	    }
+
+	    String jsonResponse2 = response2.body();
+	    System.out.println("########JSON Response from API: " + jsonResponse2);
+
+	    try {
+	        // JSON 데이터 파싱 및 세션 저장
+	        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
+	        if (userNode != null) {
+	            String name = userNode.path("name").asText(null);
+	            String phone = userNode.path("phone").asText(null);
+	            String birthday = userNode.path("birthday").asText(null);
+
+	            // 생년월일 포맷 변환 (yyyy-MM-dd -> yyMMdd)
+	            if (birthday != null) {
+	                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
+	            }
+	            
+	            // 세션에 저장
+	            session.setAttribute("certifiedName", name);
+	            session.setAttribute("certifiedPhone", phone);
+	            session.setAttribute("certifiedBirthday", birthday);
+
+	            System.out.println("Session Data Saved:");
+	            System.out.println("Name: " + session.getAttribute("certifiedName"));
+	            System.out.println("Phone: " + session.getAttribute("certifiedPhone"));
+	            System.out.println("Birthday: " + session.getAttribute("certifiedBirthday"));
+	        }
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	    }
+
+	    return jsonResponse2; // JSON 데이터를 그대로 반환
+	}
+
+	
+	
+	
 	
 	
 	 

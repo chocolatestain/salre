@@ -2,6 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath}" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<%
+    String certifiedName = (String) session.getAttribute("certifiedName");
+    String certifiedPhone = (String) session.getAttribute("certifiedPhone");
+    String certifiedBirthday = (String) session.getAttribute("certifiedBirthday");
+    System.out.println("Info 세션 데이터:");
+    System.out.println("Name: " + certifiedName);
+    System.out.println("Phone: " + certifiedPhone);
+    System.out.println("Birthday: " + certifiedBirthday);
+
+
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,7 +182,7 @@
         }
     </style>
 </head>
-<body>
+<%-- <body>
     <div class="container">
         <!-- 좌측 이미지 섹션 -->
         <div class="image-section"></div>
@@ -231,6 +243,104 @@
         </div>
     </div>
     <script>
+        function checkIdAvailability() {
+            const id = document.querySelector('[name="id"]').value.trim();
+            if (!id) {
+                alert("ID를 입력하세요.");
+                return;
+            }
+            // AJAX 요청을 통해 ID 중복 체크
+            $.ajax({
+            	url: "${contextPath}/checkId",
+                type: "GET",
+                data: { id },
+                success: function (response) {
+                    if (response === "available") {
+                        alert("사용 가능한 ID입니다.");
+                    } else {
+                        alert("이미 사용 중인 ID입니다.");
+                    }
+                },
+                error: function () {
+                    alert("ID 중복 체크 중 오류가 발생했습니다.");
+                },
+            });
+        }
+    </script>
+</body> --%>
+<body>
+    <div class="container">
+        <div class="image-section"></div>
+        <div class="form-section">
+            <h1>Sign Up / 회원정보입력</h1>
+            <form action="${contextPath}/signup" method="post">
+                <div class="form-group">
+                    <label for="id">ID</label>
+                    <div class="form-group-inline">
+                        <input type="text" id="id" name="id" placeholder="ID" required>
+                        <button type="button" onclick="checkIdAvailability()">ID 중복체크</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+
+
+                 <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="user_name"  value="${sessionScope.certifiedName}"  readonly>
+                </div>
+
+         
+                 <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" readonly>
+                </div>
+
+
+				<label for="birthday">ResidentNum</label>
+				<div class="form-group-inline">
+                
+                    <input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>-
+                    <input type="text" id="birthday2" name="auth_seller"  placeholder="Lastdigits of ResidentRegistrationNumber" ><br>
+                </div>
+				<br>	
+
+			
+
+	  			<%-- <div class="form-group">
+                    <label for="birthday">ResidentNum</label>
+                    <input type="text" id="birthday" name="birthday"  value="${sessionScope.certifiedBirthday}" readonly>
+                </div> --%>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+
+				
+
+				<label for="address">Address</label>
+				<div class="form-group-inline">
+                
+                    <input type="text" id="address" name="address"  placeholder="Address" required> ,
+                    <input type="text" id="birthday2" name="address_detail"  placeholder="AddressDetail" required ><br>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Address" required>
+                </div> -->
+				<br>
+                <div class="navigation-buttons">
+                    <button type="button" onclick="history.back()">이전</button>
+                    <button type="submit">회원가입</button>
+                </div>
+            </form>
+        </div>
+    </div>
+      <script>
         function checkIdAvailability() {
             const id = document.querySelector('[name="id"]').value.trim();
             if (!id) {

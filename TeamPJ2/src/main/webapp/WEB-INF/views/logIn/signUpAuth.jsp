@@ -95,55 +95,157 @@
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script src=" https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script>
+   <!--  <script>
         // 포트원 본인인증 초기화
         IMP.init("imp74358381");
 
         function requestCertification() {
             IMP.certification({
-            	// param
                 channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
                 merchant_uid: "ORD" + new Date().getTime(),
                 popup: true,
             }, function (rsp) {
-            	  // callback//본인인증 완료 후 호출되는 콜백 함수. 본인인증 요청의 결과가 담긴 객체가 rsp로 전달됨.
                 if (rsp.success) {
-                	// 인증 성공 시 로직
                     alert("본인인증 성공: " + rsp.imp_uid);
-                    
+
+                    // AJAX로 서버에 인증 데이터를 전달
                     $.ajax({
-                 	   url:"${contextPath}/rspTest",
-                 	   type:"post", 
-                 	   data : { imp_uid:`\${rsp.imp_uid}`},
-                 	   success: function(responseData){
-                 		   var myInfo = JSON.parse(responseData); // 응답 데이터를 객체로 파싱
-                 		   
-                 		   console.log(myInfo);
-                 		   /* if (myInfo.response) {
-                 	            // 각 입력 필드를 선택
-                 	            var phoneInput = document.querySelector('[name="phone_num"]');
-                 	            var nameInput = document.querySelector('[name="user_name"]');
-                 	            var residentInput = document.querySelector('[name="resident_num"]');
-
-                 	            // 필드 값 설정
-                 	            phoneInput.value = myInfo.response.phone;
-                 	            nameInput.value = myInfo.response.name;
-                 	            residentInput.value = myInfo.response.birthday;
-
-                 	            // 필드를 읽기 전용으로 설정
-                 	            phoneInput.readOnly = true;
-                 	            nameInput.readOnly = true;
-                 	            residentInput.readOnly = true; */
-                 	        }
-                 	  });
-                    document.getElementById("next-button").disabled = false; // 다음 버튼 활성화
+                        url: "${contextPath}/saveCertificationData", // 본인인증 데이터 저장용 API
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ imp_uid: rsp.imp_uid }),
+       					
+                        success: function () {
+                            alert("본인인증 데이터 저장 완료");
+                            location.href = "${contextPath}/signUpInfo"; // 다음 페이지로 이동
+                        },
+                        error: function () {
+                            alert("본인인증 데이터 저장 중 오류 발생");
+                        }
+                    });
                 } else {
                     alert("본인인증 실패: " + rsp.error_msg);
                 }
-               }
-          );
+            });
         }
-    </script>
+        function (rsp) {
+            // callback//본인인증 완료 후 호출되는 콜백 함수. 본인인증 요청의 결과가 담긴 객체가 rsp로 전달됨.
+            if (rsp.success) {
+              // 인증 성공 시 로직
+            	 alert("본인인증 성공: " + rsp.imp_uid);
+              	console.log(rsp);
+
+                   
+                   $.ajax({
+                	   url:"${contextPath}/rspTest",
+                	   type:"post", 
+                	   data : { imp_uid:`\${rsp.imp_uid}`},
+                	   success: function(responseData){
+                		   var myInfo = JSON.parse(responseData); // 응답 데이터를 객체로 파싱
+                		   
+                		   if (myInfo.response) {
+                	            // 각 입력 필드를 선택
+                	            var phoneInput = document.querySelector('[name="phone_num"]');
+                	            var nameInput = document.querySelector('[name="user_name"]');
+                	            var residentInput = document.querySelector('[name="resident_num"]');
+
+                	            // 필드 값 설정
+                	            phoneInput.value = myInfo.response.phone;
+                	            nameInput.value = myInfo.response.name;
+                	            residentInput.value = myInfo.response.birthday;
+
+                	            // 필드를 읽기 전용으로 설정
+                	            phoneInput.readOnly = true;
+                	            nameInput.readOnly = true;
+                	            residentInput.readOnly = true;
+                	        }
+                			   
+                			   
+                		   /*
+                		   //var obj = {};
+                		   //
+                		   console.log(responseData);
+                		   console.log(typeof(responseData));
+                		   var myInfo = JSON.parse(responseData);
+                		   console.log(myInfo.response.phone);
+                		   console.log(myInfo.response.birthday);
+                		   //
+                		   */
+                     	}
+                   }); 
+                 //document.querySelector('[name="certified"]').value = "인증 완료";//서버는 이 값 확인해서 사용자가 본인인증 완료헀는지 판단.(아래 미인증과 관련)
+                 document.getElementById("signup-button").disabled=false;
+            } else {
+              // 인증 실패 시 로직
+            	 alert("본인인증 실패: " + rsp.error_msg+ rsp.imp_uid);
+            }  //if end 
+          }  //함수 end 
+        ); //IMP.certification end 
+     }  //function end 
+    </script> -->
+    
+    
+    
+    
+    
+    
+     <script>
+    // 포트원 SDK 초기화
+    IMP.init("imp74358381"); // 예: imp00000000
+     
+   function requestCertification() {
+ 	// IMP.certification(param, callback) 호출
+    IMP.certification(
+      {
+        // param
+        channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
+        merchant_uid: "ORD" + new Date().getTime(),  //"ORD20180131-0000011", // 주문 번호
+        popup: false
+        //m_redirect_url: "{https://your-service.com/signup/complete}", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
+        //popup: false, // PC환경에서는 popup 파라미터가 무시되고 항상 true 로 적용됨
+      },
+      
+      
+      function (rsp) {
+        // callback//본인인증 완료 후 호출되는 콜백 함수. 본인인증 요청의 결과가 담긴 객체가 rsp로 전달됨.
+        if (rsp.success) {
+          // 인증 성공 시 로직
+        	//alert("본인인증 성공: " + rsp.imp_uid);
+        	alert("본인인증을 성공하였습니다.");
+          	console.log(rsp);
+            // 서버로 인증 데이터를 전달하여 세션에 저장
+            $.ajax({
+                url: "${contextPath}/rspTest2",
+                type: "POST",
+                data: { imp_uid: rsp.imp_uid },
+                success: function () {
+                    alert("본인인증 데이터 저장 완료");
+                    location.href = "${contextPath}/signUpInfo"; // signUpInfo.jsp로 이동
+                },
+                error: function () {
+                    alert("본인인증 데이터 저장 중 오류 발생");
+                }
+            });
+               
+      
+             //document.querySelector('[name="certified"]').value = "인증 완료";//서버는 이 값 확인해서 사용자가 본인인증 완료헀는지 판단.(아래 미인증과 관련)
+             document.getElementById("signup-button").disabled=false;
+        } else {
+          // 인증 실패 시 로직
+        	 alert("본인인증 실패: " + rsp.error_msg);
+        }  //if end 
+      }  //함수 end 
+    ); //IMP.certification end 
+ }  //function end 
+    
+
+	</script>
+    
+    
+    
+    
+    
+    
 </head>
 <body>
     <div class="container">

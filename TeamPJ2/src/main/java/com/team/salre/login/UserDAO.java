@@ -57,6 +57,22 @@ public class UserDAO implements UserDAOInterface {
         //return userMapper.findIdByEmail(email);
     }
     
+    // PW찾기
+    public boolean checkUser(String id, String email) {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", id);
+        params.put("email", email);
+        return sqlSession.selectOne(namespace+"checkUser", params) != null;
+    }
+
+    public void updatePassword(String email, String encodedPassword) {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", encodedPassword);
+        sqlSession.update(namespace+"updatePassword", params);
+    }
+   
+    
    // 회원탈퇴
     @Override
     public void deleteUser(String id) {
@@ -73,8 +89,22 @@ public class UserDAO implements UserDAOInterface {
         return sqlSession.selectList(namespace + "selectPostsByUserId", user_id);
     }
     
+	//마이페이지 - 내가 작성한 후기
+	public  List<ReviewDTO> selectReviewsByUserId(int user_id) {
+			return sqlSession.selectList(namespace+"selectReviewsByUserId", user_id);
+	}
 
-	
+	//마이페이지 - 내가 작성한 후기(수정)
+	  public void updateReview(int review_id, int review_rate, String review_content) {
+		  sqlSession.update(namespace+"updateReview",
+	  Map.of("review_id", review_id, "review_rate", review_rate, "review_content",
+	  review_content)); }
+	  
+	//마이페이지 - 내가 작성한 후기(삭제)
+	  public void deleteReview(int review_id) {
+		  sqlSession.delete(namespace+"deleteReview",review_id);
+		}
 
-	
+	  
+	  
 }

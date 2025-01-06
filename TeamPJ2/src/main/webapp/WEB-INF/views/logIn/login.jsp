@@ -285,7 +285,7 @@
                         <input type="checkbox" name="remember"> Remember me
                     </label> -->
                     <a href="${contextPath}/findId">Forgot Id?</a>
-                    <a href="/forgot-password">Forgot Password?</a>
+                    <a href="${contextPath}/findPassword">Forgot Password?</a>
                 </div>
                 <button type="submit">Log In</button>
             </form>

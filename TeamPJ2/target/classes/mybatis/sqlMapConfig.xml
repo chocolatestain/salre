@@ -13,6 +13,7 @@
 	<typeAliases>
 		<typeAlias type="com.team.salre.login.UserDTO" alias="userVO" />
 	   	<typeAlias type="com.team.salre.login.PostDTO" alias="PostDTO" />
+	   	<typeAlias type="com.team.salre.login.ReviewDTO" alias="ReviewDTO" />
 
 		
 

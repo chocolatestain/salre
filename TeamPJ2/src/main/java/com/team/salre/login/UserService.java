@@ -1,9 +1,21 @@
 package com.team.salre.login;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
@@ -12,6 +24,8 @@ public class UserService {
 
 	  @Autowired
 	    private UserDAO userDAO;
+	  
+
 
 
 	  
@@ -79,15 +93,40 @@ public class UserService {
 			System.out.println("UserService/ find Id @@@email = " + find_id);
 			return find_id;
 		}
+		
+		
+		//--PW찾기
+		  @Autowired
+		    private JavaMailSender mailSender;
 
+		    private final Map<String, String> verificationCodes = new HashMap<>();
 
+		    public boolean validateUser(String id, String email) {
+		        return userDAO.checkUser(id, email);
+		    }
 
-		/* //--본인인증 테스트코드(블로그참고) 
-		 * public static UserDTO getMember(String email){////////????? // 
-		 * TODO Auto-generated method stub 
-		 * return null; }
-		 */
-	     
+		    public void generateVerificationCode(String email) {//인증번호 생성 및 발송
+		        String verificationCode = String.valueOf(new Random().nextInt(900000) + 100000);
+		        verificationCodes.put(email, verificationCode);
+		        sendEmail(email, "비밀번호 찾기 인증번호", "인증번호: " + verificationCode);
+		    }
+
+		    public boolean verifyCode(String email, String verificationCode) {//인증번호 확인
+		        return verificationCode.equals(verificationCodes.get(email));
+		    }
+
+		    public void updatePassword(String email, String newPassword) {//비밀번호 암호화 및 업데이트
+		        String encodedPassword = new BCryptPasswordEncoder().encode(newPassword);
+		        userDAO.updatePassword(email, encodedPassword);
+		    }
+
+		    private void sendEmail(String to, String subject, String body) {//이메일 발송
+		        SimpleMailMessage message = new SimpleMailMessage(); //이메일 메시지를 생성
+		        message.setTo(to);//이메일 수신자 주소를 설정
+		        message.setSubject(subject);//이메일 제목을 설정
+		        message.setText(body);//이메일 본문을 설정
+		        mailSender.send(message);//설정한 이메일 메시지를 발송..mailSender는 JavaMailSender 객체이며, 메일 서버 설정을 기반으로 이메일을 발송
+		    }
 	     
 		//--회원탈퇴
 		  public void deleteUser(String id) {
@@ -101,11 +140,32 @@ public class UserService {
 		    }
 
 
-
 		//마이페이지 - 내가 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
 		public List<PostDTO> getPostsByUserId(int user_id) {
 			   return userDAO.selectPostsByUserId(user_id);
 		}
+		
+		//마이페이지 - 내가 작성한 후기
+		public  List<ReviewDTO> getMyreviewsByUserId(int user_id) {
+				return userDAO.selectReviewsByUserId(user_id);
+		}
+		
+		//마이페이지 - 내가 작성한 후기(수정)
+		
+		  public void updateReview(int review_id, int review_rate, String review_content) { 
+			  userDAO.updateReview(review_id, review_rate,  review_content); 
+		 }
+		  
+		//마이페이지 - 나의 거래후기(삭제)
+		  public void deleteReview(int review_id) {
+			    userDAO.deleteReview(review_id);
+			}
 
-	
+		 
+		
+		/*
+		 * public void updateReview(int review_rate, String review_content) {
+		 * userDAO.updateReview(review_rate, review_content); }
+		 */
+		
 }
