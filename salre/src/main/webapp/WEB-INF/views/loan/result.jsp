@@ -395,9 +395,9 @@
             <script>
                 $(document).ready(function () {
                     // 서버에서 전달된 값 가져오기
-                    const userAge = ${ param.age };
+                    const userAge = `${param.age}`;
 
-                    const paramIncome = "${ param.income }";
+                    const paramIncome = "${param.income}";
                     const incomeValue = {
                         step: {
                             "3500l": 35000000,
@@ -461,20 +461,20 @@
 
                             $('#loanResults').append(`
                                 <form action="detail" method="POST">
-                                    <input type="hidden" name="id" value="\${item.loan_id}">
-                                        <div class="loan-card" onclick="this.closest('form').submit()">
-                                            <div class="loan-card-content">
-                                                \${img}
-                                                <div class="loan-card-text">
-                                                    <h3>\${item.loan_name}</h3>
-                                                    <h4>\${item.bank_name}</h4>
-                                                </div>
+                                    <input type="hidden" name="id" value="\${item.loan_id}" />
+                                    <div class="loan-card" onclick="this.closest('form').submit()">
+                                        <div class="loan-card-content">
+                                            \${img}
+                                            <div class="loan-card-text">
+                                                <h3>\${item.loan_name}</h3>
+                                                <h4>\${item.bank_name}</h4>
                                             </div>
-                                            <hr>
-                                                <p>기준금리: \${item.loan_rate}%</p>
-                                                <p>최대한도: \${item.loan_limit.toLocaleString()}원</p>
-                                                <p>상환방식: \${item.repayment_type}</p>
                                         </div>
+                                        <hr>
+                                        <p>기준금리: \${item.loan_rate}%</p>
+                                        <p>최대한도: \${item.loan_limit.toLocaleString()}원</p>
+                                        <p>상환방식: \${item.repayment_type}</p>
+                                    </div>
                                 </form>
                             `);
                         });
@@ -657,6 +657,7 @@
                     });
                 });
 
+                // 스크롤 버튼 기능
                 function scrollToTop() {
                     const position =
                         document.documentElement.scrollTop || document.body.scrollTop;

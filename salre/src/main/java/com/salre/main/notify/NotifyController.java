@@ -1,6 +1,7 @@
 package com.salre.main.notify;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,9 +27,9 @@ public class NotifyController {
     private static final Long TIMEOUT = 60 * 60 * 1000L; // 1시간
 
     @GetMapping("/main")
-	public ModelAndView viewMain() {
-		return new ModelAndView("notify/main");
-	}
+    public ModelAndView viewMain() {
+        return new ModelAndView("notify/main");
+    }
 
     // SSE 연결 설정
     @GetMapping(value = "/subscribe/{user_id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -38,14 +39,14 @@ public class NotifyController {
 
         // 클라이언트에 연결 확인 이벤트 전송
         try {
-            emitter.send(SseEmitter.event().name("INIT"));
+            emitter.send(SseEmitter.event().name("INIT").data(""));
         } catch (IOException e) {
             map.remove(user_id);
         }
 
         emitter.onCompletion(() -> map.remove(user_id));
         emitter.onTimeout(() -> map.remove(user_id));
-        
+
         return emitter;
     }
 
@@ -59,7 +60,9 @@ public class NotifyController {
         SseEmitter emitter = map.get(notifyDTO.getUser_id());
         if (emitter != null) {
             try {
-                emitter.send(SseEmitter.event().name("NOTIFY").data(notifyDTO.getNotify_content()));
+                String data = URLEncoder.encode(notifyDTO.getNotify_content(), "UTF-8");
+
+                emitter.send(SseEmitter.event().name("NOTIFY").data(data));
             } catch (IOException e) {
                 map.remove(notifyDTO.getUser_id());
             }
@@ -70,5 +73,11 @@ public class NotifyController {
     @GetMapping("/list/{user_id}")
     public List<NotifyDTO> select(@PathVariable int user_id) {
         return notifyService.select(user_id);
+    }
+
+    // 알림 상태 변경
+    @PostMapping("/check/{notify_id}")
+    public void update(@PathVariable int notify_id) {
+        notifyService.update(notify_id);
     }
 }

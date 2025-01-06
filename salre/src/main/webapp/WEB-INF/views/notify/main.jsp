@@ -113,6 +113,22 @@
 				background-color: #2c3562;
 			}
 
+			table {
+				width: 100%;
+				margin-top: 20px;
+				border-collapse: collapse;
+			}
+
+			th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+
+			td {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+
 			footer {
 				display: flex;
 				justify-content: space-around;
@@ -159,7 +175,11 @@
 				<button id="send">알림 보내기</button>
 			</div>
 
-			<div id="notifications"></div>
+			<div id="notify-form">
+				<input type="number" name="target2" placeholder="대상 입력" />
+				<button id="list">알림 조회</button>
+				<div id="notify-list"></div>
+			</div>
 		</section>
 
 		<!-- Footer -->
@@ -190,13 +210,12 @@
 				// 서버와 SSE 연결
 				const eventSource = new EventSource(`${pageContext.request.contextPath}/notify/subscribe/\${user_id}`);
 
-				eventSource.addEventListener("INIT", function (event) {
+				eventSource.addEventListener('INIT', function (event) {
 					$('#login-form').append(`<p>\${user_id}번 로그인 성공</p>`);
 				});
 
 				eventSource.addEventListener('NOTIFY', function (event) {
-					$('#notifications').append(`<p>\${event.data}</p>`);
-					console.log(event.data);
+					$('#target-form').append(`<p>알림 전송 성공</p>`);
 				});
 
 				eventSource.onerror = function () {
@@ -204,26 +223,104 @@
 				};
 			});
 
+			// 알림 보내기
 			$('#send').click(function () {
 				const user_id = $("input[name='target']").val();
-				const notify_content = "테스트 알림";
+				// 알림 내용 입력
+				const notify_content = "테스트 메시지";
+				// 알림 클릭 시 이동할 URL
+				const notify_url = "${pageContext.request.contextPath}/";
 
 				$.ajax({
 					type: "POST",
-					url: "${pageContext.request.contextPath}/notify/send",
+					url: `${pageContext.request.contextPath}/notify/send`,
 					contentType: "application/json",
 					data: JSON.stringify({
 						user_id: user_id,
-						notify_content: notify_content
+						notify_content: notify_content,
+						notify_url: notify_url
 					}),
 					success: function () {
 						console.log("알림 전송 성공");
 					},
 					error: function () {
-						console.error("알림 전송 실패");
+						console.error("알림 전송 오류");
 					}
 				});
 			});
+
+			// 알림 조회
+			$('#list').click(function () {
+				const user_id = $("input[name='target2']").val();
+
+				$.ajax({
+					type: "GET",
+					url: `${pageContext.request.contextPath}/notify/list/\${user_id}`,
+					contentType: "application/json",
+					success: function (data) {
+						// 기존 알림 목록 초기화
+						$('#notify-list').empty();
+
+						data.forEach(function (item) {
+							const is_check = item._check ? 'background-color: #666;' : '';
+
+							$('#notify-list').append(`
+								<ul>
+									<li>
+										<button style="\${is_check}" onclick="doClick(\${item.notify_id}, '\${item.notify_url}')">
+											\${item.notify_content}&emsp;\${timeAgo(item.notify_time)}
+										</button>
+									</li>
+								</ul>
+							`);
+						});
+					},
+					error: function () {
+						console.error("알림 조회 오류");
+					}
+				});
+			});
+
+			// 알림 상태 변경 및 페이지 이동
+			function doClick(notify_id, notify_url) {
+				$.ajax({
+					type: "POST",
+					url: `${pageContext.request.contextPath}/notify/check/\${notify_id}`,
+					success: function () {
+						// 알림 상태 변경 후 페이지 이동
+						window.location.href = notify_url;
+					},
+					error: function () {
+						console.error("읽음 처리 오류");
+					}
+				});
+			}
+
+			function timeAgo(timestamp) {
+				const now = Date.now(); // 현재 시간 (밀리초)
+				const diff = now - timestamp; // 차이 계산 (밀리초)
+
+				// 시간 단위 계산 (밀리초 단위에서 다른 시간 단위로 변환)
+				const minute = 60 * 1000;
+				const hour = 60 * minute;
+				const day = 24 * hour;
+				const week = 7 * day;
+				const month = 30 * day;
+
+				if (diff < minute) {
+					return '방금 전';
+				} else if (diff < hour) {
+					return `\${Math.floor(diff / minute)}분 전`;
+				} else if (diff < day) {
+					return `\${Math.floor(diff / hour)}시간 전`;
+				} else if (diff < week) {
+					return `\${Math.floor(diff / day)}일 전`;
+				} else if (diff < month) {
+					return `\${Math.floor(diff / week)}주 전`;
+				} else {
+					return `\${Math.floor(diff / month)}개월 전`;
+				}
+			}
 		</script>
 	</body>
 

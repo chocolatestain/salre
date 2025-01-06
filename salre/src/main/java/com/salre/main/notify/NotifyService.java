@@ -19,4 +19,9 @@ public class NotifyService {
     public void insert(NotifyDTO nofityDTO) {
         notifyRepository.insert(nofityDTO);
     }
+
+    // 알림 상태 변경
+    public void update(int notify_id) {
+        notifyRepository.update(notify_id);
+    }
 }
