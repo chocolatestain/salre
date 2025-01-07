@@ -431,10 +431,11 @@
                         $('#bank').append(bankLabel);
                     });
 
+                    // 이미지 로드 함수
                     function preloadImages() {
                         Object.values(bankObj).forEach(logo => {
                             const img = new Image();
-                            img.src = `${pageContext.request.contextPath}/resources/images/\${logo}`;
+                            img.src = `${pageContext.request.contextPath}/resources/images/bank/\${logo}`;
                         });
                     }
 
@@ -456,7 +457,7 @@
                         $('#loanResults').empty();
 
                         view.forEach(function (item) {
-                            let img = `<img src="${pageContext.request.contextPath}/resources/images/\${bankObj[item.bank_name]}"
+                            let img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[item.bank_name]}"
                                         alt="\${item.bank_name} 로고" class="bank-logo">`;
 
                             $('#loanResults').append(`
@@ -472,7 +473,10 @@
                                         </div>
                                         <hr>
                                         <p>기준금리: \${item.loan_rate}%</p>
-                                        <p>최대한도: \${item.loan_limit.toLocaleString()}원</p>
+                                        <p>
+                                            최대한도: \${item.loan_limit.toLocaleString()}원
+                                            <span style="font-size: 1rem;">(\${item.loan_limit / 100000000}억원)</span>
+                                        </p>
                                         <p>상환방식: \${item.repayment_type}</p>
                                     </div>
                                 </form>

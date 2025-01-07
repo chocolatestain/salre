@@ -31,6 +31,12 @@ public class NotifyController {
         return new ModelAndView("notify/main");
     }
 
+    // 알림 전송 테스트(Deprecated)
+    @GetMapping("/test")
+    public ModelAndView viewTest() {
+        return new ModelAndView("notify/test");
+    }
+
     // SSE 연결 설정
     @GetMapping(value = "/subscribe/{user_id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable int user_id) {
