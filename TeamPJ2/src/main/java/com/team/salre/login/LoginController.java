@@ -134,8 +134,7 @@ public class LoginController {
 	@PostMapping(value = "/rspTest")
 	public String rspTest(String imp_uid) {
 
-		String impKey = "3773152135261483";
-		String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+ 
 
 		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
