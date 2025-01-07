@@ -15,6 +15,9 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/myPage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+<style>
+ 
+</style>
 <body>
 
 	<!-- Sidebar -->
@@ -49,10 +52,7 @@
 				</div>
 			</div>
 		</div>
-
-
-
-
+ 
 		<ul>
 			<li><a href="${contextPath}/transactions">나의 거래현황</a></li>
 			<li><a href="${contextPath}/favorites">나의 관심매물</a></li>

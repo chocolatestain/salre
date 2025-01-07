@@ -20,100 +20,76 @@ public class MyPageController {
 	@Autowired
 	private UserService userService;
 	
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇÁ¤º¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@GetMapping("/myPage")
 	public String userInfo(HttpSession session, Model model) {	    
 		return "myPage/myPage";	
 	}
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇÁ¤º¸
-	@ResponseBody
-	@PostMapping("/myPage/myPage")  // ???°­»ç´Ô ajax
-	public String userInfoPost(HttpSession session, Model model, UserDTO user) {
-		System.out.println(user);
-		//userService.update(user);
-		session.setAttribute("loggedInUser", user);
-		
-		return "mmmm";//@ResponseBody
-		
-	}
-	
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ°ü½É¸Å¹°
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½Ç°ï¿½ï¿½É¸Å¹ï¿½
 	@GetMapping("/favorites")
 	public String favorites() {
 		return "myPage/favorites";
 		}
 	
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÇöÈ²
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½È²
 	@GetMapping("/transactions")
 	public String transactions() {
 		return "myPage/transactions";
 	}
 
-	
-	/*
-	//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ±Û
-	@GetMapping("/posts") 
-	public String posts() {
-		return "myPage/posts";
-	}
-	*/
-	//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ±Û.. ¸ñ·Ï Á¶È¸
+ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½.. ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	@GetMapping("/posts")
 	public String getMyPosts(HttpSession session, Model model) {
-	    // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
+	    // ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ UserDTO ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	    Object userObj = session.getAttribute("loggedInUser");
 	    
 	    if (userObj instanceof UserDTO) {
 	        UserDTO user = (UserDTO) userObj;
-	        int user_id = user.getUser_id(); // user_id ÃßÃâ
+	        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service È£ÃâÇÏ¿© °Ô½Ã±Û ¸ñ·Ï Á¶È¸
+	        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	        List<PostDTO> postList = userService.getPostsByUserId(user_id);
 	        System.out.println("postList: " + postList);
 	        model.addAttribute("postList", postList);
-	        return "myPage/posts"; // post.jsp ¹ÝÈ¯
+	        return "myPage/posts"; // post.jsp ï¿½ï¿½È¯
 	    } else {
-	        // ¼¼¼Ç¿¡ UserDTO°¡ ¾ø°Å³ª ·Î±×ÀÎµÇÁö ¾ÊÀº °æ¿ì
+	        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	        System.out.println("Session does not contain a valid UserDTO.");
-	        return "redirect:/login"; // ·Î±×ÀÎ ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+	        return "redirect:/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 	    }
 	}
+ 
 	
-	/*
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÈÄ±â
-	@GetMapping("/reviews") 
-	public String reviews() {
-		return "myPage/reviews";
-	}
-	*/
-	
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÈÄ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½Ä±ï¿½
 	@GetMapping("/reviews") 
 	public String getMyreviews(HttpSession session, Model model) {
-		  // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
+		  // ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ UserDTO ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	    Object userObj = session.getAttribute("loggedInUser");
 	    
 	    if (userObj instanceof UserDTO) {
 	        UserDTO user = (UserDTO) userObj;
-	        int user_id = user.getUser_id(); // user_id ÃßÃâ
+	        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service È£ÃâÇÏ¿© °Ô½Ã±Û ¸ñ·Ï Á¶È¸
+	        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	        List<ReviewDTO> reviewList = userService.getMyreviewsByUserId(user_id);
 	        System.out.println("reviewList: " + reviewList);
 	        model.addAttribute("reviewList", reviewList);
-	        return "myPage/reviews"; // reviews.jsp ¹ÝÈ¯
+	        return "myPage/reviews"; // reviews.jsp ï¿½ï¿½È¯
 	    } else {
-	        // ¼¼¼Ç¿¡ UserDTO°¡ ¾ø°Å³ª ·Î±×ÀÎµÇÁö ¾ÊÀº °æ¿ì
+	        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	        System.out.println("Session does not contain a valid UserDTO.");
-	        return "redirect:/login"; // ·Î±×ÀÎ ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+	        return "redirect:/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 	    }
 	
 	}
 
 	
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÈÄ±â(¼öÁ¤¹öÆ° Å¬¸¯½Ã)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½)
 	@PostMapping("/reviews/update")
 	@ResponseBody
 	public Map<String, Object> updateReview(@RequestParam int review_id,
@@ -126,13 +102,13 @@ public class MyPageController {
 	        response.put("success", true);
 	    } catch (Exception e) {
 	        response.put("success", false);
-	        response.put("message", "ÈÄ±â ¼öÁ¤¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+	        response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 	    }
 
 	    return response;
 	}
 
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÈÄ±â(»èÁ¦¹öÆ° Å¬¸¯½Ã)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½)
 		@PostMapping("/reviews/delete")
 		@ResponseBody
 		public Map<String, Object> deleteReview(@RequestParam int review_id){
@@ -141,42 +117,42 @@ public class MyPageController {
 			try {
 				userService.deleteReview(review_id);
 				response.put("success", true);
-				response.put("message", "ÈÄ±â°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
+				response.put("message", "ï¿½Ä±â°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 				
 			}catch(Exception e) {
 				response.put("success", false);
-				response.put("message", "ÈÄ±â »èÁ¦¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+				response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 			}
 			return response;
 		}
 
 	
-     //¸¶ÀÌÆäÀÌÁö - ³ªÀÇ ½Å°í³»¿ª
+     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½
 //		@GetMapping("/reports") 
 //		public String reports(Model model) {
 //		return "myPage/reports"; 
 //		}
 		  
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ ½Å°í³»¿ª
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½
 		@GetMapping("/reports") 
 		public String getMyreports(HttpSession session, Model model) {
-			  // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
+			  // ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ UserDTO ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    Object userObj = session.getAttribute("loggedInUser");
 		    
 		    if (userObj instanceof UserDTO) {
 		        UserDTO user = (UserDTO) userObj;
-		        int user_id = user.getUser_id(); // user_id ÃßÃâ
+		        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 		        System.out.println("Extracted user_id: " + user_id);
 
-		        // Service È£ÃâÇÏ¿© °Ô½Ã±Û ¸ñ·Ï Á¶È¸
+		        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 		        List<ReportDTO> reportList = userService.getMyreportsByUserId(user_id);
 		        System.out.println("reportList: " + reportList);
 		        model.addAttribute("reportList", reportList);
-		        return "myPage/reports"; // reports.jsp ¹ÝÈ¯
+		        return "myPage/reports"; // reports.jsp ï¿½ï¿½È¯
 		    } else {
-		        // ¼¼¼Ç¿¡ UserDTO°¡ ¾ø°Å³ª ·Î±×ÀÎµÇÁö ¾ÊÀº °æ¿ì
+		        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		        System.out.println("Session does not contain a valid UserDTO.");
-		        return "redirect:/login"; // ·Î±×ÀÎ ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+		        return "redirect:/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 		    }
 		
 		}
@@ -184,7 +160,7 @@ public class MyPageController {
 	
 	
 		/*
-		  //¸¶ÀÌÆäÀÌÁö - ³ªÀÇ ½Å°í³»¿ª(°ü¸®ÀÚ)
+		  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		  
 		  @GetMapping("/reports") public String reports(Model model) {
 		  

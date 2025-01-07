@@ -35,9 +35,7 @@
 				<br> <br>
 
 				<h4 class="mb-4">나의 정보</h4>
-				<!-- <form> -->
-				
-	
+				<!-- <form> -->]
 					<div class="row mb-3">
 						<div class="col-md-6">
 							<label for="id" class="form-label">ID</label> <input type="text"
@@ -123,9 +121,7 @@
     			success:function(a){
     				alert(a);
     			}
-    		});
-    			
-    		
+    		});	
     	}
     </script>
  -->

@@ -81,8 +81,7 @@
     }
 }
 </style>
-
-
+ 
 
 </head>
 <body>
@@ -189,23 +188,10 @@
 								</div>
 							</div>
 						</div>
-
-
-						<%-- <!-- 데이터가 없을 경우 -->
-						<c:if test="${empty transactionItems}">
-							<div class="alert alert-warning w-100 text-center">거래중인 매물이
-								없습니다.</div>
-						</c:if> --%>
+ 
 					</div>
 				</div>
-				
-				
-				
-				
-				
-				
-				
-				
+ 
 				
 				<!-- 판매자 콘텐츠 -->
 				<div id="seller-content" style="text-align: center;">
@@ -226,37 +212,7 @@
 
 					<!-- 거래 매물 목록 -->
 					<div class="card-container">
-
-						<%--   <c:forEach var="item" items="${transactionItems}">
-                    <div class="card">
-                        <div class="position-relative">
-                            <img src="${item.image}" class="card-img-top" alt="${item.title}">
-                            <!-- 상태 배지 -->
-                            <c:choose>
-                                <c:when test="${item.status == '거래중'}">
-                                    <span class="badge-status bg-danger">거래중</span>
-                                </c:when>
-                                <c:when test="${item.status == '거래완료'}">
-                                    <span class="badge-status bg-secondary">거래완료</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="badge-status bg-success">거래가능</span>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">${item.title}</h5>
-                            <p class="card-text">
-                                월세: ${item.monthlyRent} / ${item.deposit}<br>
-                                ${item.description}
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="${contextPath}/item/detail?id=${item.id}" class="btn btn-primary">자세히 보기</a>
-                                <button class="btn btn-outline-danger">리뷰작성</button>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach> --%>
+ 
 
 						<!-- 예시 데이터 -->
 						<div class="card">
@@ -332,12 +288,7 @@
 								</div>
 							</div>
 						</div>
-
-						<%-- <!-- 데이터가 없을 경우 -->
-						<c:if test="${empty transactionItems}">
-							<div class="alert alert-warning w-100 text-center">거래중인 매물이
-								없습니다.</div>
-						</c:if> --%>
+ 
 					</div>
 				</div>
 				

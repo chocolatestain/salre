@@ -105,6 +105,10 @@ public class LoginController {
 		return "logIn/login"; // login.jsp 반환
 	}
 
+	@GetMapping("/admin/myPage")
+	public void admin() {
+	}
+
 	// 로그인 처리
 	/*
 	 * @PostMapping("/login") public String loginUser(@RequestParam String
@@ -317,7 +321,7 @@ public class LoginController {
 		 // 회원탈퇴 처리
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
-		
+
 		try {
 			userService.deleteUser(id);
 			redirectAttributes.addFlashAttribute("message", "회원탈퇴가 완료되었습니다."); // addFlashAttribute를 사용하면 리다이렉트된 페이지에서만
