@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<!-- mapper 에서 null 값이 왔을 때 칼럼의 해당 타입임을 설정한다.
+		이 설정이 없으면, #{email,jdbcType=VARCHAR}),#{salary,jdbcType=INTEGER})
+		 -->
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.team.salre.login.UserDTO" alias="userVO" />
+	   	<typeAlias type="com.team.salre.login.PostDTO" alias="PostDTO" />
+	   	<typeAlias type="com.team.salre.login.ReviewDTO" alias="ReviewDTO" />
+	   	<typeAlias type="com.team.salre.login.ReportDTO" alias="ReportDTO" />
+
+		
+
+	</typeAliases>
+
+</configuration>
