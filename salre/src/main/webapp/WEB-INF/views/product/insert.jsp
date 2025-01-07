@@ -296,7 +296,7 @@ button[type="submit"]:hover {
             position: new daum.maps.LatLng(37.537187, 127.005476),
             map: map
         });
-
+		daumService.getaddress
         function sample5_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function(data) {

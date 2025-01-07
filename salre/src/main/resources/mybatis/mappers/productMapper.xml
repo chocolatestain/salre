@@ -31,11 +31,7 @@
 	    WHERE product_name LIKE CONCAT('%', #{keyword}, '%')
 	       OR address LIKE CONCAT('%', #{keyword}, '%')
 	</select>
-	<select id = "searchByConditions" parameterType = "productVO" resultType = "productVO">
-		SELECT *
-		FROM product
-		WHERE 
-	</select>
+ 
     <select id="getProductByUserId" parameterType="int" resultType="productVO">
         SELECT * FROM product WHERE user_id=#{user_id}  
     </select>
@@ -48,4 +44,29 @@
     	where table_schema = 'salre'
     	 and table_name = 'product'
     </select>
+ <select id="searchByConditions" parameterType="productVO" resultType="productVO">  
+   SELECT * 
+    FROM product
+    WHERE 1=1
+    <if test="region_id != null">
+        AND region_id = #{region_id}
+    </if>
+    <if test="payment_type != null">
+        AND payment_type = #{payment_type}
+    </if>
+    <if test="product_status != null">
+        AND product_status = #{product_status}
+    </if>
+    <if test="room_count != null">
+        AND room_count = #{room_count}
+    </if>
+    <if test="floor != null">
+        AND floor = #{floor}
+    </if>
+</select>
+<select id = "incrementViewCount" parameterType ="int">
+	UPDATE product
+	SET view_count = view_count + 1
+	WHERE product_id = #{product_id}
+</select>
 </mapper>

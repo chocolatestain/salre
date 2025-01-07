@@ -9,7 +9,8 @@ public interface ProductInterface {
     public int updateProduct(ProductDTO product);
     public int deleteProduct(int productId);
 	public List<ProductDTO> searchProductsByKeyword(String keyword);
-	public List<ProductDTO> searchByConditions();
+	public List<ProductDTO> searchByConditions(ProductDTO productDTO);
     public int countProduct();
     public int nextId();
+	public int incrementViewCount(int product_id); 
 }

@@ -37,13 +37,9 @@ public class ProductService {
 	// 5.?��?��
 	public int deleteProduct(int productid) {
 		return productDAO.deleteProduct(productid);
-	}
-    public List<ProductDTO> searchProducts(String keyword) {
-        return productDAO.searchProductsByKeyword(keyword);
-    }
-
-	public List<ProductDTO> searchByConditions() {
-		return productDAO.searchByConditions();
+	} 
+	public List<ProductDTO> searchByConditions(ProductDTO productDTO) {
+		return productDAO.searchByConditions(productDTO);
 	}
 	
 	public int countProduct() {
@@ -51,6 +47,18 @@ public class ProductService {
 	}
 	public int nextId() {
 		return productDAO.nextId();
+	}
+
+	public List<ProductDTO> searchProducts(String searchQuery) {
+		return productDAO.searchProductsByKeyword(searchQuery);
+	}
+
+	public List<ProductDTO> searchProductsByKeyword(String keyword) {
+ 
+		return productDAO.searchProductsByKeyword(keyword);
+	}
+	public int incrementViewCount(int product_id) {
+		return productDAO.incrementViewCount(product_id);
 	}
 }
 

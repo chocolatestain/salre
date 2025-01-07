@@ -32,17 +32,17 @@ public class RegionDAO implements RegionInterface{
 	}
 
 	public int updateRegion(RegionDTO region) {
-		int result = sqlSession.update(namespace + "updateProduct", region);
+		int result = sqlSession.update(namespace + "updateRegion", region);
 		return result;
 	}
 
 	public int deleteRegion(int region_id) {
-		int result = sqlSession.delete(namespace + "deleteProduct", region_id);
+		int result = sqlSession.delete(namespace + "deleteRegion", region_id);
 		return result;
 	}
 
 	public int countRegion() {
-		return sqlSession.selectOne(namespace + "countProduct");
+		return sqlSession.selectOne(namespace + "countRegion");
 	}
 
 	@Override
