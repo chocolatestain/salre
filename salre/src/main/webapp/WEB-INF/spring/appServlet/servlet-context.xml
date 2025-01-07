@@ -17,7 +17,7 @@
     
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
-
+    
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
@@ -26,10 +26,10 @@
  
     <!-- Component scan for Spring Beans -->
     <context:component-scan base-package="com.salre.main" />
-
+    
     <!-- Multipart resolver bean configuration -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10485760" /> <!-- 10MB -->
         <property name="uploadTempDir" value="/tmp" />
     </bean>
- </beans>
+</beans>

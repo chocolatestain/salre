@@ -170,7 +170,7 @@
     </header>
 
     <div class="search">
-        <form action="search" method="GET">
+        <form action="product" method="GET">
             <input type="text" name="search" placeholder="원하시는 지역, 건물을 입력해주세요.">
             <button type="submit">검색</button>
         </form> 
