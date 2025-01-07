@@ -55,7 +55,7 @@
 			$('#send').click(function () {
 				const user_id = $("input[name='target']").val();
 				// 알림 내용 입력
-				const notify_content = "송금 메시지";
+				const notify_content = `\${user_id}님<br>테스트 알림입니다.`;
 				// 알림 클릭 시 이동할 URL
 				const notify_url = "${pageContext.request.contextPath}/";
 

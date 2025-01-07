@@ -126,7 +126,7 @@
 				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 				margin-bottom: 2rem;
 				width: 100%;
-				max-width: 1200px;
+				max-width: 800px;
 				height: 100%;
 				display: flex;
 				justify-content: center;
@@ -136,6 +136,7 @@
 
 			.data {
 				text-align: left;
+				width: 50%;
 			}
 
 			.helper {
@@ -246,10 +247,8 @@
 
 		<!-- Main Banner -->
 		<section class="main-banner">
-			<div>
-				<h1>대출 상세정보</h1>
-				<h2>내가 선택한 대출 정보를 확인하세요</h2>
-			</div>
+			<h1>대출 상세정보</h1>
+			<h2>내가 선택한 대출 정보를 확인하세요</h2>
 
 			<!-- Controls -->
 			<div class="controls">
@@ -523,7 +522,7 @@
 								<tbody>
 									<tr>
 										<td class="구분">금액</td>
-										<td class="값">\${amount}만원</td>
+										<td class="값">\${(amount * 10000).toLocaleString()}원</td>
 										<td class="비고">사용자 입력값</td>
 									</tr>
 									<tr>

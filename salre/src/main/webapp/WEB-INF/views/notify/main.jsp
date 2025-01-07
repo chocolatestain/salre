@@ -135,15 +135,16 @@
                 cursor: pointer;
                 text-align: left;
                 padding: 10px;
-                max-height: 200px;
             }
 
             .notify-list button.checked {
-                background-color: #999;
+                background-color: #e5e5e5;
+                filter: grayscale(100%);
             }
 
             .notify-list button:hover {
-                background-color: #d1d1d1;
+                background-color: #d5d5d5;
+                filter: none;
             }
 
             .notify-icon {
@@ -199,7 +200,7 @@
 
         <!-- Main Banner -->
         <section class="main-banner">
-            <h1>알림 테스트 페이지</h1>
+            <h1>알림 확인</h1>
             <div class="login-form">
                 <input type="number" name="id" placeholder="아이디 입력" />
                 <button id="login">로그인</button>
@@ -243,9 +244,9 @@
 
                 eventSource.addEventListener('INIT', function (event) {
                     console.log('로그인 성공');
-                });
 
-                draw(user_id);
+                    draw(user_id);
+                });
 
                 eventSource.addEventListener('NOTIFY', function (event) {
                     draw(user_id);
@@ -255,6 +256,16 @@
                     console.error('SSE 연결 오류');
                 };
             });
+
+            // 알림 아이콘 지정
+            function getIcon(item) {
+                for (const keyword in iconObj) {
+                    if (item.includes(keyword)) {
+                        return iconObj[keyword];
+                    }
+                }
+                return "🔔";
+            }
 
             // Ajax 요청 함수
             function draw(user_id) {
@@ -268,21 +279,13 @@
 
                         data.forEach(function (item) {
                             const is_check = item._check ? 'checked' : '';
-
-                            let icon = "🔔";
-
-                            for (const keyword in iconObj) {
-                                if (item.notify_content.includes(keyword)) {
-                                    icon = iconObj[keyword];
-                                    break;
-                                }
-                            }
+                            const icon = getIcon(item.notify_content);
 
                             $('.notify-list').append(`
                                 <button class="\${is_check}" onclick="doClick(\${item.notify_id}, '\${item.notify_url}')">
                                     <span class="notify-icon">\${icon}</span>
                                     <span class="notify-content">\${item.notify_content}</span>
-                                    <span class="notify-time">\${timeAgo(item.notify_time)}</span>
+                                    <span class="notify-time">\${time(item.notify_time)}</span>
                                 </button>
                             `);
                         });
@@ -293,13 +296,12 @@
                 });
             }
 
-            // 알림 상태 변경 및 페이지 이동
+            // 알림 읽음 처리 및 페이지 이동
             function doClick(notify_id, notify_url) {
                 $.ajax({
                     type: "POST",
                     url: `${pageContext.request.contextPath}/notify/check/\${notify_id}`,
                     success: function () {
-                        // 알림 상태 변경 후 페이지 이동
                         window.location.href = notify_url;
                     },
                     error: function () {
@@ -308,7 +310,7 @@
                 });
             }
 
-            function timeAgo(timestamp) {
+            function time(timestamp) {
                 const now = Date.now(); // 현재 시간 (밀리초)
                 const diff = now - timestamp; // 차이 계산 (밀리초)
 
