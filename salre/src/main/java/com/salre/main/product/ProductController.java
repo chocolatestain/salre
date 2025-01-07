@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.taglibs.standard.lang.jstl.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +34,14 @@ public class ProductController {
         return "product/insert";
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/insert") // product/insert에서 작성한 내용 post  
     public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
  
  
         // MultipartHttpServletRequest를 사용하여 파일 처리
-        MultipartFile file = request.getFile("photo"); // "photo"는 HTML input의 name 값과 일치해야 함
+        MultipartFile file = request.getFile("photo");  // 
         // 일반 요청 파라미터 처리
-        String sigungu = request.getParameter("sigungu"); // "sigungu"는 HTML에서 지정한 name 값과 일치해야 함
+        String sigungu = request.getParameter("sigungu"); 
 
         // sigungu 값 출력 (테스트용)
         System.out.println("시군구: " + sigungu);
@@ -52,7 +51,7 @@ public class ProductController {
         if (file != null && !file.isEmpty()) {
             
             // 파일을 저장할 디렉토리 경로 지정
-            String directoryPath = "src/main/resources/static/images/products/";
+            String directoryPath = "src/main/resources/images/products/";
 
             // 실제 경로로 변환 (서버 내에서 실제 경로를 얻기 위한 방법)
             String realPath = new File(directoryPath).getAbsolutePath();
@@ -87,45 +86,7 @@ public class ProductController {
         model.addAttribute("products", products);
         return "product/list";
     }
-    
-    // home.jsp에서 search like concat query
-//    @GetMapping("/product/search")
-//    public String searchByConditions(@RequestParam("search") String searchQuery, Model model) {
-//        // 검색어가 비어있을 때 예외 처리
-//        if (searchQuery == null || searchQuery.trim().isEmpty()) {
-//            model.addAttribute("message", "검색어를 입력해주세요.");
-//            return "/search";
-//        }
-//
-//        log.info("검색어: {}", searchQuery);  // 로그로 검색어 확인
-//
-//        // ProductService에서 검색 결과 가져오기
-//        List<ProductDTO> searchResults = productService.searchProducts(searchQuery);
-//
-//        // 검색 결과가 없을 경우
-//        if (searchResults == null || searchResults.isEmpty()) {
-//            model.addAttribute("message", "검색 결과가 없습니다.");
-//        } else {
-//            model.addAttribute("searchResults", searchResults);
-//      
-//        }
-//
-//        return "/search";
-//    }
-//    
-    // css filter에서 설정한 파라미터들로 조건 검색 
-//    @GetMapping("/filter")
-//    public String searchByFilters(Model model) {
-//    	log.info(model.toString());
-//        // Model에서 productDTO 객체 꺼내기
-//        ProductDTO productDTO = (ProductDTO) model.getAttribute("productDTO");
-//        
-//        // 꺼낸 productDTO를 사용해 검색 조건 적용
-//        List<ProductDTO> products = productService.searchByConditions(productDTO);
-//        
-//    	model.addAttribute("products",products);
-//    	return "product/search";
-//    }
+     
     @GetMapping("/search/filter")
     public String searchByFilters(
         @RequestParam(value = "region_id", required = false) String regionId,
@@ -151,26 +112,7 @@ public class ProductController {
         return "product/search";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") int product_id, Model model) {
-        ProductDTO productDTO = productService.selectByIdService(product_id);
-        System.out.println("조회된 매물 정보: " + productDTO); // 디버깅용
-        model.addAttribute("productDTO", productDTO);
-        return "product/edit";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable("id") int product_id, @ModelAttribute ProductDTO productDTO) {
-        productDTO.setProduct_id(product_id);
-        productService.updateProduct(productDTO);
-        return "redirect:/product/list";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") int product_id) {
-        productService.deleteProduct(product_id);
-        return "redirect:/product/list";
-    }
+ 
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
     	ProductDTO product = productService.selectByIdService(product_id);
