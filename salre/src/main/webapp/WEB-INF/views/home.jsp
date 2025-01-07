@@ -116,7 +116,7 @@
     <section class="main-banner">
         <h1>살래?</h1>
         <p>찾고, 보고, 사고 내가 찾는 부동산</p>
-        <form action="search" method="GET">
+        <form action="/salre/product" method="GET">
             <input type="text" name="search" placeholder="원하시는 지역, 건물을 입력해주세요.">
             <button type="submit">검색</button>
         </form>
@@ -164,7 +164,7 @@
             // 마커 클릭 이벤트 설정
             kakao.maps.event.addListener(marker, 'click', function() {
                 var query = encodeURIComponent(region.province);  // 지역명을 URL 인코딩
-                var url = "/salre/search?search=" + query;  // 검색 URL 구성
+                var url = "/salre/product?search=" + query;  // 검색 URL 구성
                 window.location.href = url;  // URL로 이동
             });
         });

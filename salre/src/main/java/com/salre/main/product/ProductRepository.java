@@ -1,6 +1,7 @@
 package com.salre.main.product;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ public class ProductRepository {
 	@Autowired
 	SqlSession sqlSession;
 	
-	String namespace = "com.salre.main.product";
+	String namespace = "com.salre.main.product.";
 	
 	public List<ProductDTO> selectAllProducts() {
 		return sqlSession.selectList(namespace + "selectAllProducts");
@@ -34,5 +35,8 @@ public class ProductRepository {
 	}
 	public int nextId() {
 		return sqlSession.selectOne(namespace + "nextid");
+	}
+	public List<ProductDTO> selectProductsByFilter(Map<String, Object> filterParams) {
+	    return sqlSession.selectList(namespace + "selectProductsByFilter", filterParams);
 	}
 }

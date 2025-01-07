@@ -39,13 +39,13 @@ public class ProductDAO implements ProductInterface {
 	}
 
     public List<ProductDTO> searchProductsByKeyword(String keyword) {
-        log.info("검색어로 DB에서 검색: {}", keyword);  // 로그로 검색어 확인
+        log.info("검색어로 DB에서 검색: ", keyword);  // 로그로 검색어 확인
         return sqlSession.selectList(namespace + "searchProductsByKeyword", keyword);
     }
 	@Override
-	public List<ProductDTO> searchByConditions() {
-		 
-		return null;
+	public List<ProductDTO> searchByConditions(ProductDTO productDTO) {
+		 log.info("ProductDTO로 DB에서 검색 : ", productDTO);
+		return sqlSession.selectList(namespace + "searchByConditions", productDTO);
 	}
 
 	public int countProduct() {
@@ -54,5 +54,9 @@ public class ProductDAO implements ProductInterface {
 	@Override
 	public int nextId() {
 		return sqlSession.selectOne(namespace + "nextId");
+	}
+	@Override
+	public int incrementViewCount(int product_id) {
+		  return sqlSession.update(namespace + "incrementViewCount", product_id);	
 	}
 }

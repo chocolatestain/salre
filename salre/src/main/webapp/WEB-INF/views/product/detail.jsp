@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
-  <style>
+ 
+<style>
     /* 기본 설정 */
     body, html {
       margin: 0;
@@ -282,7 +283,30 @@
         margin-top: 20px;
       }
     }
-    
+    .large-font{
+	  font-size:xxx-large;
+	    .status {
+	        font-weight: bold;
+	  }      
+    } 
+    .status-before {
+        color: green;
+    }
+    .status-in-progress {
+        color: orange;
+    }
+    .status-completed { 
+        color: gray;
+    }
+    .status-unknown { 
+        color: red;
+    }
+ 	#price-row{
+	    display: flex; /* Flexbox를 사용하여 자식 요소를 가로로 배치 */
+	    gap: 10px; /* 각 div 사이에 간격을 설정 */
+	    align-items: center; /* 세로 중앙 정렬 */
+
+ 	}
   </style>
 
 </head>
@@ -305,14 +329,12 @@
   </header>
 
   <div class="screen">
-    <div class="left">
-      <p class="product-directory">홈 &gt; 매물검색 &gt; 서울시 종로구 &gt; 빌라</p>
+    <div class="left"> 
       <img class="main-image" src="https://placehold.co/600x600" alt="Main Image" />
       <div class="seller-profile">
         <img class="generic-avatar" src="https://placehold.co/75x75" alt="Avatar" />
         <p class="seller-name">
-          <span class="seller-nickname">xyl4h4jrhe<br /></span>
-          <span class="seller-region">종로구</span>
+          <span class="seller-nickname">${product.user_id}</span> 
         </p>
       </div>
 
@@ -349,15 +371,45 @@
           </div>
         </div>
         <div class="right">
-     
+    
+	
+	
+	
           <div class="product-info">
                       <div style="display: flex; justify-content: space-between; align-items: center;">
               <p class="product-descript-name" style="margin-top : 30px;">상세 내용</p>
+           	<div>
               <a href="report_page.html" id="report" style="text-decoration: none; color: #f4a261; cursor: pointer;">신고하기</a>
-            </div>
-                      <div class="info-row">
+              <div class = "readCount">조회수 ${product.view_count } 회</div>
+              </div>
+            </div> 
+            
+            <div class="info-row" id = "price-row">
+			    <div class="${status }">
+			        <h2>${label}</h2> 
+			    </div>
+			    <div class="payment-type" style="display:inline;">
+			        <h2>${product.payment_type}</h2>
+			    </div>
+			    <div class="deposit" id = "product_deposit">
+			        <h2>${product.deposit}</h2>
+			    </div>
+			    <div class="rentfee"> 
+			         <c:choose>
+				        <c:when test="${product.payment_type == '월세'}">
+				            <h2>/ ${product.rentfee}</h2>
+				        </c:when>
+				        <c:otherwise>
+ 
+				        </c:otherwise>
+				    </c:choose>
+	   		    </div>
+			</div>
+
+
+            <div class="info-row">
               <div class="info-category">주소</div>
-              <div class="info-content">${product.address } + ${product.address_detail }</div>
+              <div class="info-content">${product.address} ${product.floor } 층 ${product.address_detail }</div>
             </div> 
             
             <div class="info-row">
@@ -367,27 +419,12 @@
             <div class="info-row">
               <div class="info-category">방/욕실 수</div>
               <div class="info-content">방 ${product.room_count } 개 / 욕실 ${product.bath_count }</div>
-            </div>
-            <div class="info-row">
-              <div class="info-category">층</div>
-              <div class="info-content">${product.floor }</div>
             </div> 
             <div class="info-row">
               <div class="info-category">전세/월세</div>
               <div class="info-content">${product.payment_type }</div>
-            </div> 
-            
-                        <div class="info-row">
-              <div class="info-category">보증금</div>
-              <div class="info-content">${product.deposit }</div>
-            </div> 
-            
-                        <div class="info-row">
-              <div class="info-category">월세</div>
-              <div class="info-content">${product.rentfee }</div>
-            </div> 
-            
-                        <div class="info-row">
+            </div>  
+            <div class="info-row">
               <div class="info-category">방향</div>
               <div class="info-content">${product.direction} 향</div>
             </div> 
@@ -395,42 +432,78 @@
             </div>   
             <p class="product-descript">
               ${product.description }
-            </p>
-            
+            </p>  
 			<div id="map" style="width:550px;height:200px;"></div>
-			
-			<script>
-    var mapContainer = document.getElementById('map'); // 지도를 표시할 div
-    var mapOption = { 
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 초기 중심좌표
-        level: 3 // 확대 레벨
+   <script>  
+    let map; // 전역 변수로 지도 객체 생성
+    const query = "${product.address }"
+    window.onload = function () {
+         
+        if (query) {
+            searchAddress();
+        }
     };
+    
+    // Kakao 지도 초기화 함수
+    function initMap(x, y) {
+        const mapContainer = document.getElementById('map'); // 지도를 표시할 div
+        const mapOption = {
+            center: new kakao.maps.LatLng(y, x), // 동적으로 받은 x, y 값 사용
+            level: 3, // 확대 레벨
+            draggable: false 
+        };
 
-    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
+        // 지도 생성
+        map = new kakao.maps.Map(mapContainer, mapOption);
 
-    if (kakao.maps.services) {
-        var geocoder = new kakao.maps.services.Geocoder(); // Geocoder 객체 생성
-
-        var address = "${product.address}"; // 동적 주소
-
-        geocoder.addressSearch(address, function(result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-                var marker = new kakao.maps.Marker({
-                    map: map,
-                    position: coords
-                });            
-                map.setCenter(coords);
-            } else {
-                console.error("주소 검색 실패: ", status);
-            }
+        // 마커 생성
+        const marker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(y, x)
         });
-    } else {
-        console.error("Kakao Maps 서비스 객체를 초기화할 수 없습니다.");
+
+        // 지도 중심 설정
+        map.setCenter(new kakao.maps.LatLng(y, x));
+    }
+
+    async function searchAddress() {
+         
+ 
+        const encodedQuery = encodeURIComponent(query);
+        const apiUrl = `https://dapi.kakao.com/v2/local/search/address.json?query=\${encodedQuery}`;
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "GET",
+                headers: {
+                    "Authorization": "KakaoAK 0a921d8f6de257f50d4e45968e437ec5"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("API 호출 실패: " + response.status);
+            }
+
+            const data = await response.json();
+
+            if (data.documents.length === 0) {
+                console.log("검색 결과가 없습니다.");
+                return;
+            }
+
+            const result = data.documents[0];
+            const address = result.address.address_name;
+            const x = result.x;
+            const y = result.y;
+
+            initMap(x, y); 
+            
+        } catch (error) {
+            console.error("Error:", error);
+            alert("API 호출 중 오류가 발생했습니다.");
+        }
     }
 </script>
-
 
 		<div class="product-address" id="address">
 		 	${product.address } ${product.address_detail}
@@ -441,8 +514,7 @@
 		  document.getElementById("address").addEventListener("click", function() {
 		    var copyText = document.getElementById("address");
 		    var notification = document.getElementById("copyNotification");
-		
-		    // 텍스트 색상 변경 (선택사항)
+
 		    copyText.style.color = "#f4a261"; // 복사된 후 텍스트 색 변경
 		
 		    navigator.clipboard.writeText(copyText.innerText)
@@ -459,12 +531,8 @@
 		  });
 		</script> 
 	            </div>
-	          </div>
-	       </div>
-	      </div>  
-	    </div>
-	  </div>
-  <footer>
+	          </div> 
+  	<footer>
 		  <div>
 		      <h3>형태 별 검색</h3>
 		      <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
@@ -483,5 +551,40 @@
 		      <a href="#">채용</a><br>
 		  </div>
 	</footer>
+	
+	
+	 <script> 
+	    function formatNumber(value) {
+	        if (value < 1000000) return (value /100000) + " 만";  
+	
+	        const units = ["", "억", "천만", "백만", "십만"];
+	        const result = [];
+	        let remainer = value;
+	
+	        for (let i = 0; i < units.length; i++) {
+	            const unitValue = Math.pow(10, 8 - i * 4);  
+	            const unitAmount = Math.floor(remainer / unitValue);
+	            if (unitAmount > 0) {
+	                result.push(unitAmount + units[i]);
+	                remainer %= unitValue;
+	            }
+	            console.log(unitValue, unitAmount);
+	        }
+	        return result.join(" ");
+	    }
+	    
+	    window.onload = function() {
+	    	 
+	        const depositElement = document.getElementById('product_deposit');
+	        const depositValue = parseInt(depositElement.innerText, 10);
+	        console.log("aaa:" +depositValue + ":" + formatNumber(depositValue));
+	        
+	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + '</h2>';
+	        
+ 
+	    };
+	</script> 
+	
+	
 </body> 
 </html>
