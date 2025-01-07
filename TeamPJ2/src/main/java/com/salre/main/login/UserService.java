@@ -1,4 +1,4 @@
-package com.team.salre.login;
+package com.salre.main.login;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.salre.main.myPage.PostDTO;
+import com.salre.main.myPage.ReportDTO;
+import com.salre.main.myPage.ReviewDTO;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 

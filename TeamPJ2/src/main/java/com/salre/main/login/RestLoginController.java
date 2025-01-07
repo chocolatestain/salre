@@ -1,4 +1,4 @@
-package com.team.salre.login;
+package com.salre.main.login;
 
 import java.io.IOException;
 import java.net.URI;

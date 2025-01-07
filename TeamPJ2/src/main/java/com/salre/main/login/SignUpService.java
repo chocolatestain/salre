@@ -1,4 +1,4 @@
-package com.team.salre.login;
+package com.salre.main.login;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

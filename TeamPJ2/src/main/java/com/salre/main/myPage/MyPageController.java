@@ -1,4 +1,4 @@
-package com.team.salre.login;
+package com.salre.main.myPage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserService;
 
 @Controller
 public class MyPageController {
@@ -40,7 +43,7 @@ public class MyPageController {
 	}
 
  
-	//���������� - ���� �ۼ��� ��.. ��� ��ȸ
+	//���������� - ���� �ۼ��� ��.. ���? ��ȸ
 	@GetMapping("/posts")
 	public String getMyPosts(HttpSession session, Model model) {
 	    // ���ǿ��� UserDTO ��ü ��������
@@ -51,13 +54,13 @@ public class MyPageController {
 	        int user_id = user.getUser_id(); // user_id ����
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service ȣ���Ͽ� �Խñ� ��� ��ȸ
+	        // Service ȣ���Ͽ� �Խñ� ���? ��ȸ
 	        List<PostDTO> postList = userService.getPostsByUserId(user_id);
 	        System.out.println("postList: " + postList);
 	        model.addAttribute("postList", postList);
 	        return "myPage/posts"; // post.jsp ��ȯ
 	    } else {
-	        // ���ǿ� UserDTO�� ���ų� �α��ε��� ���� ���
+	        // ���ǿ� UserDTO�� ���ų� �α��ε��� ���� ���?
 	        System.out.println("Session does not contain a valid UserDTO.");
 	        return "redirect:/login"; // �α��� �������� �����̷�Ʈ
 	    }
@@ -75,13 +78,13 @@ public class MyPageController {
 	        int user_id = user.getUser_id(); // user_id ����
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service ȣ���Ͽ� �Խñ� ��� ��ȸ
+	        // Service ȣ���Ͽ� �Խñ� ���? ��ȸ
 	        List<ReviewDTO> reviewList = userService.getMyreviewsByUserId(user_id);
 	        System.out.println("reviewList: " + reviewList);
 	        model.addAttribute("reviewList", reviewList);
 	        return "myPage/reviews"; // reviews.jsp ��ȯ
 	    } else {
-	        // ���ǿ� UserDTO�� ���ų� �α��ε��� ���� ���
+	        // ���ǿ� UserDTO�� ���ų� �α��ε��� ���� ���?
 	        System.out.println("Session does not contain a valid UserDTO.");
 	        return "redirect:/login"; // �α��� �������� �����̷�Ʈ
 	    }
@@ -144,13 +147,13 @@ public class MyPageController {
 		        int user_id = user.getUser_id(); // user_id ����
 		        System.out.println("Extracted user_id: " + user_id);
 
-		        // Service ȣ���Ͽ� �Խñ� ��� ��ȸ
+		        // Service ȣ���Ͽ� �Խñ� ���? ��ȸ
 		        List<ReportDTO> reportList = userService.getMyreportsByUserId(user_id);
 		        System.out.println("reportList: " + reportList);
 		        model.addAttribute("reportList", reportList);
 		        return "myPage/reports"; // reports.jsp ��ȯ
 		    } else {
-		        // ���ǿ� UserDTO�� ���ų� �α��ε��� ���� ���
+		        // ���ǿ� UserDTO�� ���ų� �α��ε��� ���� ���?
 		        System.out.println("Session does not contain a valid UserDTO.");
 		        return "redirect:/login"; // �α��� �������� �����̷�Ʈ
 		    }

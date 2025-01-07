@@ -1,4 +1,4 @@
-package com.team.salre.login;
+package com.salre.main.myPage;
 
 import lombok.Getter;
 import lombok.Setter;

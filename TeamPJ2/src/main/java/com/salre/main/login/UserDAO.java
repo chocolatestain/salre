@@ -1,4 +1,4 @@
-package com.team.salre.login;
+package com.salre.main.login;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +8,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.salre.main.myPage.PostDTO;
+import com.salre.main.myPage.ReportDTO;
+import com.salre.main.myPage.ReviewDTO;
+
 
 @Repository
 public class UserDAO implements UserDAOInterface {
 
 	@Autowired
 	private SqlSession sqlSession;
-	String namespace = "com.team.salre.login.UserDAOInterface.";
+	String namespace = "com.salre.main.login.UserDAOInterface.";
 
 	// 회원가입
 	public int insertUser(UserDTO user) {

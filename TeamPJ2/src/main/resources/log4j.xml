@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.team.salre">
+	<logger name="com.salre.main">
 		<level value="info" />
 	</logger>
 	
