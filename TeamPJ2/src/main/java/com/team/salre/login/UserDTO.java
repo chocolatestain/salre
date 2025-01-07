@@ -1,4 +1,4 @@
-package com.salre.main.login;
+package com.team.salre.login;
 
 import lombok.Getter;
 import lombok.Setter;

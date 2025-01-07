@@ -1,4 +1,4 @@
-package com.salre.main.myPage;
+package com.team.salre.login;
 
 import java.sql.Timestamp;
 

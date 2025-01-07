@@ -1,4 +1,4 @@
-package com.salre.main.login;
+package com.team.salre.login;
 
 import java.io.IOException;
 import java.net.URI;
@@ -36,24 +36,24 @@ public class LoginController {
 	private UserService userService;
 	
 //	@Autowired 
-//	ProductService productService; //?�� 코드 ?��칠경?��
+//	ProductService productService; //설 코드 합칠경우
 	
-	// 본인?���? ?��?���?
+	// 본인인증 페이지
 	@GetMapping("/signup")
 	public String signupPage() {
 		return "logIn/signUpAuth"; // signup.jsp 반환
 	}
 	
 	
-	  // 본인?���? 처리
+	  // 본인인증 처리
 	  @PostMapping("/certify")
-//	  @ResponseBody //메서?��?�� 반환값을 JSON ?��?�� 문자?���? 같�? HTTP ?��?�� 본문?�� 직접 ?��?��
+//	  @ResponseBody //메서드의 반환값을 JSON 또는 문자열과 같은 HTTP 응답 본문에 직접 포함
 	  public ResponseEntity<String> processCertification(@RequestParam("certificationResult") boolean certificationResult, HttpSession session){ 
 	  if(certificationResult) {
-	  session.setAttribute("isCertified", true); // ?���? ?���? ?��?�� ???�� return
+	  session.setAttribute("isCertified", true); // 인증 성공 상태 저장 return
 	  return ResponseEntity.ok("Certification Successful"); 
 	  }else {
-	  session.setAttribute("isCertified", false); // ?��?�� ?��?�� ?��?�� ???�� return
+	  session.setAttribute("isCertified", false); // 인등 실패 상태 저장 return
 	  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Certification Failed"); 
 	  	}
 	  }
@@ -63,17 +63,17 @@ public class LoginController {
 			return "common/logout";
 		}
 	
-	// ?��?���??�� 처리
+	// 회원가입 처리
 	@PostMapping("/signup")
 	public String registerUser(UserDTO user, Model model) {
 		int result = userService.registerUser(user);
-		model.addAttribute("message", result > 0 ? "?��?���??�� ?���?" : "?��?���??�� ?��?��");
+		model.addAttribute("message", result > 0 ? "회원가입 성공" : "회원가입 실패");
 		
-		return "redirect:login"; // ?��?���??�� ?�� 로그?�� ?��?���?�? ?��?�� //salre/ 추�??��?��
+		return "redirect:login"; // 회원가입 후 로그인 페이지로 이동 //salre/ 추가했음
 	}
 
 	
-	// ?��?��?��보입?�� ?��?���?
+	// 회원정보입력 페이지
 		@GetMapping("/signUpInfo")
 		public String signupInfoPage() {
 			return "logIn/signUpInfo"; // signup.jsp 반환
@@ -84,22 +84,22 @@ public class LoginController {
 		
 		
 /*		
-	// ?��?��?��보입?�� ?��?���?
+	// 회원정보입력 페이지
 	@GetMapping("/signUpInfo")
 	public String signUpInfoPage(HttpSession session) {
-		// 본인?���? ?���? ?��?��(?��?��?�� ?���? ?���? ???��?��?���? �??��)
+		// 본인인증 여부 확인(세션에 인증 여부 저장한다고 가정)
 		Boolean isCertified=(Boolean) session.getAttribute("isCertified");
 		
 		if(isCertified !=null&& isCertified) {
-			return "logIn/signUpInfo";//?��?��?��보입?�� ?��?���? 반환
+			return "logIn/signUpInfo";//회원정보입력 페이지 반환
 		}else {
-			return "redirect:/signup";//?��증이 ?��료되�? ?��?��?���? ?��?�� 본인?���? ?��?���?�? 리다?��?��?��
+			return "redirect:/signup";//인증이 완료되지 않았다면 다시 본인인증 페이지로 리다이렉트
 		}
 	}
 	
 	*/
 	
-	// 로그?�� ?��?���?
+	// 로그인 페이지
 	@GetMapping("/login")
 	public String loginPage() {
 		return "logIn/login"; // login.jsp 반환
@@ -109,28 +109,28 @@ public class LoginController {
 	public void admin() {
 	}
 
-	// 로그?�� 처리
+	// 로그인 처리
 	/*
 	 * @PostMapping("/login") public String loginUser(@RequestParam String
 	 * id, @RequestParam String password, HttpSession session, Model model) {
 	 * UserDTO user = userService.loginUser(id, password); //
 	 * System.out.println("user : " + user); if (user != null) {
 	 * session.setAttribute("loggedInUser", user); model.addAttribute("user", user);
-	 * return "myPage/transactions"; // 로그?�� ?���? ?�� transactions.jsp�? ?��?��
+	 * return "myPage/transactions"; // 로그인 성공 시 transactions.jsp로 이동
 	 * 
-	 * // return "redirect:/home"; // 로그?�� ?���? ?�� ?��?���? ?��?��
+	 * // return "redirect:/home"; // 로그인 성공 시 홈으로 이동
 	 * 
-	 * } else { model.addAttribute("error", "로그?�� ?��?��: ?��?��?�� ?��?�� 비�?번호�? ?��못되?��?��?��?��."); return
-	 * "logIn/login"; // 로그?�� ?��?�� ?�� ?��?�� 로그?�� ?��?���? } }
+	 * } else { model.addAttribute("error", "로그인 실패: 아이디 또는 비밀번호가 잘못되었습니다."); return
+	 * "logIn/login"; // 로그인 실패 시 다시 로그인 페이지 } }
 	 */
 	
 	
-	/*
-	 * // �?리자 myPage
-	 * 
-	 * @GetMapping("/admin/myPage") public void admin() { }
-	 */
-	// 로그?��
+	// 관리자 myPage
+	@GetMapping("/admin/myPage")
+	public void admin() {
+	}
+
+	// 로그인
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {
 		UserDTO user = userService.loginUser(id, password);
@@ -138,32 +138,32 @@ public class LoginController {
 		if (user != null) {
 			session.setAttribute("loggedInUser", user);
 			if (id.equals("test15")) {
-				session.setAttribute("contractStatusPending", 10); // 吏꾪�? �쟾
-				session.setAttribute("contractStatusNegotiating", 5); // 議곗?�� 以�
-				session.setAttribute("contractStatusOngoing", 15); // 吏꾪�? 以�
-				session.setAttribute("contractStatusCompleted", 20); // ?�꾩�? �셿?���?
-				session.setAttribute("propertyReportCount", 30); // 留ㅻЪ �떊?�� 嫄댁?��
-				session.setAttribute("boardReportCount", 12); // 寃뚯?���뙋 �떊?�� 嫄댁?��
-				session.setAttribute("userReportCount", 8); // ��?�� �떊?�� 嫄댁?��
-				session.setAttribute("board1PostCount", 150); // 寃뚯?���뙋 1 寃뚯?��湲� �닔
-				session.setAttribute("board2PostCount", 120); // 寃뚯?���뙋 2 寃뚯?��湲� �닔
-				session.setAttribute("board3PostCount", 130); // 寃뚯?���뙋 3 寃뚯?��湲� �닔
-				session.setAttribute("contractCount", 50); // �쟾泥� ?�꾩�? 嫄댁?��
+				session.setAttribute("contractStatusPending", 10); // 吏꾪뻾 �쟾
+				session.setAttribute("contractStatusNegotiating", 5); // 議곗쑉 以�
+				session.setAttribute("contractStatusOngoing", 15); // 吏꾪뻾 以�
+				session.setAttribute("contractStatusCompleted", 20); // 怨꾩빟 �셿猷�
+				session.setAttribute("propertyReportCount", 30); // 留ㅻЪ �떊怨� 嫄댁닔
+				session.setAttribute("boardReportCount", 12); // 寃뚯떆�뙋 �떊怨� 嫄댁닔
+				session.setAttribute("userReportCount", 8); // �쑀�� �떊怨� 嫄댁닔
+				session.setAttribute("board1PostCount", 150); // 寃뚯떆�뙋 1 寃뚯떆湲� �닔
+				session.setAttribute("board2PostCount", 120); // 寃뚯떆�뙋 2 寃뚯떆湲� �닔
+				session.setAttribute("board3PostCount", 130); // 寃뚯떆�뙋 3 寃뚯떆湲� �닔
+				session.setAttribute("contractCount", 50); // �쟾泥� 怨꾩빟 嫄댁닔
 				return "redirect:admin/myPage";
 			}
 			model.addAttribute("user", user);
-			return "myPage/transactions"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
+			return "myPage/transactions"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙 占쏙옙 transactions.jsp占쏙옙 占싱듸옙
 
-			// return "redirect:/home"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?��?��?��?�� ?��?��?��?��
+			// return "redirect:/home"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙 占쏙옙 홈占쏙옙占쏙옙 占싱듸옙
 		}
 
 		else {
-			model.addAttribute("error", "ID ?��?�� PW�? ?��못되?��?��?��?��.");
-			return "logIn/login"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?�� ?��?��깍옙?��?��?�� ?��?��?��?��?��?��?��?��?��
+			model.addAttribute("error", "ID 또는 PW가 잘못되었습니다.");
+			return "logIn/login"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙 占쏙옙 占쌕쏙옙 占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙
 		}
 	}
 
-	// ID 찾기 ?��?���?
+	// ID 찾기 페이지
 	@GetMapping("/findId")
 	public String findIdPage() {
 		return "/logIn/findId";
@@ -172,21 +172,21 @@ public class LoginController {
 	// ID 찾기 처리
 	@PostMapping("/findId")
 	public String processFindId(@RequestParam("email") String email,@RequestParam("user_name") String name, Model model) {
-		// ?��메일�? ID�? 찾는 ?��비스 ?���?
+		// 이메일로 ID를 찾는 서비스 호출
 		String userId = userService.findIdByEmailAndName(email,name);
 		System.out.println("userID###### : " + userId);
 
 		if (userId != null) {
 			model.addAttribute("message", "Your ID is : " + userId);
 		} else {
-			model.addAttribute("error", "?��록된 ?��?��?�� 찾을 ?�� ?��?��?��?��.");
+			model.addAttribute("error", "등록된 회원을 찾을 수 없습니다.");
 		}
 
 		return "/logIn/findId";
 	}
 	
 
-	// PW 찾기 ?��?���?
+	// PW 찾기 페이지
 	@GetMapping("/findPassword")
 	public String findPasswordPage() {
 		return "/logIn/findPassword";
@@ -203,13 +203,13 @@ public class LoginController {
 
 	        if (!isValidUser) {
 	            response.put("success", false);
-	            response.put("message", "ID?? ?��메일?�� ?��록된 ?��보�? ?��치하�? ?��?��?��?��.");
+	            response.put("message", "ID와 이메일이 등록된 정보와 일치하지 않습니다.");
 	            return response;
 	        }
 
 	        userService.generateVerificationCode(email);
 	        response.put("success", true);
-	        response.put("message", "?��증번?���? ?��메일�? 발송?��?��?��?��?��.");
+	        response.put("message", "인증번호가 이메일로 발송되었습니다.");
 	        return response;
 	    }
 
@@ -221,10 +221,10 @@ public class LoginController {
 
 	        if (isCodeValid) {
 	            response.put("success", true);
-	            response.put("message", "?��증번?���? ?��?��?��?��?��?��?��. ?�� 비�?번호�? ?��?��?��?��?��.");
+	            response.put("message", "인증번호가 확인되었습니다. 새 비밀번호를 입력하세요.");
 	        } else {
 	            response.put("success", false);
-	            response.put("message", "?��증번?���? ?��?��?���? ?��?��?��?��.");
+	            response.put("message", "인증번호가 유효하지 않습니다.");
 	        }
 	        return response;
 	    }
@@ -236,7 +236,7 @@ public class LoginController {
 
 	        userService.updatePassword(email, newPassword);
 	        response.put("success", true);
-	        response.put("message", "비�?번호�? ?��공적?���? �?경되?��?��?��?��.");
+	        response.put("message", "비밀번호가 성공적으로 변경되었습니다.");
 	        return response;
 	    }
 
@@ -256,21 +256,21 @@ public class LoginController {
 		public String handleAdminPost(HttpSession session) {
 			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
 			if (user == null) {
-				return "redirect:/login"; // 濡쒓?���씤�릺吏� �븡�� 寃쎌?�� 濡쒓?���씤 �럹�씠吏�濡� ?��?�떎�씠�젆�듃
+				return "redirect:/login"; // 濡쒓렇�씤�릺吏� �븡�� 寃쎌슦 濡쒓렇�씤 �럹�씠吏�濡� 由щ떎�씠�젆�듃
 			}
 
-			// �꽭��?? �뜲�씠�꽣 �솗�씤 �썑 �븘�슂�븯硫� ?��붽� �옉�뾽
-			return "redirect:/admin/myPage"; // GET �슂泥��쑝濡� ?��?�떎�씠�젆�듃
+			// �꽭�뀡 �뜲�씠�꽣 �솗�씤 �썑 �븘�슂�븯硫� 異붽� �옉�뾽
+			return "redirect:/admin/myPage"; // GET �슂泥��쑝濡� 由щ떎�씠�젆�듃
 		}
 
 		
-		//?��?��?��보수?��
+		//회원정보수정
 		  @GetMapping("/updatemyPage") 
 		  public String updateUser() {
 			  return "myPage/updateMyPage";
 		  }
 		  
-		//?��?��?��보수?��(?���? ?�� data)
+		//회원정보수정(인증 후 data)
 		  @GetMapping("/getSessionData")
 		  @ResponseBody
 		  public Map<String, String> getSessionData(HttpSession session) {
@@ -283,27 +283,27 @@ public class LoginController {
 
 	
 		  
-		  //?��?��?��보수?��버튼 ?��르면 update
+		  //회원정보수정버튼 누르면 update
 		  @PostMapping("/updateUserInfo")
 		  @ResponseBody
 		  public Map<String, Object> updateUserInfo(@RequestBody UserDTO user, HttpSession session) {
 		      Map<String, Object> response = new HashMap<>();
 		      try {
-		          // ?��?��?��?�� 기존 ?��?��?���? �??��?��
+		          // 세션에서 기존 데이터를 가져옴
 		          UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
 
-		          // 기존 �? ?���? 로직
-		          if (loggedInUser != null) { //?��?? 로그?��?��?�� ?��?��
+		          // 기존 값 유지 로직
+		          if (loggedInUser != null) { //유저 로그인상태 확인
 		              if (user.getPassword() == null || user.getPassword().isEmpty()) {
-		                  user.setPassword(loggedInUser.getPassword()); // 기존 ?��?�� ?���?
+		                  user.setPassword(loggedInUser.getPassword()); // 기존 암호 유지
 		              }
 		             
 		          }
 
-		          // ?��?��?��?�� ?���?
+		          // 업데이트 호출
 		          userService.updateUserInfo(user);
 
-		          // ?��?�� ?��?��?��?��
+		          // 세션 업데이트
 		          session.setAttribute("loggedInUser", user);
 
 		          response.put("success", true);
@@ -318,24 +318,24 @@ public class LoginController {
 		  
 		 
 	
-		 // ?��?��?��?�� 처리
+		 // 회원탈퇴 처리
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
 
 		try {
 			userService.deleteUser(id);
-			redirectAttributes.addFlashAttribute("message", "?��?��?��?���? ?��료되?��?��?��?��."); // addFlashAttribute�? ?��?��?���? 리다?��?��?��?�� ?��?���??��?���?
-																				// 메시�?�? ?��?��
+			redirectAttributes.addFlashAttribute("message", "회원탈퇴가 완료되었습니다."); // addFlashAttribute를 사용하면 리다이렉트된 페이지에서만
+																				// 메시지가 유효
 			return "redirect:/login";
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("error", "?��?��?��?�� �? ?��류�? 발생?��?��?��?��.");
+			redirectAttributes.addFlashAttribute("error", "회원탈퇴 중 오류가 발생했습니다.");
 			return "redirect:/myPage";
 		}
 	}
 
 	
 	
-	// ?��?���??�� - 본인?���?
+	// 회원가입 - 본인인증
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
 	public String rspTest(String imp_uid, HttpSession session) {
@@ -387,20 +387,20 @@ public class LoginController {
 	    System.out.println("########JSON Response from API: " + jsonResponse2);
 
 	    try {
-	        // JSON ?��?��?�� ?��?�� �? ?��?�� ???��
+	        // JSON 데이터 파싱 및 세션 저장
 	        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
 	        if (userNode != null) {
 	            String name = userNode.path("name").asText(null);
 	            String phone = userNode.path("phone").asText(null);
 	            String birthday = userNode.path("birthday").asText(null);
 
-	            // ?��?��?��?�� ?���? �??�� (yyyy-MM-dd -> yyMMdd)
+	            // 생년월일 포맷 변환 (yyyy-MM-dd -> yyMMdd)
 	            if (birthday != null) {
 	                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
 	            }
 	            
-	            // ?��?��?�� ???��
+	            // 세션에 저장
 	            session.setAttribute("certifiedName", name);
 	            session.setAttribute("certifiedPhone", phone);
 	            session.setAttribute("certifiedBirthday", birthday);
@@ -414,9 +414,9 @@ public class LoginController {
 	        e.printStackTrace();
 	    }
 
-	    return jsonResponse2; // JSON ?��?��?���? 그�?�? 반환
+	    return jsonResponse2; // JSON 데이터를 그대로 반환
 	}
-	// ?��?��?��보수?�� - 본인?��증버?��
+	// 회원정보수정 - 본인인증버튼
 		@ResponseBody
 		@PostMapping(value = "/rspTest3")
 		public String rspTest3(String imp_uid, HttpSession session) {
@@ -468,19 +468,19 @@ public class LoginController {
 		    System.out.println("########JSON Response from API: " + jsonResponse2);
 
 		    try {
-		        // JSON ?��?��?�� ?��?�� �? ?��?�� ???��
+		        // JSON 데이터 파싱 및 세션 저장
 		        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
 		        if (userNode != null) {
 		            String name = userNode.path("name").asText(null);
 		            String phone = userNode.path("phone").asText(null);
 		            String birthday = userNode.path("birthday").asText(null);
 
-		            // ?��?��?��?�� ?���? �??�� (yyyy-MM-dd -> yyMMdd)
+		            // 생년월일 포맷 변환 (yyyy-MM-dd -> yyMMdd)
 		            if (birthday != null) {
 		                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
 		            }
-		            // ?��?��?�� ???��?�� 기존 ?��?��?��?? 병합
+		            // 세션에 저장된 기존 데이터와 병합
 		            UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
 		            if (loggedInUser != null) {
 		                if (name != null) loggedInUser.setUser_name(name);
@@ -489,7 +489,7 @@ public class LoginController {
 		                session.setAttribute("loggedInUser", loggedInUser);
 		            }
 
-		            // ?��?��?�� ???��
+		            // 세션에 저장
 		            session.setAttribute("certifiedName", name);
 		            session.setAttribute("certifiedPhone", phone);
 		            session.setAttribute("certifiedBirthday", birthday);
@@ -503,7 +503,7 @@ public class LoginController {
 		        e.printStackTrace();
 		    }
 
-		    return jsonResponse2; // JSON ?��?��?���? 그�?�? 반환
+		    return jsonResponse2; // JSON 데이터를 그대로 반환
 		}
 	
 	

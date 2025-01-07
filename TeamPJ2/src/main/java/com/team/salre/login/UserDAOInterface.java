@@ -1,4 +1,4 @@
-package com.salre.main.login;
+package com.team.salre.login;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +8,6 @@ import java.util.Random;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.salre.main.myPage.PostDTO;
-import com.salre.main.myPage.ReportDTO;
-import com.salre.main.myPage.ReviewDTO;
 
 // Interface(규격서): 정의는 있고 구현은 없다.
 @Mapper
