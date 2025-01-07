@@ -168,16 +168,27 @@
         
     <h1>Find Your ID</h1>
     <form action="${contextPath}/findId" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="user_name" placeholder="Name(이름)" required><br><br>
+      <!--   <label for="resident_num">ResidentNum:</label>
+        <input type="text" id="birthday" name="resident_num" placeholder="First digits of Resident Registration Number(주민번호앞6자리)" required><br><br> -->
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
+        <input type="email" id="email" name="email" placeholder="Enter your email(가입시 등록한 이메일)" required><br><br>
         <button type="submit">Find ID</button>
     </form>
     <br>
-       <!-- ID찾기 결과 -->
-   		${message}
+   		 <!-- ID찾기 결과 메시지 -->
+	    <c:if test="${not empty message}">
+	        <p style="color: green;">${message}</p>
+	    </c:if>
+	    <c:if test="${not empty error}">
+	        <p style="color: red;">${error}</p>
+	    </c:if>
      </div>
-   
+   </div>  
     
+   
+
 
    
 </body>

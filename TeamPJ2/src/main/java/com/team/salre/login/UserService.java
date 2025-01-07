@@ -88,10 +88,11 @@ public class UserService {
 
 
 	    //--아이디 찾기
-		public String findIdByEmail(String email) {
-			String find_id = userDAO.findIdByEmail(email);
+		public String findIdByEmailAndName(String email, String name) {
+			String find_id = userDAO.findIdByEmailAndName(email, name);
 			System.out.println("UserService/ find Id @@@email = " + find_id);
 			return find_id;
+			
 		}
 		
 		
@@ -138,6 +139,11 @@ public class UserService {
 			  //userDAO.selectUserById2(id): null-데이터베이스에 해당 ID가 존재하지 않음 → 사용 가능한 ID./값이 있음-데이터베이스에 해당 ID가 존재함 → 중복된 ID.
 		      return userDAO.selectUserById2(id) == null;
 		    }
+		  
+		  public boolean isEmailAvailable(String email) {
+			  int count = userDAO.countByEmail(email);
+			  return count==0;
+		  }
 
 
 		//마이페이지 - 내가 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
@@ -152,20 +158,26 @@ public class UserService {
 		
 		//마이페이지 - 내가 작성한 후기(수정)
 		
-		  public void updateReview(int review_id, int review_rate, String review_content) { 
+		public void updateReview(int review_id, int review_rate, String review_content) { 
 			  userDAO.updateReview(review_id, review_rate,  review_content); 
 		 }
 		  
 		//마이페이지 - 나의 거래후기(삭제)
-		  public void deleteReview(int review_id) {
+		public void deleteReview(int review_id) {
 			    userDAO.deleteReview(review_id);
 			}
 
+		  
+		// 마이페이지 - 나의 신고내역  
+		public List<ReportDTO> getMyreportsByUserId(int user_id){
+			  return userDAO.selectReportsByUserId(user_id);
+		  }
+
+		// 마이페이지 - 회원정보수정
+		public void updateUserInfo(UserDTO user) {
+			userDAO.updateUserInfo(user);
+		};
 		 
 		
-		/*
-		 * public void updateReview(int review_rate, String review_content) {
-		 * userDAO.updateReview(review_rate, review_content); }
-		 */
 		
 }

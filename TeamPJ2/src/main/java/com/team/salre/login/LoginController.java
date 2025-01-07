@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,117 +36,160 @@ public class LoginController {
 	private UserService userService;
 	
 //	@Autowired 
-//	ProductService productService; //¼³ ÄÚµå ÇÕÄ¥°æ¿ì
+//	ProductService productService; //ì„¤ ì½”ë“œ í•©ì¹ ê²½ìš°
 	
-	// º»ÀÎÀÎÁõ ÆäÀÌÁö
+	// ë³¸ì¸ì¸ì¦ í˜ì´ì§€
 	@GetMapping("/signup")
 	public String signupPage() {
-		return "logIn/signUpAuth"; // signup.jsp ¹İÈ¯
+		return "logIn/signUpAuth"; // signup.jsp ë°˜í™˜
 	}
 	
 	
-	  // º»ÀÎÀÎÁõ Ã³¸®
+	  // ë³¸ì¸ì¸ì¦ ì²˜ë¦¬
 	  @PostMapping("/certify")
-//	  @ResponseBody //¸Ş¼­µåÀÇ ¹İÈ¯°ªÀ» JSON ¶Ç´Â ¹®ÀÚ¿­°ú °°Àº HTTP ÀÀ´ä º»¹®¿¡ Á÷Á¢ Æ÷ÇÔ
+//	  @ResponseBody //ë©”ì„œë“œì˜ ë°˜í™˜ê°’ì„ JSON ë˜ëŠ” ë¬¸ìì—´ê³¼ ê°™ì€ HTTP ì‘ë‹µ ë³¸ë¬¸ì— ì§ì ‘ í¬í•¨
 	  public ResponseEntity<String> processCertification(@RequestParam("certificationResult") boolean certificationResult, HttpSession session){ 
 	  if(certificationResult) {
-	  session.setAttribute("isCertified", true); // ÀÎÁõ ¼º°ø »óÅÂ ÀúÀå return
+	  session.setAttribute("isCertified", true); // ì¸ì¦ ì„±ê³µ ìƒíƒœ ì €ì¥ return
 	  return ResponseEntity.ok("Certification Successful"); 
 	  }else {
-	  session.setAttribute("isCertified", false); // ÀÎµî ½ÇÆĞ »óÅÂ ÀúÀå return
+	  session.setAttribute("isCertified", false); // ì¸ë“± ì‹¤íŒ¨ ìƒíƒœ ì €ì¥ return
 	  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Certification Failed"); 
 	  	}
 	  }
 	  
+		@GetMapping("/logout")
+		public String logout() {
+			return "common/logout";
+		}
 	
-	
-	// È¸¿ø°¡ÀÔ Ã³¸®
+	// íšŒì›ê°€ì… ì²˜ë¦¬
 	@PostMapping("/signup")
 	public String registerUser(UserDTO user, Model model) {
 		int result = userService.registerUser(user);
-		model.addAttribute("message", result > 0 ? "È¸¿ø°¡ÀÔ ¼º°ø" : "È¸¿ø°¡ÀÔ ½ÇÆĞ");
+		model.addAttribute("message", result > 0 ? "íšŒì›ê°€ì… ì„±ê³µ" : "íšŒì›ê°€ì… ì‹¤íŒ¨");
 		
-		return "redirect:login"; // È¸¿ø°¡ÀÔ ÈÄ ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿ //salre/ Ãß°¡ÇßÀ½
+		return "redirect:login"; // íšŒì›ê°€ì… í›„ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™ //salre/ ì¶”ê°€í–ˆìŒ
 	}
 
 	
-	// È¸¿øÁ¤º¸ÀÔ·Â ÆäÀÌÁö
+	// íšŒì›ì •ë³´ì…ë ¥ í˜ì´ì§€
 		@GetMapping("/signUpInfo")
 		public String signupInfoPage() {
-			return "logIn/signUpInfo"; // signup.jsp ¹İÈ¯
+			return "logIn/signUpInfo"; // signup.jsp ë°˜í™˜
 		}
 		
 		
+		
+		
+		
 /*		
-	// È¸¿øÁ¤º¸ÀÔ·Â ÆäÀÌÁö
+	// íšŒì›ì •ë³´ì…ë ¥ í˜ì´ì§€
 	@GetMapping("/signUpInfo")
 	public String signUpInfoPage(HttpSession session) {
-		// º»ÀÎÀÎÁõ ¿©ºÎ È®ÀÎ(¼¼¼Ç¿¡ ÀÎÁõ ¿©ºÎ ÀúÀåÇÑ´Ù°í °¡Á¤)
+		// ë³¸ì¸ì¸ì¦ ì—¬ë¶€ í™•ì¸(ì„¸ì…˜ì— ì¸ì¦ ì—¬ë¶€ ì €ì¥í•œë‹¤ê³  ê°€ì •)
 		Boolean isCertified=(Boolean) session.getAttribute("isCertified");
 		
 		if(isCertified !=null&& isCertified) {
-			return "logIn/signUpInfo";//È¸¿øÁ¤º¸ÀÔ·Â ÆäÀÌÁö ¹İÈ¯
+			return "logIn/signUpInfo";//íšŒì›ì •ë³´ì…ë ¥ í˜ì´ì§€ ë°˜í™˜
 		}else {
-			return "redirect:/signup";//ÀÎÁõÀÌ ¿Ï·áµÇÁö ¾Ê¾Ò´Ù¸é ´Ù½Ã º»ÀÎÀÎÁõ ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+			return "redirect:/signup";//ì¸ì¦ì´ ì™„ë£Œë˜ì§€ ì•Šì•˜ë‹¤ë©´ ë‹¤ì‹œ ë³¸ì¸ì¸ì¦ í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
 		}
 	}
 	
 	*/
 	
-	// ·Î±×ÀÎ ÆäÀÌÁö
+	// ë¡œê·¸ì¸ í˜ì´ì§€
 	@GetMapping("/login")
 	public String loginPage() {
-		return "logIn/login"; // login.jsp ¹İÈ¯
+		return "logIn/login"; // login.jsp ë°˜í™˜
 	}
 
-	// ·Î±×ÀÎ Ã³¸®
+	// ë¡œê·¸ì¸ ì²˜ë¦¬
+	/*
+	 * @PostMapping("/login") public String loginUser(@RequestParam String
+	 * id, @RequestParam String password, HttpSession session, Model model) {
+	 * UserDTO user = userService.loginUser(id, password); //
+	 * System.out.println("user : " + user); if (user != null) {
+	 * session.setAttribute("loggedInUser", user); model.addAttribute("user", user);
+	 * return "myPage/transactions"; // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ transactions.jspë¡œ ì´ë™
+	 * 
+	 * // return "redirect:/home"; // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ í™ˆìœ¼ë¡œ ì´ë™
+	 * 
+	 * } else { model.addAttribute("error", "ë¡œê·¸ì¸ ì‹¤íŒ¨: ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤."); return
+	 * "logIn/login"; // ë¡œê·¸ì¸ ì‹¤íŒ¨ ì‹œ ë‹¤ì‹œ ë¡œê·¸ì¸ í˜ì´ì§€ } }
+	 */
+	
+	
+	// ê´€ë¦¬ì myPage
+	@GetMapping("/admin/myPage")
+	public void admin() {
+	}
+
+	// ë¡œê·¸ì¸
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {
 		UserDTO user = userService.loginUser(id, password);
 		// System.out.println("user : " + user);
 		if (user != null) {
 			session.setAttribute("loggedInUser", user);
+			if (id.equals("test15")) {
+				session.setAttribute("contractStatusPending", 10); // ï§ê¾ªë»¾ ï¿½ìŸ¾
+				session.setAttribute("contractStatusNegotiating", 5); // è­°ê³—ì‘‰ ä»¥ï¿½
+				session.setAttribute("contractStatusOngoing", 15); // ï§ê¾ªë»¾ ä»¥ï¿½
+				session.setAttribute("contractStatusCompleted", 20); // æ€¨ê¾©ë¹Ÿ ï¿½ì…¿çŒ·ï¿½
+				session.setAttribute("propertyReportCount", 30); // ï§ã…»Ğª ï¿½ë–Šæ€¨ï¿½ å«„ëŒë‹”
+				session.setAttribute("boardReportCount", 12); // å¯ƒëš¯ë–†ï¿½ë™‹ ï¿½ë–Šæ€¨ï¿½ å«„ëŒë‹”
+				session.setAttribute("userReportCount", 8); // ï¿½ì‘€ï¿½ï¿½ ï¿½ë–Šæ€¨ï¿½ å«„ëŒë‹”
+				session.setAttribute("board1PostCount", 150); // å¯ƒëš¯ë–†ï¿½ë™‹ 1 å¯ƒëš¯ë–†æ¹²ï¿½ ï¿½ë‹”
+				session.setAttribute("board2PostCount", 120); // å¯ƒëš¯ë–†ï¿½ë™‹ 2 å¯ƒëš¯ë–†æ¹²ï¿½ ï¿½ë‹”
+				session.setAttribute("board3PostCount", 130); // å¯ƒëš¯ë–†ï¿½ë™‹ 3 å¯ƒëš¯ë–†æ¹²ï¿½ ï¿½ë‹”
+				session.setAttribute("contractCount", 50); // ï¿½ìŸ¾ï§£ï¿½ æ€¨ê¾©ë¹Ÿ å«„ëŒë‹”
+				return "redirect:admin/myPage";
+			}
 			model.addAttribute("user", user);
-			return "myPage/transactions"; // ·Î±×ÀÎ ¼º°ø ½Ã transactions.jsp·Î ÀÌµ¿
+			return "myPage/transactions"; // å ì‹¸ê¹ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™ transactions.jspå ì™ì˜™ å ì‹±ë“¸ì˜™
 
-			// return "redirect:/home"; // ·Î±×ÀÎ ¼º°ø ½Ã È¨À¸·Î ÀÌµ¿
+			// return "redirect:/home"; // å ì‹¸ê¹ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™ í™ˆå ì™ì˜™å ì™ì˜™ å ì‹±ë“¸ì˜™
+		}
 
-		} else {
-			model.addAttribute("error", "·Î±×ÀÎ ½ÇÆĞ: ¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.");
-			return "logIn/login"; // ·Î±×ÀÎ ½ÇÆĞ ½Ã ´Ù½Ã ·Î±×ÀÎ ÆäÀÌÁö
+		else {
+			model.addAttribute("error", "ID ë˜ëŠ” PWê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			return "logIn/login"; // å ì‹¸ê¹ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ìŒ•ì™ì˜™ å ì‹¸ê¹ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 		}
 	}
 
-	// ID Ã£±â ÆäÀÌÁö
+	// ID ì°¾ê¸° í˜ì´ì§€
 	@GetMapping("/findId")
 	public String findIdPage() {
 		return "/logIn/findId";
 	}
 
-	// ID Ã£±â Ã³¸®
+	// ID ì°¾ê¸° ì²˜ë¦¬
 	@PostMapping("/findId")
-	public String processFindId(@RequestParam("email") String email, Model model) {
-		// ÀÌ¸ŞÀÏ·Î ID¸¦ Ã£´Â ¼­ºñ½º È£Ãâ
-		String userId = userService.findIdByEmail(email);
+	public String processFindId(@RequestParam("email") String email,@RequestParam("user_name") String name, Model model) {
+		// ì´ë©”ì¼ë¡œ IDë¥¼ ì°¾ëŠ” ì„œë¹„ìŠ¤ í˜¸ì¶œ
+		String userId = userService.findIdByEmailAndName(email,name);
 		System.out.println("userID###### : " + userId);
 
 		if (userId != null) {
-			model.addAttribute("message", "Your ID is: " + userId);
+			model.addAttribute("message", "Your ID is : " + userId);
 		} else {
-			model.addAttribute("error", "No account found with that email.");
+			model.addAttribute("error", "ë“±ë¡ëœ íšŒì›ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		}
 
 		return "/logIn/findId";
 	}
+	
 
-	// PW Ã£±â ÆäÀÌÁö
+	// PW ì°¾ê¸° í˜ì´ì§€
 	@GetMapping("/findPassword")
 	public String findPasswordPage() {
 		return "/logIn/findPassword";
 	}
 	
 	
-	// PW Ã£±â Ã³¸®_20250105
+	// PW ì°¾ê¸° ì²˜ë¦¬_20250105
 	 @PostMapping("/sendVerificationCode")
 	    @ResponseBody
 	    public Map<String, Object> sendVerificationCode(@RequestParam String id, @RequestParam String email) {
@@ -155,13 +199,13 @@ public class LoginController {
 
 	        if (!isValidUser) {
 	            response.put("success", false);
-	            response.put("message", "ID¿Í ÀÌ¸ŞÀÏÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+	            response.put("message", "IDì™€ ì´ë©”ì¼ì´ ë“±ë¡ëœ ì •ë³´ì™€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 	            return response;
 	        }
 
 	        userService.generateVerificationCode(email);
 	        response.put("success", true);
-	        response.put("message", "ÀÎÁõ¹øÈ£°¡ ÀÌ¸ŞÀÏ·Î ¹ß¼ÛµÇ¾ú½À´Ï´Ù.");
+	        response.put("message", "ì¸ì¦ë²ˆí˜¸ê°€ ì´ë©”ì¼ë¡œ ë°œì†¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	        return response;
 	    }
 
@@ -173,10 +217,10 @@ public class LoginController {
 
 	        if (isCodeValid) {
 	            response.put("success", true);
-	            response.put("message", "ÀÎÁõ¹øÈ£°¡ È®ÀÎµÇ¾ú½À´Ï´Ù. »õ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+	            response.put("message", "ì¸ì¦ë²ˆí˜¸ê°€ í™•ì¸ë˜ì—ˆìŠµë‹ˆë‹¤. ìƒˆ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 	        } else {
 	            response.put("success", false);
-	            response.put("message", "ÀÎÁõ¹øÈ£°¡ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù.");
+	            response.put("message", "ì¸ì¦ë²ˆí˜¸ê°€ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 	        }
 	        return response;
 	    }
@@ -188,86 +232,112 @@ public class LoginController {
 
 	        userService.updatePassword(email, newPassword);
 	        response.put("success", true);
-	        response.put("message", "ºñ¹Ğ¹øÈ£°¡ ¼º°øÀûÀ¸·Î º¯°æµÇ¾ú½À´Ï´Ù.");
+	        response.put("message", "ë¹„ë°€ë²ˆí˜¸ê°€ ì„±ê³µì ìœ¼ë¡œ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	        return response;
 	    }
 
+	    @GetMapping("/admin/boardreport")
+		public String boardReport() {
+
+			return "admin/boardreport";
+		}
+
+		@GetMapping("/admin/productreport")
+		public String productReport() {
+
+			return "admin/productreport";
+		}
+
+		@PostMapping("/admin/myPage")
+		public String handleAdminPost(HttpSession session) {
+			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
+			if (user == null) {
+				return "redirect:/login"; // æ¿¡ì’“ë ‡ï¿½ì”¤ï¿½ë¦ºï§ï¿½ ï¿½ë¸¡ï¿½ï¿½ å¯ƒìŒìŠ¦ æ¿¡ì’“ë ‡ï¿½ì”¤ ï¿½ëŸ¹ï¿½ì” ï§ï¿½æ¿¡ï¿½ ç”±Ñ‰ë–ï¿½ì” ï¿½ì †ï¿½ë“ƒ
+			}
+
+			// ï¿½ê½­ï¿½ë€¡ ï¿½ëœ²ï¿½ì” ï¿½ê½£ ï¿½ì†—ï¿½ì”¤ ï¿½ì‘ ï¿½ë¸˜ï¿½ìŠ‚ï¿½ë¸¯ï§ï¿½ ç•°ë¶½ï¿½ ï¿½ì˜‰ï¿½ë¾½
+			return "redirect:/admin/myPage"; // GET ï¿½ìŠ‚ï§£ï¿½ï¿½ì‘æ¿¡ï¿½ ç”±Ñ‰ë–ï¿½ì” ï¿½ì †ï¿½ë“ƒ
+		}
+
+		
+		//íšŒì›ì •ë³´ìˆ˜ì •
+		  @GetMapping("/updatemyPage") 
+		  public String updateUser() {
+			  return "myPage/updateMyPage";
+		  }
+		  
+		//íšŒì›ì •ë³´ìˆ˜ì •(ì¸ì¦ í›„ data)
+		  @GetMapping("/getSessionData")
+		  @ResponseBody
+		  public Map<String, String> getSessionData(HttpSession session) {
+		      Map<String, String> response = new HashMap<>();
+		      response.put("name", (String) session.getAttribute("certifiedName"));
+		      response.put("phone", (String) session.getAttribute("certifiedPhone"));
+		      response.put("birthday", (String) session.getAttribute("certifiedBirthday"));
+		      return response;
+		  }
+
 	
+		  
+		  //íšŒì›ì •ë³´ìˆ˜ì •ë²„íŠ¼ ëˆ„ë¥´ë©´ update
+		  @PostMapping("/updateUserInfo")
+		  @ResponseBody
+		  public Map<String, Object> updateUserInfo(@RequestBody UserDTO user, HttpSession session) {
+		      Map<String, Object> response = new HashMap<>();
+		      try {
+		          // ì„¸ì…˜ì—ì„œ ê¸°ì¡´ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜´
+		          UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
+
+		          // ê¸°ì¡´ ê°’ ìœ ì§€ ë¡œì§
+		          if (loggedInUser != null) { //ìœ ì € ë¡œê·¸ì¸ìƒíƒœ í™•ì¸
+		              if (user.getPassword() == null || user.getPassword().isEmpty()) {
+		                  user.setPassword(loggedInUser.getPassword()); // ê¸°ì¡´ ì•”í˜¸ ìœ ì§€
+		              }
+		             
+		          }
+
+		          // ì—…ë°ì´íŠ¸ í˜¸ì¶œ
+		          userService.updateUserInfo(user);
+
+		          // ì„¸ì…˜ ì—…ë°ì´íŠ¸
+		          session.setAttribute("loggedInUser", user);
+
+		          response.put("success", true);
+		      } catch (Exception e) {
+		          response.put("success", false);
+		          e.printStackTrace();
+		      }
+		      return response;
+		  }
+
+
+		  
+		 
 	
-	// È¸¿øÅ»Åğ Ã³¸®
+		 // íšŒì›íƒˆí‡´ ì²˜ë¦¬
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
 		
 		try {
 			userService.deleteUser(id);
-			redirectAttributes.addFlashAttribute("message", "È¸¿øÅ»Åğ°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù."); // addFlashAttribute¸¦ »ç¿ëÇÏ¸é ¸®´ÙÀÌ·ºÆ®µÈ ÆäÀÌÁö¿¡¼­¸¸
-																				// ¸Ş½ÃÁö°¡ À¯È¿
+			redirectAttributes.addFlashAttribute("message", "íšŒì›íƒˆí‡´ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤."); // addFlashAttributeë¥¼ ì‚¬ìš©í•˜ë©´ ë¦¬ë‹¤ì´ë ‰íŠ¸ëœ í˜ì´ì§€ì—ì„œë§Œ
+																				// ë©”ì‹œì§€ê°€ ìœ íš¨
 			return "redirect:/login";
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("error", "È¸¿øÅ»Åğ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+			redirectAttributes.addFlashAttribute("error", "íšŒì›íƒˆí‡´ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
 			return "redirect:/myPage";
 		}
 	}
 
 	
-	// È¸¿ø°¡ÀÔ - º»ÀÎÀÎÁõ
-	@ResponseBody
-	@PostMapping(value = "/rspTest")
-	public String rspTest(String imp_uid) {
-
-		String impKey = "3773152135261483";
-		String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
-
-		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
-
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.iamport.kr/users/getToken"))
-				.header("Content-Type", "application/json")
-				.method("POST", HttpRequest.BodyPublishers.ofString(jsonBody)).build();
-		HttpResponse<String> response = null;
-		try {
-			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		String jsonResponse = response.body();
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		JsonNode rootNode = null;
-		try {
-			rootNode = objectMapper.readTree(jsonResponse);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		String token = rootNode.path("response").path("access_token").asText();
-		
-		HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
-				.header("Content-Type", "application/json")
-				.header("Authorization", "Bearer " + token)
-				.method("GET", HttpRequest.BodyPublishers.ofString("")).build();
-		
-		HttpResponse<String> response2 = null;
-		try {
-			response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		String jsonResponse2 = response2.body();
- 
-		
-		System.out.println(jsonResponse2); 
-		
-		return  jsonResponse2;
-
-	}
- 
 	
+	// íšŒì›ê°€ì… - ë³¸ì¸ì¸ì¦
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
 	public String rspTest(String imp_uid, HttpSession session) {
 
-	    String impKey = "3773152135261483";
-	    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+	    String impKey = "";
+	    String impSecret = "";
 
 	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
@@ -313,20 +383,20 @@ public class LoginController {
 	    System.out.println("########JSON Response from API: " + jsonResponse2);
 
 	    try {
-	        // JSON µ¥ÀÌÅÍ ÆÄ½Ì ¹× ¼¼¼Ç ÀúÀå
+	        // JSON ë°ì´í„° íŒŒì‹± ë° ì„¸ì…˜ ì €ì¥
 	        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
 	        if (userNode != null) {
 	            String name = userNode.path("name").asText(null);
 	            String phone = userNode.path("phone").asText(null);
 	            String birthday = userNode.path("birthday").asText(null);
 
-	            // »ı³â¿ùÀÏ Æ÷¸Ë º¯È¯ (yyyy-MM-dd -> yyMMdd)
+	            // ìƒë…„ì›”ì¼ í¬ë§· ë³€í™˜ (yyyy-MM-dd -> yyMMdd)
 	            if (birthday != null) {
 	                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
 	            }
 	            
-	            // ¼¼¼Ç¿¡ ÀúÀå
+	            // ì„¸ì…˜ì— ì €ì¥
 	            session.setAttribute("certifiedName", name);
 	            session.setAttribute("certifiedPhone", phone);
 	            session.setAttribute("certifiedBirthday", birthday);
@@ -340,55 +410,99 @@ public class LoginController {
 	        e.printStackTrace();
 	    }
 
-	    return jsonResponse2; // JSON µ¥ÀÌÅÍ¸¦ ±×´ë·Î ¹İÈ¯
+	    return jsonResponse2; // JSON ë°ì´í„°ë¥¼ ê·¸ëŒ€ë¡œ ë°˜í™˜
 	}
+	// íšŒì›ì •ë³´ìˆ˜ì • - ë³¸ì¸ì¸ì¦ë²„íŠ¼
+		@ResponseBody
+		@PostMapping(value = "/rspTest3")
+		public String rspTest3(String imp_uid, HttpSession session) {
 
-	
-	
-	
-	
-	
-	 
-    
-	
+		    String impKey = "";
+		    String impSecret = "";
 
-	/*
-	 * ±¤Áø Å×½ºÆ®ÄÚµå º»ÀÎÀÎÁõ //rspTest
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping(value = "/rspTest", consumes=MediaType.APPLICATION_JSON_VALUE,
-	 * produces="text/plain;charset=utf-8") public String rspTest(String imp_uid) {
-	 * String uid = imp_uid;
-	 * 
-	 * return uid; }
-	 */
+		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
-	/*
-	 * Å×½ºÆ®ÄÚµå º»ÀÎÀÎÁõ //rspTest
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/rspTest") public String rspTest(String imp_uid) { String uid =
-	 * imp_uid;
-	 * 
-	 * return "/logIn/rspTest"; }
-	 */
+		    HttpRequest request = HttpRequest.newBuilder()
+		            .uri(URI.create("https://api.iamport.kr/users/getToken"))
+		            .header("Content-Type", "application/json")
+		            .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody))
+		            .build();
 
-	/*
-	 * Å×½ºÆ®ÄÚµå º»ÀÎÀÎÁõ ºí·Î±×Âü°í // º»ÀÎÀÎÁõ¿Ï·á ÈÄ »©³» ¿Â Á¤º¸ Áß ÇÚµåÆù ¹øÈ£¿Í ÀÔ·ÂÇÑ ÇÚµåÆù ¹øÈ£°¡ ÀÏÄ¡ÇÑÁö È®ÀÎÇÏ°í // ÀÏÄ¡ÇÏ¸é
-	 * true ¾Æ´Ï¸é false ¸¦ ¹İÈ¯ÇØ¼­ ¿Ïº®ÇÏ°Ô ÀÌ·ç¾î Á³³ª È®ÀÎ ÇÑ´Ù.
-	 * 
-	 * @GetMapping("/rspTest") public Map handleRedirect(@RequestParam("imp_uid")
-	 * String impUid, @RequestParam("email") String email) { boolean flag = false;
-	 * Map map = new HashMap<>(); System.out.println("Received imp_uid: " + impUid);
-	 * map = SignUpService.getAccessToken(impUid); UserDTO dto =
-	 * UserService.getMember(email);
-	 * 
-	 * String phone = (String) map.get("phone"); String name = (String)
-	 * map.get("name");
-	 * 
-	 * if (dto != null) { if (dto.getPhone_num().equals(phone)) { flag = true; } }
-	 * map.put("flag", flag); map.put("name", name); return map; }
-	 */
+		    HttpResponse<String> response = null;
+		    try {
+		        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+		    } catch (IOException | InterruptedException e) {
+		        e.printStackTrace();
+		    }
+		    String jsonResponse = response.body();
+		    ObjectMapper objectMapper = new ObjectMapper();
+
+		    JsonNode rootNode = null;
+		    try {
+		        rootNode = objectMapper.readTree(jsonResponse);
+		    } catch (JsonProcessingException e) {
+		        e.printStackTrace();
+		    }
+
+		    String token = rootNode.path("response").path("access_token").asText();
+
+		    HttpRequest request2 = HttpRequest.newBuilder()
+		            .uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
+		            .header("Content-Type", "application/json")
+		            .header("Authorization", "Bearer " + token)
+		            .method("GET", HttpRequest.BodyPublishers.ofString(""))
+		            .build();
+
+		    HttpResponse<String> response2 = null;
+		    try {
+		        response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
+		    } catch (IOException | InterruptedException e) {
+		        e.printStackTrace();
+		    }
+
+		    String jsonResponse2 = response2.body();
+		    System.out.println("########JSON Response from API: " + jsonResponse2);
+
+		    try {
+		        // JSON ë°ì´í„° íŒŒì‹± ë° ì„¸ì…˜ ì €ì¥
+		        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
+		        if (userNode != null) {
+		            String name = userNode.path("name").asText(null);
+		            String phone = userNode.path("phone").asText(null);
+		            String birthday = userNode.path("birthday").asText(null);
+
+		            // ìƒë…„ì›”ì¼ í¬ë§· ë³€í™˜ (yyyy-MM-dd -> yyMMdd)
+		            if (birthday != null) {
+		                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
+		            }
+		            // ì„¸ì…˜ì— ì €ì¥ëœ ê¸°ì¡´ ë°ì´í„°ì™€ ë³‘í•©
+		            UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
+		            if (loggedInUser != null) {
+		                if (name != null) loggedInUser.setUser_name(name);
+		                if (phone != null) loggedInUser.setPhone_num(phone);
+		                if (birthday != null) loggedInUser.setResident_num(birthday);
+		                session.setAttribute("loggedInUser", loggedInUser);
+		            }
+
+		            // ì„¸ì…˜ì— ì €ì¥
+		            session.setAttribute("certifiedName", name);
+		            session.setAttribute("certifiedPhone", phone);
+		            session.setAttribute("certifiedBirthday", birthday);
+
+		            System.out.println("Session Data Saved:");
+		            System.out.println("Name: " + session.getAttribute("certifiedName"));
+		            System.out.println("Phone: " + session.getAttribute("certifiedPhone"));
+		            System.out.println("Birthday: " + session.getAttribute("certifiedBirthday"));
+		        }
+		    } catch (JsonProcessingException e) {
+		        e.printStackTrace();
+		    }
+
+		    return jsonResponse2; // JSON ë°ì´í„°ë¥¼ ê·¸ëŒ€ë¡œ ë°˜í™˜
+		}
+	
+	
+	
+	
 }

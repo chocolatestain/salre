@@ -86,27 +86,30 @@ body {
                     </thead>
                     <tbody>
                         <!-- 서버에서 데이터를 받아오는 부분 -->
-                        <c:forEach var="post" items="${postList}">
-                            <tr onclick="redirectToDetail('${contextPath}/post/detail?id=${post.id}')">
-                                <td>${post.id}</td>
-                                <td>${post.title}</td>
-                                <td>${post.content}</td>
-                                <td>${post.date}</td>
+                        <c:forEach var="report" items="${reportList}">
+                        <tr>
+                            <%-- <tr onclick="redirectToDetail('${contextPath}/post/detail?id=${post.id}')"> --%>
+                               <%--  <td>${report.user_id}</td>
+                                <td>${report.product_id}</td> --%>
+                                <td>${report.report_class}</td>
+                                <td>${report.report_content}</td>
+                                <td>컬럼만들어야함</td>
                                 <td>
-                                    <a href="${contextPath}/post/detail?id=${post.id}" class="btn btn-primary btn-sm">View</a>
+                                    <a href="${contextPath}/report/detail?id=${report.user_id}" class="btn btn-primary btn-sm">View</a>
                                 </td>
-                            </tr>
+                        </tr>
+                            <!-- </tr> -->
                         </c:forEach>
                         
                         <!-- 더미 데이터 (테스트용) -->
-                        <tr onclick="redirectToDetail('#')">
+      			  <!--  <tr onclick="redirectToDetail('#')">
                             <td>욕설</td>
                             <td>직접적인 욕설을 사용하여 타인에게 모욕감을 줌</td>
                             <td>2024.12.24</td>
                             <td>
                                 <a href="#" class="btn btn-primary btn-sm">View</a>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>

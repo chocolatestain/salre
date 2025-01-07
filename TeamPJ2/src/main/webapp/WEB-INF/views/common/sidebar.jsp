@@ -39,9 +39,9 @@
 						<i class="bi bi-person-circle"></i>
 					</button>
 					<!-- Settings Icon -->
-					<button title="Settings">
+					<!-- <button title="Settings">
 						<i class="bi bi-gear"></i>
-					</button>
+					</button> -->
 					<!-- Notifications Icon -->
 					<button title="Notifications" class="notification-badge">
 						<i class="bi bi-bell"></i> <span class="badge">5</span>

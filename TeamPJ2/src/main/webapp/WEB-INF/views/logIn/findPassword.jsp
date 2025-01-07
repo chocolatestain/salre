@@ -134,7 +134,7 @@
         </div>
          <div class="form-section">
         
-    <h1>비밀번호 찾기</h1>
+    <h1>비밀번호 재설정</h1>
     <form id="findPasswordForm">
         <label for="id">ID:</label>
         <input type="text" id="id" name="id" required><br><br>

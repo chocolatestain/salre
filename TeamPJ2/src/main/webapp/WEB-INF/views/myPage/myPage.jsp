@@ -46,7 +46,7 @@
 						<div class="col-md-6">
 							<label for="phone" class="form-label">Phone</label> <input
 								type="text" id="phone" class="form-control"
-								value="${loggedInUser.phone_num}" >
+								value="${loggedInUser.phone_num}" readonly>
 						</div>
 					</div>
 
@@ -72,17 +72,17 @@
 						<div class="col-md-6">
 							<label for="address" class="form-label">주소</label> <input
 								type="text" id="address" class="form-control"
-								value="${loggedInUser.address}/${loggedInUser.address_detail}"
+								value="${loggedInUser.address}/${loggedInUser.address_detail}" readonly
 								>
 						</div>
-					</div>
+					</div><br><br>
 
-					<div class="row mb-3">
+					<%-- <div class="row mb-3">
 						<div class="col-md-6">
 							<label for="password" class="form-label">Password</label>
 							<input
 								type="password" id="password" class="form-control"
-								value="${loggedInUser.password}" >
+								value="${loggedInUser.password}" > --%>
 						<%-- 	<div class="input-group">
 								<input type="password" id="password" class="form-control"
 									value="${loggedInUser.password}" >
@@ -90,22 +90,31 @@
 									onclick="togglePassword()">👁</button> 
 							</div> --%>
 
-						</div>
-					</div>
+			<!-- 			</div>
+					</div> -->
 
-					<button onclick="call()" type="button" class="btn btn-primary w-10">회원정보수정</button>
+				<%-- 	<button onclick="call()" type="button" class="btn btn-primary w-10">회원정보수정</button>
 					
 					<form action="${contextPath}/deleteUser" method="post" onsubmit="return confirm('정말로 탈퇴하시겠습니까?');">
 					    <input type="hidden" name="id" value="${loggedInUser.id}">
 					    <button type="submit" class="btn btn-danger">회원탈퇴</button>
-					</form>
+					</form> --%>
+			<div class="d-flex justify-content-end align-items-center">
+			    <!-- <button onclick="call()" type="button" class="btn btn-primary me-2">회원정보수정</button> -->
+			    <button onclick="location.href='${contextPath}/updatemyPage'" type="button" class="btn btn-primary me-2">회원정보수정</button>
+			    
+			    <form action="${contextPath}/deleteUser" method="post" onsubmit="return confirm('정말로 탈퇴하시겠습니까?');" class="m-0">
+			        <input type="hidden" name="id" value="${loggedInUser.id}">
+			        <button type="submit" class="btn btn-danger">회원탈퇴</button>
+			    </form>
+			</div>
 			
 
 			</div>
 		</div>
 	</div>
 
-    <script type="text/javascript">
+   <!--  <script type="text/javascript">
     	function call(){
     		$.ajax({
     			url : '${contextPath}/myPage/myPage',
@@ -119,7 +128,7 @@
     		
     	}
     </script>
-
+ -->
 
 	<%@ include file="../common/footer.jsp"%>
 

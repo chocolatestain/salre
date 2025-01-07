@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath}" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
 <%
     String certifiedName = (String) session.getAttribute("certifiedName");
     String certifiedPhone = (String) session.getAttribute("certifiedPhone");
@@ -180,6 +183,19 @@
         a:hover {
             text-decoration: underline;
         }
+        
+        .success-message {
+		    color: green; /* 초록색 */
+		    font-size: 14px;
+		    margin-top: 5px;
+		}
+		
+		.error-message {
+		    color: red; /* 빨간색 */
+		    font-size: 14px;
+		    margin-top: 5px;
+}
+        
     </style>
 </head>
 <%-- <body>
@@ -271,7 +287,8 @@
 <body>
     <div class="container">
         <div class="image-section"></div>
-        <div class="form-section">
+<!--  스크롤   <div class="form-section" style = "overflow:auto;   height : 500px;"> -->
+        <div class="form-section" >
             <h1>Sign Up / 회원정보입력</h1>
             <form action="${contextPath}/signup" method="post">
                 <div class="form-group">
@@ -290,44 +307,57 @@
 
                  <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="user_name"  value="${sessionScope.certifiedName}"  readonly>
+                 <%--    <input type="text" id="name" name="user_name"  value="${sessionScope.certifiedName}"  readonly> --%>
+                    <input type="text" id="name" name="user_name"  value="test18"  readonly>
                 </div>
 
          
                  <div class="form-group">
+                   
                     <label for="phone">Phone</label>
-                    <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" readonly>
+                  <%--   <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" readonly> --%>
+                    <input type="text" id="phone" name="phone_num" value="010-1234-5678" readonly>
                 </div>
 
 
 				<label for="birthday">ResidentNum</label>
 				<div class="form-group-inline">
-                
-                    <input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>-
+                  <%--   <input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>- --%>
+                    <input type="text" id="birthday" name="resident_num"  value="960105" readonly>-
                     <input type="text" id="birthday2" name="auth_seller"  placeholder="Lastdigits of ResidentRegistrationNumber" ><br>
                 </div>
 				<br>	
 
-			
-
-	  			<%-- <div class="form-group">
+	  	<%-- 		 <div class="form-group">
                     <label for="birthday">ResidentNum</label>
                     <input type="text" id="birthday" name="birthday"  value="${sessionScope.certifiedBirthday}" readonly>
-                </div> --%>
+                </div>  --%>
 
-                <div class="form-group">
+          		  <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <input type="email" id="email" name="email" placeholder="Email" required onblur="checkEmailAvailability()">
+                    <span id="email-check-message" style="font-size: 14px;"></span>
                 </div>
 
 				
+				<div class="form-group">
+                    <label for="address">Address</label>
+                    <div class="form-group-inline">
+                        <input type="text" id="address" name="address" placeholder="Address(등본상주소입력필수)" required>
+                        <button type="button" onclick="checkAddress()">주소 검색</button>
+                        
+                    </div>
+                    <input type="text" id="birthday2" name="address_detail"  placeholder="AddressDetail(등본상주소입력필수)" required ><br>
+                </div>
+				
 
-				<label for="address">Address</label>
+				<!-- <label for="address">Address</label>
 				<div class="form-group-inline">
-                
+	               
+					
                     <input type="text" id="address" name="address"  placeholder="Address" required> ,
                     <input type="text" id="birthday2" name="address_detail"  placeholder="AddressDetail" required ><br>
-                </div>
+                </div>  -->
                 <!-- <div class="form-group">
                     <label for="address">Address</label>
                     <input type="text" id="address" name="address" placeholder="Address" required>
@@ -336,11 +366,15 @@
                 <div class="navigation-buttons">
                     <button type="button" onclick="history.back()">이전</button>
                     <button type="submit">회원가입</button>
+                    
                 </div>
+                 
             </form>
         </div>
     </div>
       <script>
+      
+      /* ID중복체크  */
         function checkIdAvailability() {
             const id = document.querySelector('[name="id"]').value.trim();
             if (!id) {
@@ -364,6 +398,53 @@
                 },
             });
         }
+        
+       
+       /* 주소검색 */
+       function checkAddress(){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	         var addr=data.address;//기본주소
+	         // 주소 정보를 해당 필드에 넣는다
+             document.getElementById("address").value = addr;
+	        }
+	    }).open();
+       }
+
+       
+       function checkEmailAvailability() {
+    	    const email = document.querySelector('#email').value.trim();
+
+    	    if (!email) {
+    	        showMessage("email-check-message", "이메일을 입력하세요.", "error-message");
+    	        return;
+    	    }
+
+    	    // AJAX 요청으로 이메일 중복 체크
+    	    $.ajax({
+    	        url: "${contextPath}/checkEmail",
+    	        type: "GET",
+    	        data: { email },
+    	        success: function(response) {
+    	            if (response === "available") {
+    	                showMessage("email-check-message", "사용 가능한 이메일입니다.", "success-message");
+    	            } else {
+    	                showMessage("email-check-message", "이미 가입된 이메일이 있습니다.", "error-message");
+    	            }
+    	        },
+    	        error: function() {
+    	            showMessage("email-check-message", "이메일 중복 체크 중 오류가 발생했습니다.", "error-message");
+    	        }
+    	    });
+    	}
+
+    	// 메시지 표시 함수
+    	function showMessage(elementId, message, className) {
+    	    const messageElement = document.getElementById(elementId);
+    	    messageElement.textContent = message;
+    	    messageElement.className = className;
+    	}
+
     </script>
 </body>
 </html>

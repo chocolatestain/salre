@@ -48,10 +48,16 @@ public class UserDAO implements UserDAOInterface {
 
 	
 	// ID찾기
-    public String findIdByEmail(String email) {
+    public String findIdByEmailAndName(String email, String name) {
     	System.out.println("UserDAO/ email = " + email);
+    	System.out.println("UserDAO/ name = " + name);
     	
-    	String find_id = sqlSession.selectOne(namespace + "findIdByEmail", email);
+    	// 조건을 담을 Map 객체 생성
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("name", name);
+    	
+    	String find_id = sqlSession.selectOne(namespace + "findIdByEmailAndName", params);
     	System.out.println("UserDAO/ find Id @@@email = " + find_id);
     	return find_id;
         //return userMapper.findIdByEmail(email);
@@ -83,6 +89,11 @@ public class UserDAO implements UserDAOInterface {
     public UserDTO selectUserById2(String id) {
         return sqlSession.selectOne(namespace + "selectUserById2", id);
     }
+    
+    //
+    public int countByEmail(String email) {
+    	return sqlSession.selectOne(namespace + "countByEmail",email); 
+    }
   
     //마이페이지 - 내가 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
     public List<PostDTO> selectPostsByUserId(int user_id) {
@@ -104,6 +115,18 @@ public class UserDAO implements UserDAOInterface {
 	  public void deleteReview(int review_id) {
 		  sqlSession.delete(namespace+"deleteReview",review_id);
 		}
+	  
+	//마이페이지 - 나의 신고내역
+	  public List<ReportDTO> selectReportsByUserId(int user_id){
+		  return sqlSession.selectList(namespace + "selectReportsByUserId", user_id);
+	  }
+	  
+	// 마이페이지 - 회원정보수정
+	public void updateUserInfo(UserDTO user) {
+//	    sqlSession.updateUserInfo(namespace+"updateUserInfo",user);
+	    sqlSession.update(namespace+"updateUserInfo",user);
+		};
+		 
 
 	  
 	  

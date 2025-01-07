@@ -91,100 +91,25 @@
             background-color: #007bff;
             color: white;
         }
+        
+       button:disabled {
+		    background-color: #ccc !important; /* 비활성화 상태의 배경색 (회색) */
+		    color: #999 !important; /* 비활성화 상태의 텍스트 색상 (밝은 회색) */
+		    cursor: not-allowed !important; /* 마우스 포인터를 금지 표시로 변경 */
+		    opacity: 1 !important; /* 투명도를 기본값으로 유지 */
+		    pointer-events: none !important; /* hover 및 클릭 비활성화 */
+		}
+		
+		button:disabled:hover {
+		    background-color: #ccc !important; /* hover 시에도 배경색 유지 */
+		    color: #999 !important; /* hover 시에도 텍스트 색상 유지 */
+		}
+		
     </style>
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script src=" https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-   <!--  <script>
-        // 포트원 본인인증 초기화
-        IMP.init("imp74358381");
-
-        function requestCertification() {
-            IMP.certification({
-                channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
-                merchant_uid: "ORD" + new Date().getTime(),
-                popup: true,
-            }, function (rsp) {
-                if (rsp.success) {
-                    alert("본인인증 성공: " + rsp.imp_uid);
-
-                    // AJAX로 서버에 인증 데이터를 전달
-                    $.ajax({
-                        url: "${contextPath}/saveCertificationData", // 본인인증 데이터 저장용 API
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({ imp_uid: rsp.imp_uid }),
-       					
-                        success: function () {
-                            alert("본인인증 데이터 저장 완료");
-                            location.href = "${contextPath}/signUpInfo"; // 다음 페이지로 이동
-                        },
-                        error: function () {
-                            alert("본인인증 데이터 저장 중 오류 발생");
-                        }
-                    });
-                } else {
-                    alert("본인인증 실패: " + rsp.error_msg);
-                }
-            });
-        }
-        function (rsp) {
-            // callback//본인인증 완료 후 호출되는 콜백 함수. 본인인증 요청의 결과가 담긴 객체가 rsp로 전달됨.
-            if (rsp.success) {
-              // 인증 성공 시 로직
-            	 alert("본인인증 성공: " + rsp.imp_uid);
-              	console.log(rsp);
-
-                   
-                   $.ajax({
-                	   url:"${contextPath}/rspTest",
-                	   type:"post", 
-                	   data : { imp_uid:`\${rsp.imp_uid}`},
-                	   success: function(responseData){
-                		   var myInfo = JSON.parse(responseData); // 응답 데이터를 객체로 파싱
-                		   
-                		   if (myInfo.response) {
-                	            // 각 입력 필드를 선택
-                	            var phoneInput = document.querySelector('[name="phone_num"]');
-                	            var nameInput = document.querySelector('[name="user_name"]');
-                	            var residentInput = document.querySelector('[name="resident_num"]');
-
-                	            // 필드 값 설정
-                	            phoneInput.value = myInfo.response.phone;
-                	            nameInput.value = myInfo.response.name;
-                	            residentInput.value = myInfo.response.birthday;
-
-                	            // 필드를 읽기 전용으로 설정
-                	            phoneInput.readOnly = true;
-                	            nameInput.readOnly = true;
-                	            residentInput.readOnly = true;
-                	        }
-                			   
-                			   
-                		   /*
-                		   //var obj = {};
-                		   //
-                		   console.log(responseData);
-                		   console.log(typeof(responseData));
-                		   var myInfo = JSON.parse(responseData);
-                		   console.log(myInfo.response.phone);
-                		   console.log(myInfo.response.birthday);
-                		   //
-                		   */
-                     	}
-                   }); 
-                 //document.querySelector('[name="certified"]').value = "인증 완료";//서버는 이 값 확인해서 사용자가 본인인증 완료헀는지 판단.(아래 미인증과 관련)
-                 document.getElementById("signup-button").disabled=false;
-            } else {
-              // 인증 실패 시 로직
-            	 alert("본인인증 실패: " + rsp.error_msg+ rsp.imp_uid);
-            }  //if end 
-          }  //함수 end 
-        ); //IMP.certification end 
-     }  //function end 
-    </script> -->
-    
-    
+   
     
     
     
@@ -220,7 +145,8 @@
                 data: { imp_uid: rsp.imp_uid },
                 success: function () {
                     alert("본인인증 데이터 저장 완료");
-                    location.href = "${contextPath}/signUpInfo"; // signUpInfo.jsp로 이동
+                    document.getElementById("next-button").disabled=false;
+                    //location.href = "${contextPath}/signUpInfo"; // signUpInfo.jsp로 이동
                 },
                 error: function () {
                     alert("본인인증 데이터 저장 중 오류 발생");
@@ -229,7 +155,7 @@
                
       
              //document.querySelector('[name="certified"]').value = "인증 완료";//서버는 이 값 확인해서 사용자가 본인인증 완료헀는지 판단.(아래 미인증과 관련)
-             document.getElementById("signup-button").disabled=false;
+             
         } else {
           // 인증 실패 시 로직
         	 alert("본인인증 실패: " + rsp.error_msg);
@@ -264,7 +190,7 @@
             <button type="button" onclick="requestCertification()">본인인증</button>
             <div class="actions">
                 <button type="button" onclick="history.back()">이전</button> <!-- 뒤로가기 history.back 쓰기 -->
-                <button id="next-button" type="button" onclick="location.href='${contextPath}/signUpInfo'" >다음</button> <!-- disabled? -->
+                <button id="next-button" type="button" onclick="location.href='${contextPath}/signUpInfo'" disabled >다음</button> <!-- disabled? -->
             </div>
         </div>
     </div>

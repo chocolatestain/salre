@@ -151,13 +151,54 @@ public class MyPageController {
 		}
 
 	
-	
-	
+     //마이페이지 - 나의 신고내역
+//		@GetMapping("/reports") 
+//		public String reports(Model model) {
+//		return "myPage/reports"; 
+//		}
+		  
 	//마이페이지 - 나의 신고내역
-	@GetMapping("/reports") 
-	public String reports() {
-		return "myPage/reports";
-	}
+		@GetMapping("/reports") 
+		public String getMyreports(HttpSession session, Model model) {
+			  // 세션에서 UserDTO 객체 가져오기
+		    Object userObj = session.getAttribute("loggedInUser");
+		    
+		    if (userObj instanceof UserDTO) {
+		        UserDTO user = (UserDTO) userObj;
+		        int user_id = user.getUser_id(); // user_id 추출
+		        System.out.println("Extracted user_id: " + user_id);
+
+		        // Service 호출하여 게시글 목록 조회
+		        List<ReportDTO> reportList = userService.getMyreportsByUserId(user_id);
+		        System.out.println("reportList: " + reportList);
+		        model.addAttribute("reportList", reportList);
+		        return "myPage/reports"; // reports.jsp 반환
+		    } else {
+		        // 세션에 UserDTO가 없거나 로그인되지 않은 경우
+		        System.out.println("Session does not contain a valid UserDTO.");
+		        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+		    }
+		
+		}
+		 
+	
+	
+		/*
+		  //마이페이지 - 나의 신고내역(관리자)
+		  
+		  @GetMapping("/reports") public String reports(Model model) {
+		  
+		  @Autowired reportService reportservice;
+		  
+		  model.addAttribute("reportList",reportservice.getAllReports());
+		  
+		  return "myPage/reports"; }
+		  
+		*/
+		 
+		  
+
+	
 	
 
 		

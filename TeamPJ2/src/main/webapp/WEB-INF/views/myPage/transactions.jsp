@@ -99,7 +99,7 @@
 				<h1 class="mb-4">My Page - 나의 거래현황</h1>
 
 				<!-- 구매자 콘텐츠 -->
-				<div id="buyer-content">
+				<!-- <div id="buyer-content">
 					<div class="row mb-3">
 						<div class="col">
 							<button class="btn btn-secondary">등록순</button>
@@ -112,13 +112,13 @@
 								id="startDate"> <span>~</span> <input type="date"
 								class="form-control d-inline-block w-auto" id="endDate">
 						</div>
-					</div>
+					</div> -->
 
 
 					<!-- 거래 매물 목록 -->
 					<div class="card-container">
 
-						<%--   <c:forEach var="item" items="${transactionItems}">
+				   <c:forEach var="item" items="${transactionItems}">
                     <div class="card">
                         <div class="position-relative">
                             <img src="${item.image}" class="card-img-top" alt="${item.title}">
@@ -147,7 +147,7 @@
                             </div>
                         </div>
                     </div>
-                </c:forEach> --%>
+                </c:forEach>
 
 						<!-- 예시 데이터 -->
 						<div class="card">

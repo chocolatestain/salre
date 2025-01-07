@@ -19,10 +19,15 @@
             <a href="#">관심매물</a>
             <a href="#">방내놓기</a>
         </nav>
-        <div class="auth">
-            <a href="login.jsp">로그인</a>
-            <a href="register.jsp">회원가입</a>
+           <div class="auth">
+            <c:choose>
+                <c:when test="${not empty sessionScope.loggedInUser}">
+                    <!-- 로그인 상태일 때 -->
+                    <a href="${contextPath }/logout">로그아웃</a> 
+                </c:when> 
+            </c:choose>
         </div>
+        
     </header>
 </body>
 </html>

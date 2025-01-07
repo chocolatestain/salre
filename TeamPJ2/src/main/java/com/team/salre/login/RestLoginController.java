@@ -38,6 +38,14 @@ public class RestLoginController {
         return isAvailable ? ResponseEntity.ok("available") : ResponseEntity.ok("unavailable");
     	}
 
+	// email중복조회
+	 @GetMapping("/checkEmail")
+	    @ResponseBody
+	    public String checkEmail(@RequestParam("email") String email) {
+	        boolean isAvailable = userService.isEmailAvailable(email);
+	        return isAvailable ? "available" : "unavailable";
+	    }
+	
 
 		/*
 		 * // 인증 데이터를 세션에 저장
