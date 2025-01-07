@@ -45,11 +45,11 @@
       }
 
       .main-banner {
-        background-color: #f5f5f5;
-        text-align: center;
+        padding: 40px;
+        background: #f5f5f5;
         display: flex;
-        padding: 60px 20px;
-        width: 100%;
+        flex-direction: column;
+        align-items: center;
       }
 
       .main-banner>div {

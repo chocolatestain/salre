@@ -53,6 +53,17 @@
                     align-items: center;
                 }
 
+                .main-banner h1 {
+                    font-size: 2.5rem;
+                    color: #333;
+                }
+
+                .main-banner h2 {
+                    font-size: 1.25rem;
+                    color: #666;
+                    margin-bottom: 2rem;
+                }
+
                 .controls {
                     display: flex;
                     justify-content: space-between;
@@ -112,17 +123,6 @@
                     display: flex;
                     flex-direction: space-between;
                     gap: 30px;
-                }
-
-                .main-banner h1 {
-                    font-size: 2.5rem;
-                    color: #333;
-                }
-
-                .main-banner h2 {
-                    font-size: 1.25rem;
-                    color: #666;
-                    margin-bottom: 2rem;
                 }
 
                 .filters-section {
@@ -668,7 +668,7 @@
 
                     if (position) {
                         window.requestAnimationFrame(() => {
-                            window.scrollTo(0, position - position / 10);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
 
                             scrollToTop();
                         });

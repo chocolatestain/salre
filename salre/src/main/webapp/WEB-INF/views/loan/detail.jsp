@@ -53,6 +53,17 @@
 				text-align: center;
 			}
 
+			.main-banner h1 {
+				font-size: 2.5rem;
+				color: #333;
+			}
+
+			.main-banner h2 {
+				font-size: 1.25rem;
+				color: #666;
+				margin-bottom: 2rem;
+			}
+
 			.controls {
 				display: flex;
 				justify-content: space-between;
@@ -106,17 +117,6 @@
 
 			.info ul {
 				padding-left: 20px;
-			}
-
-			h1 {
-				font-size: 2rem;
-				color: #333;
-			}
-
-			h2 {
-				font-size: 1.5rem;
-				color: #666;
-				margin-bottom: 2rem;
 			}
 
 			.table-box {
@@ -261,15 +261,15 @@
 				<div class="info"></div>
 			</div>
 
-			<h1>대출이자 계산기</h1>
+			<h1 style="font-size: 2rem;">대출이자 계산기</h1>
 
 			<div class="table-box">
 				<div class="data">
 					<h3>
-						<label for="amount">대출 금액 (만 원)</label>
+						<label for="amount">대출금액 (만 원)</label>
 						<div class="helper"></div>
 						<input type="number" name="amount" placeholder="금액 입력" />
-						<label for="period">대출 기간 (개월)</label>
+						<label for="period">대출기간 (개월)</label>
 						<input type="number" name="period" placeholder="기간 입력" />
 					</h3>
 					<hr>
@@ -324,8 +324,8 @@
 
 				$('.info').html(`
 					\${bank_img}
-					<h1>${loan.loan_name}</h1>
-					<h2>${loan.bank_name}</h2>
+					<h1 style="font-size: 2rem;">${loan.loan_name}</h1>
+					<h2 style="font-size: 1.5rem;">${loan.bank_name}</h2>
 					<ul>
 						<li><h3>${loan.repayment_type}</h3></li> <br>
 						<li><h3>기준금리: ${loan.loan_rate}%</h3></li> <br>
@@ -558,7 +558,7 @@
 
 				if (position) {
 					window.requestAnimationFrame(() => {
-						window.scrollTo(0, position - position / 10);
+						window.scrollTo({ top: 0, behavior: 'smooth' });
 
 						scrollToTop();
 					});
