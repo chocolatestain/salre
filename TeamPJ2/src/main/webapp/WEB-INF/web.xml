@@ -35,6 +35,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+<<<<<<< HEAD:TeamPJ2/src/main/webapp/WEB-INF/web.xml
 
 	<!-- 2024-12-23 Filter 등록 -->
 	<filter>
