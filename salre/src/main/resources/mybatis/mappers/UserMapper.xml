@@ -86,11 +86,20 @@
 	
 	
 	<!-- 마이페이지 - 나의 거래현황 - 후기작성 -->
-   <insert id="insertReview" parameterType="ReviewDTO">
-        INSERT INTO review (user_id, seller_id, review_rate, review_content)
-        VALUES (#{user_id}, #{seller_id}, #{review_rate}, #{review_content})
+<!--    <insert id="insertReview" parameterType="ReviewDTO"> -->
+<!--         INSERT INTO review (user_id, seller_id, review_rate, review_content) -->
+<!--         VALUES (#{user_id}, #{seller_id}, #{review_rate}, #{review_content}) -->
         
-    </insert>
+<!--     </insert> -->
+       <insert id="insertReview" parameterType="map">
+    INSERT INTO review (user_id, seller_id, review_rate, review_content)
+    VALUES (
+        #{user_id},
+        #{seller_id},
+        #{review_rate},
+        #{review_content}
+    )
+	</insert>
     <!-- <insert id="insertReview" parameterType="ReviewDTO">
     INSERT INTO review (user_id, seller_id, review_rate, review_content)
     VALUES (
@@ -132,8 +141,7 @@
     
     <!-- 마이페이지 - 회원정보수정/ updateUserInfo -->
   <update id="updateUserInfo" parameterType="userVO">
-
-	    
+ 
 	     UPDATE user
 	     SET
 	    	  user_id=#{user_id},
@@ -147,8 +155,7 @@
 		      address_detail=#{address_detail},
 		      auth_seller=#{auth_seller}
 		  WHERE id = #{id}   
-		      
-	  
+ 
 	</update>
  
     
