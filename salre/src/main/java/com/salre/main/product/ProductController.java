@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
- 
 @Slf4j
 @Controller
 @RequestMapping("/product")
