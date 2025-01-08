@@ -149,7 +149,7 @@
 
             .notify-icon {
                 font-size: 2rem;
-                margin-right: 15px;
+                margin-right: 10px;
             }
 
             .notify-content {
@@ -162,7 +162,7 @@
                 font-size: 0.75rem;
                 color: #666;
                 align-self: flex-start;
-                margin-left: 15px;
+                margin-left: 10px;
             }
 
             footer {
