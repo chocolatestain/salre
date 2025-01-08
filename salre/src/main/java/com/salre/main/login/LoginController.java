@@ -1,0 +1,512 @@
+package com.salre.main.login;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Controller
+//@RequestMapping("/salre")
+public class LoginController {
+
+	@Autowired
+	private UserService userService;
+	
+//	@Autowired 
+//	ProductService productService; //?�� 코드 ?��칠경?��
+	
+	// 본인?���? ?��?���?
+	@GetMapping("/signup")
+	public String signupPage() {
+		return "logIn/signUpAuth"; // signup.jsp 반환
+	}
+	
+	
+	  // 본인?���? 처리
+	  @PostMapping("/certify")
+//	  @ResponseBody //메서?��?�� 반환값을 JSON ?��?�� 문자?���? 같�? HTTP ?��?�� 본문?�� 직접 ?��?��
+	  public ResponseEntity<String> processCertification(@RequestParam("certificationResult") boolean certificationResult, HttpSession session){ 
+	  if(certificationResult) {
+	  session.setAttribute("isCertified", true); // ?���? ?���? ?��?�� ???�� return
+	  return ResponseEntity.ok("Certification Successful"); 
+	  }else {
+	  session.setAttribute("isCertified", false); // ?��?�� ?��?�� ?��?�� ???�� return
+	  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Certification Failed"); 
+	  	}
+	  }
+	  
+		@GetMapping("/logout")
+		public String logout() {
+			return "common/logout";
+		}
+	
+	// ?��?���??�� 처리
+	@PostMapping("/signup")
+	public String registerUser(UserDTO user, Model model) {
+		int result = userService.registerUser(user);
+		model.addAttribute("message", result > 0 ? "?��?���??�� ?���?" : "?��?���??�� ?��?��");
+		
+		return "redirect:login"; // ?��?���??�� ?�� 로그?�� ?��?���?�? ?��?�� //salre/ 추�??��?��
+	}
+
+	
+	// ?��?��?��보입?�� ?��?���?
+		@GetMapping("/signUpInfo")
+		public String signupInfoPage() {
+			return "logIn/signUpInfo"; // signup.jsp 반환
+		}
+		
+		
+		
+		
+		
+/*		
+	// ?��?��?��보입?�� ?��?���?
+	@GetMapping("/signUpInfo")
+	public String signUpInfoPage(HttpSession session) {
+		// 본인?���? ?���? ?��?��(?��?��?�� ?���? ?���? ???��?��?���? �??��)
+		Boolean isCertified=(Boolean) session.getAttribute("isCertified");
+		
+		if(isCertified !=null&& isCertified) {
+			return "logIn/signUpInfo";//?��?��?��보입?�� ?��?���? 반환
+		}else {
+			return "redirect:/signup";//?��증이 ?��료되�? ?��?��?���? ?��?�� 본인?���? ?��?���?�? 리다?��?��?��
+		}
+	}
+	
+	*/
+	
+	// 로그?�� ?��?���?
+	@GetMapping("/login")
+	public String loginPage() {
+		return "logIn/login"; // login.jsp 반환
+	}
+
+	@GetMapping("/admin/myPage")
+	public void admin() {
+	}
+
+	// 로그?�� 처리
+	/*
+	 * @PostMapping("/login") public String loginUser(@RequestParam String
+	 * id, @RequestParam String password, HttpSession session, Model model) {
+	 * UserDTO user = userService.loginUser(id, password); //
+	 * System.out.println("user : " + user); if (user != null) {
+	 * session.setAttribute("loggedInUser", user); model.addAttribute("user", user);
+	 * return "myPage/transactions"; // 로그?�� ?���? ?�� transactions.jsp�? ?��?��
+	 * 
+	 * // return "redirect:/home"; // 로그?�� ?���? ?�� ?��?���? ?��?��
+	 * 
+	 * } else { model.addAttribute("error", "로그?�� ?��?��: ?��?��?�� ?��?�� 비�?번호�? ?��못되?��?��?��?��."); return
+	 * "logIn/login"; // 로그?�� ?��?�� ?�� ?��?�� 로그?�� ?��?���? } }
+	 */
+	
+	
+	/*
+	 * // �?리자 myPage
+	 * 
+	 * @GetMapping("/admin/myPage") public void admin() { }
+	 */
+	// 로그?��
+	@PostMapping("/login")
+	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {
+		UserDTO user = userService.loginUser(id, password);
+		// System.out.println("user : " + user);
+		if (user != null) {
+			session.setAttribute("loggedInUser", user);
+			if (id.equals("test15")) {
+				session.setAttribute("contractStatusPending", 10); // 吏꾪�? �쟾
+				session.setAttribute("contractStatusNegotiating", 5); // 議곗?�� 以�
+				session.setAttribute("contractStatusOngoing", 15); // 吏꾪�? 以�
+				session.setAttribute("contractStatusCompleted", 20); // ?�꾩�? �셿?���?
+				session.setAttribute("propertyReportCount", 30); // 留ㅻЪ �떊?�� 嫄댁?��
+				session.setAttribute("boardReportCount", 12); // 寃뚯?���뙋 �떊?�� 嫄댁?��
+				session.setAttribute("userReportCount", 8); // ��?�� �떊?�� 嫄댁?��
+				session.setAttribute("board1PostCount", 150); // 寃뚯?���뙋 1 寃뚯?��湲� �닔
+				session.setAttribute("board2PostCount", 120); // 寃뚯?���뙋 2 寃뚯?��湲� �닔
+				session.setAttribute("board3PostCount", 130); // 寃뚯?���뙋 3 寃뚯?��湲� �닔
+				session.setAttribute("contractCount", 50); // �쟾泥� ?�꾩�? 嫄댁?��
+				return "redirect:admin/myPage";
+			}
+			model.addAttribute("user", user);
+			return "myPage/transactions"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
+
+			// return "redirect:/home"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?��?��?��?�� ?��?��?��?��
+		}
+
+		else {
+			model.addAttribute("error", "ID ?��?�� PW�? ?��못되?��?��?��?��.");
+			return "logIn/login"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?�� ?��?��깍옙?��?��?�� ?��?��?��?��?��?��?��?��?��
+		}
+	}
+
+	// ID 찾기 ?��?���?
+	@GetMapping("/findId")
+	public String findIdPage() {
+		return "/logIn/findId";
+	}
+
+	// ID 찾기 처리
+	@PostMapping("/findId")
+	public String processFindId(@RequestParam("email") String email,@RequestParam("user_name") String name, Model model) {
+		// ?��메일�? ID�? 찾는 ?��비스 ?���?
+		String userId = userService.findIdByEmailAndName(email,name);
+		System.out.println("userID###### : " + userId);
+
+		if (userId != null) {
+			model.addAttribute("message", "Your ID is : " + userId);
+		} else {
+			model.addAttribute("error", "?��록된 ?��?��?�� 찾을 ?�� ?��?��?��?��.");
+		}
+
+		return "/logIn/findId";
+	}
+	
+
+	// PW 찾기 ?��?���?
+	@GetMapping("/findPassword")
+	public String findPasswordPage() {
+		return "/logIn/findPassword";
+	}
+	
+	
+	// PW 찾기 처리_20250105
+	 @PostMapping("/sendVerificationCode")
+	    @ResponseBody
+	    public Map<String, Object> sendVerificationCode(@RequestParam String id, @RequestParam String email) {
+	        Map<String, Object> response = new HashMap<>();
+	        boolean isValidUser = userService.validateUser(id, email);
+	        System.out.println("@@ id email = " + id + email);
+
+	        if (!isValidUser) {
+	            response.put("success", false);
+	            response.put("message", "ID?? ?��메일?�� ?��록된 ?��보�? ?��치하�? ?��?��?��?��.");
+	            return response;
+	        }
+
+	        userService.generateVerificationCode(email);
+	        response.put("success", true);
+	        response.put("message", "?��증번?���? ?��메일�? 발송?��?��?��?��?��.");
+	        return response;
+	    }
+
+	    @PostMapping("/verifyCode")
+	    @ResponseBody
+	    public Map<String, Object> verifyCode(@RequestParam String verificationCode, @RequestParam String email) {
+	        Map<String, Object> response = new HashMap<>();
+	        boolean isCodeValid = userService.verifyCode(email, verificationCode);
+
+	        if (isCodeValid) {
+	            response.put("success", true);
+	            response.put("message", "?��증번?���? ?��?��?��?��?��?��?��. ?�� 비�?번호�? ?��?��?��?��?��.");
+	        } else {
+	            response.put("success", false);
+	            response.put("message", "?��증번?���? ?��?��?���? ?��?��?��?��.");
+	        }
+	        return response;
+	    }
+
+	    @PostMapping("/resetPassword")
+	    @ResponseBody
+	    public Map<String, Object> resetPassword(@RequestParam String email, @RequestParam String newPassword) {
+	        Map<String, Object> response = new HashMap<>();
+
+	        userService.updatePassword(email, newPassword);
+	        response.put("success", true);
+	        response.put("message", "비�?번호�? ?��공적?���? �?경되?��?��?��?��.");
+	        return response;
+	    }
+
+	    @GetMapping("/admin/boardreport")
+		public String boardReport() {
+
+			return "admin/boardreport";
+		}
+
+		@GetMapping("/admin/productreport")
+		public String productReport() {
+
+			return "admin/productreport";
+		}
+
+		@PostMapping("/admin/myPage")
+		public String handleAdminPost(HttpSession session) {
+			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
+			if (user == null) {
+				return "redirect:/login"; // 濡쒓?���씤�릺吏� �븡�� 寃쎌?�� 濡쒓?���씤 �럹�씠吏�濡� ?��?�떎�씠�젆�듃
+			}
+
+			// �꽭��?? �뜲�씠�꽣 �솗�씤 �썑 �븘�슂�븯硫� ?��붽� �옉�뾽
+			return "redirect:/admin/myPage"; // GET �슂泥��쑝濡� ?��?�떎�씠�젆�듃
+		}
+
+		
+		//?��?��?��보수?��
+		  @GetMapping("/updatemyPage") 
+		  public String updateUser() {
+			  return "myPage/updateMyPage";
+		  }
+		  
+		//?��?��?��보수?��(?���? ?�� data)
+		  @GetMapping("/getSessionData")
+		  @ResponseBody
+		  public Map<String, String> getSessionData(HttpSession session) {
+		      Map<String, String> response = new HashMap<>();
+		      response.put("name", (String) session.getAttribute("certifiedName"));
+		      response.put("phone", (String) session.getAttribute("certifiedPhone"));
+		      response.put("birthday", (String) session.getAttribute("certifiedBirthday"));
+		      return response;
+		  }
+
+	
+		  
+		  //?��?��?��보수?��버튼 ?��르면 update
+		  @PostMapping("/updateUserInfo")
+		  @ResponseBody
+		  public Map<String, Object> updateUserInfo(@RequestBody UserDTO user, HttpSession session) {
+		      Map<String, Object> response = new HashMap<>();
+		      try {
+		          // ?��?��?��?�� 기존 ?��?��?���? �??��?��
+		          UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
+
+		          // 기존 �? ?���? 로직
+		          if (loggedInUser != null) { //?��?? 로그?��?��?�� ?��?��
+		              if (user.getPassword() == null || user.getPassword().isEmpty()) {
+		                  user.setPassword(loggedInUser.getPassword()); // 기존 ?��?�� ?���?
+		              }
+		             
+		          }
+
+		          // ?��?��?��?�� ?���?
+		          userService.updateUserInfo(user);
+
+		          // ?��?�� ?��?��?��?��
+		          session.setAttribute("loggedInUser", user);
+
+		          response.put("success", true);
+		      } catch (Exception e) {
+		          response.put("success", false);
+		          e.printStackTrace();
+		      }
+		      return response;
+		  }
+
+
+		  
+		 
+	
+		 // ?��?��?��?�� 처리
+	@PostMapping("/deleteUser")
+	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
+
+		try {
+			userService.deleteUser(id);
+			redirectAttributes.addFlashAttribute("message", "?��?��?��?���? ?��료되?��?��?��?��."); // addFlashAttribute�? ?��?��?���? 리다?��?��?��?�� ?��?���??��?���?
+																				// 메시�?�? ?��?��
+			return "redirect:/login";
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "?��?��?��?�� �? ?��류�? 발생?��?��?��?��.");
+			return "redirect:/myPage";
+		}
+	}
+
+	
+	
+	// ?��?���??�� - 본인?���?
+	@ResponseBody
+	@PostMapping(value = "/rspTest2")
+	public String rspTest(String imp_uid, HttpSession session) {
+
+	    String impKey = "";
+	    String impSecret = "";
+
+	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+
+	    HttpRequest request = HttpRequest.newBuilder()
+	            .uri(URI.create("https://api.iamport.kr/users/getToken"))
+	            .header("Content-Type", "application/json")
+	            .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody))
+	            .build();
+
+	    HttpResponse<String> response = null;
+	    try {
+	        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+	    } catch (IOException | InterruptedException e) {
+	        e.printStackTrace();
+	    }
+	    String jsonResponse = response.body();
+	    ObjectMapper objectMapper = new ObjectMapper();
+
+	    JsonNode rootNode = null;
+	    try {
+	        rootNode = objectMapper.readTree(jsonResponse);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	    }
+
+	    String token = rootNode.path("response").path("access_token").asText();
+
+	    HttpRequest request2 = HttpRequest.newBuilder()
+	            .uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
+	            .header("Content-Type", "application/json")
+	            .header("Authorization", "Bearer " + token)
+	            .method("GET", HttpRequest.BodyPublishers.ofString(""))
+	            .build();
+
+	    HttpResponse<String> response2 = null;
+	    try {
+	        response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
+	    } catch (IOException | InterruptedException e) {
+	        e.printStackTrace();
+	    }
+
+	    String jsonResponse2 = response2.body();
+	    System.out.println("########JSON Response from API: " + jsonResponse2);
+
+	    try {
+	        // JSON ?��?��?�� ?��?�� �? ?��?�� ???��
+	        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
+	        if (userNode != null) {
+	            String name = userNode.path("name").asText(null);
+	            String phone = userNode.path("phone").asText(null);
+	            String birthday = userNode.path("birthday").asText(null);
+
+	            // ?��?��?��?�� ?���? �??�� (yyyy-MM-dd -> yyMMdd)
+	            if (birthday != null) {
+	                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
+	            }
+	            
+	            // ?��?��?�� ???��
+	            session.setAttribute("certifiedName", name);
+	            session.setAttribute("certifiedPhone", phone);
+	            session.setAttribute("certifiedBirthday", birthday);
+
+	            System.out.println("Session Data Saved:");
+	            System.out.println("Name: " + session.getAttribute("certifiedName"));
+	            System.out.println("Phone: " + session.getAttribute("certifiedPhone"));
+	            System.out.println("Birthday: " + session.getAttribute("certifiedBirthday"));
+	        }
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	    }
+
+	    return jsonResponse2; // JSON ?��?��?���? 그�?�? 반환
+	}
+	// ?��?��?��보수?�� - 본인?��증버?��
+		@ResponseBody
+		@PostMapping(value = "/rspTest3")
+		public String rspTest3(String imp_uid, HttpSession session) {
+
+		    String impKey = "";
+		    String impSecret = "";
+
+		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+
+		    HttpRequest request = HttpRequest.newBuilder()
+		            .uri(URI.create("https://api.iamport.kr/users/getToken"))
+		            .header("Content-Type", "application/json")
+		            .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody))
+		            .build();
+
+		    HttpResponse<String> response = null;
+		    try {
+		        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+		    } catch (IOException | InterruptedException e) {
+		        e.printStackTrace();
+		    }
+		    String jsonResponse = response.body();
+		    ObjectMapper objectMapper = new ObjectMapper();
+
+		    JsonNode rootNode = null;
+		    try {
+		        rootNode = objectMapper.readTree(jsonResponse);
+		    } catch (JsonProcessingException e) {
+		        e.printStackTrace();
+		    }
+
+		    String token = rootNode.path("response").path("access_token").asText();
+
+		    HttpRequest request2 = HttpRequest.newBuilder()
+		            .uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
+		            .header("Content-Type", "application/json")
+		            .header("Authorization", "Bearer " + token)
+		            .method("GET", HttpRequest.BodyPublishers.ofString(""))
+		            .build();
+
+		    HttpResponse<String> response2 = null;
+		    try {
+		        response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
+		    } catch (IOException | InterruptedException e) {
+		        e.printStackTrace();
+		    }
+
+		    String jsonResponse2 = response2.body();
+		    System.out.println("########JSON Response from API: " + jsonResponse2);
+
+		    try {
+		        // JSON ?��?��?�� ?��?�� �? ?��?�� ???��
+		        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
+		        if (userNode != null) {
+		            String name = userNode.path("name").asText(null);
+		            String phone = userNode.path("phone").asText(null);
+		            String birthday = userNode.path("birthday").asText(null);
+
+		            // ?��?��?��?�� ?���? �??�� (yyyy-MM-dd -> yyMMdd)
+		            if (birthday != null) {
+		                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
+		            }
+		            // ?��?��?�� ???��?�� 기존 ?��?��?��?? 병합
+		            UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
+		            if (loggedInUser != null) {
+		                if (name != null) loggedInUser.setUser_name(name);
+		                if (phone != null) loggedInUser.setPhone_num(phone);
+		                if (birthday != null) loggedInUser.setResident_num(birthday);
+		                session.setAttribute("loggedInUser", loggedInUser);
+		            }
+
+		            // ?��?��?�� ???��
+		            session.setAttribute("certifiedName", name);
+		            session.setAttribute("certifiedPhone", phone);
+		            session.setAttribute("certifiedBirthday", birthday);
+
+		            System.out.println("Session Data Saved:");
+		            System.out.println("Name: " + session.getAttribute("certifiedName"));
+		            System.out.println("Phone: " + session.getAttribute("certifiedPhone"));
+		            System.out.println("Birthday: " + session.getAttribute("certifiedBirthday"));
+		        }
+		    } catch (JsonProcessingException e) {
+		        e.printStackTrace();
+		    }
+
+		    return jsonResponse2; // JSON ?��?��?���? 그�?�? 반환
+		}
+	
+	
+	
+	
+}

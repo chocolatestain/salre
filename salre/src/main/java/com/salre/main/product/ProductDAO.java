@@ -15,18 +15,14 @@ public class ProductDAO implements ProductInterface {
 	SqlSession sqlSession;
 	
 	String namespace = "com.salre.main.product.";
-	//contract_id�� �Ź����� ��ü ��ȸ
-	public ProductDTO selectAllByContractId(int contract_id) {
-		return sqlSession.selectOne(namespace + "selectAllByContractId",contract_id);	
-	}
-	
-	
-	public List<ProductDTO> selectAllProducts() {
+    public List<ProductDTO> selectAllProducts() {
+        // SQL 쿼리 호출
         List<ProductDTO> productlist = sqlSession.selectList(namespace + "selectAllProducts");
         return productlist;
     }
-	public int InsertProduct(ProductDTO product) {
-		int result = sqlSession.insert(namespace + "insert");
+	public int InsertProduct(ProductDTO product) { 
+		System.out.println("DAO : InsertProduct : " + product);
+		int result = sqlSession.insert(namespace + "insert", product);
 		return result;
 	}
 	public ProductDTO getProductById(int productId) {
@@ -43,12 +39,24 @@ public class ProductDAO implements ProductInterface {
 	}
 
     public List<ProductDTO> searchProductsByKeyword(String keyword) {
-        log.info("", keyword);  
+        log.info("검색어로 DB에서 검색: ", keyword);  // 로그로 검색어 확인
         return sqlSession.selectList(namespace + "searchProductsByKeyword", keyword);
     }
+	@Override
+	public List<ProductDTO> searchByConditions(ProductDTO productDTO) {
+		 log.info("ProductDTO로 DB에서 검색 : ", productDTO);
+		return sqlSession.selectList(namespace + "searchByConditions", productDTO);
+	}
 
-	public ProductDTO selectByIdService(int product_id) {
-		return sqlSession.selectOne(namespace + "selectByIdService", product_id);
-		
+	public int countProduct() {
+		return sqlSession.selectOne(namespace + "countProduct");
+	}
+	@Override
+	public int nextId() {
+		return sqlSession.selectOne(namespace + "nextId");
+	}
+	@Override
+	public int incrementViewCount(int product_id) {
+		  return sqlSession.update(namespace + "incrementViewCount", product_id);	
 	}
 }

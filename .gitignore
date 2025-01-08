@@ -106,6 +106,25 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
 # Eclipse m2e generated files
 # Eclipse Core
 .project
@@ -142,3 +161,4 @@ $RECYCLE.BIN/
 mysqlDB.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,maven,eclipse
+salre/.project
