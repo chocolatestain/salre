@@ -26,11 +26,12 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-    
+
     @Autowired
     private RegionService regionService;
+
     @GetMapping("/insert")
-    public String showCreateForm() { 
+    public String showCreateForm() {
         return "product/insert";
     }
 
@@ -47,9 +48,9 @@ public class ProductController {
         System.out.println("시군구: " + sigungu);
         System.out.println(productDTO);
         productDTO.setRegion_id(regionService.selectIdByRegion(sigungu));
-        
+
         if (file != null && !file.isEmpty()) {
-            
+
             // 파일을 저장할 디렉토리 경로 지정
             String directoryPath = "src/main/resources/images/products/";
 
@@ -75,7 +76,7 @@ public class ProductController {
 
         // 비즈니스 로직 처리 (상품 등록)
         productService.insertProduct(productDTO);
-        
+
         return "redirect:/";
     }
  
