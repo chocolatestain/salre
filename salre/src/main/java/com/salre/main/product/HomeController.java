@@ -1,15 +1,11 @@
 package com.salre.main.product;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-<<<<<<< HEAD
-=======
-import org.springframework.web.bind.annotation.RequestParam;
-
->>>>>>> notify/main
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 @Controller
 public class HomeController {
     @Autowired
@@ -20,20 +16,16 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("productCount", productservice.countProduct());
-<<<<<<< HEAD
         model.addAttribute("regionCount", regionservice.countRegion()); 
         System.out.println("Region Count : " + regionservice.countRegion());
         System.out.println("Product Count : " + productservice.countProduct());
-=======
-        model.addAttribute("regionCount", regionservice.countRegion());
->>>>>>> notify/main
         try {
             model.addAttribute("regions", new ObjectMapper().writeValueAsString(regionservice.selectAllRegion()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         return "home";
-<<<<<<< HEAD
-    } 
+    }
+
     @GetMapping("/search")
     public String searchProducts(@RequestParam("search") String searchQuery, Model model) {
         // 검색어가 비어있을 때 예외 처리
@@ -57,5 +49,4 @@ public class HomeController {
 
         return "search";
     }
->>>>>>> notify/main
 }
