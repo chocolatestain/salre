@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
+import com.salre.main.myPage.ReviewDTO;
 
 @Controller
 public class MyPageController {
@@ -42,7 +43,33 @@ public class MyPageController {
 		return "myPage/transactions";
 	}
 
- 
+	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÇöÈ²(ÈÄ±âÀÛ¼º¹öÆ° Å¬¸¯½Ã)
+			@PostMapping("/transactions/registerReview")
+			@ResponseBody
+			public Map<String, Object> updateReview(ReviewDTO review, HttpSession session) {
+				
+				 Map<String, Object> response = new HashMap<>();
+				 
+				 // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
+			    Object userObj = session.getAttribute("loggedInUser");
+			        UserDTO user = (UserDTO) userObj;
+			        int user_id = user.getUser_id(); // user_id ÃßÃâ
+			        System.out.println("###userid" + user_id);
+
+			    try {
+			    	review.setUser_id(user_id);
+			        userService.registerReview(review);
+			        System.out.println("@@@@review @@@= " + review.getReview_content());
+			        response.put("success", true);
+			    } catch (Exception e) {
+			        response.put("success", false);
+			        response.put("message", "ÈÄ±â µî·Ï¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+			    }
+
+			    return response;
+			}
+			
+			
 	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½.. ï¿½ï¿½ï¿? ï¿½ï¿½È¸
 	@GetMapping("/posts")
 	public String getMyPosts(HttpSession session, Model model) {
@@ -105,7 +132,7 @@ public class MyPageController {
 	        response.put("success", true);
 	    } catch (Exception e) {
 	        response.put("success", false);
-	        response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
+	        response.put("message", "ÈÄ±â ¼öÁ¤¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
 	    }
 
 	    return response;
@@ -120,11 +147,11 @@ public class MyPageController {
 			try {
 				userService.deleteReview(review_id);
 				response.put("success", true);
-				response.put("message", "ï¿½Ä±â°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+				response.put("message", "ÈÄ±â°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
 				
 			}catch(Exception e) {
 				response.put("success", false);
-				response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
+				response.put("message", "ÈÄ±â »èÁ¦¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
 			}
 			return response;
 		}

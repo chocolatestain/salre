@@ -149,6 +149,10 @@ public class UserService {
 			  return count==0;
 		  }
 
+		//마이페이지 - 나의 거래현황 - 후기작성
+		public void registerReview(ReviewDTO review) {
+			      userDAO.insertReview(review);
+			    }
 
 		//마이페이지 - 내가 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
 		public List<PostDTO> getPostsByUserId(int user_id) {

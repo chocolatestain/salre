@@ -94,9 +94,15 @@ public class UserDAO implements UserDAOInterface {
         return sqlSession.selectOne(namespace + "selectUserById2", id);
     }
     
-    //
+    // email 중복체크
     public int countByEmail(String email) {
     	return sqlSession.selectOne(namespace + "countByEmail",email); 
+    }
+    
+    //마이페이지 - 나의 거래현황 - 후기작성
+    public void insertReview(ReviewDTO review) {
+        sqlSession.insert(namespace + "insertReview", review);
+          
     }
   
     //마이페이지 - 내가 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
