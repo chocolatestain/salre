@@ -11,18 +11,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
 import com.salre.main.myPage.ReviewDTO;
-
+import com.salre.main.product.*;
 @Controller
 public class MyPageController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ProductService productService;
 	
 	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@GetMapping("/myPage")
@@ -43,31 +46,52 @@ public class MyPageController {
 		return "myPage/transactions";
 	}
 
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÇöÈ²(ÈÄ±âÀÛ¼º¹öÆ° Å¬¸¯½Ã)
-			@PostMapping("/transactions/registerReview")
-			@ResponseBody
-			public Map<String, Object> updateReview(ReviewDTO review, HttpSession session) {
-				
-				 Map<String, Object> response = new HashMap<>();
-				 
-				 // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
-			    Object userObj = session.getAttribute("loggedInUser");
-			        UserDTO user = (UserDTO) userObj;
-			        int user_id = user.getUser_id(); // user_id ÃßÃâ
-			        System.out.println("###userid" + user_id);
+	@PostMapping("/transactions/registerReview")
+	@ResponseBody
+	public Map<String, Object> updateReview(@RequestBody ReviewDTO review, 
+	                                        @RequestParam int product_id, 
+	                                        HttpSession session) {
+	    Map<String, Object> response = new HashMap<>();
 
-			    try {
-			    	review.setUser_id(user_id);
-			        userService.registerReview(review);
-			        System.out.println("@@@@review @@@= " + review.getReview_content());
-			        response.put("success", true);
-			    } catch (Exception e) {
-			        response.put("success", false);
-			        response.put("message", "ÈÄ±â µî·Ï¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
-			    }
+	    try {
+	        // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
+	        Object userObj = session.getAttribute("loggedInUser");
+	        if (userObj == null) {
+	            throw new IllegalArgumentException("·Î±×ÀÎ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+	        }
 
-			    return response;
-			}
+	        UserDTO user = (UserDTO) userObj;
+	        int user_id = user.getUser_id(); // user_id ÃßÃâ
+	        System.out.println("### user_id: " + user_id);
+
+	        // ProductDTO¸¦ ÅëÇØ seller_id °¡Á®¿À±â
+	        ProductDTO product = productService.selectByIdService(product_id);
+	        if (product == null) {
+	            throw new IllegalArgumentException("À¯È¿ÇÏÁö ¾ÊÀº product_idÀÔ´Ï´Ù.");
+	        }
+	        System.out.println(product_id);
+	        int seller_id = product.getUser_id();
+	        	
+	        // ReviewDTO¿¡ user_id¿Í seller_id ¼³Á¤
+	        review.setUser_id(user_id);
+	        review.setSeller_id(seller_id);
+
+	        // ÈÄ±â¸¦ µî·Ï
+	        userService.registerReview(review);
+
+	        response.put("success", true);
+	    } catch (IllegalArgumentException e) {
+	        response.put("success", false);
+	        response.put("message", e.getMessage());
+	    } catch (Exception e) {
+	        response.put("success", false);
+	        response.put("message", "ÈÄ±â µî·Ï Áß ¾Ë ¼ö ¾ø´Â ¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù.");
+	        e.printStackTrace();
+	    }
+
+	    return response;
+	}
+
 			
 			
 	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½.. ï¿½ï¿½ï¿? ï¿½ï¿½È¸

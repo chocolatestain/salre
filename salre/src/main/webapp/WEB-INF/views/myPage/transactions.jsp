@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="contextPath"
 	value="${pageContext.servletContext.contextPath}"></c:set>
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -387,41 +387,43 @@
         const reviewContent = button.getAttribute('data-review-content'); */
 
     // 리뷰 등록 시 review_id는 필요 없으므로 초기화
-        document.getElementById('review_id').value = reviewId||''; 
+        document.getElementById('review_id').value = ''; 
         document.getElementById('review_rate').value = '';
         document.getElementById('review_content').value = '';
     });
-
+    const product_id = '13';
  	// 저장 버튼 클릭 이벤트
-    document.getElementById('submitReview').addEventListener('click', function () {
-        /* const review_id = document.getElementById('review_id').value;  */
-        const review_rate = document.getElementById('review_rate').value;
-        const review_content = document.getElementById('review_content').value;
-        console.log(review_rate);
-        console.log(review_content);
+  document.getElementById('submitReview').addEventListener('click', function () {
+    const review_rate = document.getElementById('review_rate').value;
+    const review_content = document.getElementById('review_content').value;
+    //const product_id = document.getElementById('product_id').value;
+   
+    
+    const reviewData = {
+        review_rate: review_rate,
+        review_content: review_content
+    };
 
-        // AJAX 요청
-        $.ajax({
-            url: `${contextPath}/transactions/registerReview`,
-            type: 'POST',
-            data: {
-            	/* review_id: review_id, */
-                review_rate: review_rate,
-                review_content: review_content
-            },
-            success: function (response) {
-                if (response.success) {
-                    alert('후기가 성공적으로 등록되었습니다.');
-                    location.reload(); // 페이지 새로고침
-                } else {
-                    alert(response.message|| '후기 등록에 실패하였습니다.');
-                }
-            },
-            error: function () {
-                alert('서버 오류가 발생했습니다.');
+    $.ajax({
+        url: `${contextPath}/transactions/registerReview?product_id=` + product_id,  // product_id는 쿼리 파라미터로 전송
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(reviewData),  // reviewDTO 데이터 전송
+        success: function (response) {
+            if (response.success) {
+                alert('후기가 성공적으로 등록되었습니다.');
+                location.reload();  // 페이지 새로고침
+            } else {
+            	 
+                alert(response.message || '후기 등록에 실패하였습니다.');
             }
-        });
+        },
+        error: function () {
+            alert('서버 오류가 발생했습니다.');
+        }
     });
+});
+
    
 	/* 토글스위치 동작(구매자-판매자) */
 	    $(document).ready(function () {
