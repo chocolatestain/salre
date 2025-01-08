@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 
-// Å×½ºÆ® Service ÆÄÀÏ.. º»ÀÎÀÎÁõ ºí·Î±×
+// ï¿½×½ï¿½Æ® Service ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î±ï¿½
 
 
 
@@ -24,7 +24,7 @@ import com.google.gson.JsonParser;
 public class SignUpService {
 
 
-	// ÀÎÁõÄÚµå·Î token¿äÃ»ÇÏ°í »ç¿ëÀÚ phone°ú ÀÌ¸§ »©³»±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ tokenï¿½ï¿½Ã»ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ phoneï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static HashMap getAccessToken(String impUid) {
 
 		HashMap map = new HashMap<>();
@@ -32,23 +32,23 @@ public class SignUpService {
 
 		String impKey = "";
 		String impSecret = "";
-		String strUrl = "https://api.iamport.kr/users/getToken"; // ÅäÅ« ¿äÃ» º¸³¾ ÁÖ¼Ò
+		String strUrl = "https://api.iamport.kr/users/getToken"; // ï¿½ï¿½Å« ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
 		String access_token = " ";
 		String phone = "";
 		String name = "";
 
 		try {
 			URL url = new URL(strUrl);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); // url Http ¿¬°á »ý¼º
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); // url Http ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-			// POST ¿äÃ»
+			// POST ï¿½ï¿½Ã»
 			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);// outputStreammÀ¸·Î post µ¥ÀÌÅÍ¸¦ ³Ñ±è
+			conn.setDoOutput(true);// outputStreammï¿½ï¿½ï¿½ï¿½ post ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ñ±ï¿½
 
 			conn.setRequestProperty("content-Type", "application/json");
 			conn.setRequestProperty("Accept", "application/json");
 
-			// ÆÄ¶ó¹ÌÅÍ ¼¼ÆÃ
+			// ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 
 			JSONObject requestData = new JSONObject();
@@ -61,8 +61,8 @@ public class SignUpService {
 
 			int resposeCode = conn.getResponseCode();
 
-			System.out.println("ÀÀ´äÄÚµå =============" + resposeCode);
-			if (resposeCode == 200) {// ¼º°ø
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ =============" + resposeCode);
+			if (resposeCode == 200) {// ï¿½ï¿½ï¿½ï¿½
 				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				StringBuilder sb = new StringBuilder();
 				String line;
@@ -72,14 +72,14 @@ public class SignUpService {
 
 				br.close();
 
-				// ÅäÅ« °ª »©±â
+				// ï¿½ï¿½Å« ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				String response = sb.toString();
 				JsonParser parser = new JsonParser();
 				JsonObject responseJson = parser.parse(response).getAsJsonObject();
 				access_token = responseJson.getAsJsonObject("response").get("access_token").getAsString();
 				System.out.println("Access Token: " + access_token);
 
-				// º»ÀÎÀÎÁõÇÑ »ç¶÷ Á¤º¸ •û¿À±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				String getPaymentUrl = "https://api.iamport.kr/certifications/" + impUid;
 				HttpURLConnection getConn = (HttpURLConnection) new URL(getPaymentUrl).openConnection();
 				getConn.setRequestMethod("GET");
@@ -87,9 +87,9 @@ public class SignUpService {
 				getConn.setRequestProperty("Authorization", "Bearer " + access_token);
 
 				int getResponseCode = getConn.getResponseCode();
-				System.out.println("GET ÀÀ´äÄÚµå =============" + getResponseCode);
+				System.out.println("GET ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ =============" + getResponseCode);
 				
-				if (getResponseCode == 200) { // ¼º°ø
+				if (getResponseCode == 200) { // ï¿½ï¿½ï¿½ï¿½
 					BufferedReader getBr = new BufferedReader(new InputStreamReader(getConn.getInputStream()));
 					StringBuilder getResponseSb = new StringBuilder();
 					String getLine;
@@ -100,22 +100,22 @@ public class SignUpService {
 
 					
 					String getResponse = getResponseSb.toString();
-					System.out.println("GET ÀÀ´ä °á°ú: " + getResponse);
+					System.out.println("GET ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½: " + getResponse);
 					JsonParser parser1 = new JsonParser();
 					JsonObject phoneJson1 = parser1.parse(getResponse).getAsJsonObject();
 					
-					// ÀüÈ­¹øÈ£ °ª »©±â
+					// ï¿½ï¿½È­ï¿½ï¿½È£ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					phone = phoneJson1.getAsJsonObject("response").get("phone").getAsString();
 					System.out.println("phone: " + phone);
 					
 					map.put("phone", phone);
-					//ÀÌ¸§ °ª »©±â 
+					//ï¿½Ì¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 					name =  phoneJson1.getAsJsonObject("response").get("name").getAsString();
-					System.out.println("ÀÌ¸§>>>>>" + name);
+					System.out.println("ï¿½Ì¸ï¿½>>>>>" + name);
 					map.put("name", name);
 					
 				} else {
-					System.out.println("GET ¿¡·¯ ÀÀ´ä ¸Þ½ÃÁö: " + getConn.getResponseMessage());
+					System.out.println("GET ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½: " + getConn.getResponseMessage());
 				}
 			} else {
 				System.out.println(conn.getResponseMessage());
