@@ -1,36 +1,19 @@
 package com.salre.main.login;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-@RestController // ¹ÝÈ¯°ªÀÌ JSP¿Í °°Àº View°¡ ¾Æ´Ï¶ó JSONÀÌ³ª XML µîÀÇ µ¥ÀÌÅÍ Çü½ÄÀ¸·Î ¹ÝÈ¯
+@RestController // ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ JSPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Viewï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ JSONï¿½Ì³ï¿½ XML ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 public class RestLoginController {
 
 	@Autowired
 	private UserService userService;
 
-	// IDÁßº¹Á¶È¸
+	// IDï¿½ßºï¿½ï¿½ï¿½È¸
 	@GetMapping("/checkId")
     public ResponseEntity<String> checkId(@RequestParam("id") String id) {
         boolean isAvailable = userService.isIdAvailable(id);
@@ -38,7 +21,7 @@ public class RestLoginController {
         return isAvailable ? ResponseEntity.ok("available") : ResponseEntity.ok("unavailable");
     	}
 
-	// emailÁßº¹Á¶È¸
+	// emailï¿½ßºï¿½ï¿½ï¿½È¸
 	 @GetMapping("/checkEmail")
 	    @ResponseBody
 	    public String checkEmail(@RequestParam("email") String email) {
@@ -48,14 +31,14 @@ public class RestLoginController {
 	
 
 		/*
-		 * // ÀÎÁõ µ¥ÀÌÅÍ¸¦ ¼¼¼Ç¿¡ ÀúÀå
+		 * // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 		 * 
 		 * @PostMapping("/saveCertificationData") public ResponseEntity<Void>
 		 * saveCertificationData(@RequestBody Map<String, String> userData, HttpSession
-		 * session) { // Àü´Þ¹ÞÀº µ¥ÀÌÅÍ String name = userData.get("name"); String phone =
+		 * session) { // ï¿½ï¿½ï¿½Þ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ String name = userData.get("name"); String phone =
 		 * userData.get("phone");
 		 * 
-		 * // ¼¼¼Ç¿¡ µ¥ÀÌÅÍ ÀúÀå session.setAttribute("certifiedName", name);
+		 * // ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ session.setAttribute("certifiedName", name);
 		 * session.setAttribute("certifiedPhone", phone);
 		 * 
 		 * return ResponseEntity.ok().build(); }

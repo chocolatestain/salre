@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
-import com.salre.main.myPage.ReviewDTO;
 
 @Controller
 public class MyPageController {
@@ -43,17 +42,17 @@ public class MyPageController {
 		return "myPage/transactions";
 	}
 
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÇöÈ²(ÈÄ±âÀÛ¼º¹öÆ° Å¬¸¯½Ã)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½È²(ï¿½Ä±ï¿½ï¿½Û¼ï¿½ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½)
 			@PostMapping("/transactions/registerReview")
 			@ResponseBody
 			public Map<String, Object> updateReview(ReviewDTO review, HttpSession session) {
 				
 				 Map<String, Object> response = new HashMap<>();
 				 
-				 // ¼¼¼Ç¿¡¼­ UserDTO °´Ã¼ °¡Á®¿À±â
+				 // ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ UserDTO ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			    Object userObj = session.getAttribute("loggedInUser");
 			        UserDTO user = (UserDTO) userObj;
-			        int user_id = user.getUser_id(); // user_id ÃßÃâ
+			        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 			        System.out.println("###userid" + user_id);
 
 			    try {
@@ -63,14 +62,14 @@ public class MyPageController {
 			        response.put("success", true);
 			    } catch (Exception e) {
 			        response.put("success", false);
-			        response.put("message", "ÈÄ±â µî·Ï¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+			        response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 			    }
 
 			    return response;
 			}
 			
 			
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½.. ï¿½ï¿½ï¿? ï¿½ï¿½È¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½.. ï¿½ï¿½ï¿½? ï¿½ï¿½È¸
 	@GetMapping("/posts")
 	public String getMyPosts(HttpSession session, Model model) {
 	    // ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ UserDTO ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
@@ -81,13 +80,13 @@ public class MyPageController {
 	        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½È¸
+	        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½È¸
 	        List<PostDTO> postList = userService.getPostsByUserId(user_id);
 	        System.out.println("postList: " + postList);
 	        model.addAttribute("postList", postList);
 	        return "myPage/posts"; // post.jsp ï¿½ï¿½È¯
 	    } else {
-	        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+	        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?
 	        System.out.println("Session does not contain a valid UserDTO.");
 	        return "redirect:/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 	    }
@@ -105,13 +104,13 @@ public class MyPageController {
 	        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½È¸
+	        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½È¸
 	        List<ReviewDTO> reviewList = userService.getMyreviewsByUserId(user_id);
 	        System.out.println("reviewList: " + reviewList);
 	        model.addAttribute("reviewList", reviewList);
 	        return "myPage/reviews"; // reviews.jsp ï¿½ï¿½È¯
 	    } else {
-	        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+	        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?
 	        System.out.println("Session does not contain a valid UserDTO.");
 	        return "redirect:/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 	    }
@@ -132,7 +131,7 @@ public class MyPageController {
 	        response.put("success", true);
 	    } catch (Exception e) {
 	        response.put("success", false);
-	        response.put("message", "ÈÄ±â ¼öÁ¤¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+	        response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 	    }
 
 	    return response;
@@ -147,11 +146,11 @@ public class MyPageController {
 			try {
 				userService.deleteReview(review_id);
 				response.put("success", true);
-				response.put("message", "ÈÄ±â°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
+				response.put("message", "ï¿½Ä±â°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 				
 			}catch(Exception e) {
 				response.put("success", false);
-				response.put("message", "ÈÄ±â »èÁ¦¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+				response.put("message", "ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 			}
 			return response;
 		}
@@ -174,13 +173,13 @@ public class MyPageController {
 		        int user_id = user.getUser_id(); // user_id ï¿½ï¿½ï¿½ï¿½
 		        System.out.println("Extracted user_id: " + user_id);
 
-		        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½È¸
+		        // Service È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½È¸
 		        List<ReportDTO> reportList = userService.getMyreportsByUserId(user_id);
 		        System.out.println("reportList: " + reportList);
 		        model.addAttribute("reportList", reportList);
 		        return "myPage/reports"; // reports.jsp ï¿½ï¿½È¯
 		    } else {
-		        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+		        // ï¿½ï¿½ï¿½Ç¿ï¿½ UserDTOï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?
 		        System.out.println("Session does not contain a valid UserDTO.");
 		        return "redirect:/login"; // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 		    }

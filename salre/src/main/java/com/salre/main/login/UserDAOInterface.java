@@ -1,59 +1,54 @@
 package com.salre.main.login;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
 
-// Interface(±Ô°Ý¼­): Á¤ÀÇ´Â ÀÖ°í ±¸ÇöÀº ¾ø´Ù.
+// Interface(ï¿½Ô°Ý¼ï¿½): ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 @Mapper
 public interface UserDAOInterface {
 
-			// È¸¿ø°¡ÀÔ
+			// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			public int insertUser(UserDTO user);
 			
-			// ·Î±×ÀÎ
+			// ï¿½Î±ï¿½ï¿½ï¿½
 			//public UserDTO selectUserById(String id,String password);
 			public UserDTO selectUserById(String id);
 			
-			// IDÃ£±â
+			// IDÃ£ï¿½ï¿½
 			/* public String findIdByEmail(String email); */
 			public String findIdByEmailAndName(String email, String name);
 			
-		    // PWÃ£±â
+		    // PWÃ£ï¿½ï¿½
 		    public boolean checkUser(String id, String email) ;
 		    public void updatePassword(String email, String newPassword) ;
 			
-			// È¸¿øÅ»Åð
+			// È¸ï¿½ï¿½Å»ï¿½ï¿½
 			public void deleteUser(String id);
 			
-			// IDÁßº¹Ã¼Å©
+			// IDï¿½ßºï¿½Ã¼Å©
 		    public UserDTO selectUserById2(String id);
 		  
-		    //¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ±Û ¸ñ·Ï Á¶È¸(Æ¯Á¤ »ç¿ëÀÚÀÇ °Ô½Ã±Û ¸ñ·Ï Á¶È¸)
+		    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸)
 		    public List<PostDTO> selectPostsByUserId(int user_id);
 		    
-			//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½
 			public List<ReviewDTO> selectReviewsByUserId(int user_id);
 			
-			//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â(¼öÁ¤)
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½)
 			public void updateReview(int review_id, int review_rate, String review_content);
 			
-			//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â(»èÁ¦)
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½)
 			public void deleteReview(int review_id);
 			  
-			//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ ½Å°í³»¿ª
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½
 			public List<ReportDTO> selectReportsByUserId(int user_id);
 			  
-			// ¸¶ÀÌÆäÀÌÁö - È¸¿øÁ¤º¸¼öÁ¤
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    public void updateUserInfo(UserDTO user);
 					 
 

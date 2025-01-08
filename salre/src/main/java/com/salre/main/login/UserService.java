@@ -5,17 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
@@ -33,13 +27,13 @@ public class UserService {
 
 
 	  
-	    //--È¸¿ø°¡ÀÔ
+	    //--È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	    public int registerUser(UserDTO user) {
-	        // ºñ¹Ð¹øÈ£ ¾ÏÈ£È­
+	        // ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½È£È­
 	        String hashedPassword = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
-	    	user.setPassword(hashedPassword); // ¾ÏÈ£È­µÈ ºñ¹Ð¹øÈ£·Î ¼³Á¤
+	    	user.setPassword(hashedPassword); // ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	        // DB¿¡ ÀúÀå
+	        // DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	        return userDAO.insertUser(user);
 	    }
 
@@ -47,51 +41,51 @@ public class UserService {
 	    
 	   
 		/*
-		 * //--¿ë¹ü¾¾ ·Î±×ÀÎ public UserDTO loginUser(String id, String password) { UserDTO user =
+		 * //--ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ public UserDTO loginUser(String id, String password) { UserDTO user =
 		 * userDAO.selectUserById(id, password); //System.out.println("userDTO : " +
 		 * user);
 		 * 
-		 * //»ç¿ëÀÚ Á¤º¸°¡ ¾øÀ¸¸é null ¹ÝÈ¯ if(user ==null) { return null; }
+		 * //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ null ï¿½ï¿½È¯ if(user ==null) { return null; }
 		 * 
-		 * // bcrypt ºñ¹Ð¹øÈ£ °ËÁõ (Á÷Á¢ bcrypt¸¦ »ç¿ëÇÏ¿© ºñ¹Ð¹øÈ£¸¦ ºñ±³) if
+		 * // bcrypt ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ bcryptï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½) if
 		 * (at.favre.lib.crypto.bcrypt.BCrypt.verifyer().verify(password.toCharArray(),
 		 * user.getPassword()).verified) {
 		 * 
 		 * 
-		 * // ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÏ¸é ºñ¹Ð¹øÈ£´Â null Ã³¸® (º¸¾È»ó) user.setPassword(password);
+		 * // ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï¸ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ null Ã³ï¿½ï¿½ (ï¿½ï¿½ï¿½È»ï¿½) user.setPassword(password);
 		 * //user.setPassword(null); return user;
 		 * 
-		 * } else { // ºñ¹Ð¹øÈ£ ºÒÀÏÄ¡ ½Ã null ¹ÝÈ¯ return null; } }
+		 * } else { // ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ null ï¿½ï¿½È¯ return null; } }
 		 */
 	    
 	    
-	    //·Î±×ÀÎ
+	    //ï¿½Î±ï¿½ï¿½ï¿½
 	    public UserDTO loginUser(String id, String password) {
-	        // 1. ID·Î »ç¿ëÀÚ Á¶È¸
+	        // 1. IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	        UserDTO user = userDAO.selectUserById(id);
 	        if (user == null) {
-	            return null; // »ç¿ëÀÚ Á¤º¸°¡ ¾øÀ¸¸é ·Î±×ÀÎ ½ÇÆÐ
+	            return null; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	        }
 
-	        // 2. ºñ¹Ð¹øÈ£ °ËÁõ
+	        // 2. ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 	        boolean isPasswordMatch = at.favre.lib.crypto.bcrypt.BCrypt.verifyer()
 	                                   .verify(password.toCharArray(), user.getPassword())
 	                                   .verified;
 
 	        if (isPasswordMatch) {
-	            // ºñ¹Ð¹øÈ£ °ËÁõ ¼º°ø: ºñ¹Ð¹øÈ£¸¦ null·Î ¼³Á¤ÇÏ¿© ¹ÝÈ¯
+	            // ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½È¯
 	            user.setPassword(null);
 	            return user;
 	        }
 
-	        // ºñ¹Ð¹øÈ£ °ËÁõ ½ÇÆÐ
+	        // ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	        return null;
 	    }
 
 
 
 
-	    //--¾ÆÀÌµð Ã£±â
+	    //--ï¿½ï¿½ï¿½Ìµï¿½ Ã£ï¿½ï¿½
 		public String findIdByEmailAndName(String email, String name) {
 			String find_id = userDAO.findIdByEmailAndName(email, name);
 			System.out.println("UserService/ find Id @@@email = " + find_id);
@@ -100,7 +94,7 @@ public class UserService {
 		}
 		
 		
-		//--PWÃ£±â
+		//--PWÃ£ï¿½ï¿½
 		  @Autowired
 		    private JavaMailSender mailSender;
 
@@ -110,37 +104,37 @@ public class UserService {
 		        return userDAO.checkUser(id, email);
 		    }
 
-		    public void generateVerificationCode(String email) {//ÀÎÁõ¹øÈ£ »ý¼º ¹× ¹ß¼Û
+		    public void generateVerificationCode(String email) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß¼ï¿½
 		        String verificationCode = String.valueOf(new Random().nextInt(900000) + 100000);
 		        verificationCodes.put(email, verificationCode);
-		        sendEmail(email, "ºñ¹Ð¹øÈ£ Ã£±â ÀÎÁõ¹øÈ£", "ÀÎÁõ¹øÈ£: " + verificationCode);
+		        sendEmail(email, "ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£: " + verificationCode);
 		    }
 
-		    public boolean verifyCode(String email, String verificationCode) {//ÀÎÁõ¹øÈ£ È®ÀÎ
+		    public boolean verifyCode(String email, String verificationCode) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ È®ï¿½ï¿½
 		        return verificationCode.equals(verificationCodes.get(email));
 		    }
 
-		    public void updatePassword(String email, String newPassword) {//ºñ¹Ð¹øÈ£ ¾ÏÈ£È­ ¹× ¾÷µ¥ÀÌÆ®
+		    public void updatePassword(String email, String newPassword) {//ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½È£È­ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 		        String encodedPassword = new BCryptPasswordEncoder().encode(newPassword);
 		        userDAO.updatePassword(email, encodedPassword);
 		    }
 
-		    private void sendEmail(String to, String subject, String body) {//ÀÌ¸ÞÀÏ ¹ß¼Û
-		        SimpleMailMessage message = new SimpleMailMessage(); //ÀÌ¸ÞÀÏ ¸Þ½ÃÁö¸¦ »ý¼º
-		        message.setTo(to);//ÀÌ¸ÞÀÏ ¼ö½ÅÀÚ ÁÖ¼Ò¸¦ ¼³Á¤
-		        message.setSubject(subject);//ÀÌ¸ÞÀÏ Á¦¸ñÀ» ¼³Á¤
-		        message.setText(body);//ÀÌ¸ÞÀÏ º»¹®À» ¼³Á¤
-		        mailSender.send(message);//¼³Á¤ÇÑ ÀÌ¸ÞÀÏ ¸Þ½ÃÁö¸¦ ¹ß¼Û..mailSender´Â JavaMailSender °´Ã¼ÀÌ¸ç, ¸ÞÀÏ ¼­¹ö ¼³Á¤À» ±â¹ÝÀ¸·Î ÀÌ¸ÞÀÏÀ» ¹ß¼Û
+		    private void sendEmail(String to, String subject, String body) {//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ß¼ï¿½
+		        SimpleMailMessage message = new SimpleMailMessage(); //ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		        message.setTo(to);//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		        message.setSubject(subject);//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		        message.setText(body);//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		        mailSender.send(message);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¼ï¿½..mailSenderï¿½ï¿½ JavaMailSender ï¿½ï¿½Ã¼ï¿½Ì¸ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¼ï¿½
 		    }
 	     
-		//--È¸¿øÅ»Åð
+		//--È¸ï¿½ï¿½Å»ï¿½ï¿½
 		  public void deleteUser(String id) {
 		        userDAO.deleteUser(id);
 		    }
 		  
-		//--IDÁßº¹Á¶È¸		  
+		//--IDï¿½ßºï¿½ï¿½ï¿½È¸		  
 		  public boolean isIdAvailable(String id) {
-			  //userDAO.selectUserById2(id): null-µ¥ÀÌÅÍº£ÀÌ½º¿¡ ÇØ´ç ID°¡ Á¸ÀçÇÏÁö ¾ÊÀ½ ¡æ »ç¿ë °¡´ÉÇÑ ID./°ªÀÌ ÀÖÀ½-µ¥ÀÌÅÍº£ÀÌ½º¿¡ ÇØ´ç ID°¡ Á¸ÀçÇÔ ¡æ Áßº¹µÈ ID.
+			  //userDAO.selectUserById2(id): null-ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID./ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ ID.
 		      return userDAO.selectUserById2(id) == null;
 		    }
 		  
@@ -149,39 +143,39 @@ public class UserService {
 			  return count==0;
 		  }
 
-		//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÇöÈ² - ÈÄ±âÀÛ¼º
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½È² - ï¿½Ä±ï¿½ï¿½Û¼ï¿½
 		public void registerReview(ReviewDTO review) {
 			      userDAO.insertReview(review);
 			    }
 
-		//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ±Û ¸ñ·Ï Á¶È¸(Æ¯Á¤ »ç¿ëÀÚÀÇ °Ô½Ã±Û ¸ñ·Ï Á¶È¸)
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸)
 		public List<PostDTO> getPostsByUserId(int user_id) {
 			   return userDAO.selectPostsByUserId(user_id);
 		}
 		
-		//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½
 		public  List<ReviewDTO> getMyreviewsByUserId(int user_id) {
 				return userDAO.selectReviewsByUserId(user_id);
 		}
 		
-		//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â(¼öÁ¤)
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½)
 		
 		public void updateReview(int review_id, int review_rate, String review_content) { 
 			  userDAO.updateReview(review_id, review_rate,  review_content); 
 		 }
 		  
-		//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÈÄ±â(»èÁ¦)
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½)
 		public void deleteReview(int review_id) {
 			    userDAO.deleteReview(review_id);
 			}
 
 		  
-		// ¸¶ÀÌÆäÀÌÁö - ³ªÀÇ ½Å°í³»¿ª  
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½  
 		public List<ReportDTO> getMyreportsByUserId(int user_id){
 			  return userDAO.selectReportsByUserId(user_id);
 		  }
 
-		// ¸¶ÀÌÆäÀÌÁö - È¸¿øÁ¤º¸¼öÁ¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void updateUserInfo(UserDTO user) {
 			userDAO.updateUserInfo(user);
 		};
