@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
-		        <setting name="logImpl" value="STDOUT_LOGGING"/> 
+		<setting name="logImpl" value="STDOUT_LOGGING"/>
 		<!-- mapper에서 null값이 왔을때 칼럼의 해당 타입임을 설정한다. 
 		   이 설정이 없으면 #{email,jdbcType=VARCHAR}), #{salary, jdbcType=INTEGER}		   
 		 -->
@@ -15,14 +15,13 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="com.salre.main.login.UserDTO" alias="userVO" />
-	   	<typeAlias type="com.salre.main.myPage.PostDTO" alias="PostDTO" />
-	   	<typeAlias type="com.salre.main.myPage.ReviewDTO" alias="ReviewDTO" />
-	   	<typeAlias type="com.salre.main.myPage.ReportDTO" alias="ReportDTO" />
-		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" /> 
+		<typeAlias type="com.salre.main.myPage.PostDTO" alias="PostDTO" />
+		<typeAlias type="com.salre.main.myPage.ReviewDTO" alias="ReviewDTO" />
+		<typeAlias type="com.salre.main.myPage.ReportDTO" alias="ReportDTO" />
+		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" />
 		<typeAlias type="com.salre.main.product.RegionDTO" alias="regionVO"/>
-    	<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanDTO" />
-		
-
+		<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanVO" />
+		<typeAlias type="com.salre.main.notify.NotifyDTO" alias="notifyVO" />
 	</typeAliases>
 
 </configuration> 

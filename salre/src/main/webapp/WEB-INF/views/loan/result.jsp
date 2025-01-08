@@ -53,6 +53,17 @@
                     align-items: center;
                 }
 
+                .main-banner h1 {
+                    font-size: 2.5rem;
+                    color: #333;
+                }
+
+                .main-banner h2 {
+                    font-size: 1.25rem;
+                    color: #666;
+                    margin-bottom: 2rem;
+                }
+
                 .controls {
                     display: flex;
                     justify-content: space-between;
@@ -112,17 +123,6 @@
                     display: flex;
                     flex-direction: space-between;
                     gap: 30px;
-                }
-
-                .main-banner h1 {
-                    font-size: 2.5rem;
-                    color: #333;
-                }
-
-                .main-banner h2 {
-                    font-size: 1.25rem;
-                    color: #666;
-                    margin-bottom: 2rem;
                 }
 
                 .filters-section {
@@ -349,6 +349,14 @@
                             <br>
                             <hr>
                             <div class="filters-display">
+                                <h3>상환 방식</h3>
+                            </div>
+                            <label><input type="checkbox" id="repay1" checked> 원리금분할상환</label> <br>
+                            <label><input type="checkbox" id="repay2" checked> 원금분할상환</label> <br>
+                            <label><input type="checkbox" id="repay3" checked> 만기일시상환</label>
+                            <br><br>
+                            <hr>
+                            <div class="filters-display">
                                 <h3>정책지원 대출</h3>
                             </div>
                             <label><input type="checkbox" id="option1" checked> 중소기업 재직자 대상</label> <br>
@@ -387,9 +395,9 @@
             <script>
                 $(document).ready(function () {
                     // 서버에서 전달된 값 가져오기
-                    const userAge = ${ param.age };
+                    const userAge = `${param.age}`;
 
-                    const paramIncome = "${ param.income }";
+                    const paramIncome = "${param.income}";
                     const incomeValue = {
                         step: {
                             "3500l": 35000000,
@@ -403,6 +411,9 @@
                         byRate: (item, rate) => item.loan_rate <= parseFloat(rate),
                         byLimit: (item, limit) => item.loan_limit / 100000000 <= parseFloat(limit),
                         byBank: (item, banks) => banks.length === 0 || banks.includes(item.bank_name),
+                        byRepay1: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원리금"),
+                        byRepay2: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원금"),
+                        byRepay3: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("만기"),
                         byOption1: (item, isChecked) => isChecked ? true : !item.loan_name.includes("중소기업청년"),
                         byOption2: (item, isChecked) => isChecked ? true : !item.loan_name.includes("버팀목")
                     };
@@ -420,10 +431,11 @@
                         $('#bank').append(bankLabel);
                     });
 
+                    // 이미지 로드 함수
                     function preloadImages() {
                         Object.values(bankObj).forEach(logo => {
                             const img = new Image();
-                            img.src = `${pageContext.request.contextPath}/resources/images/\${logo}`;
+                            img.src = `${pageContext.request.contextPath}/resources/images/bank/\${logo}`;
                         });
                     }
 
@@ -445,25 +457,28 @@
                         $('#loanResults').empty();
 
                         view.forEach(function (item) {
-                            let img = `<img src="${pageContext.request.contextPath}/resources/images/\${bankObj[item.bank_name]}"
+                            let img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[item.bank_name]}"
                                         alt="\${item.bank_name} 로고" class="bank-logo">`;
 
                             $('#loanResults').append(`
                                 <form action="detail" method="POST">
-                                    <input type="hidden" name="id" value="\${item.loan_id}">
-                                        <div class="loan-card" onclick="this.closest('form').submit()">
-                                            <div class="loan-card-content">
-                                                \${img}
-                                                <div class="loan-card-text">
-                                                    <h3>\${item.loan_name}</h3>
-                                                    <h4>\${item.bank_name}</h4>
-                                                </div>
+                                    <input type="hidden" name="id" value="\${item.loan_id}" />
+                                    <div class="loan-card" onclick="this.closest('form').submit()">
+                                        <div class="loan-card-content">
+                                            \${img}
+                                            <div class="loan-card-text">
+                                                <h3>\${item.loan_name}</h3>
+                                                <h4>\${item.bank_name}</h4>
                                             </div>
-                                            <hr>
-                                                <p>기준금리: \${item.loan_rate}%</p>
-                                                <p>최대한도: \${item.loan_limit / 100000000}억원</p>
-                                                <p>상환방식: \${item.repayment_type}</p>
                                         </div>
+                                        <hr>
+                                        <p>기준금리: \${item.loan_rate}%</p>
+                                        <p>
+                                            최대한도: \${item.loan_limit.toLocaleString()}원
+                                            <span style="font-size: 1rem;">(\${item.loan_limit / 100000000}억원)</span>
+                                        </p>
+                                        <p>상환방식: \${item.repayment_type}</p>
+                                    </div>
                                 </form>
                             `);
                         });
@@ -534,11 +549,15 @@
                         draw(view);
                     });
 
-                    // 전체 선택 기능능
+                    // 전체 선택 기능
                     function selectAll() {
                         $('input[name="bank"]').each(function () {
                             $(this).prop('checked', true);
                         });
+
+                        $('#repay1').prop('checked', true);
+                        $('#repay2').prop('checked', true);
+                        $('#repay3').prop('checked', true);
 
                         $('#option1').prop('checked', true);
                         $('#option2').prop('checked', true);
@@ -549,6 +568,10 @@
                         $('input[name="bank"]').each(function () {
                             $(this).prop('checked', false);
                         });
+
+                        $('#repay1').prop('checked', false);
+                        $('#repay2').prop('checked', false);
+                        $('#repay3').prop('checked', false);
 
                         $('#option1').prop('checked', false);
                         $('#option2').prop('checked', false);
@@ -568,6 +591,9 @@
                         const rate = $('#rate').text();
                         const limit = $('#limit').text();
                         const bank = [];
+                        const repay1 = $('#repay1').is(':checked');
+                        const repay2 = $('#repay2').is(':checked');
+                        const repay3 = $('#repay3').is(':checked');
                         const option1 = $('#option1').is(':checked');
                         const option2 = $('#option2').is(':checked');
 
@@ -587,6 +613,9 @@
                             filters.byRate(item, rate) &&
                             filters.byLimit(item, limit) &&
                             filters.byBank(item, bank) &&
+                            filters.byRepay1(item, repay1) &&
+                            filters.byRepay2(item, repay2) &&
+                            filters.byRepay3(item, repay3) &&
                             filters.byOption1(item, option1) &&
                             filters.byOption2(item, option2)
                         );
@@ -603,6 +632,7 @@
                         draw(view);
                     });
 
+                    // 필터 초기화 기능
                     $('#init').click(function () {
                         // 활성화된 버튼 상태 업데이트
                         $('#sortRate').addClass('active');
@@ -631,13 +661,14 @@
                     });
                 });
 
+                // 스크롤 버튼 기능
                 function scrollToTop() {
                     const position =
                         document.documentElement.scrollTop || document.body.scrollTop;
 
                     if (position) {
                         window.requestAnimationFrame(() => {
-                            window.scrollTo(0, position - position / 10);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
 
                             scrollToTop();
                         });

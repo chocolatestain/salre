@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class LoanableDTO {
-	private int product_id;
-	private boolean loan;
-	private boolean work;
-	private boolean youth;
+    private int product_id;
+    private boolean loan;
+    private boolean work;
+    private boolean youth;
 }
