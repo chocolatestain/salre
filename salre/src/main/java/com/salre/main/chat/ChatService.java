@@ -21,14 +21,24 @@ public class ChatService {
 		chatDAO.createChatRoom(chatRoomDTO);
 	}
 
-	// 채팅방 정보 조회(user_id)
-	public List<ChatRoomDTO> selectByUserIdService(Integer user_id) {
-		return chatDAO.selectByUserId(user_id);
+	// 채팅방 정보 조회(user_id, product_id)
+	public List<ChatRoomDTO> selectByUserIdService(ChatRoomDTO chatRoomDTO) {
+		return chatDAO.selectByUserId(chatRoomDTO);
 	}
 
 	// 채팅방 정보 조회(chatRoom_id)
 	public ChatRoomDTO selectByChatRoomIdService(Integer chatRoom_id) {
 		return chatDAO.selectByChatRoomId(chatRoom_id);
+	}
+	
+	// 이전 채팅 내용 불러오기
+	public List<ChatDTO> selectPreChatService(Integer chatRoom_id) {
+		return chatDAO.selectPreChat(chatRoom_id);
+	}
+
+	// 보낸 메시지 DB에 저장
+	public void insertSendMessageService(ChatDTO messageContent) {
+		chatDAO.insertSendMessage(messageContent);
 	}
 
 }

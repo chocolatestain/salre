@@ -13,15 +13,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		// 메시지 브로커 설정
-		config.enableSimpleBroker("/queue" , "/topic"); // 클라이언트가 구독할 경로
-		config.setApplicationDestinationPrefixes("/app"); // 클라이언트가 메시지를 보낼 때 사용
+		config.enableSimpleBroker("/queue" , "/topic"); // 클라이언트가 메시지를 받을 주소
+		config.setApplicationDestinationPrefixes("/app"); // 클라이언트가 메시지를 보낼 주소
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// STOMP 엔드포인트 등록
         registry.addEndpoint("/chat-websocket") // chatMain.jsp > connectWebSocket()에서 사용
-        		.setAllowedOriginPatterns("http://localhost:9999")
+                .setAllowedOrigins("http://localhost:9999") // CORS 허용
 //                .setAllowedOrigins("*") // CORS 허용
                 .withSockJS(); // SockJS 지원
 	}

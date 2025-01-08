@@ -9,9 +9,13 @@
 	<title>채팅방</title>
 </head>
 <body>
-	<div class="d-flex flex-column h-100 position-relative">
+	<div id="scrollDiv" class="d-flex flex-column h-100 position-relative">
 	    <!-- Chat: Header -->
-	    <div class="chat-header border-bottom py-4 py-lg-7">
+	    <div class="chat-header d-flex justify-content-center border-bottom py-4 py-lg-7">
+	    	<div class="avatar me-3">
+	    		<img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/6.jpg" alt="#" class="avatar-img">
+	        </div>
+	        
 	        <div class="row align-items-center">
 	
 	            <!-- Mobile: close -->
@@ -26,10 +30,10 @@
 	            <div class="col-8 col-xl-12">
 	                <div class="row align-items-center text-center text-xl-start">
 	                    <!-- Title -->
-	                    <div class="col-12 col-xl-6">
+	                    <div class="col-12">
 	                        <div class="row align-items-center gx-5">
 	                            <div class="col overflow-hidden">
-	                                <h5 class="text-truncate">${chatRoomDTO.room_name}</h5>
+	                                <h5 class="text-truncate text-center fw-bold">${chatRoomDTO.room_name}</h5>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -51,7 +55,7 @@
 	    <!-- Chat: Header -->
 	
 	    <!-- Chat: Content -->
-	    <div class="chat-body hide-scrollbar flex-1 h-100">
+	    <div class="chat-body hide-scrollbar flex-1 h-100 pb-10">
 	        <div class="chat-body-inner">
 	            <div class="py-6 py-lg-12">
 	
@@ -181,7 +185,7 @@
 	                </div>
 	
 	                <div class="col-auto">
-	                    <button onclick="sendMessage()" type="button" class="btn btn-icon btn-primary rounded-circle ms-5">
+	                    <button onclick="sendMessage(${chatRoomDTO.chatRoom_id})" type="button" class="btn btn-icon btn-primary rounded-circle ms-5">
 	                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
 	                    </button>
 	                </div>
@@ -191,7 +195,7 @@
 	    </div>
 	    <!-- Chat: Footer -->
 	</div>
-	
+
 	<%@ include file="../common/footerChat.jsp" %>
 </body>
 </html>

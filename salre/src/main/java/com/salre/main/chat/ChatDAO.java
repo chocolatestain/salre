@@ -28,11 +28,12 @@ public class ChatDAO implements ChatDAOInterface {
 	// 채팅방 생성
 	public void createChatRoom(ChatRoomDTO chatRoomDTO) {
 		sqlSession.insert(namespace + "createChatRoom", chatRoomDTO);
+		log.info("[createChatRoom] 성공!");
 	}
 
-	// 채팅방 정보 조회(user_id)
-	public List<ChatRoomDTO> selectByUserId(Integer user_id) {
-		List<ChatRoomDTO> chatRoomDTOList = sqlSession.selectList(namespace + "selectByUserId", user_id);
+	// 채팅방 정보 조회(user_id, product_id)
+	public List<ChatRoomDTO> selectByUserId(ChatRoomDTO chatRoomDTO) {
+		List<ChatRoomDTO> chatRoomDTOList = sqlSession.selectList(namespace + "selectByUserId", chatRoomDTO);
 		log.info("[selectByUserId] chatRoomDTOList : " + chatRoomDTOList);
 		
 		return chatRoomDTOList;
@@ -44,6 +45,20 @@ public class ChatDAO implements ChatDAOInterface {
 		log.info("[selectByChatRoomId] chatRoomDTO : " + chatRoomDTO);
 		
 		return chatRoomDTO;
+	}
+	
+	// 이전 채팅 내용 불러오기
+	public List<ChatDTO> selectPreChat(Integer chatRoom_id) {
+		List<ChatDTO> chatDTOList = sqlSession.selectList(namespace + "selectPreChat", chatRoom_id);
+		log.info("[selectPreChat] chatDTOList : " + chatDTOList);
+		
+		return chatDTOList;
+	}
+
+	// 보낸 메시지 DB에 저장
+	public void insertSendMessage(ChatDTO messageContent) {
+		sqlSession.insert(namespace + "insertSendMessage", messageContent);
+		log.info("[insertSendMessage] 성공!");
 	}
 
 }

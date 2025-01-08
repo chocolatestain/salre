@@ -4,18 +4,33 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salre.main.chat">
 	<select id="checkDupChatRoom" parameterType="chatRoomDTO" resultType="Integer">
-		SELECT COUNT(*) FROM CHATROOM WHERE user_id = #{user_id} AND room_name = #{room_name}
+		SELECT COUNT(*) FROM CHATROOM WHERE user_id = #{user_id} AND product_id = #{product_id}
 	</select>
 
 	<insert id="createChatRoom" parameterType="chatRoomDTO">
-		INSERT INTO CHATROOM(user_id, room_name) VALUES(#{user_id}, #{room_name})
+		INSERT INTO CHATROOM(user_id, product_id, room_name)
+		VALUES(#{user_id}, #{product_id}, #{room_name})
 	</insert>
 	
-	<select id="selectByUserId" parameterType="Integer" resultType="chatRoomDTO">
-		SELECT * FROM CHATROOM WHERE user_id = #{user_id}
+	<select id="selectByUserId" parameterType="chatRoomDTO" resultType="chatRoomDTO">
+		SELECT *,
+			   (SELECT chat_content FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) chat_content,
+			   (SELECT send_time FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) send_time,
+			   (SELECT COUNT(is_check) FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id) is_checkFalseCnt
+		FROM CHATROOM
+		WHERE user_id = #{user_id} OR product_id = #{product_id}
 	</select>
 	
 	<select id="selectByChatRoomId" parameterType="Integer" resultType="chatRoomDTO">
 		SELECT * FROM CHATROOM WHERE chatRoom_id = #{chatRoom_id}
 	</select>
+	
+	<select id="selectPreChat" parameterType="Integer" resultType="chatDTO">
+		SELECT * FROM CHAT WHERE chatRoom_id = #{chatRoom_id}
+	</select>
+	
+	<insert id="insertSendMessage" parameterType="chatDTO">
+		INSERT INTO CHAT(chatRoom_id, user_id, sender, chat_content, send_time)
+		VALUES(#{chatRoom_id}, #{user_id}, #{sender}, #{chat_content}, #{send_time})
+	</insert>
 </mapper>
