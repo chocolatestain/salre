@@ -93,6 +93,10 @@ textarea {
     background-color: #6c757d;
     color: white;
 }
+.btn-danger {
+    background-color: red;
+    color: white;
+}
 
 .btn:hover {
     opacity: 0.9;

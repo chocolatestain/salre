@@ -1,21 +1,23 @@
 package com.salre.main.contract;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 public class ExcelWriter {
 
 	
 
-    public static void writeContractData(String filePath, Map<String, String> data) throws IOException {
+    public static  String writeContractData(String inputfilePath,Map<String, String> data,String basePath,int contract_id) throws IOException {
         // 엑셀 파일 읽기
-        FileInputStream fis = new FileInputStream(filePath);
+        FileInputStream fis = new FileInputStream(inputfilePath);
         System.out.println(fis+"문서로드 완료");
         Workbook workbook = new XSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0); // 첫 번째 시트 사용
@@ -34,7 +36,8 @@ public class ExcelWriter {
                   Map.entry("deposit_CHAR", "C11"),
                   Map.entry("deposit_INT", "N11"),
                   Map.entry("rentfee", "C15"),
-                  Map.entry("manage_feeCHAR", "E16"),
+                  Map.entry("rentfee_day", "O15"),
+                  Map.entry("manage_feeCHAR", "C16"),
                   Map.entry("manage_fee", "N16"),
                   Map.entry("landlord_address", "D47"),
                   Map.entry("landlord_resident_num", "D48"),
@@ -44,10 +47,13 @@ public class ExcelWriter {
                   Map.entry("tenant_resident_num", "D51"),
                   Map.entry("tenant_phone_num", "K51"),
                   Map.entry("tenant_name", "R51"),
+                  Map.entry("taker", "U12"),
                   
                   Map.entry("price", "C12"), //INPUT
                   Map.entry("middle_payment", "C13"),//INPUT
+                  Map.entry("middle_payment_day", "M13"),//INPUT
                   Map.entry("balance_payment", "C14"),//INPUT
+                  Map.entry("balance_payment_day", "M14"),//INPUT
                   Map.entry("landlord_sign2", "X12"),//INPUT
                   Map.entry("landlord_sign", "V48"),//INPUT
                   Map.entry("contract_startdate(y)", "O18"),//INPUT
@@ -62,8 +68,11 @@ public class ExcelWriter {
                   Map.entry("contract_date2(y)", "H46"),//INPUT
                   Map.entry("contract_date2(m)", "K46"),//INPUT
                   Map.entry("contract_date2(d)", "M46"),//INPUT
-                  Map.entry("contract_rule1", "C37"),//INPUT
-                  Map.entry("tenant_sign", "V51")//INPUT
+                  Map.entry("contract_rule", "C37"),//INPUT
+                  Map.entry("tenant_sign", "V51"),//INPUT
+                  Map.entry("paper_exchange_day(y)", "C35"),//INPUT
+                  Map.entry("paper_exchange_day(m)", "E35"),//INPUT
+                  Map.entry("paper_exchange_day(d)", "G35")//INPUT
         );
 
         // 데이터를 엑셀 셀에 입력
@@ -89,14 +98,60 @@ public class ExcelWriter {
         }
 
         // 엑셀 파일 저장
-        String outputPath = "C:/Users/User/git/salre/salre/src/main/webapp/excel/contractTmp_last_output.xlsx";
+        String outputDirectory = basePath + "/excel/";
+        String outputPath = outputDirectory + "contract_Sample_" + contract_id + ".xlsx";
+        File directory = new File(outputDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs(); // 디렉토리 생성
+        }
         FileOutputStream fos = new FileOutputStream(outputPath);
-        System.out.println("파일이 저장될 절대 경로: " + new File(outputPath).getAbsolutePath());
+       
         workbook.write(fos);
 
         // 자원 정리
         fos.close();
         workbook.close();
         fis.close();
+        return outputPath;
     }
+    public static String insertImageIntoExcel(String excelPath, String imagePath, String cellRef) throws Exception {
+	    FileInputStream fis = new FileInputStream(excelPath);
+	    Workbook workbook = new XSSFWorkbook(fis);
+	    Sheet sheet = workbook.getSheetAt(0);
+
+	    // 셀 위치 해석
+	    int rowIndex = Integer.parseInt(cellRef.replaceAll("[^0-9]", "")) - 1;
+	    int colIndex = cellRef.charAt(0) - 'A';
+
+	    // 이미지 삽입
+	    InputStream imageStream = new FileInputStream(imagePath);
+	    byte[] imageBytes = IOUtils.toByteArray(imageStream);
+	    int pictureIdx = workbook.addPicture(imageBytes, Workbook.PICTURE_TYPE_PNG);
+	    
+	    Drawing<?> drawing = sheet.createDrawingPatriarch();
+	    CreationHelper helper = workbook.getCreationHelper();
+	    ClientAnchor anchor = helper.createClientAnchor();
+	    anchor.setCol1(colIndex);
+	    anchor.setRow1(rowIndex);
+//	    anchor.setCol2(colIndex + (int)(2.22 * 7.5)); // 너비 2.22cm에 해당
+//	    anchor.setRow2(rowIndex + (int)(1.18 * 0.75)); // 높이 1.18cm에 해당
+	    Picture picture = drawing.createPicture(anchor, pictureIdx);
+	    picture.resize();
+
+	    // 새로운 경로 설정
+	    String newExcelPath = excelPath.replace("/excel/", "/excel/landlord/");
+	    File newDirectory = new File(newExcelPath).getParentFile();
+	    // 디렉토리 생성
+	    if (!newDirectory.exists()) {
+	        newDirectory.mkdirs();
+	    }
+	    // 엑셀 저장
+	    FileOutputStream fos = new FileOutputStream(newExcelPath);
+	    workbook.write(fos);
+
+	    fos.close();
+	    workbook.close();
+	    fis.close();
+	    return newExcelPath;
+	}
 }

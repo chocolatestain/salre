@@ -6,6 +6,41 @@
 <!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
 <mapper namespace="com.salre.main.contract">
 
+<update id="updateContractStatus" parameterType="map">
+	UPDATE CONTRACT
+	SET
+	contract_status = #{contract_status}
+	WHERE contract_id = #{contract_id}
+</update>
+
+<update id="updateContractExcelPath" parameterType = "map">
+	UPDATE CONTRACT
+	SET
+	contract_epath = #{contract_epath}
+	WHERE contract_id = #{contract_id}
+</update>
+<update id="updateContractPdfPath" parameterType = "map">
+	UPDATE CONTRACT
+	SET
+	contract_pdfpath = #{contract_pdfpath}
+	WHERE contract_id = #{contract_id}
+</update>
+<update id="updateContractImgPath" parameterType = "map">
+	UPDATE CONTRACT
+	SET
+	contract_imgpath = #{contract_imgpath}
+	WHERE contract_id = #{contract_id}
+</update>
+<update id = "updateAddInfo" parameterType="map">
+	UPDATE contract
+	SET
+		account = #{account, jdbcType=VARCHAR},
+		account_name =	#{account_name},
+		bank_name = #{bank_name}
+	WHERE
+		contract_id = #{contract_id}; 
+
+</update>
 	<select id="selectAll" resultType="contractVO">
 		select *
 		from contract
@@ -18,11 +53,14 @@
 		from contract
 		where contract_id = #{aa}
 	</select>
+	
+	
 	<select id="selectContractPById" parameterType="int"
 		resultType="productcontractVO">
 		select *
 		from contract
 		join product using (product_id)
+		join user on contract.user_id = user.user_id
 		where contract_id = #{aa}
 	</select>
 	<!-- <select id="selectSellerById" parameterType="int" resultType="contractVO"> 
@@ -36,6 +74,8 @@
     middle_payment,
     balance_payment,
     balance_payment_day,
+    middle_payment_day,
+    rent_fee_day,
     contract_startdate,
     contract_enddate,
     contract_date,
@@ -50,6 +90,8 @@
     #{middle_payment},
     #{balance_payment},
     #{balance_payment_day},
+    #{middle_payment_day},
+    #{rent_fee_day},    
     #{contract_startdate},
     #{contract_enddate},
     #{contract_date},
@@ -61,20 +103,7 @@
 	
 	
 	
-		<!-- update contract
-		SET 
-		price = #{price},
-		middle_payment = #{middle_payment},
-		balance_payment = #{balance_payment},
-		balance_payment_day = #{balance_payment_day},
-		contract_startdate = #{contract_startdate},
-		contract_enddate = #{contract_enddate},
-		contract_date = #{contract_date},
-		contract_rule = #{contract_rule},
-		user_id = #{user_id},
-		product_id = #{product_id}
-		WHERE
-		contract_id = #{contract_id}; -->
+		
 	</insert>
 	<update id="update2" parameterType="contractVO">
 		update contract

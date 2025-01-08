@@ -1,7 +1,9 @@
 package com.salre.main.contract;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,11 +20,8 @@ public class ContractMybatis implements ContractDAOInterface{
 		
 		
 		String namespace = "com.salre.main.contract.";
-		public List<ContractDTO> selectAll() {
-			List<ContractDTO> contractlist = sqlSession.selectList(namespace+"selectAll");
-			log.info("contract조회건수:"+contractlist.size());
-			return contractlist;
-		}
+		
+		
 		public ContractUserDTO selectAllById(int contract_id) {
 			ContractUserDTO contractAll = sqlSession.selectOne(namespace+"selectAllById",contract_id);
 			return contractAll;
@@ -30,50 +29,78 @@ public class ContractMybatis implements ContractDAOInterface{
 		//contract_id로 매물 조회
 		public ProductContractDTO selectContractPById(int contract_id) {
 			ProductContractDTO productContract = sqlSession.selectOne(namespace +"selectContractPById",contract_id);
-			log.info("productById 1건:" + productContract);
+			//log.info("productById 1건:" + productContract);
 			return productContract;
 			
 		}
-//		//contract_id로 판매자 조회
-//		public int selectSellerById(int contract_id) {
-//			Integer user_id= sqlSession.selectOne(namespace +"selectSellerById",contract_id);
-//			log.info("sellerById 1건:" + user_id);
-//			return user_id;
-//			
-//		}
+		//계좌관련 추가 정보 입력
+		public int updateAddInfo(int contract_id, String account, String name, String bankName) {
+			Map<String, Object> params = new HashMap<>();
+		    params.put("contract_id", contract_id);
+		    params.put("account", account);
+		    params.put("account_name", name);
+		    params.put("bank_name", bankName);
+
+		    int rowsAffected = sqlSession.update(namespace + "updateAddInfo", params);
+		    //log.info("updateAddInfo 업데이트된 행 수: " + rowsAffected);
+		    return rowsAffected;
+			
+		}
+		
 		public ContractDTO selectById(int contract_id) {
 			ContractDTO contract = sqlSession.selectOne(namespace +"selectById",contract_id);
-			log.info("contract건:" + contract);
+			//log.info("contract건:" + contract);
 			return contract;
-
 		}
 
 		public int saveContract(ContractDTO contractDTO) {
-			int result = sqlSession.insert(namespace + "updateContract",contractDTO);
-			log.info("쿼리" + contractDTO);
-			log.info("수정건수: " + result);
-			return contractDTO.getContract_id();
+			sqlSession.insert(namespace + "updateContract",contractDTO);
+			//log.info("쿼리" + contractDTO);
+			//log.info("수정건수: " + result);
+			int contractId= contractDTO.getContract_id();
+			return contractId;
 		}
-		public int saveContract2(ProductContractDTO contractDTO) {
-			int result = sqlSession.insert(namespace + "insertContract",contractDTO);
-			log.info("입력건수: " + result);
-			return result;
+		//계약서 엑셀 경로 저장
+		public int updateContractExcelPath(@Param("contract_id") int contract_id,
+				@Param("contract_epath") String contract_epath) {
+			
+			Map<String,Object> params = new HashMap<>();
+			params.put("contract_id", contract_id);
+			params.put("contract_epath", contract_epath);
+			int result = sqlSession.update(namespace + "updateContractExcelPath",params);
+			//log.info("엑셀경로 저장 완료 건수 :" + result);
+			//log.info("contract_epath : "+contract_epath);
+			return result; 
 		}
-
-		public int update(ContractDTO contract) {
-			int result = sqlSession.update(namespace + "update",contract);
-			log.info("수정건수: " + result);
-			return result;
-			}
-
-		public int delete(int contract_id) {
-			int result = sqlSession.delete(namespace + "delete",contract_id);
-			log.info("삭제건수: " + result);
-			return result;
+		//계약서 pdf 경로 저장
+		public int updateContractpdfPath(@Param("contract_id") int contract_id,
+				@Param("contract_pdfpath") String contract_pdfpath) {
+			
+			Map<String,Object> params = new HashMap<>();
+			params.put("contract_id", contract_id);
+			params.put("contract_pdfpath", contract_pdfpath);
+			int result = sqlSession.update(namespace + "updateContractpdfPath",params);
+			return result; 
 		}
-
-		public int deleteArray(Integer[] deptid) {
-			return 0;
+		//계약서 이미지 경로 저장
+		public int updateContractImgPath(@Param("contract_id") int contract_id,
+				@Param("contract_imgpath") String contract_imgpath) {
+		
+			Map<String,Object> params = new HashMap<>();
+			params.put("contract_id", contract_id);
+			params.put("contract_imgpath", contract_imgpath);
+			
+			int result = sqlSession.update(namespace + "updateContractImgPath",params);
+			//log.info("이미지경로 저장 완료 건수 :" + result);
+			//log.info("contract_imgpath : "+contract_imgpath);
+			return result; 
+		}
+		
+		public void updateContractStatus(int contract_id,int contract_status) {
+			Map<String,Object> params = new HashMap<>();
+			params.put("contract_id", contract_id);
+			params.put("contract_status", contract_status);
+			sqlSession.update(namespace + "updateContractStatus",params);
 		}
 
 	}

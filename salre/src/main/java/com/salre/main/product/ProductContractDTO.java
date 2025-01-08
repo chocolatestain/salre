@@ -16,8 +16,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductContractDTO {
-	int product_id;
+	
 	int user_id;
+	int product_id;
 	int region_id;
 	String product_name;
 	String payment_type;
@@ -47,9 +48,13 @@ public class ProductContractDTO {
 	Date contract_date;
 	String contract_rule;	
 	
-	
 	//추가계약 정보
 	int middle_payment;
 	int balance_payment;
 	Date balance_payment_day;
+	Date middle_payment_day;
+	int rent_fee_day;
+	
+	
+	
 }

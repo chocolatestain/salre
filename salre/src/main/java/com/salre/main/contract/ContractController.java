@@ -6,12 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,6 +33,8 @@ public class ContractController {
 	@Autowired
 	public ProductService productService;
 
+	
+	
 	@GetMapping("/input")
 	public String showContractInputPage(@RequestParam(value = "contract_id",required=false,defaultValue="0") Integer contract_id,
 	        Model model) {
@@ -46,36 +50,53 @@ public class ContractController {
 	@PostMapping("/input")
 	public ResponseEntity<String> handleInputData(@RequestParam("contract_id") Integer contract_id, Model model) {
 	    // 데이터 처리 (필요시 contractId를 기반으로 데이터 조회/저장)
-	    System.out.println("Contract ID received: " + contract_id);
-
 	    // 요청 성공 응답
 	    return ResponseEntity.ok("Success");
 	}
 
 	// 1.거래 시작 누리고 첫화면  "정보확인"(매물,회원정보 조회)
+	//구매자 - 정보확인 페이지
 	@GetMapping("/dealstart")
-	public String beforeContract(HttpServletRequest request,Model model) {
+	public String tenantContract(HttpServletRequest request,Model model) {
 		//int p_id = (int)request.getAttribute("product_id");
 		//int user_id = (int)request.getAttribute("user_id");
-		int p_id = 34;
-		int user_id = 12;
+		int p_id = 7;
+		
 		ProductDTO product = productService.selectByIdService(p_id);
-		UserDTO user = userService.getUserById(user_id);
+		UserDTO P_user = userService.getUserById(product.getUser_id());
 		model.addAttribute("product", product);
-		model.addAttribute("user", user);
-		return "contract/contractDetail";
+		model.addAttribute("P_user", P_user);
+		return "contract/contractDetailTenant";
 	}
+	// 판매자  - 계약 사항 확인
+		@GetMapping("/dealcheck/{contract_id}")
+		public String landlordContract(@PathVariable(required = true) int contract_id, HttpServletRequest request,Model model) {
+			//int p_id = (int)request.getAttribute("product_id");
+			//int user_id = (int)request.getAttribute("user_id");
+			
+			int p_id = 7;
+			int user_id = 107;
+			
+			ContractDTO contract = contractService.getContractById(contract_id);
+			ProductDTO product = productService.selectByContractId(contract_id);
+			UserDTO user = userService.getUserById(product.getUser_id());
+			
+			model.addAttribute("contract", contract);
+			model.addAttribute("product", product);
+			model.addAttribute("user", user);
+			return "contract/contractDetailLandlord";
+		}
 	
-	// 2.계약정보 입력
-		@GetMapping("/inputContract") 
-		public String selectAllContractById(HttpServletRequest request, Model model) {
+	// 계약정보 입력
+		@PostMapping("/inputContract") 
+		public String selectAllContractById(
+				@RequestParam(required = false, defaultValue = "0") int product_id,
+				@RequestParam(required = false, defaultValue = "0") int user_id,
+				Model model) {
 			// HttpSession session = request.getSession();
 			// Integer user_id = (Integer) session.getAttribute("user_id");
 		//	ContractDTO contract = contractService.getContractById(contract_id);
-			
-			int user_id = 12;
-			int p_id = 34;
-			ProductDTO product = productService.selectByIdService(p_id);
+			ProductDTO product = productService.selectByIdService(product_id);
 			UserDTO user = userService.getUserById(user_id);
 			
 			//model.addAttribute("contract", contract);
@@ -85,76 +106,201 @@ public class ContractController {
 			return "contract/contractInput";
 		}
 
-
-//	
-	@PostMapping("/viewContract/{contract_id}")
-	public String viewContract(@PathVariable(required = true) Integer contract_id, 
-			@RequestParam Map<String,String> formData,
-			Model model, HttpSession session) {
-	     try {
-	            // 서비스 계층 호출
-	    	    String imagePath = session.getServletContext().getRealPath(".");
-	            String upload_imagePath = contractService.processContract(formData,contract_id,imagePath);
-
-	            // 이미지 경로를 JSP에 전달
-	            model.addAttribute("imagePath", upload_imagePath);
-	            return "contract/viewContract"; // 계약서 이미지를 보여주는 JSP
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            model.addAttribute("errorMessage", "계약서 처리 중 오류 발생: " + e.getMessage());
-	            return "error";
-	        }
-	}
-		//3. 계약서 저장 
+		// 계약서 저장 
 	     @PostMapping("/save") //입력받은 계약내용, 특약내용 저장
-	     public String saveContract(ContractDTO contractDTO, Model model) {
-	    	 contractDTO.setUser_id(12); //임시
-	    	 contractDTO.setProduct_id(34); //임시
-	 
+	     public String saveContract(HttpSession session, ContractDTO contractDTO,
+	    		 @RequestParam int product_id,
+	    		 @RequestParam int user_id,
+	    		 Model model) {
+	   
 	    	 if(contractDTO.getBalance_payment_day().equals("")) {
 	    		 contractDTO.setBalance_payment_day("1900-01-01");
 	    	 } 
 	    	 // 계약 저장후 계약번호 반환
-	         int contractId = contractService.saveContract(contractDTO);
+	    	// HttpSession session = request.getSession();
+				// Integer user_id = (Integer) session.getAttribute("user_id");
+	    	  int contract_id = contractService.saveContract(contractDTO);
+	         ContractDTO contract =contractService.getContractById(contract_id);
+	         contractService.updateContractStatus(contract_id,2);//계약 상태 업데이트 2 : 계약서 작성
+	       
+	       
+	         model.addAttribute("contract",contract);
 	         // 저장된 계약 정보를 조회하는 페이지로 리다이렉트
-	         return "redirect:/contract/contractTotal?contract_id=" + contractId; 
+	         return "redirect:/contract/contractTotal?contract_id=" + contract_id +
+	         "&product_id=" + product_id +
+	         "&user_id=" + user_id;
+	         
 	     }
-	     //4.계약서 최종확인
+	     // 계약서 확인
 	     @GetMapping("/contractTotal")
-	     public String showContractTotal(@RequestParam("contract_id") int contract_id, Model model) {
+	     public String showContractTotal(@RequestParam("contract_id") int contract_id, Model model,HttpSession session) {
 			ContractDTO contract = contractService.getContractById(contract_id);
-			UserDTO user = userService.getUserById(contract.getUser_id());
+			UserDTO user = userService.getUserById(contract.getUser_id());//임대인
 			ProductDTO product = productService.selectByIdService(contract.getProduct_id());
-			
-			
-			 model.addAttribute("contract", contract);
-			    model.addAttribute("user", user);
+			//UserDTO tenant_user = userService.getUserById(user_id);
+			  UserDTO tenant_user = userService.getUserById(12);
+			  model.addAttribute("tenant_user",tenant_user);
+			    model.addAttribute("contract", contract);
+			    model.addAttribute("user", user);//임대인
 			    model.addAttribute("product", product);
 			    System.out.println("contract_id 받음: " + contract_id);
 	    	 return "contract/contractTotal";
 	     }
+	     // 서명하기
+	     @PostMapping("/saveSignature")
+	     public ResponseEntity<?> saveSignature(@RequestBody Map<String, String> requestData, HttpSession session) {
+	         try {
+	             String signatureData = requestData.get("signature");
+
+	             // 서명 이미지를 저장할 경로
+	             String basePath = session.getServletContext().getRealPath(".");
+	             String filePath = contractService.saveSignature(signatureData, basePath);
+	             System.out.println(filePath);
+	             return ResponseEntity.ok(Map.of("success", true, "message", "서명이 저장되었습니다.", "path", filePath));
+	           
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                                  .body(Map.of("success", false, "message", e.getMessage()));
+	         }
+	     }
+	     
+	     
+	     //초안생성
+	     @GetMapping("/sample/{contract_id}")
+	     public String generateContractSample(
+	    		 @PathVariable int contract_id,
+	    		 @RequestParam Map<String, String> formData,
+	    		 HttpServletRequest request,
+	    		 HttpSession session,
+	    		 Model model) {
+	         System.out.println("초안생성 시작 : generateContractSample");
+	    	 try {
+	             String basePath = request.getServletContext().getRealPath(".");
+	             String imagePath = contractService.processContract(formData, contract_id, basePath,session);
+	         
+	             //생성된 경로르 DB에 저장
+	             contractService.saveContractImgPath(contract_id, imagePath);
+	             
+	             // 모델에 데이터 추가
+	             model.addAttribute("imagePath", imagePath);
+	             model.addAttribute("contract_id", contract_id);
+	           
+	             // JSP로 이동
+	             return "contract/viewContractSample";
+	            
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	             model.addAttribute("errorMessage", "초안 생성 중 오류 발생: " + e.getMessage());
+	             return "error";
+	             }
+	     }
+
+			@GetMapping("/additionalInfo")
+			public String showAdditionalInfoPage(HttpSession session, Model model) {
+				// 계약 정보 가져오기
+				Integer contractId = (Integer) session.getAttribute("contract_id");
+				ContractDTO contract = contractService.getContractById(contractId);
+				model.addAttribute("contract", contract);
+				// 추가 정보 입력 페이지로 이동
+				return "contract/additionalInfo"; // additionalInfo.jsp 파일
+			}
+	     
+		@PostMapping("/saveAdditionalInfo")
+		public String saveAdditionalInfo(@RequestParam Map<String, String> formData, Model model,
+				HttpSession session) {
+				
+			// 세션에서 contract_id 가져오기
+			Integer contractId = (Integer) session.getAttribute("contract_id");
+				
+			// Map에서 값 추출
+			String account = formData.get("account");
+			String account_name = formData.get("account_name");
+			String bank_name = formData.get("bank_name");
+				
+			// 추가 정보 저장
+			contractService.updateAdditionalInfo(contractId, account, account_name, bank_name);
+			// 다음 단계로 리다이렉트
+			return "redirect:/contract/viewContract/"+contractId; // 다음 단계 JSP
+			}
+		
+		
+			//계약서 보기
+			@GetMapping("/viewContract/{contract_id}")
+			public String viewContract(@PathVariable(required = true) Integer contract_id, Model model, HttpSession session) {
+				   
+		         // 계약서 경로를 모델에 전달
+					ContractDTO contract = contractService.getContractById(contract_id);
+		            model.addAttribute("contract", contract);
+					return "contract/viewContract"; // 계약서 이미지를 보여주는 JSP
+				
+
+			}
+	     //임대인 서명
+	     @PostMapping("/landlord-sign/{contract_id}")
+	     public ResponseEntity<?> addLandlordSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {
+	         try {
+	             String signatureData = requestData.get("signature");
+	             String basePath = request.getServletContext().getRealPath(".");
+	             
+	             
+	            String imagePath = contractService.addLandlordSignature(signatureData, contract_id, basePath);
+	            //경로 파싱
+	            String delimiter = "/resources/";
+	            int index = imagePath.indexOf(delimiter);
+	            String relativePath="";
+	            if (index != -1) {
+	                relativePath = imagePath.substring(index).replace("\\", "/");
+	                
+	            } else {
+	                  }
+	            System.out.println("Landlord imagePath :"+relativePath); 
+	            contractService.saveContractImgPath(contract_id, relativePath);
+	            contractService.updateContractStatus(contract_id, 3); //계약상태 변경 3:임대인 서명완료
+	             return ResponseEntity.ok(Map.of("imagePath", relativePath));
+	             
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("임대인 서명 추가 중 오류 발생");
+	         }
+	     }
+	   //서명한 계약서 보기
+			@GetMapping("/viewSignContract/{contract_id}")
+			public String viewSignContract(@PathVariable(required = true) Integer contract_id, Model model) {
+				ContractDTO contract = contractService.getContractById(contract_id);	
+				model.addAttribute("contract",contract);
+				return "contract/viewSignContract"; // 계약서 이미지를 보여주는 JSP
+				
+
+			}
+	     //임차인 서명
+	     @PostMapping("/tenant-sign/{contract_id}")
+	     public ResponseEntity<?> addTenantSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {
+	         try {
+	             String signatureData = requestData.get("signature");
+	             String basePath = request.getServletContext().getRealPath(".");
+	             String imagePath = contractService.addTenantSignature(signatureData, contract_id, basePath);
+	             contractService.updateContractStatus(contract_id, 4); //계약상태 변경 4:임차인 서명완료
+	             return ResponseEntity.ok(Map.of("imagePath", imagePath));
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("임차인 서명 추가 중 오류 발생");
+	         }
+	     }
+	     @GetMapping("/pay/{contract_id}")
+	     public String pay(@PathVariable int contract_id,Model model) {
+	    	ContractDTO contract = contractService.getContractById(contract_id); 
+	    	model.addAttribute("contract",contract);
+	    	return "contract/viewAccount";
+	     }
+	     
+	     //판매자가 송금완료 눌렀을때
+	     @GetMapping("/payComplete/{contract_id}")
+	     public void payComplete(@PathVariable int contract_id) {
+	    	 contractService.updateContractStatus(contract_id,5);//계약상태값 변경 5 : 송금완료
+	     }
+	     
 	     
 	     
 
-	
-	
-//			@PostMapping("/submitContract")
-//	public String submitContract(@RequestParam String payment_type, @RequestParam String address,
-//			@RequestParam String deposit_CHAR) {
-//		try {
-//			// 서비스 계층 호출
-//			Map<String, String> contractData = contractService.getContractData(payment_type, address, deposit_CHAR);
-//
-//			// ExcelWriter 호출
-//			ExcelWriter excelWriter = new ExcelWriter();
-//			String filePath = "src/main/webapp/excel/contractPaper_NEW.xlsx";
-//			excelWriter.writeContractData(filePath, contractData);
-//
-//			return "엑셀 저장 성공!";
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "엑셀 저장 실패: " + e.getMessage();
-//		}
-//
-//	}
 }

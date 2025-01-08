@@ -16,9 +16,30 @@ public class ImageConverter {
 		System.out.println("ImageConverter imagePath:" +imagePath );
 		try (PDDocument pdfDocument =Loader.loadPDF(new File(pdfPath))) {
             PDFRenderer renderer = new PDFRenderer(pdfDocument);
-            BufferedImage image = renderer.renderImageWithDPI(0, 300); // ù ��° ������, 300 DPI
-
+            BufferedImage image = renderer.renderImageWithDPI(0, 300);
             ImageIO.write(image, "png", new File(imagePath));
         }
+    }
+	public static String convertPdfToOtherImage(String pdfPath, String outputDirectory, int contract_id) throws Exception {
+		System.out.println("ImageConverter OtherpdfPath:" +pdfPath );
+		
+		// 이미지 파일 경로 생성
+	    String imageFileName = "contract_landlord_" + contract_id + ".png";
+	    String imagePath = outputDirectory + File.separator + imageFileName;
+	    
+	    // 출력 디렉토리 생성
+	    File directory = new File(outputDirectory);
+	    if (!directory.exists()) {
+	        directory.mkdirs();
+	    }
+		
+		try (PDDocument pdfDocument =Loader.loadPDF(new File(pdfPath))) {
+            PDFRenderer renderer = new PDFRenderer(pdfDocument);
+            BufferedImage image = renderer.renderImageWithDPI(0, 300);
+            ImageIO.write(image, "png", new File(imagePath));
+        }
+		
+		System.out.println("Image 생성 완료 :"+imagePath);
+		return imagePath;
     }
 }

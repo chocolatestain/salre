@@ -16,19 +16,19 @@
 		<!-- swagger -->
 		<swagger.version>2.9.2</swagger.version>
 	</properties>
-	 <repositories>
+	<repositories>
 
-      <repository>
+		<repository>
 
-          <id>AsposeJavaAPI</id>
+			<id>AsposeJavaAPI</id>
 
-          <name>Aspose Java API</name>
+			<name>Aspose Java API</name>
 
-          <url>https://releases.aspose.com/java/repo/</url>
+			<url>https://releases.aspose.com/java/repo/</url>
 
-      </repository>
+		</repository>
 
-</repositories>
+	</repositories>
 	<dependencies>
 		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
 			<version>23.0</version> </dependency> springfox-swagger2 <dependency> <groupId>io.springfox</groupId> 
@@ -92,14 +92,14 @@
 			<version>2.17.2</version>
 		</dependency>
 
- 
+
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.17.2</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.17.2</version>
 		</dependency>
-		
+
 		<!-- Spring AOP 라이브러리 -->
 
 		<dependency>
@@ -120,7 +120,7 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>1.5.4</version>
 		</dependency>
-		
+
 		<!-- File Upload & Download -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -128,12 +128,8 @@
 			<version>1.2.2</version>
 
 		</dependency>
-		
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
-		</dependency>
+
+
 		<!-- <dependency> <groupId>commons-io</groupId> <artifactId>commons-io</artifactId> 
 			<version>1.3.2</version> </dependency> -->
 
@@ -143,7 +139,7 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Connection Pooling 사용하기 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -158,7 +154,7 @@
 			<version>0.2.7</version>
 		</dependency>
 
-		
+
 		<!-- 롬복 라이브러리(자동으로 기본함수들 만들기) -->
 
 		<dependency>
@@ -168,7 +164,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		
+
 
 		<!-- Swagger -->
 		<dependency>
@@ -259,7 +255,11 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+			<version>1.2.2</version>
+		</dependency>
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -276,16 +276,16 @@
 			<scope>provided</scope>
 		</dependency>
 
-		
-		 <!-- MySQL -->
-		 <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+
+		<!-- MySQL -->
+		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<version>8.3.0</version>
 		</dependency>
-		
+
 		<!-- 썸네일 -->
 		<dependency>
 			<groupId>net.coobird</groupId>
@@ -304,20 +304,20 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<!-- WebSocket -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
 			<version>1.1</version>
 		</dependency>
-		
+
 		<!-- JSON -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
@@ -325,7 +325,7 @@
 			<version>1.1.1</version>
 		</dependency>
 
-		
+
 		<!-- Junit : 단위 테스트 API -->
 
 		<dependency>

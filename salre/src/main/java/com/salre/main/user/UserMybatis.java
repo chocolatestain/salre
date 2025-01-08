@@ -26,6 +26,9 @@ public class UserMybatis implements UserDAOInterface{
 //		UserDTO user = sqlSession.selectOne(namespace +"selectByContractId",contract_id);
 //		return user;
 //	}
+	
+	
+	
 	public List<UserDTO> selectAll() {
 		List<UserDTO> userlist = sqlSession.selectList(namespace+"selectAll");
 		log.info("user조회"+userlist.size());
@@ -42,7 +45,7 @@ public class UserMybatis implements UserDAOInterface{
 	
 	public UserDTO selectById(int user_id) {
 		UserDTO user = sqlSession.selectOne(namespace +"selectById",user_id);
-		log.info("user 1건:" + user);
+		log.info("user 1건 성공:" + user);
 		return user;
 		
 	}

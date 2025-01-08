@@ -3,12 +3,13 @@ package com.salre.main.contract;
 import com.salre.main.product.ProductContractDTO;
 
 public interface ContractDAOInterface {
-	public ContractDTO selectById(int  contract_id);
+	
 	public ContractUserDTO selectAllById(int  contract_id);
 	public ProductContractDTO selectContractPById(int  contract_id);
-	public int saveContract2(ProductContractDTO contractDTO);
+	public int updateAddInfo(int contract_id,String account,String bank_name,String account_name);
+	public ContractDTO selectById(int  contract_id);
 	public int saveContract(ContractDTO contractDTO);
-	public int update(ContractDTO  contract);
-	public int delete(int  contract_id);
-	public int deleteArray(Integer[]  contract_id);
+	public int updateContractExcelPath(int contract_id, String contract_ePath);
+	public int updateContractImgPath(int contract_id, String contract_imgPath);
+	public void updateContractStatus(int contract_id,int contract_status);
 }

@@ -1,20 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style2.css">
+<link rel="stylesheet" href="${path}/resources/css/style2.css">
 <title>계약서 최종확인</title>
 </head>
 <body>
 <div class="container">
 <h1 class="title">계약서 최종확인</h1>
-<form id="contractInput" action="${pageContext.request.contextPath}/contract/viewContract/${contract.contract_id}" method="post">
+<form id="contractInput" method="post">
+<!--  action="${pageContext.request.contextPath}/contract/viewContract/${contract.contract_id}" -->
  <!-- 회원 정보 -->
  <section class="section">
-    <h2>판매자 정보</h2>
+    <h2>임대인 정보</h2>
     <div class="form-group">
         <label>아이디:</label>
         <span>${user.id}</span>
@@ -36,7 +38,25 @@
         <span>${user.auth_seller}</span>
     </div>
  </section>
-
+<section class="section">
+    <h2>임차인 정보</h2>
+    <div class="form-group">
+        <label>이름:</label>
+        <span>${tenant_user.user_name}</span>
+    </div>
+    <div class="form-group">
+        <label>전화번호:</label>
+        <span>${tenant_user.phone_num}</span>
+    </div>
+    <div class="form-group">
+        <label>이메일:</label>
+        <span>${tenant_user.email}</span>
+    </div>
+    <div class="form-group">
+        <label>주소:</label>
+        <span>${tenant_user.address}${tenant_user.address_detail}</span>
+    </div>
+ </section>
  <!-- 매물 정보 -->
  <section class="section">
     <h2>매물 정보</h2>
@@ -122,17 +142,32 @@
  </section>
  <!-- 제출 버튼 -->
         <div class="button-group">
-        	<button type="button" class="btn btn-secondary">취소</button>
-            <button type="submit" class="btn btn-primary" onclick="makeContractPaper()">계약서 보기</button>
-        </div>
+            <button type="button" class="btn btn-primary" onclick="makeContractPaper()">계약서 초안생성</button>
+            <button type="button" class="btn btn-primary" onclick="goToSeller()">판매자에게 보내기</button>
+             </div>
 </form>
 </div>
+
 <script>
-    function makeContractPaper(){
-    	const contextPath = "<%= request.getContextPath() %>"; // JSP에서 contextPath 추가
-        window.location.href = `${contextPath}/salre/contract/viewContract/${contract.contract_id}`;
+// 계약서 초안 생성
+function makeContractPaper() {
+    const contextPath = "<%= request.getContextPath() %>";
+    const newWindow = window.open(
+        `${contextPath}/salre/contract/sample/${contract.contract_id}`,
+        '_blank',
+        'width=800,height=600'
+    );
+    if (!newWindow) {
+        alert("새 창을 열 수 없습니다. 팝업 차단을 확인하세요.");
     }
-   	window.makeContractPaper = makeContractPaper;
+}
+
+// 판매자에게 보내기
+function goToSeller() {
+	
+    const contextPath = "<%= request.getContextPath() %>";
+    window.location.href = `${contextPath}/salre/contract/dealcheck/${contract.contract_id}`;
+}
     </script> 
 </body>
 </html>
