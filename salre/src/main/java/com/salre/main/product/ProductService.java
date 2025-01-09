@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service 
-public class ProductService {
-    
-	//@Autowired : typeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ Injectionï¿½Ñ´ï¿½.
-	//ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
-	//@Qualifier : ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ Injectionï¿½Ñ´ï¿½.
+public class ProductService { 
+
 	@Autowired  
 	@Qualifier("Product")
 	ProductInterface productDAO ;
@@ -21,18 +18,10 @@ public class ProductService {
 		return productDAO.selectAllProducts();
 	}
 
-	// ¸Å¹° Á¤º¸ Á¶È£
-	public ProductDTO selectByIdService(int product_id) {
-		ProductDTO product = productDAO.getProductById(product_id);
-		if (product == null) {
-            throw new IllegalArgumentException("Invalid product ID: " + product_id);
-        }
-		return productDAO.getProductById(product_id);
+	// 2.?ï¿½ï¿½?ï¿½ï¿½ë³´ê¸°
+	public ProductDTO selectByIdService(int productId) {
+		return productDAO.getProductById(productId);
 	}
-	public ProductDTO selectByContractId(int contract_id) {
-		return productDAO.selectAllByContractId(contract_id);
-	}
-	
 
 	// 3.?ï¿½ï¿½?ï¿½ï¿½
 	public int insertProduct(ProductDTO product) {
@@ -48,10 +37,34 @@ public class ProductService {
 	// 5.?ï¿½ï¿½?ï¿½ï¿½
 	public int deleteProduct(int productid) {
 		return productDAO.deleteProduct(productid);
+	} 
+	public List<ProductDTO> searchByConditions(ProductDTO productDTO) {
+		return productDAO.searchByConditions(productDTO);
 	}
-    public List<ProductDTO> searchProducts(String keyword) {
-        return productDAO.searchProductsByKeyword(keyword);
-    }
+	
+	public int countProduct() {
+		return productDAO.countProduct();
+	}
+	public int nextId() {
+		return productDAO.nextId();
+	}
+
+	public List<ProductDTO> searchProducts(String searchQuery) {
+		return productDAO.searchProductsByKeyword(searchQuery);
+	}
+
+	public List<ProductDTO> searchProductsByKeyword(String keyword) {
+ 
+		return productDAO.searchProductsByKeyword(keyword);
+	}
+	public int incrementViewCount(int product_id) {
+		return productDAO.incrementViewCount(product_id);
+	}
+	
+	
+	public ProductDTO selectByContractId(int contract_id) {
+		return productDAO.selectByContractId(contract_id);
+	}
 }
 
 

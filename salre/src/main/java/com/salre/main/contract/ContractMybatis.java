@@ -49,7 +49,7 @@ public class ContractMybatis implements ContractDAOInterface{
 		
 		public ContractDTO selectById(int contract_id) {
 			ContractDTO contract = sqlSession.selectOne(namespace +"selectById",contract_id);
-			//log.info("contract건:" + contract);
+			log.info("contract건:" + contract);
 			return contract;
 		}
 

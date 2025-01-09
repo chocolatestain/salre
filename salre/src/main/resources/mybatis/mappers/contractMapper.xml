@@ -100,10 +100,6 @@
     #{product_id},
     #{contract_id}
 )
-	
-	
-	
-		
 	</insert>
 	<update id="update2" parameterType="contractVO">
 		update contract

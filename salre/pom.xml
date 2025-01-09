@@ -30,13 +30,43 @@
 
 	</repositories>
 	<dependencies>
-		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
-			<version>23.0</version> </dependency> springfox-swagger2 <dependency> <groupId>io.springfox</groupId> 
-			<artifactId>springfox-swagger2</artifactId> <version>${swagger.version}</version> 
-			</dependency> <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger-ui</artifactId> 
-			<version>${swagger.version}</version> </dependency> -->
-		<!-- https://mvnrepository.com/artifact/org.json/json -->
-		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto 
+			로그인 비밀번호 복호화관련 -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<version>5.6.10</version>
+		</dependency>
+
+
+		<!-- 회원가입 : 비밀번호 암호화 -->
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>5.3.28</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<!-- PW찾기/ email발송 -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>jakarta.mail</artifactId>
+		    <version>1.6.7</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-cells</artifactId>
@@ -144,7 +174,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
-			<version>2.7.0</version>
+			<version>2.9.0</version>
 		</dependency>
 
 		<!-- SQL 문을 로그로 남기는 것을 지원 -->
@@ -204,6 +234,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- AspectJ -->
@@ -324,7 +359,13 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-
+ <!-- Google Gson -->
+	    <dependency>
+	        <groupId>com.google.code.gson</groupId>
+	        <artifactId>gson</artifactId>
+	        <version>2.10.1</version>
+	    </dependency>
+	
 
 		<!-- Junit : 단위 테스트 API -->
 

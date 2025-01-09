@@ -18,11 +18,12 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.salre.main.product.ProductContractDTO;
-import com.salre.main.user.UserDTO;
-import com.salre.main.user.UserMybatis;
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserDAO;
 
 
 @Service
@@ -31,7 +32,8 @@ public class ContractService {
 	@Autowired
 	public ContractMybatis contractDAO;
 	@Autowired
-	public UserMybatis userDAO;
+	@Qualifier("UserDAO")
+	public UserDAO userDAO;
 	
 	// 계약 ID로 조회
     public ContractDTO getContractById(int contract_id) {

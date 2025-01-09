@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.salre.main.product.ProductContractDTO;
 import com.salre.main.product.ProductDTO;
 import com.salre.main.product.ProductService;
-import com.salre.main.user.UserDTO;
-import com.salre.main.user.UserService;
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserService;
 
 @Controller
 @RequestMapping("/contract")
@@ -199,7 +199,9 @@ public class ContractController {
 			@GetMapping("/additionalInfo")
 			public String showAdditionalInfoPage(HttpSession session, Model model) {
 				// 계약 정보 가져오기
-				Integer contractId = (Integer) session.getAttribute("contract_id");
+				
+				//Integer contractId = (Integer) session.getAttribute("contract_id");
+				int contractId = 1313;//임시
 				ContractDTO contract = contractService.getContractById(contractId);
 				model.addAttribute("contract", contract);
 				// 추가 정보 입력 페이지로 이동

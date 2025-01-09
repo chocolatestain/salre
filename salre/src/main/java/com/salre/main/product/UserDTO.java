@@ -1,17 +1,10 @@
-package com.salre.main.user;
+package com.salre.main.product;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 @Builder
-@Setter@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class UserDTO {
 	int user_id;
 	String id;
