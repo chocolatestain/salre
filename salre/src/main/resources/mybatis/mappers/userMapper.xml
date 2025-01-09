@@ -22,6 +22,11 @@
         FROM user 
         WHERE id = #{id} AND password = #{password}  
     </select> -->
+	 <select id="selectById" parameterType="int" resultType="userVO">
+		select *
+		from user
+		where user_id = #{aa}
+	</select>
     
     <!-- 로그인 -->
     <select id="selectUserById" parameterType="string" resultType="userVO">

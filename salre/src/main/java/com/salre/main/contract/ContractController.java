@@ -64,8 +64,10 @@ public class ContractController {
 		
 		ProductDTO product = productService.selectByIdService(p_id);
 		UserDTO P_user = userService.getUserById(product.getUser_id());
+		
 		model.addAttribute("product", product);
 		model.addAttribute("P_user", P_user);
+		
 		return "contract/contractDetailTenant";
 	}
 	// 판매자  - 계약 사항 확인
@@ -176,7 +178,7 @@ public class ContractController {
 	    		 Model model) {
 	         System.out.println("초안생성 시작 : generateContractSample");
 	    	 try {
-	             String basePath = request.getServletContext().getRealPath(".");
+	             String basePath = request.getSession().getServletContext().getRealPath(".");
 	             String imagePath = contractService.processContract(formData, contract_id, basePath,session);
 	         
 	             //생성된 경로르 DB에 저장
@@ -243,7 +245,7 @@ public class ContractController {
 	     public ResponseEntity<?> addLandlordSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {
 	         try {
 	             String signatureData = requestData.get("signature");
-	             String basePath = request.getServletContext().getRealPath(".");
+	             String basePath = request.getSession().getServletContext().getRealPath(".");
 	             
 	             
 	            String imagePath = contractService.addLandlordSignature(signatureData, contract_id, basePath);
@@ -280,7 +282,7 @@ public class ContractController {
 	     public ResponseEntity<?> addTenantSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {
 	         try {
 	             String signatureData = requestData.get("signature");
-	             String basePath = request.getServletContext().getRealPath(".");
+	             String basePath = request.getSession().getServletContext().getRealPath(".");
 	             String imagePath = contractService.addTenantSignature(signatureData, contract_id, basePath);
 	             contractService.updateContractStatus(contract_id, 4); //계약상태 변경 4:임차인 서명완료
 	             return ResponseEntity.ok(Map.of("imagePath", imagePath));
