@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
-import com.salre.main.myPage.ReviewDTO;
-import com.salre.main.product.*;
+import com.salre.main.product.ProductDTO;
+import com.salre.main.product.ProductService;
 @Controller
 public class MyPageController {
 
@@ -34,17 +34,52 @@ public class MyPageController {
 	}
 	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙占쏙옙占쏙옙
  
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占실곤옙占심매뱄옙
+	//마이페이지 - 나의 관심매물
 	@GetMapping("/favorites")
-	public String favorites() {
-		return "myPage/favorites";
-		}
-	
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙 占신뤄옙占쏙옙황
-	@GetMapping("/transactions")
-	public String transactions() {
-		return "myPage/transactions";
-	}
+	public String getFavoriteItems(Model model, HttpSession session) {
+		   UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
+		   if (user == null) {
+			   return "redirect:/login"; // 로그인 페이지로 리다이렉트
+		   }
+
+		   int user_id = user.getUser_id();
+		   List<ProductDTO> favoritesList = userService.getFavoritesByUserId(user_id);
+		   model.addAttribute("favoritesList", favoritesList);
+		   return "myPage/favorites"; // JSP 파일 경로
+	   }
+
+
+
+   //�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 - �뜝�룞�삕�뜝�룞�삕 �뜝�떊琉꾩삕�뜝�룞�삕�솴
+   /*
+	* @GetMapping("/transactions") public String transactions() { return
+	* "myPage/transactions"; }
+	*/
+   @GetMapping("/transactions") 
+   public String transactions(HttpSession session, Model model) {
+	  Object userObj = session.getAttribute("loggedInUser");
+
+	   if (userObj instanceof UserDTO) {
+		   UserDTO user = (UserDTO) userObj;
+		   int user_id = user.getUser_id(); // user_id �뜝�룞�삕�뜝�룞�삕
+		   System.out.println("Extracted user_id: " + user_id);
+
+
+		   // Service �샇�뜝�룞�삕�뜝�떦�슱�삕 �뜝�뙃�떆源띿삕 �뜝�룞�삕�뜝? �뜝�룞�삕�쉶
+		   List<ProductDTO> buyerProductList = userService.getBuyerTransactionByUserId(user_id);
+		   System.out.println("@#$buyerProductList: " + buyerProductList);
+		   model.addAttribute("buyerProductList", buyerProductList);
+		   List<ProductDTO> productList = userService.getTransactionByUserId(user_id);
+//	        System.out.println("productList: " + productList);
+		   model.addAttribute("productList", productList);
+
+		   return "myPage/transactions"; // reports.jsp �뜝�룞�삕�솚
+	   } else {
+		   // �뜝�룞�삕�뜝�떎�슱�삕 UserDTO�뜝�룞�삕 �뜝�룞�삕�뜝�떊�냲�삕 �뜝�떥源띿삕�뜝�떥�벝�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝?
+		   System.out.println("Session does not contain a valid UserDTO.");
+		   return "redirect:/login"; // �뜝�떥源띿삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떛琉꾩삕�듃
+	   }
+   }
 
 	@PostMapping("/transactions/registerReview")
 	@ResponseBody

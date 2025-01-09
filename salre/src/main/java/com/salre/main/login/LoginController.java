@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.salre.main.myPage.ReportDTO;
 
 @Controller
 //@RequestMapping("/salre")
@@ -250,6 +252,36 @@ public class LoginController {
 		public String productReport() {
 
 			return "admin/productreport";
+		}
+
+		
+		@GetMapping("/admin/handleBoardReport") 
+		public String getMyreports(HttpSession session, Model model) {
+			  // �뜝�룞�삕�뜝�떎�슱�삕�뜝�룞�삕 UserDTO �뜝�룞�삕泥� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕
+		    Object userObj = session.getAttribute("loggedInUser");
+
+		    if (userObj instanceof UserDTO) {
+		        UserDTO user = (UserDTO) userObj;
+		        int user_id = user.getUser_id(); // user_id �뜝�룞�삕�뜝�룞�삕
+		        System.out.println("Extracted user_id: " + user_id);
+
+		        // Service �샇�뜝�룞�삕�뜝�떦�슱�삕 �뜝�뙃�떆源띿삕 �뜝�룞�삕�뜝? �뜝�룞�삕�쉶
+		        List<ReportDTO> boardreportList = userService.getBoardReportsByUserId(user_id);
+		        System.out.println("boardreportList: " + boardreportList);
+		        model.addAttribute("boardreportList", boardreportList);
+		        return "myPage/reports"; // reports.jsp �뜝�룞�삕�솚
+		    } else {
+		        // �뜝�룞�삕�뜝�떎�슱�삕 UserDTO�뜝�룞�삕 �뜝�룞�삕�뜝�떊�냲�삕 �뜝�떥源띿삕�뜝�떥�벝�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝?
+		        System.out.println("Session does not contain a valid UserDTO.");
+		        return "redirect:/login"; // �뜝�떥源띿삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떛琉꾩삕�듃
+		    }
+
+		}
+
+		@GetMapping("/admin/userreport")
+		public String userreport() {
+
+			return "admin/userreport";
 		}
 
 		@PostMapping("/admin/myPage")

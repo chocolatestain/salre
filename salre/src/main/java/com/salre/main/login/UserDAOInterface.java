@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
+import com.salre.main.product.ProductDTO;
 
 // Interface(�԰ݼ�): ���Ǵ� �ְ� ������ ����.
 @Mapper
@@ -34,6 +35,18 @@ public interface UserDAOInterface {
 			
 			// ID�ߺ�üũ
 		    public UserDTO selectUserById2(String id);
+
+			//admin-handleBoardReport
+		    public  List<ReportDTO> getBoardReportsByUserId(int user_id);
+
+		    //마이페이지 - 나의 거래현황 목록 조회(구매자)
+		    public List<ProductDTO> getBuyerTransactionByUserId(int user_id);
+
+		    //마이페이지 - 나의 거래현황 목록 조회
+		    public List<ProductDTO> getTransactionByUserId(int user_id);
+
+		    //마이페이지 - 나의 관심매물
+		  	public List<ProductDTO> getFavoritesByUserId(int user_id);
 		  
 		    //���������� - ���� �ۼ��� �� ��� ��ȸ(Ư�� ������� �Խñ� ��� ��ȸ)
 		    public List<PostDTO> selectPostsByUserId(int user_id);
