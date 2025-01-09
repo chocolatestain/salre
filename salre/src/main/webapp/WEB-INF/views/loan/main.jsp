@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ include file="../common/header.jsp" %>
+    <%@ include file="../common/header_tmp.jsp" %>
         <!DOCTYPE html>
         <html lang="ko">
 
@@ -11,41 +11,6 @@
             <title>살래?</title>
 
             <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 20px;
-                    background-color: #fff;
-                    border-bottom: 1px solid #ddd;
-                }
-
-                header .logo {
-                    font-size: 24px;
-                    font-weight: bold;
-                }
-
-                header nav a {
-                    margin: 0 10px;
-                    text-decoration: none;
-                    color: #333;
-                }
-
-                header .auth a {
-                    margin-left: 15px;
-                    padding: 10px 20px;
-                    background-color: #f4a261;
-                    color: #fff;
-                    border-radius: 5px;
-                    text-decoration: none;
-                }
-
                 .main-banner {
                     padding: 40px;
                     background: #f5f5f5;
@@ -111,23 +76,6 @@
                 button:hover {
                     background-color: #2c3562;
                 }
-
-                footer {
-                    display: flex;
-                    justify-content: space-around;
-                    background-color: #222;
-                    color: #fff;
-                    padding: 20px 0;
-                }
-
-                footer div {
-                    text-align: left;
-                }
-
-                footer a {
-                    color: #f4a261;
-                    text-decoration: none;
-                }
             </style>
         </head>
 
@@ -161,38 +109,19 @@
                 </div>
             </section>
 
-            <!-- Footer -->
-            <footer>
-                <div>
-                    <h3>형태 별 검색</h3>
-                    <p>전세<br />월세<br />아파트<br />빌라<br />상가</p>
-                </div>
-                <div>
-                    <h3>고객 지원</h3>
-                    <a href="#">자주 묻는 질문(FAQ)</a><br />
-                    <a href="#">Android</a><br />
-                    <a href="#">iOS</a>
-                </div>
-                <div>
-                    <h3>저희 회사는</h3>
-                    <a href="#">회사소개</a><br />
-                    <a href="#">오시는 길</a><br />
-                    <a href="#">제휴문의</a><br />
-                    <a href="#">채용</a><br />
-                </div>
-            </footer>
+            <%@ include file="../common/footer_tmp.jsp" %>
 
-            <script>
-                function validateForm() {
-                    var age = document.querySelector('input[name="age"]').value;
+                <script>
+                    function validateForm() {
+                        var age = document.querySelector('input[name="age"]').value;
 
-                    if (!age) {
-                        alert("나이를 입력해주세요");
+                        if (!age) {
+                            alert("나이를 입력해주세요");
 
-                        return false;
+                            return false;
+                        }
                     }
-                }
-            </script>
+                </script>
         </body>
 
         </html>
