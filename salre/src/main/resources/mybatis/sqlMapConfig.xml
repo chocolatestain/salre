@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
-		<setting name="logImpl" value="STDOUT_LOGGING"/>
+		<setting name="logImpl" value="LOG4J"/>
 		<!-- mapper에서 null값이 왔을때 칼럼의 해당 타입임을 설정한다. 
 		   이 설정이 없으면 #{email,jdbcType=VARCHAR}), #{salary, jdbcType=INTEGER}		   
 		 -->
