@@ -78,9 +78,9 @@ public class ContractService {
     	
         ProductContractDTO contract = contractDAO.selectContractPById(contract_id);
         UserDTO user = userDAO.selectById(contract.getUser_id());
-        Integer tenantUserId = (Integer) session.getAttribute("user_id");
-        tenantUserId = 12; //임시
-        UserDTO tenant = userDAO.selectById(tenantUserId);
+        
+        UserDTO tenant = (UserDTO) session.getAttribute("loggedInUser");
+        
         // 데이터 매핑 및 병합
         Map<String, String> data = new HashMap<>();
 

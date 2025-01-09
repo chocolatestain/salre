@@ -89,7 +89,7 @@
     #{price},
     #{middle_payment},
     #{balance_payment},
-    #{balance_payment_day},
+ 	#{balance_payment_day},
     #{middle_payment_day},
     #{rent_fee_day},    
     #{contract_startdate},
