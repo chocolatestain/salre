@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,52 +35,52 @@ public class ProductController {
         return "product/insert";
     }
 
-    @PostMapping("/insert") // product/insert에서 작성한 내용 post  
+    @PostMapping("/insert") // product/insert�뿉�꽌 �옉�꽦�븳 �궡�슜 post  
     public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
  
  
-        // MultipartHttpServletRequest를 사용하여 파일 처리
+        // MultipartHttpServletRequest瑜� �궗�슜�븯�뿬 �뙆�씪 泥섎━
         MultipartFile file = request.getFile("photo");  // 
-        // 일반 요청 파라미터 처리
+        // �씪諛� �슂泥� �뙆�씪誘명꽣 泥섎━
         String sigungu = request.getParameter("sigungu"); 
 
-        // sigungu 값 출력 (테스트용)
-        System.out.println("시군구: " + sigungu);
+        // sigungu 媛� 異쒕젰 (�뀒�뒪�듃�슜)
+        System.out.println("�떆援곌뎄: " + sigungu);
         System.out.println(productDTO);
         productDTO.setRegion_id(regionService.selectIdByRegion(sigungu));
 
         if (file != null && !file.isEmpty()) {
 
-            // 파일을 저장할 디렉토리 경로 지정
+            // �뙆�씪�쓣 ���옣�븷 �뵒�젆�넗由� 寃쎈줈 吏��젙
             String directoryPath = "src/main/resources/images/products/";
 
-            // 실제 경로로 변환 (서버 내에서 실제 경로를 얻기 위한 방법)
+            // �떎�젣 寃쎈줈濡� 蹂��솚 (�꽌踰� �궡�뿉�꽌 �떎�젣 寃쎈줈瑜� �뼸湲� �쐞�븳 諛⑸쾿)
             String realPath = new File(directoryPath).getAbsolutePath();
             System.out.println(realPath);
-            // 디렉토리가 없으면 생성
+            // �뵒�젆�넗由ш� �뾾�쑝硫� �깮�꽦
             File directory = new File(realPath);
             if (!directory.exists()) {
-                directory.mkdirs(); // 디렉토리 생성
+                directory.mkdirs(); // �뵒�젆�넗由� �깮�꽦
             }
 
-            // 파일 경로 설정 (파일명은 product_id를 기반으로 설정)
+            // �뙆�씪 寃쎈줈 �꽕�젙 (�뙆�씪紐낆� product_id瑜� 湲곕컲�쑝濡� �꽕�젙)
             File dest = new File(realPath + "/" + productService.nextId() + ".jpg");
 
             try {
-                // 파일을 해당 경로로 저장
+                // �뙆�씪�쓣 �빐�떦 寃쎈줈濡� ���옣
                 file.transferTo(dest);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        // 비즈니스 로직 처리 (상품 등록)
+        // 鍮꾩쫰�땲�뒪 濡쒖쭅 泥섎━ (�긽�뭹 �벑濡�)
         productService.insertProduct(productDTO);
 
         return "redirect:/";
     }
  
-    // 모든 product return 
+    // 紐⑤뱺 product return 
     @GetMapping("/list")
     public String listProducts(Model model) {
         List<ProductDTO> products = productService.selectAllProducts();
@@ -97,7 +98,7 @@ public class ProductController {
         Model model
     ) {
 
-        // 필터 값을 기반으로 검색 조건 처리
+        // �븘�꽣 媛믪쓣 湲곕컲�쑝濡� 寃��깋 議곌굔 泥섎━
         ProductDTO filter = new ProductDTO();
         filter.setRegion_id(regionId != null && !regionId.isEmpty() ? Integer.parseInt(regionId) : null);
         filter.setPayment_type(paymentType);
@@ -105,7 +106,7 @@ public class ProductController {
         filter.setRoom_count(roomCount != null && !roomCount.isEmpty() ? Integer.parseInt(roomCount) : null);
         filter.setFloor(floor != null && !floor.isEmpty() ? Integer.parseInt(floor) : null);
 
-        // 서비스 호출
+        // �꽌鍮꾩뒪 �샇異�
         List<ProductDTO> searchResults = productService.searchByConditions(filter);
         model.addAttribute("searchResults", searchResults);
 
@@ -117,23 +118,23 @@ public class ProductController {
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
     	ProductDTO product = productService.selectByIdService(product_id);
     	String status = "status-before";
-    	String label = "거래 전";
+    	String label = "嫄곕옒 �쟾";
     	switch (product.getProduct_status()) {
     	    case 0:
     	    	status = "status-pending";
-    	    	label = "거래 전";
+    	    	label = "嫄곕옒 �쟾";
     	        break;
     	    case 1:
     	    	status = "status-in-progress";
-    	    	label = "거래 중";
+    	    	label = "嫄곕옒 以�";
     	        break;
     	    case 2:
     	    	status = "status-completed";
-    	    	label = "거래 완료";
+    	    	label = "嫄곕옒 �셿猷�";
     	    	break; 
     	    case 3:
     	    	status ="status-unknown";
-    	    	label = "오류";
+    	    	label = "�삤瑜�";
     	} 
     	model.addAttribute("status", status);
     	model.addAttribute("product", product);
@@ -143,20 +144,20 @@ public class ProductController {
     }  
     @GetMapping("")
     public String searchProducts(@RequestParam("search") String searchQuery, Model model) {
-        // 검색어가 비어있을 때 예외 처리
+        // 寃��깋�뼱媛� 鍮꾩뼱�엳�쓣 �븣 �삁�쇅 泥섎━
         if (searchQuery == null || searchQuery.trim().isEmpty()) {
-            model.addAttribute("message", "검색어를 입력해주세요.");
+            model.addAttribute("message", "寃��깋�뼱瑜� �엯�젰�빐二쇱꽭�슂.");
             return "/product/search";
         }
 
-        log.info("검색어: {}", searchQuery);  // 로그로 검색어 확인
+        log.info("寃��깋�뼱: {}", searchQuery);  // 濡쒓렇濡� 寃��깋�뼱 �솗�씤
 
-        // ProductService에서 검색 결과 가져오기
+        // ProductService�뿉�꽌 寃��깋 寃곌낵 媛��졇�삤湲�
         List<ProductDTO> searchResults = productService.searchProducts(searchQuery);
 
-        // 검색 결과가 없을 경우
+        // 寃��깋 寃곌낵媛� �뾾�쓣 寃쎌슦
         if (searchResults == null || searchResults.isEmpty()) {
-            model.addAttribute("message", "검색 결과가 없습니다.");
+            model.addAttribute("message", "寃��깋 寃곌낵媛� �뾾�뒿�땲�떎.");
         } else {
             model.addAttribute("searchResults", searchResults);
       

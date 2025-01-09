@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Repository("Region")
+@Repository("RegionInterface")
 public class RegionDAO implements RegionInterface{
-	
+ 
 	@Autowired
 	SqlSession sqlSession;
 	

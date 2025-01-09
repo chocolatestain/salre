@@ -15,7 +15,7 @@
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/salre" />
+			value="jdbc:mysql://localhost:3307/teamproject" />
 		<property name="username" value="root" />
 		<property name="password" value="1234" />
 	</bean>
@@ -34,7 +34,7 @@
 
     <!-- MyBatis Mapper 스캔 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.salre.main.login" />
+        <property name="basePackage" value="com.salre.main" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
