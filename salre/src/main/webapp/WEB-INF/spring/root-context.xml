@@ -19,7 +19,7 @@
 
 	<!-- DB 연결을 위한 Bean 생성 -->
 	<!-- 2024-12-23 추가, Connection Pooling 이용하기 -->
-	<bean id="dataSourceOriginal" class="org.apache.commons.dbcp2.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="url" value="${url}" />
@@ -37,17 +37,6 @@
 	<!-- SqlSession 설정 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
-	</bean>
-
-	<!-- 2024-12-23 추가, ref와 id 동일하게 연결 -->
-	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-		<constructor-arg ref="dataSourceOriginal" />
-		<property name="logFormatter">
-			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-				<property name="loggingType" value="MULTI_LINE"></property>
-				<property name="sqlPrefix" value="[SQL 문장] "></property>
-			</bean>
-		</property>
 	</bean>
 
 	<!-- MyBatis Mapper 스캔 -->
