@@ -45,21 +45,20 @@
 		<div class="container">
 			<nav class="navbar navbar-expand-xl">
 				<!-- Logo -->
-		        <a class="navbar-brand logo" href="${contextPath}/home">살래?</a>
+		        <a class="navbar-brand logo" href="${contextPath}/">살래?</a>
 		        
 		        <!-- Nav Main menu -->
 		        <ul class="navbar-nav mx-auto">
-		            <li class="nav-item"><a class="nav-link" href="#">대출 상품</a></li>
+		            <li class="nav-item"><a class="nav-link" href="${contextPath}/loan/main">대출 상품</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main" target="_blank">채팅</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/board/list">게시판</a></li>
-		            <li class="nav-item"><a class="nav-link" href="#">매물</a></li>
-		            <li class="nav-item"><a class="nav-link" href="#">관심 매물</a></li>
-		            <li class="nav-item"><a class="nav-link" href="product/insert">방내놓기</a></li>
+		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product?search=">매물</a></li>
+		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product/insert">방내놓기</a></li>
 		        </ul>
 		        
 		        <div class="auth">
-		            <a href="login.jsp">로그인</a>
-		            <a href="register.jsp">회원가입</a>
+		            <a href="${contextPath}/login">로그인</a>
+		            <a href="${contextPath}/signup">회원가입</a>
 		        </div>
 	    	</nav>
 	    </div>

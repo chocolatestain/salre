@@ -315,15 +315,14 @@
                  <div class="form-group">
                    
                     <label for="phone">Phone</label>
-                  <%--   <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" readonly> --%>
-                    <input type="text" id="phone" name="phone_num" value="010-1234-5678" readonly>
+                   <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" readonly> 
+                   
                 </div>
 
 
 				<label for="birthday">ResidentNum</label>
 				<div class="form-group-inline">
-                  <%--   <input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>- --%>
-                    <input type="text" id="birthday" name="resident_num"  value="960105" readonly>-
+                <input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>
                     <input type="text" id="birthday2" name="auth_seller"  placeholder="Lastdigits of ResidentRegistrationNumber" ><br>
                 </div>
 				<br>	

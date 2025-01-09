@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,15 @@ import com.salre.main.myPage.ReportDTO;
 @Controller
 //@RequestMapping("/salre")
 public class LoginController {
+	@Value("${impKey}")
+	private String impKey;
 
+	@Value("${impKey2}")
+	private String impKey2;
+
+	@Value("${impSecret}")
+	private String impSecret;
+ 
 	@Autowired
 	private UserService userService;
 	
@@ -371,10 +380,6 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
 	public String rspTest(String imp_uid, HttpSession session) {
-
-	    String impKey = "";
-	    String impSecret = "";
-
 	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
 	    HttpRequest request = HttpRequest.newBuilder()
@@ -452,11 +457,7 @@ public class LoginController {
 		@ResponseBody
 		@PostMapping(value = "/rspTest3")
 		public String rspTest3(String imp_uid, HttpSession session) {
-
-		    String impKey = "";
-		    String impSecret = "";
-
-		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+		    String jsonBody = "{\"imp_key\":\"" + impKey2 + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
 		    HttpRequest request = HttpRequest.newBuilder()
 		            .uri(URI.create("https://api.iamport.kr/users/getToken"))

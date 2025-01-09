@@ -13,9 +13,15 @@
 
 	<!-- 2024-12-23 추가, DriverManager 사용하기 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="/WEB-INF/spring/mysqlDB.properties"/>
+		<property name="locations">
+			<list>
+				<value>"classpath:/WEB-INF/spring/mysqlDB.properties"</value>
+				<value>"classpath:/WEB-INF/spring/apikey.properties"</value>
+			</list>
+		</property>
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
+
 
 	<!-- DB 연결을 위한 Bean 생성 -->
 	<!-- 2024-12-23 추가, Connection Pooling 이용하기 -->

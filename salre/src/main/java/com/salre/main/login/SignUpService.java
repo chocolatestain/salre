@@ -10,28 +10,27 @@ import java.net.URL;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
 // �׽�Ʈ Service ����.. �������� ���α�
-
-
 
 @Service
 public class SignUpService {
 
+	@Value("${impKey}")
+	private static String impKey;
+
+	@Value("${impSecret}")
+	private static String impSecret;
 
 	// �����ڵ�� token��û�ϰ� ����� phone�� �̸� ������
 	public static HashMap getAccessToken(String impUid) {
-
 		HashMap map = new HashMap<>();
 		System.out.println("impUid");
-
-		String impKey = "";
-		String impSecret = "";
 		String strUrl = "https://api.iamport.kr/users/getToken"; // ��ū ��û ���� �ּ�
 		String access_token = " ";
 		String phone = "";
@@ -88,7 +87,7 @@ public class SignUpService {
 
 				int getResponseCode = getConn.getResponseCode();
 				System.out.println("GET �����ڵ� =============" + getResponseCode);
-				
+
 				if (getResponseCode == 200) { // ����
 					BufferedReader getBr = new BufferedReader(new InputStreamReader(getConn.getInputStream()));
 					StringBuilder getResponseSb = new StringBuilder();
@@ -98,22 +97,21 @@ public class SignUpService {
 					}
 					getBr.close();
 
-					
 					String getResponse = getResponseSb.toString();
 					System.out.println("GET ���� ���: " + getResponse);
 					JsonParser parser1 = new JsonParser();
 					JsonObject phoneJson1 = parser1.parse(getResponse).getAsJsonObject();
-					
+
 					// ��ȭ��ȣ �� ����
 					phone = phoneJson1.getAsJsonObject("response").get("phone").getAsString();
 					System.out.println("phone: " + phone);
-					
+
 					map.put("phone", phone);
-					//�̸� �� ���� 
-					name =  phoneJson1.getAsJsonObject("response").get("name").getAsString();
+					// �̸� �� ����
+					name = phoneJson1.getAsJsonObject("response").get("name").getAsString();
 					System.out.println("�̸�>>>>>" + name);
 					map.put("name", name);
-					
+
 				} else {
 					System.out.println("GET ���� ���� �޽���: " + getConn.getResponseMessage());
 				}
@@ -127,6 +125,5 @@ public class SignUpService {
 
 		return map;
 	}
-
 
 }
