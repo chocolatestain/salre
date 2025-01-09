@@ -173,6 +173,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		
+		<!-- File Upload & Download -->
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
@@ -269,9 +276,7 @@
 			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
-
-
-
+		
 		<!-- Swagger -->
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
@@ -385,17 +390,14 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-
-
-		<!-- MySQL -->
-		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
-
+		
+		 <!-- MySQL -->
+		 <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<version>8.3.0</version>
 		</dependency>
-
 		<!-- 썸네일 -->
 		<dependency>
 			<groupId>net.coobird</groupId>
@@ -414,20 +416,39 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
 		<!-- WebSocket -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
 			<version>1.1</version>
 		</dependency>
-
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-messaging</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/sockjs-client -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>sockjs-client</artifactId>
+		    <version>1.5.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/stomp-websocket -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>stomp-websocket</artifactId>
+		    <version>2.3.4</version>
+		</dependency>
+		
 		<!-- JSON -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
