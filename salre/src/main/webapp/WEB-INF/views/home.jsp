@@ -23,7 +23,7 @@
 				<section class="main-banner">
 					<h1>살래?</h1>
 					<p>찾고, 보고, 사고 내가 찾는 부동산</p>
-					<form action="search" method="GET">
+					<form action="product" method="GET">
 						<input type="text" name="search" placeholder="원하시는 지역, 건물을 입력해주세요.">
 						<button type="submit">검색</button>
 					</form>
