@@ -8,15 +8,15 @@ import lombok.Setter;
 
 public class UserDTO {
 
-	private int user_id;//auto inc..DBÅ×ÀÌºí¿£ ¾ø¾îµµ DTO¿£ ½áÁà¾ß
-	private String id; // »ç¿ëÀÚ ID
-    private String password; // ºñ¹Ğ¹øÈ£
-    private String user_name; // »ç¿ëÀÚ ÀÌ¸§
-    private String phone_num; // ÀüÈ­¹øÈ£
-    private String email; // ÀÌ¸ŞÀÏ
-    private String resident_num; // ÁÖ¹Îµî·Ï¹øÈ£
-    private String address; // ÁÖ¼Ò
-    private String address_detail; // »ó¼¼ ÁÖ¼Ò
-    private String auth_seller; // ÀÎÁõÄÚµå
+	private int user_id;//auto inc..DBï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îµµ DTOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String id; // ï¿½ï¿½ï¿½ï¿½ï¿½ ID
+    private String password; // ï¿½ï¿½Ğ¹ï¿½È£
+    private String user_name; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+    private String phone_num; // ï¿½ï¿½È­ï¿½ï¿½È£
+    private String email; // ï¿½Ì¸ï¿½ï¿½ï¿½
+    private String resident_num; // ï¿½Ö¹Îµï¿½Ï¹ï¿½È£
+    private String address; // ï¿½Ö¼ï¿½
+    private String address_detail; // ï¿½ï¿½ ï¿½Ö¼ï¿½
+    private String auth_seller; // ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 	
 }

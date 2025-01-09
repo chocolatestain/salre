@@ -5,6 +5,7 @@ import java.util.List;
 public interface ProductInterface {
     public int InsertProduct(ProductDTO product);
     public ProductDTO getProductById(int productId);
+    public ProductDTO selectByContractId(int contract_id);
     public List<ProductDTO> selectAllProducts();
     public int updateProduct(ProductDTO product);
     public int deleteProduct(int productId);

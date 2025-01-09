@@ -157,5 +157,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# 2024-12-27 add by GJKim, Mysql DB properties
+mysqlDB.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,maven,eclipse
 salre/.project

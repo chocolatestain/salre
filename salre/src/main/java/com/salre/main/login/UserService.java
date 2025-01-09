@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,11 +23,8 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 public class UserService {
 
 	  @Autowired
-	    private UserDAO userDAO;
-	  
-
-
-
+	  @Qualifier("UserDAO")
+	  public UserDAO userDAO;
 	  
 	    //--회占쏙옙占쏙옙占쏙옙
 	    public int registerUser(UserDTO user) {
@@ -181,7 +179,10 @@ public class UserService {
 		public void updateUserInfo(UserDTO user) {
 			userDAO.updateUserInfo(user);
 		};
-		 
-		
+		 //추가
+		public UserDTO getUserById(int user_id) {
+	    	return userDAO.selectById(user_id);
+	    }
+	 
 		
 }

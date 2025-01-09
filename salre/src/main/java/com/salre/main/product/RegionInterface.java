@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegionInterface {
-  
 	public List<RegionDTO> selectAllRegion();
 
 	public RegionDTO selectRegionById(int region_id);
@@ -20,5 +19,4 @@ public interface RegionInterface {
 	public int countRegion();
 
 	public int selectIdByRegion(String regionName);
- 
 }

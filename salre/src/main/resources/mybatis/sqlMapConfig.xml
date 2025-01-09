@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
-		<setting name="logImpl" value="STDOUT_LOGGING"/>
+		<setting name="logImpl" value="LOG4J"/>
 		<!-- mapper에서 null값이 왔을때 칼럼의 해당 타입임을 설정한다. 
 		   이 설정이 없으면 #{email,jdbcType=VARCHAR}), #{salary, jdbcType=INTEGER}		   
 		 -->
@@ -22,6 +22,14 @@
 		<typeAlias type="com.salre.main.product.RegionDTO" alias="regionVO"/>
 		<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanVO" />
 		<typeAlias type="com.salre.main.notify.NotifyDTO" alias="notifyVO" />
+		<typeAlias type="com.salre.main.board.BoardDTO" alias="boardDTO" />
+		<typeAlias type="com.salre.main.board.CommentDTO" alias="commentDTO" />
+		<typeAlias type="com.salre.main.board.PageDTO" alias="pageDTO" />
+		<typeAlias type="com.salre.main.contract.ContractDTO" alias="contractVO" />
+		<typeAlias type="com.salre.main.contract.ContractUserDTO" alias="contractuserVO" />
+		<typeAlias type="com.salre.main.product.ProductContractDTO" alias="productcontractVO" />
+		<typeAlias type="com.salre.main.chat.ChatDTO" alias="chatDTO" />
+		<typeAlias type="com.salre.main.chat.ChatRoomDTO" alias="chatRoomDTO" />
 	</typeAliases>
 
 </configuration> 

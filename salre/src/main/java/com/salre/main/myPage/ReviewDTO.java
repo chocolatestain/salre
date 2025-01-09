@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewDTO {
-	private int review_id;// ¸®ºä¹øÈ£
-	private int user_id;// È¸¿ø¹øÈ£
-	private int seller_id;// ÆÇ¸ÅÀÚ¹øÈ£
-	private int review_rate;// ÆòÁ¡
-	private String review_content;// ÈÄ±â³»¿ë
+	private int review_id;// ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int user_id;// È¸ï¿½ï¿½ï¿½ï¿½È£
+	private int seller_id;// ï¿½Ç¸ï¿½ï¿½Ú¹ï¿½È£
+	private int review_rate;// ï¿½ï¿½ï¿½ï¿½
+	private String review_content;// ï¿½Ä±â³»ï¿½ï¿½
 	
 
 }
