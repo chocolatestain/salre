@@ -160,5 +160,8 @@ $RECYCLE.BIN/
 # 2024-12-27 add by GJKim, Mysql DB properties
 mysqlDB.properties
 
+# 2025-01-05 add by decoyer, API Key properties
+apikey.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,maven,eclipse
 salre/.project
