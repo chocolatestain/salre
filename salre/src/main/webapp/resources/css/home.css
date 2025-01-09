@@ -37,8 +37,7 @@ header .auth a {
 
 .main-banner {
 	text-align: center;
-	background: url('resources/images/mainpage_bg.webp') no-repeat center
-		center/cover;
+	background: url('../images/mainpage_bg.webp') no-repeat center center/cover;
 	color: #333;
 	padding: 60px 20px;
 }

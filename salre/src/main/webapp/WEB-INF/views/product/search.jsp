@@ -76,9 +76,10 @@
         .search{
 			padding: 60px 20px;
         	text-align: center;  
-        	margin-top : 30px;
-        	background: url('resources/images/mainpage_bg.webp') no-repeat center center/cover;
+        	margin-top : 30px; 
+        	background: url('/salre/resources/images/mainpage_bg.webp') no-repeat center center/cover;
         }
+ 
         .search input {
             padding: 10px;
             width: 300px;
