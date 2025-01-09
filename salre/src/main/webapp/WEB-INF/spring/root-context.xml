@@ -15,8 +15,8 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>"classpath:/WEB-INF/spring/mysqlDB.properties"</value>
-				<value>"classpath:/WEB-INF/spring/apikey.properties"</value>
+				<value>/WEB-INF/spring/mysqlDB.properties</value>
+				<value>/WEB-INF/spring/apikey.properties</value>
 			</list>
 		</property>
 		<property name="fileEncoding" value="UTF-8" />
