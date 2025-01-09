@@ -11,45 +11,23 @@ import org.springframework.stereotype.Repository;
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
+import com.salre.main.product.ProductDTO;
 
 
-
-@Repository("UserDAO")
+@Repository
 public class UserDAO implements UserDAOInterface {
 
 	@Autowired
 	private SqlSession sqlSession;
 	String namespace = "com.salre.main.login.UserDAOInterface.";
 
-
-	public UserDTO selectById(int user_id) {
-		UserDTO user = sqlSession.selectOne(namespace +"selectById",user_id);
-		return user;
-		
-	}
 	// ȸ������
 	public int insertUser(UserDTO user) {
 		int result = sqlSession.insert(namespace + "insertUser", user);
 		return result;
 	}
 
-	// �α��� ������ڵ� ����.. UserService ������ user.setPassword(password); ����� �κ� ����
-	/*
-	 * public UserDTO selectUserById(String id, String password) {
-	 * Map<String,Object> paramMap = new HashMap<String, Object>();
-	 * System.out.println("id : " + id); System.out.println("password : " +
-	 * password); paramMap.put("id", id); //ù ��° �� paramMap.put("password",
-	 * password); // �� ��° �� return return sqlSession.selectOne(namespace +
-	 * "selectUserById", paramMap); }
-	 */
-
-//    �α��� �׽�Ʈ�ڵ� Map�ƴϰ� DTO�� ����..???????????
-//    public UserDTO selectUserById(String id, String password) {
-//        UserDTO userParam = new UserDTO();
-//        userParam.setId(id);  // DTO�� id ����
-//        userParam.setPassword(password);  // DTO�� password ����
-//        return sqlSession.selectOne(namespace + "selectUserById", userParam);
-//    }
+	
 	
 	//�α���
 	public UserDTO selectUserById(String id) {
@@ -88,6 +66,12 @@ public class UserDAO implements UserDAOInterface {
         params.put("password", encodedPassword);
         sqlSession.update(namespace+"updatePassword", params);
     }
+    
+    //admin-handleBoardReport
+    public  List<ReportDTO> getBoardReportsByUserId(int user_id){
+    	return sqlSession.selectList(namespace + "getBoardReportsByUserId", user_id);
+    }
+    
    
     
    // ȸ��Ż��
@@ -106,6 +90,21 @@ public class UserDAO implements UserDAOInterface {
     	return sqlSession.selectOne(namespace + "countByEmail",email); 
     }
     
+    //마이페이지 - 나의 거래현황/ 거래목록 조회 (구매자)
+    public List<ProductDTO> getBuyerTransactionByUserId(int user_id) {
+  		return sqlSession.selectList(namespace + "getBuyerTransactionByUserId", user_id);
+  	}
+    
+    //마이페이지 - 나의 거래현황/ 거래목록 조회 
+    public List<ProductDTO> getTransactionByUserId(int user_id) {
+  		return sqlSession.selectList(namespace + "getTransactionByUserId", user_id);
+  	}
+    
+    //마이페이지 - 나의 관심매물 
+  	public List<ProductDTO> getFavoritesByUserId(int user_id){
+  		return sqlSession.selectList(namespace + "getFavoritesByUserId", user_id);		
+  	}
+    
     //���������� - ���� �ŷ���Ȳ - �ı��ۼ�
     public void insertReview(ReviewDTO review) {
         sqlSession.insert(namespace + "insertReview", review);
@@ -119,7 +118,7 @@ public class UserDAO implements UserDAOInterface {
     
 	//���������� - ���� �ۼ��� �ı�
 	public  List<ReviewDTO> selectReviewsByUserId(int user_id) {
-			return sqlSession.selectList(namespace+"selectReviewsByUserId", user_id);
+		return sqlSession.selectList(namespace+"selectReviewsByUserId", user_id);
 	}
 
 	//���������� - ���� �ۼ��� �ı�(����)
@@ -133,7 +132,7 @@ public class UserDAO implements UserDAOInterface {
 		  sqlSession.delete(namespace+"deleteReview",review_id);
 		}
 	  
-	//���������� - ���� �Ű�����
+	//���������� - ���� �Ű���
 	  public List<ReportDTO> selectReportsByUserId(int user_id){
 		  return sqlSession.selectList(namespace + "selectReportsByUserId", user_id);
 	  }

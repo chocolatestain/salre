@@ -86,7 +86,7 @@ p {
                             <td>${report.reportDate}</td>
                             <td>${report.status}</td>
                             <td>
-                                <form method="post" action="${contextPath}/admin/handleReport">
+                                <form method="post" action="${contextPath}/admin/handleBoardReport">
                                     <input type="hidden" name="reportId" value="${report.id}">
                                     <button type="submit" name="action" value="resolve">신고 무효화</button>
                                     <button type="submit" name="action" value="delete">게시글 삭제</button>

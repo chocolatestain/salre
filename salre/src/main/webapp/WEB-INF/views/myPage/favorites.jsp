@@ -57,40 +57,43 @@
 				<h1 class="mb-4">My Page - 나의 관심매물</h1>
 
 				<!-- 구매자 콘텐츠 -->
-				<!-- <div id="buyer-content">
+				 <div id="buyer-content">
 					<div class="row mb-3">
-						<div class="col">
+						<!-- <div class="col">
 							<button class="btn btn-secondary">등록순</button>
 							<button class="btn btn-secondary">거래순</button>
 							<button class="btn btn-secondary">조회수 순</button>
 							<button class="btn btn-secondary">평점 순</button>
-						</div>
-						<div class="col text-end">
+						</div> -->
+						<!-- <div class="col text-end">
 							<input type="date" class="form-control d-inline-block w-auto"
 								id="startDate"> <span>~</span> <input type="date"
 								class="form-control d-inline-block w-auto" id="endDate">
-						</div>
-					</div> -->
+						</div> -->
+					</div>
 
 					<!-- 매물 목록 -->
 					<div class="card-container">
 						<!--  서버에서받는거...   -->
-						<c:forEach var="item" items="${favorites}">
+						<c:forEach var="product" items="${favoritesList}">
 							<div class="card">
-								<img src="${item.image}" class="card-img-top"
-									alt="${item.title}">
+								<%-- <img src="${product.image}" class="card-img-top"
+									alt="${product.title}"> --%>
+								<img src="https://via.placeholder.com/250x180" class="card-img-top" alt="매물1">
 								<div class="card-body">
-									<h5 class="card-title">${item.title}</h5>
+								
+									
+									<h5 class="card-title">${product.product_name}</h5>
 									<p class="card-text">
-										월세: ${item.monthlyRent} / ${item.deposit}<br>
-										${item.description}
+										월세: ${product.deposit}/{product.rentfee}<br>
+										${product.address}
 									</p>
 									<div class="d-flex justify-content-between align-items-center">
-										<button onclick="toggleLike(this, '${item.id}')"
-											class="heart-btn ${item.liked ? 'liked' : ''}">
-											<i class="bi bi-heart${item.liked ? '-fill' : ''}"></i>
+										<button onclick="toggleLike(this, '${product.product_id}')"
+											class="heart-btn liked">
+											<i class="bi bi-heart-fill"></i>
 										</button>
-										<a href="${contextPath}/item/detail?id=${item.id}"
+										<a href="${contextPath}/product/detail/${product.product_id}"
 											class="btn btn-primary">자세히 보기</a>
 									</div>
 								</div>
@@ -98,7 +101,7 @@
 						</c:forEach>
 
 
-						<div class="card">
+						<!-- <div class="card">
 							<img src="https://via.placeholder.com/250x180"
 								class="card-img-top" alt="매물1">
 							<div class="card-body">
@@ -113,8 +116,8 @@
 									<a href="#" class="btn btn-primary">자세히 보기</a>
 								</div>
 							</div>
-						</div>
-						<div class="card">
+						</div> --> 
+						 <!-- <div class="card">
 							<img src="https://via.placeholder.com/250x180"
 								class="card-img-top" alt="매물2">
 							<div class="card-body">
@@ -129,7 +132,7 @@
 									<a href="#" class="btn btn-primary">자세히 보기</a>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<!-- 판매자 콘텐츠 -->
@@ -176,13 +179,63 @@
 	<!-- 좋아요 기능 -->
 	<script>
 	
-		function toggleLike(button) {
-			const liked = button.classList.contains('liked');
-			button.classList.toggle('liked');
-			const icon = button.querySelector('i');
-			icon.classList.toggle('bi-heart');
-			icon.classList.toggle('bi-heart-fill');
-		}
+	/* function toggleLike(button, product_id) {
+	    const liked = button.classList.contains("liked");
+
+	    $.ajax({
+	        url: `${contextPath}/favorites/toggleLike`,
+	        type: "POST",
+	        data: {
+	            productId: product_id,
+	            liked: is_liked
+	        },
+	        success: function () {
+	            if (liked) {
+	                button.classList.remove("liked");
+	                button.querySelector("i").classList.remove("bi-heart-fill");
+	                button.querySelector("i").classList.add("bi-heart");
+	            } else {
+	                button.classList.add("liked");
+	                button.querySelector("i").classList.remove("bi-heart");
+	                button.querySelector("i").classList.add("bi-heart-fill");
+	            }
+	        },
+	        error: function () {
+	            alert("오류가 발생했습니다. 다시 시도해주세요.");
+	        }
+	    });
+	} */
+	function toggleLike(button, product_id) {
+	    // 현재 liked 상태 확인
+	    const liked = button.classList.contains("liked");
+	    const is_liked = !liked; // 현재 상태의 반대 값을 서버로 보냄
+
+	    $.ajax({
+	        url: `${contextPath}/favorites/toggleLike`,
+	        type: "POST",
+	        data: {
+	            productId: product_id,
+	            liked: is_liked
+	        },
+	        success: function () {
+	            // 요청 성공 시에만 상태 업데이트
+	            if (liked) {
+	                button.classList.remove("liked");
+	                button.querySelector("i").classList.remove("bi-heart-fill");
+	                button.querySelector("i").classList.add("bi-heart");
+	            } else {
+	                button.classList.add("liked");
+	                button.querySelector("i").classList.remove("bi-heart");
+	                button.querySelector("i").classList.add("bi-heart-fill");
+	            }
+	        },
+	        error: function () {
+	            // 오류 메시지 표시
+	            alert("오류가 발생했습니다. 다시 시도해주세요.");
+	        }
+	    });
+	}
+
 	</script>
 </body>
 </html>

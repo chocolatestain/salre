@@ -98,35 +98,36 @@
 				<h1 class="mb-4">My Page - 나의 거래현황</h1>
 
 				<!-- 구매자 콘텐츠 -->
-				<!-- <div id="buyer-content">
-					<div class="row mb-3">
-						<div class="col">
+				<div id="buyer-content">
+					 <div class="row mb-3">
+						<!-- <div class="col">
 							<button class="btn btn-secondary">등록순</button>
 							<button class="btn btn-secondary">거래순</button>
 							<button class="btn btn-secondary">조회수 순</button>
 							<button class="btn btn-secondary">평점 순</button>
-						</div>
-						<div class="col text-end">
+						</div> -->
+						<!-- <div class="col text-end">
 							<input type="date" class="form-control d-inline-block w-auto"
 								id="startDate"> <span>~</span> <input type="date"
 								class="form-control d-inline-block w-auto" id="endDate">
-						</div>
-					</div> -->
+						</div> -->
+					</div>
 
 
-					<!-- 거래 매물 목록 -->
-					<div class="card-container">
+					<!-- 구매자 거래 매물 목록 -->
+			 	<div class="card-container">
 
-				   <c:forEach var="item" items="${transactionItems}">
+				   <c:forEach var="productB" items="${buyerProductList}">
                     <div class="card">
                         <div class="position-relative">
-                            <img src="${item.image}" class="card-img-top" alt="${item.title}">
+                            <%-- <img src="${product.image}" class="card-img-top" alt="${product.title}"> --%>
+                            <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="매물1">
                             <!-- 상태 배지 -->
                             <c:choose>
-                                <c:when test="${item.status == '거래중'}">
+                                <c:when test="${productB.product_status == 1}">
                                     <span class="badge-status bg-danger">거래중</span>
                                 </c:when>
-                                <c:when test="${item.status == '거래완료'}">
+                                <c:when test="${productB.product_status == 2}">
                                     <span class="badge-status bg-secondary">거래완료</span>
                                 </c:when>
                                 <c:otherwise>
@@ -135,13 +136,13 @@
                             </c:choose>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">${item.title}</h5>
+                            <h5 class="card-title">${product.product_name}</h5>
                             <p class="card-text">
-                                월세: ${item.monthlyRent} / ${item.deposit}<br>
-                                ${item.description}
+                                월세: ${productB.deposit} / ${productB.rentfee}<br>
+                                ${productB.address}
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="${contextPath}/item/detail?id=${item.id}" class="btn btn-primary">자세히 보기</a>
+                                <a href="${contextPath}/item/detail?id=${productB.product_id}" class="btn btn-primary">자세히 보기</a>
                                 <button class="btn btn-outline-danger">리뷰작성</button>
                             </div>
                         </div>
@@ -149,12 +150,12 @@
                 </c:forEach>
 
 						<!-- 예시 데이터 -->
-						<div class="card">
+						<!--  <div class="card">
 							<div class="position-relative">
 								<img src="https://via.placeholder.com/250x180"
 									class="card-img-top" alt="매물1"> <span
 									class="badge-status bg-danger">거래중</span>
-								<!-- 입주일 문구 -->
+								입주일 문구
 								<div class="moving-text-container">
 									<span class="moving-text">입주일까지 17일 남았습니다.</span>
 								</div>
@@ -169,9 +170,9 @@
 
 								</div>
 							</div>
-						</div>
+						</div> -->
 
-						<div class="card">
+						<!-- <div class="card">
 							<div class="position-relative">
 								<img src="https://via.placeholder.com/250x180"
 									class="card-img-top" alt="매물2"> <span
@@ -191,15 +192,15 @@
 							    </button>
 								</div>
 							</div>
-						</div>
+						</div> -->
  
-					</div>
+					</div> 
 				</div>
  
 				
 				<!-- 판매자 콘텐츠 -->
-				<div id="seller-content" style="text-align: center;">
-						<div class="row mb-3">
+				 <div id="seller-content" style="text-align: center;">
+					 <div class="row mb-3">
 						<div class="col">
 							<button class="btn btn-secondary">등록순</button>
 							<button class="btn btn-secondary">거래순</button>
@@ -214,33 +215,35 @@
 					</div>
 
 
-					<!-- 거래 매물 목록 -->
-					<div class="card-container">
- 				 <c:forEach var="item" items="${transactionItems}">
+				<!-- 판매자 거래 매물 목록 -->
+				<div class="card-container">
+
+				   <c:forEach var="product" items="${productList}">
                     <div class="card">
                         <div class="position-relative">
-                            <img src="${item.image}" class="card-img-top" alt="${item.title}">
+                          <%--   <img src="${product.image}" class="card-img-top" alt="${product.title}"> --%>
+                            <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="매물1">
                             <!-- 상태 배지 -->
                             <c:choose>
-                                <c:when test="${item.status == '거래중'}">
+                                <c:when test="${product.product_status == 1}">
                                     <span class="badge-status bg-danger">거래중</span>
                                 </c:when>
-                                <c:when test="${item.status == '거래완료'}">
+                                <c:when test="${product.product_status == 2}">
                                     <span class="badge-status bg-secondary">거래완료</span>
                                 </c:when>
-                                <c:otherwise>
+                               <%--  <c:otherwise>
                                     <span class="badge-status bg-success">거래가능</span>
-                                </c:otherwise>
+                                </c:otherwise> --%>
                             </c:choose>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">${item.title}</h5>
+                            <h5 class="card-title">${product.product_name}</h5>
                             <p class="card-text">
-                                월세: ${item.monthlyRent} / ${item.deposit}<br>
-                                ${item.description}
+                                월세: ${product.deposit} / ${product.rentfee}<br>
+                                ${product.address}
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="${contextPath}/item/detail?id=${item.id}" class="btn btn-primary">자세히 보기</a>
+                                <a href="${contextPath}/item/detail?id=${product.product_id}" class="btn btn-primary">자세히 보기</a>
                                 <button class="btn btn-outline-danger">리뷰작성</button>
                             </div>
                         </div>
@@ -248,12 +251,12 @@
                 </c:forEach>
 
 						<!-- 예시 데이터 -->
-						<div class="card">
+						 <!-- <div class="card">
 							<div class="position-relative">
 								<img src="https://via.placeholder.com/250x180"
 									class="card-img-top" alt="매물1"> <span
 									class="badge-status bg-danger">거래중</span>
-								<!-- 입주일 문구 -->
+								입주일 문구
 								<div class="moving-text-container">
 									<span class="moving-text">입주일까지 17일 남았습니다.</span>
 								</div>
@@ -268,9 +271,9 @@
 
 								</div>
 							</div>
-						</div>
+						</div> --> 
 
-						<div class="card">
+						 <!-- <div class="card">
 							<div class="position-relative">
 								<img src="https://via.placeholder.com/250x180"
 									class="card-img-top" alt="매물2"> <span
@@ -286,9 +289,9 @@
 									
 								</div>
 							</div>
-						</div>
+						</div> -->
 
-						<div class="card">
+						 <!-- <div class="card">
 							<div class="position-relative">
 								<img src="https://via.placeholder.com/250x180"
 									class="card-img-top" alt="매물3"> <span
@@ -304,9 +307,9 @@
 									<a href="#" class="btn btn-primary">자세히 보기</a>
 								</div>
 							</div>
-						</div>
+						</div> --> 
 
-						<!-- 더미 데이터 추가 -->
+						<!--  더미 데이터 추가
 						<div class="card">
 							<img src="https://via.placeholder.com/250x180"
 								class="card-img-top" alt="매물4"><span
@@ -317,10 +320,10 @@
 													<br>
 								</p>
 								<div class="d-flex justify-content-between align-items-center">
-									<!-- <a href="#" class="btn btn-primary">자세히 보기</a> -->
+									<a href="#" class="btn btn-primary">자세히 보기</a>
 								</div>
 							</div>
-						</div>
+						</div> -->  
  
 					</div>
 				</div>
