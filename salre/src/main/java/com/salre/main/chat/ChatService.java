@@ -1,5 +1,6 @@
 package com.salre.main.chat;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class ChatService {
 	// 보낸 메시지 DB에 저장
 	public void insertSendMessageService(ChatDTO messageContent) {
 		chatDAO.insertSendMessage(messageContent);
+	}
+
+	// 채팅 읽음 여부 업데이트(0 => 1)
+	public void updateIsCheckService(HashMap<String, Integer> map) {
+		chatDAO.updateIsCheck(map);
 	}
 
 }

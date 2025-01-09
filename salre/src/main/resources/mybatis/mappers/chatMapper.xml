@@ -16,7 +16,7 @@
 		SELECT *,
 			   (SELECT chat_content FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) chat_content,
 			   (SELECT send_time FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) send_time,
-			   (SELECT COUNT(is_check) FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id) is_checkFalseCnt
+			   (SELECT COUNT(is_check) FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id AND user_id = CHATROOM.user_id AND is_check = 0) is_checkFalseCnt
 		FROM CHATROOM
 		WHERE user_id = #{user_id} OR product_id = #{product_id}
 	</select>
@@ -33,4 +33,8 @@
 		INSERT INTO CHAT(chatRoom_id, user_id, sender, chat_content, send_time)
 		VALUES(#{chatRoom_id}, #{user_id}, #{sender}, #{chat_content}, #{send_time})
 	</insert>
+	
+	<update id="updateIsCheck" parameterType="Integer">
+		UPDATE CHAT SET is_check = 1 WHERE chatRoom_id = #{chatRoom_id} AND user_id != ${user_id};
+	</update>
 </mapper>

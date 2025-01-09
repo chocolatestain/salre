@@ -11,21 +11,12 @@
 <body>
 	<div id="scrollDiv" class="d-flex flex-column h-100 position-relative">
 	    <!-- Chat: Header -->
-	    <div class="chat-header d-flex justify-content-center border-bottom py-4 py-lg-7">
+	    <div class="chat-header d-flex justify-content-center align-items-center border-bottom py-4 py-lg-7">
 	    	<div class="avatar me-3">
 	    		<img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/6.jpg" alt="#" class="avatar-img">
 	        </div>
 	        
 	        <div class="row align-items-center">
-	
-	            <!-- Mobile: close -->
-	            <div class="col-2 d-xl-none">
-	                <a class="icon icon-lg text-muted" href="#" data-toggle-chat="">
-	                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-	                </a>
-	            </div>
-	            <!-- Mobile: close -->
-	
 	            <!-- Content -->
 	            <div class="col-8 col-xl-12">
 	                <div class="row align-items-center text-center text-xl-start">
@@ -41,15 +32,15 @@
 	                </div>
 	            </div>
 	            <!-- Content -->
-	
-	            <!-- Mobile: more -->
-	            <div class="col-2 d-xl-none text-end">
-	                <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
-	                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-	                </a>
-	            </div>
-	            <!-- Mobile: more -->
-	
+	        </div>
+	        
+	        <div class="ms-auto">
+		        <button class="btn btn-success">
+		        	거래 시작 버튼
+		        </button>
+		        <button onclick="exitChatRoom();" class="btn">
+		        	<img src="${contextPath}/resources/bootstrap/chat/assets/img/icons/x.svg" alt="Close Icon">
+		        </button>
 	        </div>
 	    </div>
 	    <!-- Chat: Header -->
@@ -58,98 +49,6 @@
 	    <div class="chat-body hide-scrollbar flex-1 h-100 pb-10">
 	        <div class="chat-body-inner">
 	            <div class="py-6 py-lg-12">
-	
-	                <!-- Message -->
-	                <div class="message message-out">
-	                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-profile" class="avatar avatar-responsive">
-	                        <img class="avatar-img" src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/1.jpg" alt="">
-	                    </a>
-	
-	                    <div class="message-inner">
-	                        <div class="message-body">
-	                            <div class="message-content">
-	                                <div class="message-text">
-	
-	                                    <div class="row align-items-center gx-4">
-	                                        <div class="col-auto">
-	                                            <a href="#" class="avatar avatar-sm">
-	                                                <div class="avatar-text bg-white text-primary">
-	                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-	                                                </div>
-	                                            </a>
-	                                        </div>
-	                                        <div class="col overflow-hidden">
-	                                            <h6 class="text-truncate text-reset">
-	                                                <a href="#" class="text-reset">filename.json</a>
-	                                            </h6>
-	                                            <ul class="list-inline text-uppercase extra-small opacity-75 mb-0">
-	                                                <li class="list-inline-item">79.2 KB</li>
-	                                            </ul>
-	                                        </div>
-	                                    </div>
-	
-	                                </div>
-	                            </div>
-	                        </div>
-	
-	                        <div class="message-footer">
-	                            <span class="extra-small text-muted">08:45 PM</span>
-	                        </div>
-	                    </div>
-	                </div>
-	
-	                <!-- Divider -->
-	                <div class="message-divider">
-	                    <small class="text-muted">Monday, Sep 16</small>
-	                </div>
-	
-	                <!-- Message -->
-	                <div class="message message-out">
-	                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-profile" class="avatar avatar-responsive">
-	                        <img class="avatar-img" src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/1.jpg" alt="">
-	                    </a>
-	
-	                    <div class="message-inner">
-	                        <div class="message-body">
-	                            <div class="message-content">
-	                                <div class="message-gallery">
-	                                    <div class="row gx-3">
-	                                        <div class="col">
-	                                            <img class="img-fluid rounded" src="${contextPath}/resources/bootstrap/chat/assets/img/chat/1.jpg" data-action="zoom" alt="">
-	                                        </div>
-	                                        <div class="col">
-	                                            <img class="img-fluid rounded" src="${contextPath}/resources/bootstrap/chat/assets/img/chat/2.jpg" data-action="zoom" alt="">
-	                                        </div>
-	                                        <div class="col">
-	                                            <img class="img-fluid rounded" src="${contextPath}/resources/bootstrap/chat/assets/img/chat/3.jpg" data-action="zoom" alt="">
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-	
-	                        <div class="message-footer">
-	                            <span class="extra-small text-muted">08:45 PM</span>
-	                        </div>
-	                    </div>
-	                </div>
-	
-	                <!-- Message -->
-	                <div class="message">
-	                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-user-profile" class="avatar avatar-responsive">
-	                        <img class="avatar-img" src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/2.jpg" alt="">
-	                    </a>
-	
-	                    <div class="message-inner">
-	                        <div class="message-body">
-	                            <div class="message-content">
-	                                <div class="message-text">
-	                                    <p>Chandler is typing<span class='typing-dots'><span>.</span><span>.</span><span>.</span></span></p>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
 	
 	            </div>
 	        </div>

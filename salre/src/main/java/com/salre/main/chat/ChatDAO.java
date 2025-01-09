@@ -1,5 +1,6 @@
 package com.salre.main.chat;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -59,6 +60,12 @@ public class ChatDAO implements ChatDAOInterface {
 	public void insertSendMessage(ChatDTO messageContent) {
 		sqlSession.insert(namespace + "insertSendMessage", messageContent);
 		log.info("[insertSendMessage] 성공!");
+	}
+
+	// 채팅 읽음 여부 업데이트(0 => 1)
+	public void updateIsCheck(HashMap<String, Integer> map) {
+		sqlSession.update(namespace + "updateIsCheck", map);
+		log.info("[updateIsCheck] 성공!");
 	}
 
 }

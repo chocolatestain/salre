@@ -62,22 +62,7 @@
 	                        <div class="container py-8">
 	                            <!-- Title -->
 	                            <div class="mb-8">
-	                                <h2 class="fw-bold m-0">Chats</h2>
-	                            </div>
-	
-	                            <!-- Search -->
-	                            <div class="mb-6">
-	                                <form action="#">
-	                                    <div class="input-group">
-	                                        <div class="input-group-text">
-	                                            <div class="icon icon-lg">
-	                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-	                                            </div>
-	                                        </div>
-	
-	                                        <input type="text" class="form-control form-control-lg ps-0" placeholder="Search messages or users" aria-label="Search for messages or users...">
-	                                    </div>
-	                                </form>
+	                                <h2 class="fw-bold m-0">채팅 목록</h2>
 	                            </div>
 	
 	                            <!-- Chats -->
@@ -106,9 +91,11 @@
 		                                                    	${chatRoom.chat_content}
 		                                                    </div>
 		
-		                                                    <div class="badge badge-circle bg-primary ms-5">
-		                                                        <span>${chatRoom.is_checkFalseCnt}</span>
-		                                                    </div>
+		                                                    <c:if test="${chatRoom.is_checkFalseCnt ne 0}">
+			                                                    <div class="badge badge-circle bg-warning ms-5">
+			                                                        <span>${chatRoom.is_checkFalseCnt}</span>
+			                                                    </div>
+		                                                    </c:if>
 		                                                </div>
 		                                            </div>
 		                                        </div>
@@ -138,7 +125,7 @@
 	                    </span>
 	                </div>
 	
-	                <p class="text-muted">Pick a person from left menu, <br> and start your conversation.</p>
+	                <p class="text-muted">왼쪽 목록에서 채팅방을 선택하여 <br> 대화를 시작하세요.</p>
 	            </div>
 	
 	        </div>
@@ -154,6 +141,11 @@
 	
 	<!-- 채팅방 입장 -->
 	<script type="text/javascript">
+		/* let user_id = "${loggedInUser.user_id}"; 1:김광진, 3:홍길동 */
+		/* let user_name = "${loggedInUser.user_name}"; 1:김광진, 3:홍길동 */
+		const user_id = 1;
+		const user_name = "김광진";
+		
 		function enterChatRoom(chatRoom_id) {
 			$.ajax({
 				url: "${contextPath}/chat/enterChatRoom",
@@ -173,6 +165,9 @@
 					
 					// 스크롤을 맨 아래로 이동
 					scrollToBottom();
+					
+					// 채팅 읽음 여부 업데이트
+					updateIsCheck(chatRoom_id, user_id);
 				},
 				error: function(err) {
 					alert(err);
@@ -181,10 +176,6 @@
 		}
 		
 		let stompClient;
-		/* let user_name = `${loggedInUser.user_name}`; 1:김광진, 3:홍길동 */
-		let user_id = 3;
-		let user_name = "홍길동";
-
 	    function connectWebSocket(chatRoom_id) {
 	        const socket = new SockJS("${contextPath}/chat-websocket"); // WebSocketConfig에서 설정한 Endpoint
 	        stompClient = Stomp.over(socket);
@@ -241,6 +232,27 @@
 				}
 	    	});
 	    }
+	    
+	 	// 채팅 읽음 여부 업데이트(0 => 1)
+		function updateIsCheck(chatRoom_id, user_id) {
+			$.ajax({
+	    		url: "${contextPath}/chat/updateIsCheck",
+				type: "GET",
+				data: {
+					chatRoom_id: chatRoom_id,
+					user_id: user_id
+				},
+				success: function() {
+					if (document.querySelector('.badge')) {
+						// 업데이트 성공 시 <div class="badge"> 제거
+						document.querySelector('.badge').remove();
+					}
+				},
+				error: function(err) {
+					alert(err);
+				}
+	    	});
+	 	}
 	    
 	 	// 스크롤을 맨 아래로 이동하게 하는 함수
 	 	function scrollToBottom() {
@@ -382,13 +394,32 @@
 	     	
 	     	return send_time;
 	    }
+	 	
+	 	// 채팅방 나가기
+	    function exitChatRoom() {
+	 		// 웹소켓 연결 해제
+	    	disconnect();
+	    	
+	    	document.getElementById("chatRoomArea").innerHTML = "";
+	    	
+	    	document.getElementById("chatRoomArea").innerHTML = `
+	    		<div class="d-flex flex-column h-100 justify-content-center text-center">
+		            <div class="mb-6">
+		                <span class="icon icon-xl text-muted">
+		                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+		                </span>
+		            </div>
+	
+		            <p class="text-muted">왼쪽 목록에서 채팅방을 선택하여 <br> 대화를 시작하세요.</p>
+		        </div>
+	    	`;
+	    }
 	    
 	    // 채팅방 퇴장할 시 웹소켓 연결 해제
 	    function disconnect() {
 	        if (stompClient !== null) {
 	            stompClient.disconnect();
 	        }
-	        setConnected(false);
 	        console.log("웹소켓 Disconnected");
 	    }
 	</script>

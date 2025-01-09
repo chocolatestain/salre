@@ -1,5 +1,6 @@
 package com.salre.main.chat;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface ChatDAOInterface {
@@ -21,5 +22,8 @@ public interface ChatDAOInterface {
 	
 	// 보낸 메시지 DB에 저장
 	public void insertSendMessage(ChatDTO messageContent);
+	
+	// 채팅 읽음 여부 업데이트(0 => 1)
+	public void updateIsCheck(HashMap<String, Integer> map);
 
 }
