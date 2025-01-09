@@ -15,6 +15,8 @@ public interface UserDAOInterface {
 			// ȸ������
 			public int insertUser(UserDTO user);
 			
+			public UserDTO selectById(int  user_id);
+			
 			// �α���
 			//public UserDTO selectUserById(String id,String password);
 			public UserDTO selectUserById(String id);

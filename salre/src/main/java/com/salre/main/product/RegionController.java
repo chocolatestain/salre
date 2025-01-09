@@ -40,7 +40,6 @@ public class RegionController {
         model.addAttribute("regions", regions);
         return "region/list";
     }
-
     // 지역 수정 폼
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") int regionId, Model model) {

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
- 
+<!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
 <mapper namespace="com.salre.main.login.UserDAOInterface">
 
-    <!-- 회원가입 -->
+   <!-- 회원가입 -->
     <insert id="insertUser" parameterType="userVO">
         INSERT INTO user (id, password, user_name, phone_num, email, resident_num, address, address_detail, auth_seller)
         VALUES (#{id}, #{password}, #{user_name}, #{phone_num}, #{email}, #{resident_num}, #{address}, #{address_detail}, #{auth_seller})

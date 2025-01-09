@@ -8,12 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostDTO {
-	private int board_id; // °Ô½Ã±Û ID (Primary Key)
-	private int user_id; // ÀÛ¼ºÀÚ ID
-	private String board_class; // °Ô½Ã±Û ºÐ·ù
-	private String board_title; // °Ô½Ã±Û Á¦¸ñ
-	private String board_content; // °Ô½Ã±Û ³»¿ë
-	private Timestamp created_at; // »ý¼ºÀÏÀÚ
-	private Timestamp updated_at; // ¼öÁ¤ÀÏÀÚ
-	private int click_cnt; // Á¶È¸¼ö
+	private int board_id; // ï¿½Ô½Ã±ï¿½ ID (Primary Key)
+	private int user_id; // ï¿½Û¼ï¿½ï¿½ï¿½ ID
+	private String board_class; // ï¿½Ô½Ã±ï¿½ ï¿½Ð·ï¿½
+	private String board_title; // ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private String board_content; // ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private Timestamp created_at; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp updated_at; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int click_cnt; // ï¿½ï¿½È¸ï¿½ï¿½
 }

@@ -13,50 +13,57 @@ import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
 
 
-@Repository
+
+@Repository("UserDAO")
 public class UserDAO implements UserDAOInterface {
 
 	@Autowired
 	private SqlSession sqlSession;
 	String namespace = "com.salre.main.login.UserDAOInterface.";
 
-	// È¸¿ø°¡ÀÔ
+
+	public UserDTO selectById(int user_id) {
+		UserDTO user = sqlSession.selectOne(namespace +"selectById",user_id);
+		return user;
+		
+	}
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int insertUser(UserDTO user) {
 		int result = sqlSession.insert(namespace + "insertUser", user);
 		return result;
 	}
 
-	// ·Î±×ÀÎ ¿ë¹ü¾¾ÄÚµå ±âÁØ.. UserService ÆÄÀÏÀÇ user.setPassword(password); ¿ë¹ü¾¾ ºÎºÐ Âü°í
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½.. UserService ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ user.setPassword(password); ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½
 	/*
 	 * public UserDTO selectUserById(String id, String password) {
 	 * Map<String,Object> paramMap = new HashMap<String, Object>();
 	 * System.out.println("id : " + id); System.out.println("password : " +
-	 * password); paramMap.put("id", id); //Ã¹ ¹øÂ° °ª paramMap.put("password",
-	 * password); // µÎ ¹øÂ° °ª return return sqlSession.selectOne(namespace +
+	 * password); paramMap.put("id", id); //Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ paramMap.put("password",
+	 * password); // ï¿½ï¿½ ï¿½ï¿½Â° ï¿½ï¿½ return return sqlSession.selectOne(namespace +
 	 * "selectUserById", paramMap); }
 	 */
 
-//    ·Î±×ÀÎ Å×½ºÆ®ÄÚµå Map¾Æ´Ï°í DTO·Î °¡´É..???????????
+//    ï¿½Î±ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½Úµï¿½ Mapï¿½Æ´Ï°ï¿½ DTOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..???????????
 //    public UserDTO selectUserById(String id, String password) {
 //        UserDTO userParam = new UserDTO();
-//        userParam.setId(id);  // DTOÀÇ id ¼³Á¤
-//        userParam.setPassword(password);  // DTOÀÇ password ¼³Á¤
+//        userParam.setId(id);  // DTOï¿½ï¿½ id ï¿½ï¿½ï¿½ï¿½
+//        userParam.setPassword(password);  // DTOï¿½ï¿½ password ï¿½ï¿½ï¿½ï¿½
 //        return sqlSession.selectOne(namespace + "selectUserById", userParam);
 //    }
 	
-	//·Î±×ÀÎ
+	//ï¿½Î±ï¿½ï¿½ï¿½
 	public UserDTO selectUserById(String id) {
 	    return sqlSession.selectOne(namespace + "selectUserById", id);
 	}
 
 
 	
-	// IDÃ£±â
+	// IDÃ£ï¿½ï¿½
     public String findIdByEmailAndName(String email, String name) {
     	System.out.println("UserDAO/ email = " + email);
     	System.out.println("UserDAO/ name = " + name);
     	
-    	// Á¶°ÇÀ» ´ãÀ» Map °´Ã¼ »ý¼º
+    	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Map ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
         params.put("name", name);
@@ -67,7 +74,7 @@ public class UserDAO implements UserDAOInterface {
         //return userMapper.findIdByEmail(email);
     }
     
-    // PWÃ£±â
+    // PWÃ£ï¿½ï¿½
     public boolean checkUser(String id, String email) {
         Map<String, String> params = new HashMap<>();
         params.put("id", id);
@@ -83,55 +90,55 @@ public class UserDAO implements UserDAOInterface {
     }
    
     
-   // È¸¿øÅ»Åð
+   // È¸ï¿½ï¿½Å»ï¿½ï¿½
     @Override
     public void deleteUser(String id) {
             sqlSession.delete(namespace + "deleteUser", id);
         }
     
-    // IDÁßº¹Ã¼Å©
+    // IDï¿½ßºï¿½Ã¼Å©
     public UserDTO selectUserById2(String id) {
         return sqlSession.selectOne(namespace + "selectUserById2", id);
     }
     
-    // email Áßº¹Ã¼Å©
+    // email ï¿½ßºï¿½Ã¼Å©
     public int countByEmail(String email) {
     	return sqlSession.selectOne(namespace + "countByEmail",email); 
     }
     
-    //¸¶ÀÌÆäÀÌÁö - ³ªÀÇ °Å·¡ÇöÈ² - ÈÄ±âÀÛ¼º
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½È² - ï¿½Ä±ï¿½ï¿½Û¼ï¿½
     public void insertReview(ReviewDTO review) {
         sqlSession.insert(namespace + "insertReview", review);
           
     }
   
-    //¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ±Û ¸ñ·Ï Á¶È¸(Æ¯Á¤ »ç¿ëÀÚÀÇ °Ô½Ã±Û ¸ñ·Ï Á¶È¸)
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸)
     public List<PostDTO> selectPostsByUserId(int user_id) {
         return sqlSession.selectList(namespace + "selectPostsByUserId", user_id);
     }
     
-	//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½
 	public  List<ReviewDTO> selectReviewsByUserId(int user_id) {
 			return sqlSession.selectList(namespace+"selectReviewsByUserId", user_id);
 	}
 
-	//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â(¼öÁ¤)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½)
 	  public void updateReview(int review_id, int review_rate, String review_content) {
 		  sqlSession.update(namespace+"updateReview",
 	  Map.of("review_id", review_id, "review_rate", review_rate, "review_content",
 	  review_content)); }
 	  
-	//¸¶ÀÌÆäÀÌÁö - ³»°¡ ÀÛ¼ºÇÑ ÈÄ±â(»èÁ¦)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½(ï¿½ï¿½ï¿½ï¿½)
 	  public void deleteReview(int review_id) {
 		  sqlSession.delete(namespace+"deleteReview",review_id);
 		}
 	  
-	//¸¶ÀÌÆäÀÌÁö - ³ªÀÇ ½Å°í³»¿ª
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½
 	  public List<ReportDTO> selectReportsByUserId(int user_id){
 		  return sqlSession.selectList(namespace + "selectReportsByUserId", user_id);
 	  }
 	  
-	// ¸¶ÀÌÆäÀÌÁö - È¸¿øÁ¤º¸¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void updateUserInfo(UserDTO user) {
 //	    sqlSession.updateUserInfo(namespace+"updateUserInfo",user);
 	    sqlSession.update(namespace+"updateUserInfo",user);

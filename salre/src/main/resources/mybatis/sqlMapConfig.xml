@@ -22,6 +22,12 @@
 		<typeAlias type="com.salre.main.product.RegionDTO" alias="regionVO"/>
 		<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanVO" />
 		<typeAlias type="com.salre.main.notify.NotifyDTO" alias="notifyVO" />
+		<typeAlias type="com.salre.main.board.BoardDTO" alias="boardDTO" />
+		<typeAlias type="com.salre.main.board.CommentDTO" alias="commentDTO" />
+		<typeAlias type="com.salre.main.board.PageDTO" alias="pageDTO" />
+		<typeAlias type="com.salre.main.contract.ContractDTO" alias="contractVO" />
+		<typeAlias type="com.salre.main.contract.ContractUserDTO" alias="contractuserVO" />
+		<typeAlias type="com.salre.main.product.ProductContractDTO" alias="productcontractVO" />
 	</typeAliases>
 
 </configuration> 

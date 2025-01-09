@@ -60,6 +60,11 @@ public class ProductService {
 	public int incrementViewCount(int product_id) {
 		return productDAO.incrementViewCount(product_id);
 	}
+	
+	
+	public ProductDTO selectByContractId(int contract_id) {
+		return productDAO.selectByContractId(contract_id);
+	}
 }
 
 

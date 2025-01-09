@@ -15,6 +15,9 @@ public class ProductDAO implements ProductInterface {
 	SqlSession sqlSession;
 	
 	String namespace = "com.salre.main.product.";
+	public ProductDTO selectByContractId(int contract_id) {
+			return sqlSession.selectOne(namespace + "selectByContractId",contract_id);	
+	}
     public List<ProductDTO> selectAllProducts() {
         // SQL 쿼리 호출
         List<ProductDTO> productlist = sqlSession.selectList(namespace + "selectAllProducts");

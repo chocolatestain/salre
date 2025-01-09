@@ -30,7 +30,6 @@ public class RegionDAO implements RegionInterface {
 
 	public int insertRegion(RegionDTO region) {
 		int result = sqlSession.insert(namespace + "insert");
-
 		return result;
 	}
 

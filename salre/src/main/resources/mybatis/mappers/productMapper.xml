@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salre.main.product">
-
+	
+	<select id="selectByContractId" parameterType="productVO" resultType="productVO">
+		select *
+		from product
+		join contract
+		using (product_id)
+		where contract_id = #{contract_id}
+	</select>
     <insert id="insert" parameterType="productVO">
         INSERT INTO product 
 		(product_id, user_id, region_id, product_name, payment_type, product_status, view_count, address, address_detail, deposit, rentfee, area, product_type, floor, enter_day, room_count, bath_count, approve_day, park_count, manage_fee, direction, description, land_type, land_area, building_structure, building_usage, rental_area)

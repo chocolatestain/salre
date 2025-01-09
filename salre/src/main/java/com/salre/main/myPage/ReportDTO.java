@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReportDTO {
-	private int user_id;// È¸¿ø¹øÈ£
-	private int product_id;// ¸Å¹°¹øÈ£
-	private int report_class;// ½Å°íºÐ·ù 1.°Ô½Ã±Û½Å°í 2.ÇãÀ§¸Å¹°½Å°í 3.»ç¿ëÀÚ½Å°í
-	private String report_content;//½Å°í³»¿ë
+	private int user_id;// È¸ï¿½ï¿½ï¿½ï¿½È£
+	private int product_id;// ï¿½Å¹ï¿½ï¿½ï¿½È£
+	private int report_class;// ï¿½Å°ï¿½ï¿½Ð·ï¿½ 1.ï¿½Ô½Ã±Û½Å°ï¿½ 2.ï¿½ï¿½ï¿½ï¿½ï¿½Å¹ï¿½ï¿½Å°ï¿½ 3.ï¿½ï¿½ï¿½ï¿½Ú½Å°ï¿½
+	private String report_content;//ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 }
