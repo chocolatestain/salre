@@ -62,27 +62,6 @@
 	    <welcome-file>default.htm</welcome-file>
   	</welcome-file-list>
 
-	<!-- Character Encoding Filter 설정 -->
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<async-supported>true</async-supported>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-
-	<!-- Character Encoding Filter 매핑 -->
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
 	<!-- Session Timeout 설정 -->
 	<session-config>
 		<session-timeout>30</session-timeout> <!-- 30분 -->
