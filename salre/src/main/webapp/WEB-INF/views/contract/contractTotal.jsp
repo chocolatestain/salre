@@ -145,11 +145,6 @@
             alert("새 창을 열 수 없습니다. 팝업 차단을 확인하세요.");
         }
     }
-// 판매자에게 보내기
-function goToSeller() {
-	
-			window.location.href = contextPath +`/contract/dealcheck/${contract.contract_id}`;
-		}
-	</script>
+</script>
 </body>
 </html>

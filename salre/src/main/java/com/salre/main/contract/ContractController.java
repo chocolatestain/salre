@@ -83,20 +83,15 @@ public class ContractController {
 		@GetMapping("/dealcheck/{contract_id}")
 		public String landlordContract(@PathVariable(required = true) int contract_id, HttpServletRequest request,Model model) {
 			HttpSession session = request.getSession();
-			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
-			
-			int p_id = (int)request.getAttribute("product_id");
-			int user_id = user.getUser_id();
-			
-		
-			
+			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");//판매자
+			session.setAttribute("landlord_id",user.getUser_id());//판매자 id
 			ContractDTO contract = contractService.getContractById(contract_id);
+			session.setAttribute("contract", contract);
 			ProductDTO product = productService.selectByContractId(contract_id);
-			 user = userService.getUserById(product.getUser_id());
 			
 			model.addAttribute("contract", contract);
 			model.addAttribute("product", product);
-			model.addAttribute("user", user);
+			model.addAttribute("user", user);//판매자
 			return "contract/contractDetailLandlord";
 		}
 	
@@ -217,11 +212,11 @@ public class ContractController {
 			@GetMapping("/additionalInfo")
 			public String showAdditionalInfoPage(HttpSession session, Model model) {
 				// 계약 정보 가져오기
-				
-				Integer contractId = (Integer) session.getAttribute("contract_id"); // 세션에 contract_id넣어야함
-				//int contractId = 1313;//임시
-				ContractDTO contract = contractService.getContractById(contractId);
+				int landlord_id = (int) session.getAttribute("landlord_id");
+				ContractDTO contract = (ContractDTO)session.getAttribute("contract"); // 세션에 contract_id넣어야함
 				model.addAttribute("contract", contract);
+				
+				
 				// 추가 정보 입력 페이지로 이동
 				return "contract/additionalInfo"; // additionalInfo.jsp 파일
 			}
@@ -231,7 +226,7 @@ public class ContractController {
 				HttpSession session) {
 				
 			// 세션에서 contract_id 가져오기
-			Integer contractId = (Integer) session.getAttribute("contract_id");
+			ContractDTO contract = (ContractDTO) session.getAttribute("contract");
 				
 			// Map에서 값 추출
 			String account = formData.get("account");
@@ -239,9 +234,9 @@ public class ContractController {
 			String bank_name = formData.get("bank_name");
 				
 			// 추가 정보 저장
-			contractService.updateAdditionalInfo(contractId, account, account_name, bank_name);
+			contractService.updateAdditionalInfo(contract.contract_id, account, account_name, bank_name);
 			// 다음 단계로 리다이렉트
-			return "redirect:/contract/viewContract/"+contractId; // 다음 단계 JSP
+			return "redirect:/contract/viewContract/"+contract.contract_id; // 다음 단계 JSP
 			}
 		
 		
@@ -299,12 +294,19 @@ public class ContractController {
 				model.addAttribute("contract",contract);
 				return "contract/viewSignContract"; // 계약서 이미지를 보여주는 JSP
 			}
-			
+			//임차인 계약서 서명
+			@GetMapping("/signTenantContract/{contract_id}")
+			public String signTenantContract(@PathVariable(required = true) Integer contract_id, Model model) {
+				ContractDTO contract = contractService.getContractById(contract_id);	
+				model.addAttribute("contract",contract);
+				return "contract/signTenantContract"; // 계약서 이미지를 보여주는 JSP
+			}
 			
 	     //임차인 서명
 	     @PostMapping("/tenant-sign/{contract_id}")
 	     public ResponseEntity<?> addTenantSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {
-	         try {
+	         
+	    	 try {
 	             String signatureData = requestData.get("signature");
 	             String basePath = request.getSession().getServletContext().getRealPath(".");
 	             String imagePath = contractService.addTenantSignature(signatureData, contract_id, basePath);

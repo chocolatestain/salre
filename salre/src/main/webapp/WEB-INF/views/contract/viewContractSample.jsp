@@ -29,7 +29,7 @@
 			<button type="button" class="btn btn-primary" onclick="goToSeller()">계약서
 				확인 요청</button>
 			<a href="${path}/resources/pdf/contract_sample_${contract_id}.pdf"
-				class="btn btn-primary" download>PDF 다운로드</a>
+				class="btn btn-primary" download>계약서 다운로드</a>
 		</div>
 	</form>
 
@@ -41,7 +41,7 @@
 			// 알림 내용 입력
 			const notify_content = `계약 요청을 받았어요.<br>계약사항을 확인하고 서명을 해주세요.`;
 			// 알림 클릭 시 이동할 URL
-			const notify_url = "${pageContext.request.contextPath}/";
+			const notify_url = "${pageContext.request.contextPath}/contract/dealcheck/${contract_id}";
 
 			$.ajax({
 				type : "POST",

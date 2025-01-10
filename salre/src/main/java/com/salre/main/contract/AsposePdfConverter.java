@@ -15,7 +15,7 @@ public class AsposePdfConverter {
 	         // PDF 저장 옵션 설정
 	            PdfSaveOptions saveOptions = new PdfSaveOptions();
 	            saveOptions.setOnePagePerSheet(false); // 시트 크기에 따라 페이지 나누기
-	            String pdfPath = basePath + "/pdf/contract_sample_"+contract_id +".pdf";
+	            String pdfPath = basePath + "/resources/pdf/contract_sample_"+contract_id +".pdf";
 	            	
 	         // PDF로 저장
 	            workbook.save(pdfPath, saveOptions);

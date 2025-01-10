@@ -35,6 +35,7 @@ public class ContractService {
 	@Qualifier("UserDAO")
 	public UserDAO userDAO;
 	
+	
 	// 계약 ID로 조회
     public ContractDTO getContractById(int contract_id) {
         return contractDAO.selectById(contract_id);
@@ -214,7 +215,7 @@ public class ContractService {
         File outputFile = new File(filePath);
         ImageIO.write(resizedImage, "png", outputFile);
 
-        //System.out.println("Resized signature image saved at: " + filePath);
+        System.out.println("Resized signature image saved at: " + filePath);
     }
    
     //계약서 생성 및 샘플 조회
@@ -242,11 +243,11 @@ public class ContractService {
         saveSignatureImage(signatureData, signaturePath);
 
         // 2. 엑셀에 서명 삽입
-        String excelPath = basePath + "/excel/contract_Sample_"+contract_id+".xlsx";
+        String excelPath = basePath + "/resources/excel/contract_Sample_"+contract_id+".xlsx";
         String landlord_excelPath =   ExcelWriter.insertImageIntoExcel(excelPath, signaturePath, "V48"); // 임대인 서명 위치 V48
 
         // 3. PDF 및 이미지 변환 
-        String pdfDirectory = basePath + "/pdf/landlord/";
+        String pdfDirectory = basePath + "/resources/pdf/landlord/";
         String newPdfPath = AsposePdfConverter.convertExcelToOtherPdf(landlord_excelPath,pdfDirectory,contract_id);
         
         String imageDirectory = basePath+"/resources/paperImages";
@@ -257,15 +258,15 @@ public class ContractService {
    //임차인 서명
     public String addTenantSignature(String signatureData, int contract_id, String basePath) throws Exception {
         // 1. 서명 이미지 저장
-        String signaturePath = basePath + "resources/signatures/tenant_" + contract_id + ".png";
+        String signaturePath = basePath + "/resources/signatures/tenant_" + contract_id + ".png";
         saveSignatureImage(signatureData, signaturePath);
 
         // 2. 엑셀에 서명 삽입
-        String excelPath = basePath + "/excel/landlord/contract_Sample" + contract_id + ".xlsx";
+        String excelPath = basePath + "/resources/excel/landlord/contract_Sample_" + contract_id + ".xlsx";
         String tenant_excelPath = ExcelWriter.insertImageIntoExcel(excelPath, signaturePath, "V51"); // 임차인 서명 위치 V51
 
         // 3. 최종 PDF 및 이미지 변환
-        String pdfDirectory = basePath + "/pdf/tenant/";
+        String pdfDirectory = basePath + "/resources/pdf/tenant/";
         String newPdfPath = AsposePdfConverter.convertExcelToOtherPdf(tenant_excelPath,pdfDirectory,contract_id);
     
        // String imageName = "/resources/paperImages/" + UUID.randomUUID() + "_final_contract.png";
