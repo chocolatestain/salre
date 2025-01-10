@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
- 
+ 	<%@ include file="../common/header.jsp" %>
 <style>
     /* 기본 설정 */
     body, html {
@@ -90,6 +91,7 @@
       max-width: 1200px;
       padding: 20px;
       box-sizing: border-box;
+      margin-top : 200px;
     }
 
     /* 왼쪽, 오른쪽 패널 스타일 */
@@ -274,6 +276,7 @@
       .screen {
         grid-template-columns: 1fr;
         padding: 10px;
+        margin-top : 300px;
       }
 
       .left, .right {
@@ -290,16 +293,16 @@
 	  }      
     } 
     .status-before {
-        color: green;
+        color: green !important;
     }
     .status-in-progress {
-        color: orange;
+        color: orange !important;
     }
     .status-completed { 
-        color: gray;
+        color: gray !important;
     }
     .status-unknown { 
-        color: red;
+        color: red !important;
     }
  	#price-row{
 	    display: flex; /* Flexbox를 사용하여 자식 요소를 가로로 배치 */
@@ -307,26 +310,28 @@
 	    align-items: center; /* 세로 중앙 정렬 */
 
  	}
+ 	   .chat-button {
+ 	    display: block; 
+  
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #f4a261;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .chat-button:hover {
+            background-color: #80543E;
+        }
   </style>
 
 </head>
 <body>
-  <header>
-    <div class="logo" onclick="location.href='/salre'" style="cursor: pointer;">살래?</div>
 
-    <nav>
-      <a href="#">대출상품</a>
-      <a href="#">채팅</a>
-      <a href="#">게시판</a>
-      <a href="#">매물</a>
-      <a href="#">관심매물</a>
-      <a href="#">방내놓기</a>
-    </nav>
-    <div class="auth">
-      <a href="login.jsp">로그인</a>
-      <a href="register.jsp">회원가입</a>
-    </div>
-  </header>
 
   <div class="screen">
     <div class="left"> 
@@ -371,10 +376,7 @@
           </div>
         </div>
         <div class="right">
-    
-	
-	
-	
+  
           <div class="product-info">
                       <div style="display: flex; justify-content: space-between; align-items: center;">
               <p class="product-descript-name" style="margin-top : 30px;">상세 내용</p>
@@ -437,12 +439,24 @@
    <script>  
     let map; // 전역 변수로 지도 객체 생성
     const query = "${product.address }"
+ 
+
     window.onload = function () {
-         
+ 
         if (query) {
+            console.log("query : " + query);
             searchAddress();
+        } else {
+            console.log('query가 없음');
         }
+  
+	        const depositElement = document.getElementById('product_deposit');
+	        const depositValue = parseInt(depositElement.innerText, 10); 
+	        
+	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + '</h2>';
+ 
     };
+
     
     // Kakao 지도 초기화 함수
     function initMap(x, y) {
@@ -466,11 +480,11 @@
         map.setCenter(new kakao.maps.LatLng(y, x));
     }
 
-    async function searchAddress() {
-         
- 
-        const encodedQuery = encodeURIComponent(query);
+    async function searchAddress() { 
+    	
+        const encodedQuery = encodeURIComponent(query); 
         const apiUrl = `https://dapi.kakao.com/v2/local/search/address.json?query=\${encodedQuery}`;
+        console.log("API 요청 URL: " + apiUrl); // 여기서 로그 출력
 
         try {
             const response = await fetch(apiUrl, {
@@ -481,6 +495,7 @@
             });
 
             if (!response.ok) {
+            	console.log("API 호출 실패: " + response.status);
                 throw new Error("API 호출 실패: " + response.status);
             }
 
@@ -509,8 +524,14 @@
 		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-		
-		<script>
+			
+	<button id="chatButton" class="chat-button">채팅하기</button>
+ 	   <script>
+        // 버튼 클릭 이벤트 추가
+        document.getElementById("chatButton").addEventListener("click", function () {
+            window.location.href = "${contextPath}/chat/main";
+        });
+
 		  document.getElementById("address").addEventListener("click", function() {
 		    var copyText = document.getElementById("address");
 		    var notification = document.getElementById("copyNotification");
@@ -573,18 +594,8 @@
 	        return result.join(" ");
 	    }
 	    
-	    window.onload = function() {
-	    	 
-	        const depositElement = document.getElementById('product_deposit');
-	        const depositValue = parseInt(depositElement.innerText, 10);
-	        console.log("aaa:" +depositValue + ":" + formatNumber(depositValue));
-	        
-	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + '</h2>';
-	        
- 
-	    };
+
 	</script> 
-	
-	
+
 </body> 
 </html>
