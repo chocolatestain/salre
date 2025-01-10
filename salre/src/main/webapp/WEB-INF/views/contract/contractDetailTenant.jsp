@@ -117,11 +117,12 @@
 
         <!-- 제출 버튼 -->
         <div class="button-group">
-        	<button type="button" class="btn btn-secondary">취소</button>
+        	
         	<form action="${path}/contract/inputContract" method = "post">
+        	<button type="button" class="btn btn-secondary">취소</button>
+        	   <input type="submit" class="btn btn-primary"  value="다음" />
         	   <input type="hidden" name="product_id" value="${product.product_id}">
         	   <input type="hidden" name="user_id" value="${P_user.user_id}">
-        	   <input type="submit" class="btn btn-primary"  value="다음" />
         	</form>
             
             
