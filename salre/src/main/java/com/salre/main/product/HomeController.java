@@ -1,9 +1,17 @@
 package com.salre.main.product;
  
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,22 +21,33 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class HomeController {
     @Autowired
-    private ProductService productservice;
+    private ProductService productService;
     @Autowired
-    private RegionService regionservice;
+    private RegionService regionService;
+    
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("productCount", productservice.countProduct());
-        model.addAttribute("regionCount", regionservice.countRegion()); 
-        System.out.println("Region Count : " + regionservice.countRegion());
-        System.out.println("Product Count : " + productservice.countProduct());
+        // 기존 데이터
+        model.addAttribute("productCount", productService.countProduct());
+        model.addAttribute("regionCount", regionService.countRegion());
+
         try {
-			model.addAttribute("regions", new ObjectMapper().writeValueAsString(regionservice.selectAllRegion()));
+            model.addAttribute("regions", new ObjectMapper().writeValueAsString(regionService.selectAllRegion()));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
  
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return "home";
-    } 
+        return "home"; // home.jsp로 이동
+    }
+    
+    @PostMapping("/nearby-products")
+    @ResponseBody
+    public List<ProductDTO> getNearbyProducts(@RequestBody Map<String, String> regionData) {
+        String regionName = regionData.get("region"); // ex: 강남구
+        System.out.println("2222222222Regiondata , controller : " + regionData);
+        // 지역코드 조회
+        int regionCode = regionService.selectIdByRegion(regionName); 
+        // 매물 정보 조회
+        return productService.findProductsByRegionCode(regionCode);
+    }
 }

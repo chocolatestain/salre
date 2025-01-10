@@ -524,7 +524,7 @@
 		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-	<form action="${contextPath}/chat/createChatRoom" method="post">
+	<form action="${contextPath}/chat/createChatRoom.do" method="post">
 		<input type="hidden" name="product_id" value="${product.product_id}">
 		<input type="hidden" name="product_user_id" value="${product.user_id}">
 		<input type="hidden" name="product_name" value="${product.product_name}">

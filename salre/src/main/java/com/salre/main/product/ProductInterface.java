@@ -13,5 +13,6 @@ public interface ProductInterface {
 	public List<ProductDTO> searchByConditions(ProductDTO productDTO);
     public int countProduct();
     public int nextId();
-	public int incrementViewCount(int product_id); 
+	public int incrementViewCount(int product_id);
+	public List<ProductDTO> findProductsByRegionCode(int regionCode); 
 }
