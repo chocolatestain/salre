@@ -307,8 +307,8 @@
 
                  <div class="form-group">
                     <label for="name">Name</label>
-                 <%--    <input type="text" id="name" name="user_name"  value="${sessionScope.certifiedName}"  readonly> --%>
-                    <input type="text" id="name" name="user_name"  value="test18"  readonly>
+                     <input type="text" id="name" name="user_name"  value="${sessionScope.certifiedName}"  readonly> 
+                    <!-- <input type="text" id="name" name="user_name"  value="test18"  readonly> -->
                 </div>
 
          
@@ -322,8 +322,8 @@
 
 				<label for="birthday">ResidentNum</label>
 				<div class="form-group-inline">
-                <input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>
-                    <input type="text" id="birthday2" name="auth_seller"  placeholder="Lastdigits of ResidentRegistrationNumber" ><br>
+                	<input type="text" id="birthday" name="resident_num"  value="${sessionScope.certifiedBirthday}" readonly>
+                    <input type="text" id="birthday2" name="resident_num2"  placeholder="Lastdigits of ResidentRegistrationNumber" ><br>
                 </div>
 				<br>	
 
