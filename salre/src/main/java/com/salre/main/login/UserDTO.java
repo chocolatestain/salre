@@ -17,6 +17,6 @@ public class UserDTO {
     private String resident_num; // �ֹε�Ϲ�ȣ
     private String address; // �ּ�
     private String address_detail; // �� �ּ�
-    private String auth_seller; // �����ڵ�
+    private String resident_num2; // �����ڵ�
 	
 }

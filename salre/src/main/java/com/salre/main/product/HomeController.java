@@ -24,6 +24,7 @@ public class HomeController {
         System.out.println("Product Count : " + productservice.countProduct());
         try {
 			model.addAttribute("regions", new ObjectMapper().writeValueAsString(regionservice.selectAllRegion()));
+ 
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
