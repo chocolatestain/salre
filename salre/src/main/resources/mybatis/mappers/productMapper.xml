@@ -76,4 +76,10 @@
 	SET view_count = view_count + 1
 	WHERE product_id = #{product_id}
 </select>
+<select id ="findProductsByRegionCode" parameterType ="int" resultType = "productVO">
+	SELECT * 
+	FROM product
+	WHERE region_id = #{region_id}
+	LIMIT 10
+</select>
 </mapper>
