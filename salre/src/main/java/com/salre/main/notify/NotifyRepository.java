@@ -19,6 +19,12 @@ public class NotifyRepository {
         return sqlSession.selectList(namespace + "select", user_id);
     }
 
+    // 읽지 않은 알림 개수 조회
+    public int selectUnread(int user_id) {
+        int count = sqlSession.selectList(namespace + "selectUnread", user_id).size();
+        return count;
+    }
+
     // 알림 생성
     public void insert(NotifyDTO nofityDTO) {
         nofityDTO.setNotify_time(new Timestamp(System.currentTimeMillis())); // 알림 시간을 현재 시간으로 설정

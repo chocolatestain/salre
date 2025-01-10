@@ -30,7 +30,7 @@ public class MyPageController {
 	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙占쏙옙占쏙옙
 	@GetMapping("/myPage")
 	public String userInfo(HttpSession session, Model model) {	    
-		return "myPage/myPage";	
+		return "myPage/myPage";
 	}
 	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙占쏙옙占쏙옙
  
