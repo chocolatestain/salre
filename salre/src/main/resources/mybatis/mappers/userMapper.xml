@@ -8,8 +8,8 @@
 
    <!-- 회원가입 -->
     <insert id="insertUser" parameterType="userVO">
-        INSERT INTO user (id, password, user_name, phone_num, email, resident_num, address, address_detail, auth_seller)
-        VALUES (#{id}, #{password}, #{user_name}, #{phone_num}, #{email}, #{resident_num}, #{address}, #{address_detail}, #{auth_seller})
+        INSERT INTO user (id, password, user_name, phone_num, email, resident_num, address, address_detail, resident_num2)
+        VALUES (#{id}, #{password}, #{user_name}, #{phone_num}, #{email}, #{resident_num}, #{address}, #{address_detail}, #{resident_num2})
     </insert>
 
 

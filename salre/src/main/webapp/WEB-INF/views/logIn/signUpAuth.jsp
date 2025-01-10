@@ -116,7 +116,13 @@
     
      <script>
     // 포트원 SDK 초기화
-    IMP.init("imp74358381"); // 예: imp00000000
+    IMP.init("imp74358381"); // 예: imp00000000 
+    /* window.onload = function(){
+    	console.log("${impKey2}");
+    	IMP.init("${impKey2}"); // 예: imp00000000
+    	
+    	
+    }; */
      
    function requestCertification() {
  	// IMP.certification(param, callback) 호출
@@ -126,6 +132,8 @@
         channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
         merchant_uid: "ORD" + new Date().getTime(),  //"ORD20180131-0000011", // 주문 번호
         popup: false
+        
+        
         //m_redirect_url: "{https://your-service.com/signup/complete}", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
         //popup: false, // PC환경에서는 popup 파라미터가 무시되고 항상 true 로 적용됨
       },
