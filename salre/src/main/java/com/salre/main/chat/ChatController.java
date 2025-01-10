@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,8 +12,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserService;
+import com.salre.main.product.ProductDTO;
+import com.salre.main.product.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,28 +33,67 @@ public class ChatController {
 	ChatService chatService;
 	
 	@Autowired
+	UserService userService;
+	
+	@Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 	
 	// 채팅 메인 화면
 	@GetMapping("/main")
 	public String main(HttpServletRequest request, Model model) {
 		// 로그인 정보(세션) 가져오기
-//		HttpSession session = request.getSession();
-//		UserDTO userDTO = session.getAttribute("loggedInUser");
+		HttpSession session = request.getSession();
+		UserDTO userDTO = (UserDTO) session.getAttribute("loggedInUser");
 		
-//		Integer user_id = userDTO.getUser_id();
-		Integer user_id = 3; // 채팅 시작하는 사람(보내는 사람, 세션 값에서 가져오기) 3, 5
-//		String user_name = userDTO.getUser_Name();
-		String user_name = "홍길동"; // 세션 값에서 가져오기; 홍길동, 판매자
+		Integer user_id = userDTO.getUser_id(); // 회원 번호
 		
 		// 매물 정보 가져오기
-		Integer product_id = 50; // 매물 번호
-		String product_name = "매물A"; // 매물 이름
-		String room_name = product_name + "(" + user_id + ":" + user_name + ")";
+		ProductDTO productDTO = chatService.getProductByUserId(user_id);
+		
+		List<ChatRoomDTO> chatRoomDTOList = null;
+		if (productDTO != null) {
+			Integer product_id = productDTO.getProduct_id(); // 매물 번호
+			
+			ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
+														   .product_id(product_id).build();
+			
+			// 채팅방 정보 조회(user_id, product_id)
+			chatRoomDTOList = chatService.selectByUserIdService(chatRoomDTO);
+		} else {
+			// 채팅방 정보 조회(user_id)
+			chatRoomDTOList = chatService.getChatRoomInfoService(user_id);
+		}
+		
+		model.addAttribute("chatRoomDTOList", chatRoomDTOList);
+		
+		return "chat/chatMain";
+	}
+	
+	// 채팅방 생성
+	@PostMapping("/createChatRoom")
+	public String createChatRoom(HttpServletRequest request,
+			@RequestParam("product_id") String product_id,
+			@RequestParam("product_user_id") String product_user_id,
+			@RequestParam("product_name") String product_name, Model model) {
+		// 로그인 정보(세션) 가져오기
+		HttpSession session = request.getSession();
+		UserDTO userDTO = (UserDTO) session.getAttribute("loggedInUser");
+		
+		Integer user_id = userDTO.getUser_id();
+		String user_name = userDTO.getUser_name();
+		
+		// 매물 정보 받아오기(product/detail.jsp에서)
+		Integer productId = Integer.parseInt(product_id); // 매물 번호
+		Integer productUserId = Integer.parseInt(product_user_id); // 매물 등록한 사람의 user_id
+		
+		UserDTO userDTO2 = userService.getUserById(productUserId);
+		String product_user_name = userDTO2.getUser_name(); // 매물 등록한 사람의 이름
+		
+		String room_name = product_name + "(" + user_name + ", " + product_user_name + ")";
 		
 		ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
 													   .room_name(room_name)
-													   .product_id(product_id).build();
+													   .product_id(productId).build();
 		
 		// 채팅방 생성 시 중복 확인
 		int result = chatService.checkDupChatRoomService(chatRoomDTO);
@@ -54,13 +101,7 @@ public class ChatController {
 			chatService.createChatRoom(chatRoomDTO);
 		}
 		
-		// 채팅방 정보 조회(user_id, product_id)
-		List<ChatRoomDTO> chatRoomDTOList = chatService.selectByUserIdService(chatRoomDTO);
-		
-		model.addAttribute("chatRoomDTOList", chatRoomDTOList);
-//		model.addAttribute("loggedInUser", session);
-		
-		return "chat/chatMain";
+		return "redirect:/chat/main";
 	}
 	
 	// 채팅방 입장

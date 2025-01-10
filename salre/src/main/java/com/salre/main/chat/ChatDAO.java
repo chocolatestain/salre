@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.salre.main.product.ProductDTO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,6 +41,14 @@ public class ChatDAO implements ChatDAOInterface {
 		
 		return chatRoomDTOList;
 	}
+	
+	// 채팅방 정보 조회(user_id)
+	public List<ChatRoomDTO> getChatRoomInfo(Integer user_id) {
+		List<ChatRoomDTO> chatRoomDTOList = sqlSession.selectList(namespace + "getChatRoomInfo", user_id);
+		log.info("[getChatRoomInfo] chatRoomDTOList : " + chatRoomDTOList);
+		
+		return chatRoomDTOList;
+	}
 
 	// 채팅방 정보 조회(chatRoom_id)
 	public ChatRoomDTO selectByChatRoomId(Integer chatRoom_id) {
@@ -66,6 +76,14 @@ public class ChatDAO implements ChatDAOInterface {
 	public void updateIsCheck(HashMap<String, Integer> map) {
 		sqlSession.update(namespace + "updateIsCheck", map);
 		log.info("[updateIsCheck] 성공!");
+	}
+
+	// 매물 정보 가져오기
+	public ProductDTO getProductByUserId(Integer user_id) {
+		ProductDTO productDTO = sqlSession.selectOne(namespace + "getProductByUserId", user_id);
+		log.info("[getProductByUserId] productDTO : " + productDTO);
+		
+		return productDTO;
 	}
 
 }
