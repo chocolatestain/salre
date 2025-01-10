@@ -50,22 +50,32 @@
 		        <!-- Nav Main menu -->
 		        <ul class="navbar-nav mx-auto">
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/loan/main">대출 상품</a></li>
-		            <li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a></li>
+		            <c:choose>
+	        			<c:when test="${not empty sessionScope.loggedInUser}">
+		        			<li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a></li>
+	        			</c:when>
+	        			<c:otherwise>
+	        				<li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main.do">채팅</a></li>
+	        			</c:otherwise>
+	        		</c:choose>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/board/list">게시판</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product?search=">매물</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product/insert">방내놓기</a></li>
 		        </ul>
 		        
 		        <div class="auth">
-        		<c:choose>
-                <c:when test="${not empty sessionScope.loggedInUser}">
-                    <!-- 로그인 상태일 때 -->
-                    <a href="${contextPath }/logout">로그아웃</a> 
-                   <a href="${contextPath }/transactions">마이페이지</a>
-                </c:when> 
-                       </c:choose>
-                       		             <a href="${contextPath }/login">로그인</a>
-		            <a href="${contextPath}/signup">회원가입</a> 
+	        		<c:choose>
+	        			<c:when test="${not empty sessionScope.loggedInUser}">
+	        				<!-- 로그인 상태일 때 -->
+		        			<a href="${contextPath}/logout">로그아웃</a>
+		        			<a href="${contextPath}/transactions">마이페이지</a>
+	        			</c:when>
+	        			<c:otherwise>
+	        				<!-- 로그아웃 상태일 때 -->
+	        				<a href="${contextPath}/login">로그인</a>
+	        				<a href="${contextPath}/signup">회원가입</a>
+	        			</c:otherwise>
+	        		</c:choose>
 		        </div>
 	    	</nav>
 	    </div>

@@ -70,7 +70,7 @@ public class ChatController {
 	}
 	
 	// 채팅방 생성
-	@PostMapping("/createChatRoom")
+	@PostMapping("/createChatRoom.do")
 	public String createChatRoom(HttpServletRequest request,
 			@RequestParam("product_id") String product_id,
 			@RequestParam("product_user_id") String product_user_id,
