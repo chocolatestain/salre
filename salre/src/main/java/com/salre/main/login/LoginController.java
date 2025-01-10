@@ -34,37 +34,48 @@ import com.salre.main.myPage.ReportDTO;
 @Controller
 //@RequestMapping("/salre")
 public class LoginController {
-	@Value("${impKey}")
-	private String impKey;
+	 
+	/*
+	 * @Value("${impKey}") private String impKey;
+	 * 
+	 * @Value("${impKey2}") private String impKey2;
+	 * 
+	 * @Value("${impSecret}") private String impSecret;
+	 */
+	   
+	 //  private static String impKey = 
+	  
 
-	@Value("${impKey2}")
-	private String impKey2;
-
-	@Value("${impSecret}")
-	private String impSecret;
- 
 	@Autowired
 	private UserService userService;
 	
 //	@Autowired 
 //	ProductService productService; //?�� 코드 ?��칠경?��
 	
-	// 본인?���? ?��?���?
+	// 본인인증 페이지
 	@GetMapping("/signup")
-	public String signupPage() {
+	public String signupPage(Model model) {
+		
+		/*
+		 * System.out.println(impKey); System.out.println(impKey2);
+		 * System.out.println(impSecret);
+		 * 
+		 * model.addAttribute("impKey2", impKey2);
+		 */
+		
 		return "logIn/signUpAuth"; // signup.jsp 반환
 	}
 	
 	
-	  // 본인?���? 처리
+	  // 본인인증 처리
 	  @PostMapping("/certify")
-//	  @ResponseBody //메서?��?�� 반환값을 JSON ?��?�� 문자?���? 같�? HTTP ?��?�� 본문?�� 직접 ?��?��
+	//메서드의 반환값을 JSON 또는 문자열과 같은 HTTP 응답 본문에 직접 포함
 	  public ResponseEntity<String> processCertification(@RequestParam("certificationResult") boolean certificationResult, HttpSession session){ 
 	  if(certificationResult) {
-	  session.setAttribute("isCertified", true); // ?���? ?���? ?��?�� ???�� return
+	  session.setAttribute("isCertified", true); // 인증 성공 상태 저장 return
 	  return ResponseEntity.ok("Certification Successful"); 
 	  }else {
-	  session.setAttribute("isCertified", false); // ?��?�� ?��?�� ?��?�� ???�� return
+	  session.setAttribute("isCertified", false); // 인등 실패 상태 저장 return
 	  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Certification Failed"); 
 	  	}
 	  }
@@ -74,17 +85,17 @@ public class LoginController {
 			return "common/logout";
 		}
 	
-	// ?��?���??�� 처리
+		// 회원가입 처리
 	@PostMapping("/signup")
 	public String registerUser(UserDTO user, Model model) {
 		int result = userService.registerUser(user);
-		model.addAttribute("message", result > 0 ? "?��?���??�� ?���?" : "?��?���??�� ?��?��");
+		model.addAttribute("message", result > 0 ? "회원가입 성공" : "회원가입 실패");
 		
-		return "redirect:login"; // ?��?���??�� ?�� 로그?�� ?��?���?�? ?��?�� //salre/ 추�??��?��
+		return "redirect:login"; // 회원가입 후 로그인 페이지로 이동 //salre/ 추가했음
 	}
 
 	
-	// ?��?��?��보입?�� ?��?���?
+	// 회원정보입력 페이지
 		@GetMapping("/signUpInfo")
 		public String signupInfoPage() {
 			return "logIn/signUpInfo"; // signup.jsp 반환
@@ -94,23 +105,23 @@ public class LoginController {
 		
 		
 		
-/*		
-	// ?��?��?��보입?�� ?��?���?
-	@GetMapping("/signUpInfo")
-	public String signUpInfoPage(HttpSession session) {
-		// 본인?���? ?���? ?��?��(?��?��?�� ?���? ?���? ???��?��?���? �??��)
-		Boolean isCertified=(Boolean) session.getAttribute("isCertified");
-		
-		if(isCertified !=null&& isCertified) {
-			return "logIn/signUpInfo";//?��?��?��보입?�� ?��?���? 반환
-		}else {
-			return "redirect:/signup";//?��증이 ?��료되�? ?��?��?���? ?��?�� 본인?���? ?��?���?�? 리다?��?��?��
+		/*		
+		// 회원정보입력 페이지
+		@GetMapping("/signUpInfo")
+		public String signUpInfoPage(HttpSession session) {
+			// 본인인증 여부 확인(세션에 인증 여부 저장한다고 가정)
+			Boolean isCertified=(Boolean) session.getAttribute("isCertified");
+			
+			if(isCertified !=null&& isCertified) {
+				return "logIn/signUpInfo";//회원정보입력 페이지 반환
+			}else {
+				return "redirect:/signup";//인증이 완료되지 않았다면 다시 본인인증 페이지로 리다이렉트
+			}
 		}
-	}
+		
+		*/
 	
-	*/
-	
-	// 로그?�� ?��?���?
+		// 로그인 페이지
 	@GetMapping("/login")
 	public String loginPage() {
 		return "logIn/login"; // login.jsp 반환
@@ -376,18 +387,19 @@ public class LoginController {
 
 	
 	
-	// ?��?���??�� - 본인?���?
+	//회원가입-본인인증
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
-	public String rspTest(String imp_uid, HttpSession session) {
-	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+	public String rspTest(String imp_uid, HttpSession session, Model model) {
+	    String impKey = "3773152135261483";
 
+	    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 	    HttpRequest request = HttpRequest.newBuilder()
 	            .uri(URI.create("https://api.iamport.kr/users/getToken"))
 	            .header("Content-Type", "application/json")
 	            .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody))
 	            .build();
-
 	    HttpResponse<String> response = null;
 	    try {
 	        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
@@ -396,52 +408,45 @@ public class LoginController {
 	    }
 	    String jsonResponse = response.body();
 	    ObjectMapper objectMapper = new ObjectMapper();
-
 	    JsonNode rootNode = null;
 	    try {
 	        rootNode = objectMapper.readTree(jsonResponse);
 	    } catch (JsonProcessingException e) {
 	        e.printStackTrace();
 	    }
-
 	    String token = rootNode.path("response").path("access_token").asText();
-
 	    HttpRequest request2 = HttpRequest.newBuilder()
 	            .uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
 	            .header("Content-Type", "application/json")
 	            .header("Authorization", "Bearer " + token)
 	            .method("GET", HttpRequest.BodyPublishers.ofString(""))
 	            .build();
-
 	    HttpResponse<String> response2 = null;
 	    try {
 	        response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
 	    } catch (IOException | InterruptedException e) {
 	        e.printStackTrace();
 	    }
-
 	    String jsonResponse2 = response2.body();
 	    System.out.println("########JSON Response from API: " + jsonResponse2);
-
 	    try {
-	        // JSON ?��?��?�� ?��?�� �? ?��?�� ???��
+	        // JSON 데이터 파싱 및 세션 저장
 	        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
 	        if (userNode != null) {
 	            String name = userNode.path("name").asText(null);
 	            String phone = userNode.path("phone").asText(null);
 	            String birthday = userNode.path("birthday").asText(null);
-
-	            // ?��?��?��?�� ?���? �??�� (yyyy-MM-dd -> yyMMdd)
+	            // 생년월일 포맷 변환 (yyyy-MM-dd -> yyMMdd)
 	            if (birthday != null) {
 	                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
 	            }
 	            
-	            // ?��?��?�� ???��
+	            // 세션에 저장
 	            session.setAttribute("certifiedName", name);
 	            session.setAttribute("certifiedPhone", phone);
 	            session.setAttribute("certifiedBirthday", birthday);
-
+	           
 	            System.out.println("Session Data Saved:");
 	            System.out.println("Name: " + session.getAttribute("certifiedName"));
 	            System.out.println("Phone: " + session.getAttribute("certifiedPhone"));
@@ -450,14 +455,17 @@ public class LoginController {
 	    } catch (JsonProcessingException e) {
 	        e.printStackTrace();
 	    }
-
-	    return jsonResponse2; // JSON ?��?��?���? 그�?�? 반환
+	    return jsonResponse2; // JSON 데이터를 그대로 반환
 	}
-	// ?��?��?��보수?�� - 본인?��증버?��
+	// 회원정보수정 - 본인인증버튼
 		@ResponseBody
 		@PostMapping(value = "/rspTest3")
 		public String rspTest3(String imp_uid, HttpSession session) {
-		    String jsonBody = "{\"imp_key\":\"" + impKey2 + "\", \"imp_secret\":\"" + impSecret + "\"}";
+			
+		     String impKey = "3773152135261483";
+		    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+		    
+		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
 		    HttpRequest request = HttpRequest.newBuilder()
 		            .uri(URI.create("https://api.iamport.kr/users/getToken"))

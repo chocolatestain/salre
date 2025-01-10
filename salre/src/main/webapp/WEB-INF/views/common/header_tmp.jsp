@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+            <c:set var="contextPath" value="${pageContext.servletContext.contextPath}"></c:set>
+            <!DOCTYPE html>
+            <html>
+
+            <head>
+                <title>살래?</title>
+
+                <!-- Meta Tags -->
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+                <!-- jQuery -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+                <!-- Favicon -->
+                <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
+
+                <!-- Google Font -->
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link rel="stylesheet"
+                    href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap">
+
+                <!-- 외부 CSS -->
+                <link rel="stylesheet" href="${contextPath}/resources/css/header_tmp.css">
+            </head>
+
+            <body>
+                <!-- Header START -->
+                <header>
+                    <div class="logo">
+                        <nav>
+                            <a href="${contextPath}/">
+                                <div style="padding-right: 20px;"><img
+                                        src="${contextPath}/resources/images/favicon.ico"></div>
+                                <div>살래?</div>
+                            </a>
+                        </nav>
+                    </div>
+                    <div class="menu">
+                        <nav>
+                            <a href="${contextPath}/loan/main">대출상품</a>
+                            <a href="${contextPath}/chat/main" target="_blank">채팅</a>
+                            <a href="${contextPath}/board/list">게시판</a>
+                            <a href="${contextPath}/product?search=">매물</a>
+                            <a href="${contextPath}/product/insert">방내놓기</a>
+                        </nav>
+                    </div>
+                    <div class="auth">
+                        <a href="${contextPath}/login">로그인</a> <a href="${contextPath}/signup">회원가입</a>
+                    </div>
+                </header>
+                <!-- Header END -->
+            </body>
+
+            </html>

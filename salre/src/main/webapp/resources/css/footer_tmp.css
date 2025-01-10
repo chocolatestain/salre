@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #222;
+    color: #fff;
+    padding: 20px 0;
+}
+
+footer div {
+    text-align: left;
+}
+
+footer ul {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+footer li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #f4a261;
+    text-decoration: none;
+}
