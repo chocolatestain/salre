@@ -50,7 +50,7 @@
 		        <!-- Nav Main menu -->
 		        <ul class="navbar-nav mx-auto">
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/loan/main">대출 상품</a></li>
-		            <li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main" target="_blank">채팅</a></li>
+		            <li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/board/list">게시판</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product?search=">매물</a></li>
 		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product/insert">방내놓기</a></li>

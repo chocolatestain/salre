@@ -39,7 +39,7 @@ public class ChatController {
     private SimpMessagingTemplate simpMessagingTemplate;
 	
 	// 채팅 메인 화면
-	@GetMapping("/main")
+	@GetMapping("/main.do")
 	public String main(HttpServletRequest request, Model model) {
 		// 로그인 정보(세션) 가져오기
 		HttpSession session = request.getSession();
@@ -101,7 +101,7 @@ public class ChatController {
 			chatService.createChatRoom(chatRoomDTO);
 		}
 		
-		return "redirect:/chat/main";
+		return "redirect:/chat/main.do";
 	}
 	
 	// 채팅방 입장
