@@ -215,6 +215,44 @@
 
     </script> 
 			<%@ include file="common/footer.jsp" %>
+<<<<<<< HEAD
+=======
+
+			<script>
+				// 지도를 표시할 div
+				var mapContainer = document.getElementById('map1');
+				// 지도 옵션
+				var mapOption = { 
+					center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 서울 중심 좌표
+					draggable: false,
+					level: 8 // 확대 레벨
+				};
+				// 지도 생성
+				var map = new kakao.maps.Map(mapContainer, mapOption); 
+				
+				// 마커 이미지 설정
+				var imageSrc = 'https://cdn-icons-png.flaticon.com/512/5973/5973800.png',
+					imageSize = new kakao.maps.Size(40, 40),
+					imageOption = { offset: new kakao.maps.Point(20, 40) };
+				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+				
+				var regions = ${regions};  // 서버에서 전달된 JSON 데이터를 regions 변수에 할당
+				regions.forEach(function(region) {
+					var markerPosition = new kakao.maps.LatLng(region.latitude, region.longitude);  // 위도와 경도로 위치 설정
+					var marker = new kakao.maps.Marker({
+						position: markerPosition,
+						image: markerImage,  // 마커 이미지 설정 (이미지 객체는 따로 정의되어야 합니다)
+						map: map  // 지도에 마커 표시
+					});
+					// 마커 클릭 이벤트 설정
+					kakao.maps.event.addListener(marker, 'click', function() {
+						var query = encodeURIComponent(region.province);  // 지역명을 URL 인코딩
+						var url = "/salre/product?search=" + query;  // 검색 URL 구성
+						window.location.href = url;  // URL로 이동
+					});
+				});
+			</script>
+>>>>>>> branch 'merge/part/all' of https://github.com/chocolatestain/salre
 		</body>
 
 		</html>

@@ -81,8 +81,7 @@ System.out.println("Birthday: " + certifiedBirthday);
 					<input type="hidden" id="user_id" name="user_id"
 						value="${loggedInUser.user_id}" /> <input type="hidden"
 						id="password" name="password" value="${loggedInUser.password}" />
-					<input type="hidden" id="auth_seller" name="auth_seller"
-						value="${loggedInUser.auth_seller}" />
+					
 
 					<div class="row mb-3">
 						<div class="col-md-6">
@@ -327,7 +326,7 @@ System.out.println("Birthday: " + certifiedBirthday);
 	     
 	     function updateUserInfo() {
 	            const userData = {
-	            	user_id: document.getElementById("user_id").value,
+	            	 user_id: document.getElementById("user_id").value,
 	            	 id: document.getElementById("id").value,
 	            	 password:document.getElementById("password").value,
 	            	 user_name: document.getElementById("name").value,
@@ -335,8 +334,8 @@ System.out.println("Birthday: " + certifiedBirthday);
 	            	 email: document.getElementById("email").value,
 	            	 resident_num: document.getElementById("resident").value,
 	            	 address: document.getElementById("address").value,
-	                 address_detail: document.getElementById("address_detail").value,
-	                 auth_seller: document.getElementById("auth_seller").value
+	                 address_detail: document.getElementById("address_detail").value
+	                /*  auth_seller: document.getElementById("auth_seller").value */
 	            	
 	            };
 

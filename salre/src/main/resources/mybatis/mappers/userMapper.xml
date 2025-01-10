@@ -203,8 +203,8 @@
 		      email=#{email},
 		      resident_num=#{resident_num},
 		      address=#{address},
-		      address_detail=#{address_detail},
-		      auth_seller=#{auth_seller}
+		      address_detail=#{address_detail}
+		      
 		  WHERE id = #{id}   
  
 	</update>
