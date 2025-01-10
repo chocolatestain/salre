@@ -45,9 +45,6 @@
                     <input type="date" id="balance_payment_day" name="balance_payment_day">
                 </div>
                <c:choose>
-            <c:when test ="${contract.payment_type=='전세'}">
-           
-            </c:when> 
             <c:when test = "${product.payment_type=='월세'}">
               <div class="form-group2">
                     <label for="rent_fee_day">월세 입금일:</label>
