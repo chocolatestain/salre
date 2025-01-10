@@ -102,12 +102,17 @@ public class ContractService {
         data.put("rentfee_day", String.valueOf(contract.getRent_fee_day())); // 월세 입금일
         data.put("rentfee", String.valueOf(contract.getRentfee())); // 월세
         data.put("manage_feeCHAR", NumberToKorean.convertToKorean(contract.getManage_fee())); // 관리비 한글
-        data.put("middle_payment", NumberToKorean.convertToKorean(contract.getMiddle_payment())); // 중도금
-        data.put("middle_payment_day", String.valueOf(contract.getMiddle_payment_day())); // 중도금 입금일
-        data.put("balance_payment",  NumberToKorean.convertToKorean(contract.getBalance_payment())); // 잔금
-        data.put("balance_payment_day", String.valueOf(contract.getBalance_payment_day())); // 잔금일
+        if (contract.getMiddle_payment() != 0) {
+            data.put("middle_payment", NumberToKorean.convertToKorean(contract.getMiddle_payment()));}//중도금
+        if(contract.getMiddle_payment_day() !=null) {
+        	data.put("middle_payment_day", String.valueOf(contract.getMiddle_payment_day()));}// 중도금 입금일
+        if (contract.getBalance_payment() != 0) {
+            data.put("balance_payment", NumberToKorean.convertToKorean(contract.getBalance_payment()));} // 잔금
+        if(contract.getBalance_payment_day() !=null) {
+        	data.put("balance_payment_day", String.valueOf(contract.getBalance_payment_day()));}// 잔금일
         data.put("price", NumberToKorean.convertToKorean(contract.getPrice())); // 계약금
         data.put("taker",user.getUser_name());//영수자
+        
         // 서명 정보
         data.put("landlord_address", user.getAddress()+user.getAddress_detail()); // 임대인 주소
         data.put("landlord_resident_num", user.getResident_num()); // 임대인 주민등록번호

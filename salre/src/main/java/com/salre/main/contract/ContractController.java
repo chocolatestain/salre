@@ -132,8 +132,9 @@ public class ContractController {
 	    	 // 계약 저장후 계약번호 반환
 	    
 	    	  int contract_id = contractService.saveContract(contractDTO);
-	    	  
+	    	  ProductDTO product = productService.selectByContractId(contract_id);
 	    	  session.setAttribute("contract", contractDTO);
+	    	  session.setAttribute("product",product);
 	         ContractDTO contract =contractService.getContractById(contract_id);
 	         contractService.updateContractStatus(contract_id,2);//계약 상태 업데이트 2 : 계약서 작성
 	       
@@ -196,8 +197,10 @@ public class ContractController {
 	         
 	             //생성된 경로르 DB에 저장
 	             contractService.saveContractImgPath(contract_id, imagePath);
-	             
+	             ProductDTO product = (ProductDTO) session.getAttribute("product");
+	         
 	             // 모델에 데이터 추가
+	             model.addAttribute("product", product);
 	             model.addAttribute("imagePath", imagePath);
 	             model.addAttribute("contract_id", contract_id);
 	           
@@ -281,15 +284,23 @@ public class ContractController {
 	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("임대인 서명 추가 중 오류 발생");
 	         }
 	     }
-	   //서명한 계약서 보기
+	   //계약서만 보기
+	    @GetMapping("/onlyView/{contract_id}")
+	    	public String onlyViewContract(@PathVariable(required = true) Integer contract_id, Model model) {
+	    	ContractDTO contract = contractService.getContractById(contract_id);	
+			model.addAttribute("contract",contract);
+	    	return "contract/onlyViewContract";
+	    }
+	     
+	     //서명한 계약서 보기
 			@GetMapping("/viewSignContract/{contract_id}")
 			public String viewSignContract(@PathVariable(required = true) Integer contract_id, Model model) {
 				ContractDTO contract = contractService.getContractById(contract_id);	
 				model.addAttribute("contract",contract);
 				return "contract/viewSignContract"; // 계약서 이미지를 보여주는 JSP
-				
-
 			}
+			
+			
 	     //임차인 서명
 	     @PostMapping("/tenant-sign/{contract_id}")
 	     public ResponseEntity<?> addTenantSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {

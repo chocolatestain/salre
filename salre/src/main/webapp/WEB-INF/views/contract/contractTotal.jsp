@@ -123,8 +123,7 @@
 			<div class="button-group">
 				<button type="button" class="btn btn-primary"
 					onclick="makeContractPaper()">계약서 초안생성</button>
-				<button type="button" class="btn btn-primary" onclick="goToSeller()">판매자에게
-					보내기</button>
+				
 			</div>
 		</form>
 	</div>
@@ -146,15 +145,10 @@
             alert("새 창을 열 수 없습니다. 팝업 차단을 확인하세요.");
         }
     }
-</script>
-
-
 // 판매자에게 보내기
 function goToSeller() {
 	
-    const contextPath = "<%=request.getContextPath()%>
-		";
-			window.location.href = `${contextPath}/salre/contract/dealcheck/${contract.contract_id}`;
+			window.location.href = contextPath +`/contract/dealcheck/${contract.contract_id}`;
 		}
 	</script>
 </body>
