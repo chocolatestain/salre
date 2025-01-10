@@ -1,6 +1,5 @@
 package com.salre.main.contract;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserService;
 import com.salre.main.product.ProductContractDTO;
 import com.salre.main.product.ProductDTO;
 import com.salre.main.product.ProductService;
-import com.salre.main.login.UserDTO;
-import com.salre.main.login.UserService;
 
 @Controller
 @RequestMapping("/contract")
@@ -105,7 +104,7 @@ public class ContractController {
 				@RequestParam(required = false, defaultValue = "0") int product_id,
 				@RequestParam(required = false, defaultValue = "0") int user_id,
 				Model model) {
-		
+			product_id =12;
 			ProductDTO product = productService.selectByIdService(product_id);
 			UserDTO user = userService.getUserById(user_id);
 			
