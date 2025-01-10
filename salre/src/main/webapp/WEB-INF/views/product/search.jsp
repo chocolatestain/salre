@@ -156,19 +156,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <a href="/salre" style="text-decoration: none; color: inherit;">살래?</a>
-        </div>
-        <nav>
-            <a href="#">대출상품</a>
-            <a href="#">채팅</a>
-            <a href="#">게시판</a>
-            <a href="#">매물</a>
-            <a href="#">관심매물</a>
-            <a href="insert">방내놓기</a>
-        </nav>
-    </header>
+ 	<%@ include file="../common/header.jsp" %>
 
     <div class="search">
         <form action="product" method="GET">
