@@ -28,9 +28,6 @@
 				<div class="form-group">
 					<label>이메일:</label> <span>${user.email}</span>
 				</div>
-				<div class="form-group">
-					<label>판매자인증여부:</label> <span>${user.auth_seller}</span>
-				</div>
 			</section>
 			<section class="section">
 				<h2>임차인 정보</h2>
@@ -132,19 +129,25 @@
 		</form>
 	</div>
 
-	<script>
-// 계약서 초안 생성
-function makeContractPaper() {
-    const contextPath = "<%=request.getContextPath()%>";
-    const newWindow = window.open(
-        `${contextPath}/salre/contract/sample/${contract.contract_id}`,
-        '_blank',
-        'width=800,height=600'
-    );
-    if (!newWindow) {
-        alert("새 창을 열 수 없습니다. 팝업 차단을 확인하세요.");
+<script>
+    // JSP에서 contextPath를 가져와 JavaScript 변수로 저장
+        	const contextPath = "${pageContext.request.contextPath}";
+ 
+    // 계약서 초안 생성
+    function makeContractPaper() {
+    	console.log(contextPath);
+        const newWindow = window.open(
+        	
+            contextPath +`/contract/sample/${contract.contract_id}`,
+            '_blank',
+            'width=800,height=600'
+        );
+        if (!newWindow) {
+            alert("새 창을 열 수 없습니다. 팝업 차단을 확인하세요.");
+        }
     }
-}
+</script>
+
 
 // 판매자에게 보내기
 function goToSeller() {

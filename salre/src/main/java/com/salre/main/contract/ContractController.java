@@ -67,11 +67,13 @@ public class ContractController {
 		System.out.println("user_id"+user.getUser_id());
 		
 		
-		  int p_id = 7;
-		
+		int p_id = 7;
+ 
 		ProductDTO product = productService.selectByIdService(p_id);
+		System.out.println(product);
+		System.out.println(product.getUser_id());
 		UserDTO P_user = userService.getUserById(product.getUser_id());//판매자 user_id
-		
+		System.out.println(P_user);
 		model.addAttribute("product", product);
 		model.addAttribute("P_user", P_user);
 		
@@ -104,7 +106,6 @@ public class ContractController {
 				@RequestParam(required = false, defaultValue = "0") int product_id,
 				@RequestParam(required = false, defaultValue = "0") int user_id,
 				Model model) {
-			product_id =12;
 			ProductDTO product = productService.selectByIdService(product_id);
 			UserDTO user = userService.getUserById(user_id);
 			

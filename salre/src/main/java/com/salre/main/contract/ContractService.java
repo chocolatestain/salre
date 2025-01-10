@@ -87,12 +87,12 @@ public class ContractService {
         // 부동산 정보
         data.put("payment_type", contract.getPayment_type()); // 거래 유형
         data.put("address", contract.getAddress()); // 주소
-        data.put("land_type", "대"); // 토지 지목
-        data.put("land_area", "22"); // 토지 면적
-        data.put("building_structure", "철근콘크리트"); // 건물 구조
-        data.put("building_usage", "다세대주택 및 제2종근린생활시설"); // 건물 용도
+        data.put("land_type", contract.getLand_type()); // 토지 지목
+        data.put("land_area", contract.getLand_area()); // 토지 면적
+        data.put("building_structure", contract.getBuilding_structure()); // 건물 구조
+        data.put("building_usage", contract.getBuilding_usage()); // 건물 용도
         data.put("building_area", "184.1분의12.483"); // 건물 면적
-        data.put("rental_area", "3층의 제303호 전유 전부"); // 임대 부분
+        data.put("rental_area",contract.getRental_area()); // 임대 부분
         data.put("area", String.valueOf(contract.getArea())); // 임대 부분 면적
 
         // 계약 내용
