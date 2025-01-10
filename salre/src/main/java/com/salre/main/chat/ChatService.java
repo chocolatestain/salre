@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.salre.main.product.ProductDTO;
+
 @Service
 public class ChatService {
 	
@@ -26,6 +28,11 @@ public class ChatService {
 	public List<ChatRoomDTO> selectByUserIdService(ChatRoomDTO chatRoomDTO) {
 		return chatDAO.selectByUserId(chatRoomDTO);
 	}
+	
+	// 채팅방 정보 조회(user_id)
+	public List<ChatRoomDTO> getChatRoomInfoService(Integer user_id) {
+		return chatDAO.getChatRoomInfo(user_id);
+	}
 
 	// 채팅방 정보 조회(chatRoom_id)
 	public ChatRoomDTO selectByChatRoomIdService(Integer chatRoom_id) {
@@ -45,6 +52,11 @@ public class ChatService {
 	// 채팅 읽음 여부 업데이트(0 => 1)
 	public void updateIsCheckService(HashMap<String, Integer> map) {
 		chatDAO.updateIsCheck(map);
+	}
+
+	// 매물 정보 가져오기
+	public ProductDTO getProductByUserId(Integer user_id) {
+		return chatDAO.getProductByUserId(user_id);
 	}
 
 }

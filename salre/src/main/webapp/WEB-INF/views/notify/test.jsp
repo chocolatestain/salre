@@ -7,40 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>알림 전송</title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f5f5f5;
-                margin: 0 auto;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-            }
-
-            input,
-            select,
-            button {
-                width: 100%;
-                padding: 0.75rem;
-                margin: 1rem 0;
-                font-size: 1rem;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-                box-sizing: border-box;
-            }
-
-            button {
-                background-color: #455f9e;
-                color: white;
-                cursor: pointer;
-                border: none;
-            }
-
-            button:hover {
-                background-color: #2c3562;
-            }
-        </style>
     </head>
 
     <body>
@@ -55,7 +21,7 @@
             $('#send').click(function () {
                 const user_id = $("input[name='target']").val();
                 // 알림 내용 입력
-                const notify_content = `\${user_id}님<br>테스트 알림입니다.`;
+                const notify_content = `\${user_id}님<br>송금 알림입니다.`;
                 // 알림 클릭 시 이동할 URL
                 const notify_url = "${pageContext.request.contextPath}/";
 

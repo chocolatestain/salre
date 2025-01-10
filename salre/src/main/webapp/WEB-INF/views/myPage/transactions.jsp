@@ -19,8 +19,10 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 <style>
 .card-container {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	 /* display: grid;  */
+	display:flex;
+	flex-wrap: wrap; /* 넘치면 다음 줄로 */
+	/* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
 	gap: 20px;
 	width: 100%;
 	margin-top: 20px;
@@ -45,6 +47,54 @@
 	display: block;
 	width: 100%;
 }
+
+
+/* test */
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
+            margin: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            overflow: hidden;  
+   			display: inline-block;  
+        }
+        .product-card img {
+            border-radius: 8px;
+            width: 200px;
+            max-height: 200px; 
+            object-fit: cover; 
+            object-position: center; 
+            border: 1px solid #ddd; 
+  			height: auto; /* 비율 유지 */
+    		transition: transform 0.3s ease; /* 확대 효과의 부드러움 설정 */
+        }
+        .product-card img:hover {
+   		 	transform: scale(1.1); /* 마우스 오버 시 10% 확대 */
+		}
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            font-size: 16px;
+            color: #666;
+        }
+        .product-card .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #f4a261;
+            margin-top: 10px;
+        }
+ 
+
+
+
+
+
 </style>
 
 <!-- CSS -->
@@ -115,12 +165,12 @@
 
 
 					<!-- 구매자 거래 매물 목록 -->
-			 	<div class="card-container">
+			 	<!-- <div class="card-container"> -->
 
-				   <c:forEach var="productB" items="${buyerProductList}">
+				   <%-- <c:forEach var="productB" items="${buyerProductList}">
                     <div class="card">
                         <div class="position-relative">
-                            <%-- <img src="${product.image}" class="card-img-top" alt="${product.title}"> --%>
+                            <img src="${product.image}" class="card-img-top" alt="${product.title}">
                             <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="매물1">
                             <!-- 상태 배지 -->
                             <c:choose>
@@ -148,7 +198,7 @@
                         </div>
                     </div>
                 </c:forEach>
-
+ --%>
 						<!-- 예시 데이터 -->
 						<!--  <div class="card">
 							<div class="position-relative">
@@ -194,14 +244,65 @@
 							</div>
 						</div> -->
  
-					</div> 
-				</div>
+					<!-- </div>  -->
+					
+					<!-- 구매자 거래 매물 목록 -->					
+	<section class="search-results" id="search-results">
+        <c:if test="${not empty buyerProductList}">
+        
+            <c:forEach var="productB" items="${buyerProductList}">
+            
+             <a href="/salre/product/detail/${productB.product_id}" class="product-card-link">
+                <div class="product-card">
+                    <img class="product-image" 
+                         src="resources/images/products/${productB.product_id}.jpeg" 
+                         alt="${product.product_name}" 
+                         onerror="this.src='https://placehold.co/200x200';">
+                    <h3 style="color: black;">${productB.product_name}</h3>
+                    <p>${productB.address}, ${productB.address_detail}</p>
+                    <p>방 수: ${productB.room_count} | 욕실 수: ${productB.bath_count}</p>
+                    <p>층수: ${productB.floor}층 | 면적: ${productB.area}㎡</p>
+                   
+                     <div class="price"> 
+                        <c:choose>
+                            <c:when test="${productB.deposit >= 100000000}"> 
+                                보증금
+                                <c:if test="${(productB.deposit % 100000000) / 10000 >= 0}">  
+                                    <fmt:formatNumber pattern="####" value = "${productB.deposit / 100000000}" />
+                                    억
+                                </c:if>
+                                <c:if test="${(productB.deposit / 100000000) < 1}">
+                                    <fmt:formatNumber pattern="####" value = "${productB.deposit}" />
+                                    만
+                                </c:if>
+                                원 
+                            </c:when>
+                            <c:otherwise>
+                                보증금
+                                <fmt:formatNumber pattern="####" value = "${productB.deposit / 10000}" />
+                                만 원                             
+                            </c:otherwise>
+                        </c:choose>
+                        <c:if test = "${productB.payment_type == '월세' }">
+                            / ${productB.rentfee} 만 원 월세
+                        </c:if>
+                    </div>  
+                </div>
+                </a>
+            </c:forEach>
+        </c:if>
+        <c:if test="${empty buyerProductList}">
+            <p style="text-align: center; font-size: 20px; color: #999;">검색 결과가 없습니다.</p>
+        </c:if>
+    </section> 
+					
+</div>
  
 				
 				<!-- 판매자 콘텐츠 -->
 				 <div id="seller-content" style="text-align: center;">
 					 <div class="row mb-3">
-						<div class="col">
+						<!-- <div class="col">
 							<button class="btn btn-secondary">등록순</button>
 							<button class="btn btn-secondary">거래순</button>
 							<button class="btn btn-secondary">조회수 순</button>
@@ -211,17 +312,17 @@
 							<input type="date" class="form-control d-inline-block w-auto"
 								id="startDate"> <span>~</span> <input type="date"
 								class="form-control d-inline-block w-auto" id="endDate">
-						</div>
+						</div> -->
 					</div>
 
 
 				<!-- 판매자 거래 매물 목록 -->
 				<div class="card-container">
 
-				   <c:forEach var="product" items="${productList}">
+			<%-- 	   <c:forEach var="product" items="${productList}">
                     <div class="card">
                         <div class="position-relative">
-                          <%--   <img src="${product.image}" class="card-img-top" alt="${product.title}"> --%>
+                            <img src="${product.image}" class="card-img-top" alt="${product.title}">
                             <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="매물1">
                             <!-- 상태 배지 -->
                             <c:choose>
@@ -231,9 +332,9 @@
                                 <c:when test="${product.product_status == 2}">
                                     <span class="badge-status bg-secondary">거래완료</span>
                                 </c:when>
-                               <%--  <c:otherwise>
+                                <c:otherwise>
                                     <span class="badge-status bg-success">거래가능</span>
-                                </c:otherwise> --%>
+                                </c:otherwise>
                             </c:choose>
                         </div>
                         <div class="card-body">
@@ -248,7 +349,60 @@
                             </div>
                         </div>
                     </div>
-                </c:forEach>
+                </c:forEach> --%>
+                
+                
+                <!-- 판매자 매물목록/ 디자인통일 -->
+      <section class="search-results" id="search-results">
+        <c:if test="${not empty productList}">
+        
+            <c:forEach var="product" items="${productList}">
+            
+             <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
+                <div class="product-card">
+                    <img class="product-image" 
+                         src="resources/images/products/${product.product_id}.jpeg" 
+                         alt="${product.product_name}" 
+                         onerror="this.src='https://placehold.co/200x200';">
+                    <h3 style="color: black;">${product.product_name}</h3>
+                    <p>${product.address}, ${product.address_detail}</p>
+                    <p>방 수: ${product.room_count} | 욕실 수: ${product.bath_count}</p>
+                    <p>층수: ${product.floor}층 | 면적: ${product.area}㎡</p>
+                   
+                     <div class="price"> 
+                        <c:choose>
+                            <c:when test="${product.deposit >= 100000000}"> 
+                                보증금
+                                <c:if test="${(product.deposit % 100000000) / 10000 >= 0}">  
+                                    <fmt:formatNumber pattern="####" value = "${productB.deposit / 100000000}" />
+                                    억
+                                </c:if>
+                                <c:if test="${(product.deposit / 100000000) < 1}">
+                                    <fmt:formatNumber pattern="####" value = "${product.deposit}" />
+                                    만
+                                </c:if>
+                                원 
+                            </c:when>
+                            <c:otherwise>
+                                보증금
+                                <fmt:formatNumber pattern="####" value = "${product.deposit / 10000}" />
+                                만 원                             
+                            </c:otherwise>
+                        </c:choose>
+                        <c:if test = "${product.payment_type == '월세' }">
+                            / ${product.rentfee} 만 원 월세
+                        </c:if>
+                    </div>  
+                </div>
+                </a>
+            </c:forEach>
+        </c:if>
+        <c:if test="${empty productList}">
+            <p style="text-align: center; font-size: 20px; color: #999;">검색 결과가 없습니다.</p>
+        </c:if>
+    </section> 
+                
+                
 
 						<!-- 예시 데이터 -->
 						 <!-- <div class="card">

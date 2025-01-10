@@ -9,6 +9,13 @@
 		ORDER BY 5 DESC;
 	</select>
 
+	<select id="selectUnread" parameterType="int" resultType="notifyVO">
+		SELECT *
+		FROM notification
+		WHERE user_id = #{user_id}
+		AND is_check = false;
+	</select>
+
 	<insert id="insert" parameterType="notifyVO">
 		INSERT INTO notification (user_id, notify_content, notify_url)
 		VALUES (#{user_id}, #{notify_content}, #{notify_url});

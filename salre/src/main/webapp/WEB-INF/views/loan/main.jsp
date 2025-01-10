@@ -67,14 +67,14 @@
                 }
 
                 button {
-                    background-color: #455f9e;
+                    background-color: #f4a261;
                     color: white;
                     cursor: pointer;
                     border: none;
                 }
 
                 button:hover {
-                    background-color: #2c3562;
+                    background-color: #e76f51;
                 }
             </style>
         </head>

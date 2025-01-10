@@ -122,7 +122,7 @@
                 }
 
                 .data button {
-                    background-color: #455f9e;
+                    background-color: #f4a261;
                     color: white;
                     cursor: pointer;
                     border: none;
@@ -136,7 +136,7 @@
                 }
 
                 .data button:hover {
-                    background-color: #2c3562;
+                    background-color: #e76f51;
                 }
 
                 table {
@@ -240,7 +240,7 @@
                         let loan_img = `<img src="${pageContext.request.contextPath}/resources/images/loan/\${loan_check}"
                                         alt="대출 로고" class="loan-logo">`;
 
-                        $(".img").html(`\${loan_img}`);
+                        $('.img').html(`\${loan_img}`);
 
                         $('.info').html(`
                         \${bank_img}

@@ -24,7 +24,7 @@ public class NotifyController {
     private NotifyService notifyService;
     private Map<Integer, SseEmitter> map = new ConcurrentHashMap<>(); // Thread-Safe 자료구조
 
-    private static final Long TIMEOUT = 60 * 60 * 1000L; // 1시간
+    private static final Long TIMEOUT = 30 * 60 * 1000L; // 30분
 
     @GetMapping("/main")
     public ModelAndView viewMain() {
@@ -79,6 +79,12 @@ public class NotifyController {
     @GetMapping("/list/{user_id}")
     public List<NotifyDTO> select(@PathVariable int user_id) {
         return notifyService.select(user_id);
+    }
+
+    // 읽지 않은 알림 개수 조회
+    @GetMapping("/unread/{user_id}")
+    public int selectUnread(@PathVariable int user_id) {
+        return notifyService.selectUnread(user_id);
     }
 
     // 알림 상태 변경

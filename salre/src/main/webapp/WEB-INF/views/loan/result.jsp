@@ -74,7 +74,7 @@
                     }
 
                     .sort button.active {
-                        background-color: #455F9E;
+                        background-color: #f4a261;
                     }
 
                     .sort-result {
@@ -106,6 +106,7 @@
                         border-radius: 10px;
                         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                         width: 250px;
+                        accent-color: #f4a261;
                     }
 
                     .filters-display {
@@ -137,7 +138,7 @@
                     #filter {
                         padding: 10px 20px;
                         margin-top: 10px;
-                        background-color: #455F9E;
+                        background-color: #f4a261;
                         color: #fff;
                         border: none;
                         border-radius: 5px;
