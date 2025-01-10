@@ -78,21 +78,21 @@ public class ContractService {
     	
         ProductContractDTO contract = contractDAO.selectContractPById(contract_id);
         UserDTO user = userDAO.selectById(contract.getUser_id());
-        Integer tenantUserId = (Integer) session.getAttribute("user_id");
-        tenantUserId = 12; //임시
-        UserDTO tenant = userDAO.selectById(tenantUserId);
+        
+        UserDTO tenant = (UserDTO) session.getAttribute("loggedInUser");
+        
         // 데이터 매핑 및 병합
         Map<String, String> data = new HashMap<>();
 
         // 부동산 정보
         data.put("payment_type", contract.getPayment_type()); // 거래 유형
         data.put("address", contract.getAddress()); // 주소
-        data.put("land_type", "대"); // 토지 지목
-        data.put("land_area", "22"); // 토지 면적
-        data.put("building_structure", "철근콘크리트"); // 건물 구조
-        data.put("building_usage", "다세대주택 및 제2종근린생활시설"); // 건물 용도
+        data.put("land_type", contract.getLand_type()); // 토지 지목
+        data.put("land_area", contract.getLand_area()); // 토지 면적
+        data.put("building_structure", contract.getBuilding_structure()); // 건물 구조
+        data.put("building_usage", contract.getBuilding_usage()); // 건물 용도
         data.put("building_area", "184.1분의12.483"); // 건물 면적
-        data.put("rental_area", "3층의 제303호 전유 전부"); // 임대 부분
+        data.put("rental_area",contract.getRental_area()); // 임대 부분
         data.put("area", String.valueOf(contract.getArea())); // 임대 부분 면적
 
         // 계약 내용
@@ -102,12 +102,17 @@ public class ContractService {
         data.put("rentfee_day", String.valueOf(contract.getRent_fee_day())); // 월세 입금일
         data.put("rentfee", String.valueOf(contract.getRentfee())); // 월세
         data.put("manage_feeCHAR", NumberToKorean.convertToKorean(contract.getManage_fee())); // 관리비 한글
-        data.put("middle_payment", NumberToKorean.convertToKorean(contract.getMiddle_payment())); // 중도금
-        data.put("middle_payment_day", String.valueOf(contract.getMiddle_payment_day())); // 중도금 입금일
-        data.put("balance_payment",  NumberToKorean.convertToKorean(contract.getBalance_payment())); // 잔금
-        data.put("balance_payment_day", String.valueOf(contract.getBalance_payment_day())); // 잔금일
+        if (contract.getMiddle_payment() != 0) {
+            data.put("middle_payment", NumberToKorean.convertToKorean(contract.getMiddle_payment()));}//중도금
+        if(contract.getMiddle_payment_day() !=null) {
+        	data.put("middle_payment_day", String.valueOf(contract.getMiddle_payment_day()));}// 중도금 입금일
+        if (contract.getBalance_payment() != 0) {
+            data.put("balance_payment", NumberToKorean.convertToKorean(contract.getBalance_payment()));} // 잔금
+        if(contract.getBalance_payment_day() !=null) {
+        	data.put("balance_payment_day", String.valueOf(contract.getBalance_payment_day()));}// 잔금일
         data.put("price", NumberToKorean.convertToKorean(contract.getPrice())); // 계약금
         data.put("taker",user.getUser_name());//영수자
+        
         // 서명 정보
         data.put("landlord_address", user.getAddress()+user.getAddress_detail()); // 임대인 주소
         data.put("landlord_resident_num", user.getResident_num()); // 임대인 주민등록번호

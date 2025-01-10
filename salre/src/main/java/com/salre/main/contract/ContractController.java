@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserService;
 import com.salre.main.product.ProductContractDTO;
 import com.salre.main.product.ProductDTO;
 import com.salre.main.product.ProductService;
-import com.salre.main.login.UserDTO;
-import com.salre.main.login.UserService;
 
 @Controller
 @RequestMapping("/contract")
@@ -59,12 +59,21 @@ public class ContractController {
 	@GetMapping("/dealstart")
 	public String tenantContract(HttpServletRequest request,Model model) {
 		//int p_id = (int)request.getAttribute("product_id");
-		//int user_id = (int)request.getAttribute("user_id");
+	
+		HttpSession session = request.getSession();
+		
+	
+		UserDTO user = (UserDTO) session.getAttribute("loggedInUser");//구매자 user_id
+		System.out.println("user_id"+user.getUser_id());
+		
+		
 		int p_id = 7;
-		
+ 
 		ProductDTO product = productService.selectByIdService(p_id);
-		UserDTO P_user = userService.getUserById(product.getUser_id());
-		
+		System.out.println(product);
+		System.out.println(product.getUser_id());
+		UserDTO P_user = userService.getUserById(product.getUser_id());//판매자 user_id
+		System.out.println(P_user);
 		model.addAttribute("product", product);
 		model.addAttribute("P_user", P_user);
 		
@@ -73,15 +82,17 @@ public class ContractController {
 	// 판매자  - 계약 사항 확인
 		@GetMapping("/dealcheck/{contract_id}")
 		public String landlordContract(@PathVariable(required = true) int contract_id, HttpServletRequest request,Model model) {
-			//int p_id = (int)request.getAttribute("product_id");
-			//int user_id = (int)request.getAttribute("user_id");
+			HttpSession session = request.getSession();
+			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
 			
-			int p_id = 7;
-			int user_id = 107;
+			int p_id = (int)request.getAttribute("product_id");
+			int user_id = user.getUser_id();
+			
+		
 			
 			ContractDTO contract = contractService.getContractById(contract_id);
 			ProductDTO product = productService.selectByContractId(contract_id);
-			UserDTO user = userService.getUserById(product.getUser_id());
+			 user = userService.getUserById(product.getUser_id());
 			
 			model.addAttribute("contract", contract);
 			model.addAttribute("product", product);
@@ -95,13 +106,10 @@ public class ContractController {
 				@RequestParam(required = false, defaultValue = "0") int product_id,
 				@RequestParam(required = false, defaultValue = "0") int user_id,
 				Model model) {
-			// HttpSession session = request.getSession();
-			// Integer user_id = (Integer) session.getAttribute("user_id");
-		//	ContractDTO contract = contractService.getContractById(contract_id);
 			ProductDTO product = productService.selectByIdService(product_id);
 			UserDTO user = userService.getUserById(user_id);
 			
-			//model.addAttribute("contract", contract);
+	
 			model.addAttribute("product", product);
 			model.addAttribute("user", user);
 			
@@ -114,14 +122,19 @@ public class ContractController {
 	    		 @RequestParam int product_id,
 	    		 @RequestParam int user_id,
 	    		 Model model) {
-	   
-	    	 if(contractDTO.getBalance_payment_day().equals("")) {
-	    		 contractDTO.setBalance_payment_day("1900-01-01");
-	    	 } 
+	    	 //공백인 경우 null로 처리
+	    	 if (contractDTO.getBalance_payment_day() != null && contractDTO.getBalance_payment_day().trim().isEmpty()) {
+	    		    contractDTO.setBalance_payment_day(null);
+	    		}
+	    		if (contractDTO.getMiddle_payment_day() != null && contractDTO.getMiddle_payment_day().trim().isEmpty()) {
+	    		    contractDTO.setMiddle_payment_day(null);
+	    		}
 	    	 // 계약 저장후 계약번호 반환
-	    	// HttpSession session = request.getSession();
-				// Integer user_id = (Integer) session.getAttribute("user_id");
+	    
 	    	  int contract_id = contractService.saveContract(contractDTO);
+	    	  ProductDTO product = productService.selectByContractId(contract_id);
+	    	  session.setAttribute("contract", contractDTO);
+	    	  session.setAttribute("product",product);
 	         ContractDTO contract =contractService.getContractById(contract_id);
 	         contractService.updateContractStatus(contract_id,2);//계약 상태 업데이트 2 : 계약서 작성
 	       
@@ -139,8 +152,9 @@ public class ContractController {
 			ContractDTO contract = contractService.getContractById(contract_id);
 			UserDTO user = userService.getUserById(contract.getUser_id());//임대인
 			ProductDTO product = productService.selectByIdService(contract.getProduct_id());
-			//UserDTO tenant_user = userService.getUserById(user_id);
-			  UserDTO tenant_user = userService.getUserById(12);
+			UserDTO tenant = (UserDTO) session.getAttribute("loggedInUser");
+			UserDTO tenant_user = userService.getUserById(tenant.getUser_id());
+			
 			  model.addAttribute("tenant_user",tenant_user);
 			    model.addAttribute("contract", contract);
 			    model.addAttribute("user", user);//임대인
@@ -183,8 +197,10 @@ public class ContractController {
 	         
 	             //생성된 경로르 DB에 저장
 	             contractService.saveContractImgPath(contract_id, imagePath);
-	             
+	             ProductDTO product = (ProductDTO) session.getAttribute("product");
+	         
 	             // 모델에 데이터 추가
+	             model.addAttribute("product", product);
 	             model.addAttribute("imagePath", imagePath);
 	             model.addAttribute("contract_id", contract_id);
 	           
@@ -202,8 +218,8 @@ public class ContractController {
 			public String showAdditionalInfoPage(HttpSession session, Model model) {
 				// 계약 정보 가져오기
 				
-				//Integer contractId = (Integer) session.getAttribute("contract_id");
-				int contractId = 1313;//임시
+				Integer contractId = (Integer) session.getAttribute("contract_id"); // 세션에 contract_id넣어야함
+				//int contractId = 1313;//임시
 				ContractDTO contract = contractService.getContractById(contractId);
 				model.addAttribute("contract", contract);
 				// 추가 정보 입력 페이지로 이동
@@ -268,15 +284,23 @@ public class ContractController {
 	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("임대인 서명 추가 중 오류 발생");
 	         }
 	     }
-	   //서명한 계약서 보기
+	   //계약서만 보기
+	    @GetMapping("/onlyView/{contract_id}")
+	    	public String onlyViewContract(@PathVariable(required = true) Integer contract_id, Model model) {
+	    	ContractDTO contract = contractService.getContractById(contract_id);	
+			model.addAttribute("contract",contract);
+	    	return "contract/onlyViewContract";
+	    }
+	     
+	     //서명한 계약서 보기
 			@GetMapping("/viewSignContract/{contract_id}")
 			public String viewSignContract(@PathVariable(required = true) Integer contract_id, Model model) {
 				ContractDTO contract = contractService.getContractById(contract_id);	
 				model.addAttribute("contract",contract);
 				return "contract/viewSignContract"; // 계약서 이미지를 보여주는 JSP
-				
-
 			}
+			
+			
 	     //임차인 서명
 	     @PostMapping("/tenant-sign/{contract_id}")
 	     public ResponseEntity<?> addTenantSignature(@PathVariable int contract_id, @RequestBody Map<String, String> requestData, HttpServletRequest request) {

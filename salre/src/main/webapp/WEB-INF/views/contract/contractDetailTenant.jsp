@@ -46,10 +46,6 @@
                 <label>이메일:</label>
                 <span>${P_user.email}</span>
             </div>
-            <div class="form-group">
-                <label>판매자인증여부:</label>
-                <span>${P_user.auth_seller}</span>
-            </div>
         </section>
 
         <!-- 매물 정보 -->
@@ -117,11 +113,12 @@
 
         <!-- 제출 버튼 -->
         <div class="button-group">
-        	<button type="button" class="btn btn-secondary">취소</button>
+        	
         	<form action="${path}/contract/inputContract" method = "post">
+        	<button type="button" class="btn btn-secondary">취소</button>
+        	   <input type="submit" class="btn btn-primary"  value="다음" />
         	   <input type="hidden" name="product_id" value="${product.product_id}">
         	   <input type="hidden" name="user_id" value="${P_user.user_id}">
-        	   <input type="submit" class="btn btn-primary"  value="다음" />
         	</form>
             
             

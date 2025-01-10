@@ -34,24 +34,21 @@
                 </div>
                 <div class="form-group2">
                     <label for="middle_payment">중도금:</label>
-                    <input type="text" id="middle_payment" name="middle_payment" oninput="formatNumber(this)" ><br>
+                    <input type="number" id="middle_payment" name="middle_payment" placeholder=0 oninput="formatNumber(this)" ><br>
                     <label for="middle_payment">지급일:</label>
-                    <input type="date" id="middle_payment_day" name="middle_payment_day"  value="1000-01-01">
+                    <input type="date" id="middle_payment_day" name="middle_payment_day"  >
                 </div>
                 <div class="form-group2">
                     <label for="balance_payment">잔금:</label>
-                    <input type="text" id="balance_payment" name="balance_payment" oninput="formatNumber(this)"><br>
+                    <input type="number" id="balance_payment" name="balance_payment" placeholder=0 oninput="formatNumber(this)"><br>
                     <label for="balance_payment">지급일:</label>
                     <input type="date" id="balance_payment_day" name="balance_payment_day">
                 </div>
                <c:choose>
-            <c:when test ="${contract.payment_type=='전세'}">
-           
-            </c:when> 
             <c:when test = "${product.payment_type=='월세'}">
               <div class="form-group2">
                     <label for="rent_fee_day">월세 입금일:</label>
-                    <input type="number" id="rent_fee_day" name="rent_fee_day"  min="1" max="9" placeholder = "00일"><br>
+                    <input type="number" id="rent_fee_day" name="rent_fee_day"  min="1" max="9" placeholder = 1><br>
                 </div>
             </c:when>
      </c:choose>

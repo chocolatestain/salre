@@ -174,18 +174,18 @@ public class LoginController {
 				return "redirect:admin/myPage";
 			}
 			model.addAttribute("user", user);
-			return "myPage/transactions"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
+			return "redirect:transactions"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
 
 			// return "redirect:/home"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?��?��?��?�� ?��?��?��?��
 		}
 
 		else {
-			model.addAttribute("error", "ID ?��?�� PW�? ?��못되?��?��?��?��.");
+			model.addAttribute("error", "ID 또는 PW가 잘못되었습니다.");
 			return "logIn/login"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?�� ?��?��깍옙?��?��?�� ?��?��?��?��?��?��?��?��?��
 		}
 	}
 
-	// ID 찾기 ?��?���?
+	// ID 찾기 페이지
 	@GetMapping("/findId")
 	public String findIdPage() {
 		return "/logIn/findId";
@@ -201,14 +201,14 @@ public class LoginController {
 		if (userId != null) {
 			model.addAttribute("message", "Your ID is : " + userId);
 		} else {
-			model.addAttribute("error", "?��록된 ?��?��?�� 찾을 ?�� ?��?��?��?��.");
+			model.addAttribute("error", "등록된 회원을 찾을 수 없습니다.");
 		}
 
 		return "/logIn/findId";
 	}
 	
 
-	// PW 찾기 ?��?���?
+	// PW 찾기 페이지
 	@GetMapping("/findPassword")
 	public String findPasswordPage() {
 		return "/logIn/findPassword";
@@ -225,13 +225,13 @@ public class LoginController {
 
 	        if (!isValidUser) {
 	            response.put("success", false);
-	            response.put("message", "ID?? ?��메일?�� ?��록된 ?��보�? ?��치하�? ?��?��?��?��.");
+	            response.put("message", "ID와 이메일이 등록된 정보와 일치하지 않습니다.");
 	            return response;
 	        }
 
 	        userService.generateVerificationCode(email);
 	        response.put("success", true);
-	        response.put("message", "?��증번?���? ?��메일�? 발송?��?��?��?��?��.");
+	        response.put("message", "인증번호가 이메일로 발송되었습니다.");
 	        return response;
 	    }
 
@@ -243,10 +243,10 @@ public class LoginController {
 
 	        if (isCodeValid) {
 	            response.put("success", true);
-	            response.put("message", "?��증번?���? ?��?��?��?��?��?��?��. ?�� 비�?번호�? ?��?��?��?��?��.");
+	            response.put("message", "인증번호가 확인되었습니다. 새 비밀번호를 입력하세요.");
 	        } else {
 	            response.put("success", false);
-	            response.put("message", "?��증번?���? ?��?��?���? ?��?��?��?��.");
+	            response.put("message", "인증번호가 유효하지 않습니다.");
 	        }
 	        return response;
 	    }
@@ -258,7 +258,7 @@ public class LoginController {
 
 	        userService.updatePassword(email, newPassword);
 	        response.put("success", true);
-	        response.put("message", "비�?번호�? ?��공적?���? �?경되?��?��?��?��.");
+	        response.put("message", "비밀번호가 성공적으로 변경되었습니다..");
 	        return response;
 	    }
 
@@ -316,13 +316,13 @@ public class LoginController {
 		}
 
 		
-		//?��?��?��보수?��
+		//회원정보수정
 		  @GetMapping("/updatemyPage") 
 		  public String updateUser() {
 			  return "myPage/updateMyPage";
 		  }
 		  
-		//?��?��?��보수?��(?���? ?�� data)
+		//회원정보수정(인증 후 data)
 		  @GetMapping("/getSessionData")
 		  @ResponseBody
 		  public Map<String, String> getSessionData(HttpSession session) {
@@ -335,27 +335,27 @@ public class LoginController {
 
 	
 		  
-		  //?��?��?��보수?��버튼 ?��르면 update
+		//회원정보수정버튼 누르면 update
 		  @PostMapping("/updateUserInfo")
 		  @ResponseBody
 		  public Map<String, Object> updateUserInfo(@RequestBody UserDTO user, HttpSession session) {
 		      Map<String, Object> response = new HashMap<>();
 		      try {
-		          // ?��?��?��?�� 기존 ?��?��?���? �??��?��
+		    	// 세션에서 기존 데이터를 가져옴
 		          UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
 
-		          // 기존 �? ?���? 로직
-		          if (loggedInUser != null) { //?��?? 로그?��?��?�� ?��?��
+		       // 기존 값 유지 로직
+		          if (loggedInUser != null) {  //유저 로그인상태 확인
 		              if (user.getPassword() == null || user.getPassword().isEmpty()) {
-		                  user.setPassword(loggedInUser.getPassword()); // 기존 ?��?�� ?���?
+		                  user.setPassword(loggedInUser.getPassword()); // 기존 암호 유지
 		              }
 		             
 		          }
 
-		          // ?��?��?��?�� ?���?
+		          // 업데이트 호출
 		          userService.updateUserInfo(user);
 
-		          // ?��?�� ?��?��?��?��
+		          // 세션 업데이트
 		          session.setAttribute("loggedInUser", user);
 
 		          response.put("success", true);
@@ -370,7 +370,7 @@ public class LoginController {
 		  
 		 
 	
-		 // ?��?��?��?�� 처리
+		 // 회원탈퇴 처리
 	@PostMapping("/deleteUser")
 	public String deleteUser(@RequestParam("id") String id, RedirectAttributes redirectAttributes) { // RedirectAttributes
 
@@ -509,19 +509,19 @@ public class LoginController {
 		    System.out.println("########JSON Response from API: " + jsonResponse2);
 
 		    try {
-		        // JSON ?��?��?�� ?��?�� �? ?��?�� ???��
+		    	// JSON 데이터 파싱 및 세션 저장
 		        JsonNode userNode = objectMapper.readTree(jsonResponse2).path("response");
 		        if (userNode != null) {
 		            String name = userNode.path("name").asText(null);
 		            String phone = userNode.path("phone").asText(null);
 		            String birthday = userNode.path("birthday").asText(null);
 
-		            // ?��?��?��?�� ?���? �??�� (yyyy-MM-dd -> yyMMdd)
+		            // 생년월일 포맷 변환 (yyyy-MM-dd -> yyMMdd)
 		            if (birthday != null) {
 		                LocalDate date = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		                birthday = date.format(DateTimeFormatter.ofPattern("yyMMdd"));
 		            }
-		            // ?��?��?�� ???��?�� 기존 ?��?��?��?? 병합
+		         // 세션에 저장된 기존 데이터와 병합
 		            UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
 		            if (loggedInUser != null) {
 		                if (name != null) loggedInUser.setUser_name(name);
@@ -530,7 +530,7 @@ public class LoginController {
 		                session.setAttribute("loggedInUser", loggedInUser);
 		            }
 
-		            // ?��?��?�� ???��
+		         // 세션에 저장
 		            session.setAttribute("certifiedName", name);
 		            session.setAttribute("certifiedPhone", phone);
 		            session.setAttribute("certifiedBirthday", birthday);
@@ -544,7 +544,7 @@ public class LoginController {
 		        e.printStackTrace();
 		    }
 
-		    return jsonResponse2; // JSON ?��?��?���? 그�?�? 반환
+		    return jsonResponse2; // JSON 데이터를 그대로 반환
 		}
 	
 	
