@@ -98,7 +98,7 @@ public class ExcelWriter {
         }
 
         // 엑셀 파일 저장
-        String outputDirectory = basePath + "/excel/";
+        String outputDirectory = basePath + "/resources/excel/";
         String outputPath = outputDirectory + "contract_Sample_" + contract_id + ".xlsx";
         File directory = new File(outputDirectory);
         if (!directory.exists()) {

@@ -17,8 +17,6 @@
             <p style="color: red;">${errorMessage}</p>
         </c:if>
         <div class="button-group">
-		<button type="button" class="btn btn-secondary"onclick="closeWindow()">닫기</button>
-		<button type="button" class="btn btn-primary" onclick="notice()">판매자에게 알림 보내기</button>
 		  <%-- <a href="${path}/resources/pdf/contract_sample_${contract_id}.pdf" class="btn btn-primary" download> 다운로드</a>
 	 --%></div>
      <script>
