@@ -46,10 +46,6 @@
                 <label>이메일:</label>
                 <span>${P_user.email}</span>
             </div>
-            <div class="form-group">
-                <label>판매자인증여부:</label>
-                <span>${P_user.auth_seller}</span>
-            </div>
         </section>
 
         <!-- 매물 정보 -->

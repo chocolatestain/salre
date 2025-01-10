@@ -30,5 +30,5 @@ public class ContractUserDTO {
 	String resident_num;
 	String address;
 	String address_detail;
-	String auth_seller;
+	String resident_num2;
 }
