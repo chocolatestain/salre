@@ -35,9 +35,9 @@ public class ChatController {
 //		UserDTO userDTO = session.getAttribute("loggedInUser");
 		
 //		Integer user_id = userDTO.getUser_id();
-		Integer user_id = 3; // 채팅 시작하는 사람(보내는 사람, 세션 값에서 가져오기) 3, 5
+		Integer user_id = 1; // 채팅 시작하는 사람(보내는 사람, 세션 값에서 가져오기) 3, 5
 //		String user_name = userDTO.getUser_Name();
-		String user_name = "홍길동"; // 세션 값에서 가져오기; 홍길동, 판매자
+		String user_name = "김광진"; // 세션 값에서 가져오기; 홍길동, 판매자
 		
 		// 매물 정보 가져오기
 		Integer product_id = 50; // 매물 번호
@@ -61,6 +61,11 @@ public class ChatController {
 //		model.addAttribute("loggedInUser", session);
 		
 		return "chat/chatMain";
+	}
+	
+	// 채팅방 생성
+	public void createChatRoom() {
+		
 	}
 	
 	// 채팅방 입장
