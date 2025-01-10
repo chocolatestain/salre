@@ -524,14 +524,13 @@
 		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-			
-	<button id="chatButton" class="chat-button">채팅하기</button>
+	<form action="${contextPath}/chat/createChatRoom" method="post">
+		<input type="hidden" name="product_id" value="${product.product_id}">
+		<input type="hidden" name="product_user_id" value="${product.user_id}">
+		<input type="hidden" name="product_name" value="${product.product_name}">
+		<button type="submit" class="chat-button">채팅하기</button>
+	</form>	
  	   <script>
-        // 버튼 클릭 이벤트 추가
-        document.getElementById("chatButton").addEventListener("click", function () {
-            window.location.href = "${contextPath}/chat/main";
-        });
-
 		  document.getElementById("address").addEventListener("click", function() {
 		    var copyText = document.getElementById("address");
 		    var notification = document.getElementById("copyNotification");

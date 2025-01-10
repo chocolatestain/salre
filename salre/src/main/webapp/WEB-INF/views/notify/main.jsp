@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="../common/header_tmp.jsp" %>
     <!DOCTYPE html>
     <html lang="ko">
 
@@ -9,42 +10,7 @@
         <title>살래?</title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-            }
-
-            header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 20px;
-                background-color: #fff;
-                border-bottom: 1px solid #ddd;
-            }
-
-            header .logo {
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            header nav a {
-                margin: 0 10px;
-                text-decoration: none;
-                color: #333;
-            }
-
-            header .auth a {
-                margin-left: 15px;
-                padding: 10px 20px;
-                background-color: #f4a261;
-                color: #fff;
-                border-radius: 5px;
-                text-decoration: none;
-            }
-
-            .main-banner {
+           .main-banner {
                 background-color: #f5f5f5;
                 text-align: center;
                 display: flex;
@@ -164,97 +130,51 @@
                 align-self: flex-start;
                 margin-left: 10px;
             }
-
-            footer {
-                display: flex;
-                justify-content: space-around;
-                background-color: #222;
-                color: #fff;
-                padding: 20px 0;
-            }
-
-            footer div {
-                text-align: left;
-            }
-
-            footer a {
-                color: #f4a261;
-                text-decoration: none;
-            }
         </style>
     </head>
 
     <body>
-        <!-- Header -->
-        <header>
-            <div class="logo">살래?</div>
-            <nav>
-                <a href="${pageContext.request.contextPath}/loan/main">대출상품</a> <a href="#">채팅</a> <a href="#">게시판</a>
-                <a href="#">매물</a> <a href="#">관심매물</a>
-                <a href="#">방내놓기</a>
-            </nav>
-            <div class="auth">
-                <a href="login.jsp">로그인</a> <a href="register.jsp">회원가입</a>
-            </div>
-        </header>
-
         <!-- Main Banner -->
         <section class="main-banner">
             <h1>알림 확인</h1>
-            <div class="login-form">
-                <input type="number" name="id" placeholder="아이디 입력" />
-                <button id="login">로그인</button>
-            </div>
 
             <div class="notify-list"></div>
         </section>
 
-        <!-- Footer -->
-        <footer>
-            <div>
-                <h3>형태 별 검색</h3>
-                <p>전세<br />월세<br />아파트<br />빌라<br />상가</p>
-            </div>
-            <div>
-                <h3>고객 지원</h3>
-                <a href="#">자주 묻는 질문(FAQ)</a><br />
-                <a href="#">Android</a><br />
-                <a href="#">iOS</a>
-            </div>
-            <div>
-                <h3>저희 회사는</h3>
-                <a href="#">회사소개</a><br />
-                <a href="#">오시는 길</a><br />
-                <a href="#">제휴문의</a><br />
-                <a href="#">채용</a><br />
-            </div>
-        </footer>
+        <%@ include file="../common/footer_tmp.jsp" %>
 
         <script>
+            const user_id = "${loggedInUser.user_id}";
+
             var iconObj = {
                 "송금": "💸", "계약": "📜", "서명": "✒️"
             };
 
-            // 로그인
-            $('#login').click(function () {
-                const user_id = $("input[name='id']").val();
+            // Ajax 요청 함수
+            $.ajax({
+                type: "GET",
+                url: `${pageContext.request.contextPath}/notify/list/\${user_id}`,
+                contentType: "application/json",
+                success: function (data) {
+                    // 기존 알림 목록 초기화
+                    $('.notify-list').empty();
 
-                // 서버와 SSE 연결
-                const eventSource = new EventSource(`${pageContext.request.contextPath}/notify/subscribe/\${user_id}`);
+                    data.forEach(function (item) {
+                        const is_check = item._check ? 'checked' : '';
+                        const icon = getIcon(item.notify_content);
 
-                eventSource.addEventListener('INIT', function (event) {
-                    console.log('로그인 성공');
-
-                    draw(user_id);
-                });
-
-                eventSource.addEventListener('NOTIFY', function (event) {
-                    draw(user_id);
-                });
-
-                eventSource.onerror = function () {
-                    console.error('SSE 연결 오류');
-                };
+                        $('.notify-list').append(`
+                            <button class="\${is_check}" onclick="doClick(\${item.notify_id}, '\${item.notify_url}')">
+                                <span class="notify-icon">\${icon}</span>
+                                <span class="notify-content">\${item.notify_content}</span>
+                                <span class="notify-time">\${time(item.notify_time)}</span>
+                            </button>
+                        `);
+                    });
+                },
+                error: function () {
+                    console.error("알림 조회 오류");
+                }
             });
 
             // 알림 아이콘 지정
@@ -265,35 +185,6 @@
                     }
                 }
                 return "🔔";
-            }
-
-            // Ajax 요청 함수
-            function draw(user_id) {
-                $.ajax({
-                    type: "GET",
-                    url: `${pageContext.request.contextPath}/notify/list/\${user_id}`,
-                    contentType: "application/json",
-                    success: function (data) {
-                        // 기존 알림 목록 초기화
-                        $('.notify-list').empty();
-
-                        data.forEach(function (item) {
-                            const is_check = item._check ? 'checked' : '';
-                            const icon = getIcon(item.notify_content);
-
-                            $('.notify-list').append(`
-                                <button class="\${is_check}" onclick="doClick(\${item.notify_id}, '\${item.notify_url}')">
-                                    <span class="notify-icon">\${icon}</span>
-                                    <span class="notify-content">\${item.notify_content}</span>
-                                    <span class="notify-time">\${time(item.notify_time)}</span>
-                                </button>
-                            `);
-                        });
-                    },
-                    error: function () {
-                        console.error("알림 조회 오류");
-                    }
-                });
             }
 
             // 알림 읽음 처리 및 페이지 이동
