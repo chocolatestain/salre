@@ -19,6 +19,7 @@
         <script>
             // 알림 보내기
             $('#send').click(function () {
+                // 알림 대상 입력
                 const user_id = $("input[name='target']").val();
                 // 알림 내용 입력
                 const notify_content = `\${user_id}님<br>송금 알림입니다.`;
