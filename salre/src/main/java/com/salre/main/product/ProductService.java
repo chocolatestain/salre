@@ -65,6 +65,11 @@ public class ProductService {
 	public ProductDTO selectByContractId(int contract_id) {
 		return productDAO.selectByContractId(contract_id);
 	}
+
+	public List<ProductDTO> findProductsByRegionCode(int regionCode) {
+		return productDAO.findProductsByRegionCode(regionCode);
+	}
+ 
 }
 
 
