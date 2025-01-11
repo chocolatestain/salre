@@ -32,6 +32,6 @@ public interface ChatDAOInterface {
 	public void updateIsCheck(HashMap<String, Integer> map);
 	
 	// 매물 정보 가져오기
-	public ProductDTO getProductByUserId(Integer user_id);
+	public List<ProductDTO> getProductByUserId(Integer user_id);
 
 }

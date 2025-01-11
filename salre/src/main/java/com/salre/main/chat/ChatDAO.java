@@ -79,11 +79,11 @@ public class ChatDAO implements ChatDAOInterface {
 	}
 
 	// 매물 정보 가져오기
-	public ProductDTO getProductByUserId(Integer user_id) {
-		ProductDTO productDTO = sqlSession.selectOne(namespace + "getProductByUserId", user_id);
-		log.info("[getProductByUserId] productDTO : " + productDTO);
+	public List<ProductDTO> getProductByUserId(Integer user_id) {
+		List<ProductDTO> productDTOList = sqlSession.selectList(namespace + "getProductByUserId", user_id);
+		log.info("[getProductByUserId] productDTOList : " + productDTOList);
 		
-		return productDTO;
+		return productDTOList;
 	}
 
 }
