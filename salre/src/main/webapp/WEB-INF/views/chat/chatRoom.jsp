@@ -12,10 +12,6 @@
 	<div id="scrollDiv" class="d-flex flex-column h-100 position-relative">
 	    <!-- Chat: Header -->
 	    <div class="chat-header d-flex justify-content-center align-items-center border-bottom py-4 py-lg-7">
-	    	<div class="avatar me-3">
-	    		<img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/6.jpg" alt="#" class="avatar-img">
-	        </div>
-	        
 	        <div class="row align-items-center">
 	            <!-- Content -->
 	            <div class="col-8 col-xl-12">
@@ -35,9 +31,7 @@
 	        </div>
 	        
 	        <div class="ms-auto">
-		        <button class="btn btn-success">
-		        	거래 시작 버튼
-		        </button>
+		        <a href="${contextPath}/contract/dealstart" class="btn-sm btn-success">거래 시작</a>
 		        <button onclick="exitChatRoom();" class="btn">
 		        	<img src="${contextPath}/resources/bootstrap/chat/assets/img/icons/x.svg" alt="Close Icon">
 		        </button>
