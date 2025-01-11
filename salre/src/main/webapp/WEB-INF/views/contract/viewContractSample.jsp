@@ -9,11 +9,11 @@
 
 
 <title>계약서</title>
+<link rel="stylesheet" href="${path}/resources/css/contract.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 <body>
-	<h2>계약서 보기</h2>
 	<c:if test="${not empty imagePath}">
 		<img src="${path}${imagePath}" alt="계약서 이미지"
 			style="width: 100%; height: 80%;">
@@ -24,12 +24,12 @@
 	<form action="${path}/contract/nextStep" method="post">
 		<input type="hidden" name="contract_id" value="${contract_id}">
 		<div class="button-group">
-			<button type="button" class="btn btn-secondary"
-				onclick="closeWindow()">닫기</button>
-			<button type="button" class="btn btn-primary" onclick="goToSeller()">계약서
-				확인 요청</button>
+
+			<button type="button" class="btn btn-primary" onclick="goToSeller()">확인
+				요청</button>
 			<a href="${path}/resources/pdf/contract_sample_${contract_id}.pdf"
-				class="btn btn-primary" download>계약서 다운로드</a>
+				class="btn btn-primary" download>💾</a>
+			<button type="button" class="btn btn-secondary"	onclick="closeWindow()">닫기</button>
 		</div>
 	</form>
 
@@ -53,17 +53,19 @@
 					notify_url : notify_url
 				}),
 				success : function() {
+					alert("서명 요청 알림이 성공적으로 전송되었습니다.");
 					console.log("알림 전송 성공");
 				},
 				error : function() {
+					alert("서명 요청 알림 전송에 실패했습니다.");
 					console.error("알림 전송 오류");
 				}
 			});
 		};
 		// 창 닫기
 		function closeWindow() {
-			window.close();
-		}
+            window.close();
+        }
 	</script>
 </body>
 </html>

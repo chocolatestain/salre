@@ -97,21 +97,7 @@
                 <span>${product.area} ㎡</span>
             </div>
         </section>
-
-        <!-- 특약사항 입력 -->
-        <section class="section">
-            <h2>매물 사진</h2>
-            <div class="form-group">
-                <label for="image"> </label>
-               </div>
-            
-            
-            <div id="imagePreviewContainer" class="image-preview-container">
-        <!-- 이미지 미리보기 영역 -->
-    </div>
-        </section>
-
-        <!-- 제출 버튼 -->
+<!-- 제출 버튼 -->
         <div class="button-group">
         	
         	<form action="${path}/contract/inputContract" method = "post">
@@ -120,9 +106,32 @@
         	   <input type="hidden" name="product_id" value="${product.product_id}">
         	   <input type="hidden" name="user_id" value="${P_user.user_id}">
         	</form>
+        	 </div>
+		<!--매물 사진 -->
+		<section class="section">
+			<h2>매물 사진</h2>
+			<div class="image-preview-container">
+				<img src="${path}/resources/images/products/외관img.png" alt = "매물 사진 1">
+				<img src="${path}/resources/images/products/img1.png" alt = "매물 사진 1">
+				<img src="${path}/resources/images/products/img2.png" alt = "매물 사진 2">
+				<img src="${path}/resources/images/products/주방.png" alt = "매물 사진 4">
+				<img src="${path}/resources/images/products/화장실img.png" alt = "매물 사진 3">
+				<img src="${path}/resources/images/products/발코니img.png" alt = "매물 사진 5">
+			</div>
+		</section>
+
+		 <div class="button-group">
+        	
+        	<form action="${path}/contract/inputContract" method = "post">
+        	<button type="button" class="btn btn-secondary">취소</button>
+        	   <input type="submit" class="btn btn-primary"  value="다음" />
+        	   <input type="hidden" name="product_id" value="${product.product_id}">
+        	   <input type="hidden" name="user_id" value="${P_user.user_id}">
+        	</form>
+        	 </div>
             
             
-        </div>
+       
     </div>
  
 </body>

@@ -88,17 +88,20 @@
 			<div class="contract-rule">
 				<span>${contract.contract_rule}</span>
 			</div>
-			<div class="form-group">
+			<!-- 체크박스와 라벨을 감싸는 컨테이너 추가 -->
+			<div class="agreement-container">
 				<input type="checkbox" id="agreementCheck" name="agreementCheck"
-					value="agree"> <label for="agreementCheck">위 특약 사항을 확인하고 동의합니다.</label>
+					value="agree"> <label for="agreementCheck">위 특약 사항을
+					확인하고 동의합니다.</label>
 			</div>
 		</section>
 
 
 		<!-- 제출 버튼 -->
 		<div class="button-group">
-			<button type="button" class="btn btn-primary"onclick="goToNextPage()">수락</button>
-			<button type="button" class="btn btn-danger" onclick = "goToSeller()">반려</button>
+			<button type="button" class="btn btn-primary"
+				onclick="goToNextPage()">수락</button>
+			<button type="button" class="btn btn-danger" onclick="goToSeller()">반려</button>
 			<button type="button" class="btn btn-basic">닫기</button>
 		</div>
 
@@ -140,7 +143,6 @@
 				}
 			});
 		};
-		
 	</script>
 </body>
 </html>
