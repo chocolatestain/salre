@@ -266,7 +266,7 @@ public class ContractService {
         String tenant_excelPath = ExcelWriter.insertImageIntoExcel(excelPath, signaturePath, "V51"); // 임차인 서명 위치 V51
 
         // 3. 최종 PDF 및 이미지 변환
-        String pdfDirectory = basePath + "/resources/pdf/tenant/";
+        String pdfDirectory = basePath + "/resources/pdf/tenant";
         String newPdfPath = AsposePdfConverter.convertExcelToOtherPdf(tenant_excelPath,pdfDirectory,contract_id);
     
        // String imageName = "/resources/paperImages/" + UUID.randomUUID() + "_final_contract.png";

@@ -67,7 +67,7 @@ public class ContractController {
 		System.out.println("user_id"+user.getUser_id());
 		
 		
-		int p_id = 7;
+		int p_id = 87;
  
 		ProductDTO product = productService.selectByIdService(p_id);
 		System.out.println(product);
@@ -310,6 +310,19 @@ public class ContractController {
 	             String signatureData = requestData.get("signature");
 	             String basePath = request.getSession().getServletContext().getRealPath(".");
 	             String imagePath = contractService.addTenantSignature(signatureData, contract_id, basePath);
+	             
+	             	//경로 파싱
+		            String delimiter = "/resources/";
+		            int index = imagePath.indexOf(delimiter);
+		            String relativePath="";
+		            if (index != -1) {
+		                relativePath = imagePath.substring(index).replace("\\", "/");
+		                
+		            } else {
+		                  }
+		            System.out.println("Tenant imagePath :"+relativePath); 
+		            contractService.saveContractImgPath(contract_id, relativePath);
+	             
 	             contractService.updateContractStatus(contract_id, 4); //계약상태 변경 4:임차인 서명완료
 	             return ResponseEntity.ok(Map.of("imagePath", imagePath));
 	         } catch (Exception e) {

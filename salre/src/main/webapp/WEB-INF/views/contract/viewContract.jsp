@@ -1,33 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-    <title>계약서</title>
+<title>계약서</title>
+<link rel="stylesheet" href="${path}/resources/css/contract.css">
 </head>
 <body>
-    <h2>계약서 보기</h2>
-    <form id="contractInput" action="${path}/contract/saveSignature">
-        <c:if test="${not empty contract.contract_imgpath}">
-            <img src="${path}${contract.contract_imgpath}" alt="계약서 이미지" style="width: 70%; height: 80%;">
-        </c:if>
-        <c:if test="${not empty errorMessage}">
-            <p style="color: red;">${errorMessage}</p>
-        </c:if>
-        <!-- 서명 영역 -->
-        <section class="section">
-            <h2>서명하기</h2>
-            <canvas id="signatureCanvas" width="200" height="130" style="border: 1px solid #000;"></canvas>
-            <div class="button-group">
-                <button type="button" class="btn btn-secondary" onclick="clearSignature()">지우기</button>
-                <button type="button" class="btn btn-primary" onclick="saveAndCompleteSignature()">서명 완료</button>
-            </div>
-        </section>
-    </form>
-    <script>
+	<div class="container">
+		<form id="contractInput" action="${path}/contract/saveSignature">
+			<c:if test="${not empty contract.contract_imgpath}">
+				<div class="contract-image-container">
+					<img src="${path}${contract.contract_imgpath}" alt="계약서 이미지"
+						class="contract-image" onclick="openModal(this.src)">
+				</div>
+				<div id="imageModal" class="image-modal" onclick="closeModal()">
+					<span class="close">&times;</span> <img id="modalImage"
+						class="modal-content">
+				</div>
+			</c:if>
+			<c:if test="${not empty errorMessage}">
+				<p class="error-message">${errorMessage}</p>
+			</c:if>
+			<!-- 서명 영역 -->
+			<c:if test="${contract.contract_status == '2'}">
+				<section class="section">
+					<h2>서명</h2>
+					<canvas id="signatureCanvas" class="signature-canvas"></canvas>
+					<div class="button-group">
+						<button type="button" class="btn btn-primary"
+							onclick="saveAndCompleteSignature()">서명 완료</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="clearSignature()">지우기</button>
+
+					</div>
+				</section>
+			</c:if>
+
+			<c:if test="${contract.contract_status == '1'}">
+				<p style="color: red;">잘못된 접근입니다.</p>
+			</c:if>
+			<c:if test="${contract.contract_status == '3'}">
+				<p style="color: red;">잘못된 접근입니다.</p>
+			</c:if>
+
+			<c:if
+				test="${contract.contract_status == 4 or contract.contract_status == 5}">
+				<p class="message">서명을 이미 완료하였습니다.</p>
+			</c:if>
+		</form>
+	</div>
+	<script>
         const canvas = document.getElementById('signatureCanvas');
         const ctx = canvas.getContext('2d');
         let drawing = false;
@@ -78,6 +104,19 @@
                 alert('서명을 저장하는 중 오류가 발생했습니다.');
             });
         }
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+
+            modal.style.display = "flex"; // 모달 창 표시
+            modalImage.src = imageSrc; // 클릭한 이미지 경로 설정
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = "none"; // 모달 창 숨김
+        }
+
     </script>
 </body>
 </html>
