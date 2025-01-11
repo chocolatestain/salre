@@ -33,13 +33,16 @@ public class ChatController {
 	ChatService chatService;
 	
 	@Autowired
+	ProductService productService;
+	
+	@Autowired
 	UserService userService;
 	
 	@Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 	
 	// 채팅 메인 화면
-	@GetMapping("/main")
+	@GetMapping("/main.do")
 	public String main(HttpServletRequest request, Model model) {
 		// 로그인 정보(세션) 가져오기
 		HttpSession session = request.getSession();
@@ -48,29 +51,35 @@ public class ChatController {
 		Integer user_id = userDTO.getUser_id(); // 회원 번호
 		
 		// 매물 정보 가져오기
-		ProductDTO productDTO = chatService.getProductByUserId(user_id);
+		List<ProductDTO> productDTOList = chatService.getProductByUserId(user_id);
 		
 		List<ChatRoomDTO> chatRoomDTOList = null;
-		if (productDTO != null) {
-			Integer product_id = productDTO.getProduct_id(); // 매물 번호
+		ProductDTO productDTO = null;
+		if (!productDTOList.isEmpty()) {
+			Integer product_id = productDTOList.get(0).getProduct_id(); // 매물 번호
 			
 			ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
 														   .product_id(product_id).build();
 			
 			// 채팅방 정보 조회(user_id, product_id)
 			chatRoomDTOList = chatService.selectByUserIdService(chatRoomDTO);
+			
+			// 매물 사진을 보여주기 위한 매물 정보 조회
+			productDTO = productService.selectByIdService(product_id);
 		} else {
 			// 채팅방 정보 조회(user_id)
 			chatRoomDTOList = chatService.getChatRoomInfoService(user_id);
 		}
 		
+		model.addAttribute("productDTO", productDTO);
 		model.addAttribute("chatRoomDTOList", chatRoomDTOList);
+		model.addAttribute("loggedInUser", userDTO);
 		
 		return "chat/chatMain";
 	}
 	
 	// 채팅방 생성
-	@PostMapping("/createChatRoom")
+	@PostMapping("/createChatRoom.do")
 	public String createChatRoom(HttpServletRequest request,
 			@RequestParam("product_id") String product_id,
 			@RequestParam("product_user_id") String product_user_id,
@@ -101,7 +110,7 @@ public class ChatController {
 			chatService.createChatRoom(chatRoomDTO);
 		}
 		
-		return "redirect:/chat/main";
+		return "redirect:/chat/main.do";
 	}
 	
 	// 채팅방 입장
