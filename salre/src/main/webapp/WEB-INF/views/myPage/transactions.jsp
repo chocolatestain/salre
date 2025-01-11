@@ -49,7 +49,7 @@
 }
 
 
-/* test */
+/* 설 카드디자인 */
         .product-card {
             background-color: #fff;
             border: 1px solid #ddd;

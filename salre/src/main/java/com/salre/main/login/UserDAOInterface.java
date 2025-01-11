@@ -1,9 +1,11 @@
 package com.salre.main.login;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.salre.main.myPage.LikeDTO;
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
@@ -47,6 +49,15 @@ public interface UserDAOInterface {
 
 		    //마이페이지 - 나의 관심매물
 		  	public List<ProductDTO> getFavoritesByUserId(int user_id);
+		  	
+		    //마이페이지 - 나의 관심매물추가
+			public void insertFavorite(LikeDTO userlike);
+			
+			//마이페이지 - 나의 관심매물상태변경(1>0) 
+			public void updateFavorite(LikeDTO userlike);
+			  
+			//마이페이지 - 나의 관심매물삭제  
+			public void deleteFavorite(LikeDTO userlike);
 		  
 		    //���������� - ���� �ۼ��� �� ��� ��ȸ(Ư�� ������� �Խñ� ��� ��ȸ)
 		    public List<PostDTO> selectPostsByUserId(int user_id);

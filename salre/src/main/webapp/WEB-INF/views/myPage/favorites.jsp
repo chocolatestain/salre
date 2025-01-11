@@ -40,6 +40,47 @@
 .heart-btn.liked {
 	color: red;
 }
+
+/* 설 카드디자인 */
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
+            margin: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            overflow: hidden;  
+   			display: inline-block;  
+        }
+        .product-card img {
+            border-radius: 8px;
+            width: 200px;
+            max-height: 200px; 
+            object-fit: cover; 
+            object-position: center; 
+            border: 1px solid #ddd; 
+  			height: auto; /* 비율 유지 */
+    		transition: transform 0.3s ease; /* 확대 효과의 부드러움 설정 */
+        }
+        .product-card img:hover {
+   		 	transform: scale(1.1); /* 마우스 오버 시 10% 확대 */
+		}
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            font-size: 16px;
+            color: #666;
+        }
+        .product-card .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #f4a261;
+            margin-top: 10px;
+        }
 </style>
 
 </head>
@@ -73,68 +114,64 @@
 					</div>
 
 					<!-- 매물 목록 -->
-					<div class="card-container">
-						<!--  서버에서받는거...   -->
-						<c:forEach var="product" items="${favoritesList}">
-							<div class="card">
-								<%-- <img src="${product.image}" class="card-img-top"
-									alt="${product.title}"> --%>
-								<img src="https://via.placeholder.com/250x180" class="card-img-top" alt="매물1">
-								<div class="card-body">
-								
-									
-									<h5 class="card-title">${product.product_name}</h5>
-									<p class="card-text">
-										월세: ${product.deposit}/{product.rentfee}<br>
-										${product.address}
-									</p>
-									<div class="d-flex justify-content-between align-items-center">
-										<button onclick="toggleLike(this, '${product.product_id}')"
-											class="heart-btn liked">
-											<i class="bi bi-heart-fill"></i>
-										</button>
-										<a href="${contextPath}/product/detail/${product.product_id}"
-											class="btn btn-primary">자세히 보기</a>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-
-
-						<!-- <div class="card">
-							<img src="https://via.placeholder.com/250x180"
-								class="card-img-top" alt="매물1">
-							<div class="card-body">
-								<h5 class="card-title">오픈형 원룸</h5>
-								<p class="card-text">
-									월세: 4,000 / 25<br>서울시 강남구...
-								</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<button onclick="toggleLike(this)" class="heart-btn">
-										<i class="bi bi-heart"></i>
-									</button>
-									<a href="#" class="btn btn-primary">자세히 보기</a>
-								</div>
-							</div>
-						</div> --> 
-						 <!-- <div class="card">
-							<img src="https://via.placeholder.com/250x180"
-								class="card-img-top" alt="매물2">
-							<div class="card-body">
-								<h5 class="card-title">투룸</h5>
-								<p class="card-text">
-									월세: 5,000 / 15<br>경기도 수원시...
-								</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<button onclick="toggleLike(this)" class="heart-btn">
-										<i class="bi bi-heart"></i>
-									</button>
-									<a href="#" class="btn btn-primary">자세히 보기</a>
-								</div>
-							</div>
-						</div> -->
-					</div>
-				</div>
+							<section class="search-results" id="search-results">
+						        <c:if test="${not empty favoritesList}">
+						        
+						            <c:forEach var="product" items="${favoritesList}">
+						            
+						             <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
+						                <div class="product-card">
+						                    <img class="product-image" 
+						                         src="resources/images/products/${product.product_id}.jpeg" 
+						                         alt="${product.product_name}" 
+						                         onerror="this.src='https://placehold.co/200x200';">
+						                    <h3 style="color: black;">${product.product_name}</h3>
+						                    <p>${product.address}, ${product.address_detail}</p>
+						                    <p>방 수: ${productB.room_count} | 욕실 수: ${product.bath_count}</p>
+						                    <p>층수: ${product.floor}층 | 면적: ${product.area}㎡</p>
+						                   
+						                     <div class="price"> 
+						                        <c:choose>
+						                            <c:when test="${product.deposit >= 100000000}"> 
+						                                보증금
+						                                <c:if test="${(product.deposit % 100000000) / 10000 >= 0}">  
+						                                    <fmt:formatNumber pattern="####" value = "${product.deposit / 100000000}" />
+						                                    억
+						                                </c:if>
+						                                <c:if test="${(product.deposit / 100000000) < 1}">
+						                                    <fmt:formatNumber pattern="####" value = "${product.deposit}" />
+						                                    만
+						                                </c:if>
+						                                원 
+						                            </c:when>
+						                            <c:otherwise>
+						                                보증금
+						                                <fmt:formatNumber pattern="####" value = "${product.deposit / 10000}" />
+						                                만 원                             
+						                            </c:otherwise>
+						                        </c:choose>
+						                        <c:if test = "${product.payment_type == '월세' }">
+						                            / ${product.rentfee} 만 원 월세
+						                        </c:if>
+						                    </div>
+						                   </div>
+						                  </a>
+													<button onclick="toggleLike(this, '${product.product_id}', event)"
+													class="heart-btn liked">
+													<i class="bi bi-heart-fill"></i>
+													</button>
+			
+						            </c:forEach>
+						        </c:if>
+						        <c:if test="${empty favoritesList}">
+						            <p style="text-align: center; font-size: 20px; color: #999;">검색 결과가 없습니다.</p>
+						        </c:if>
+						    </section> 
+						    
+						</div>
+			
+				
+				
 				<!-- 판매자 콘텐츠 -->
 				<div id="seller-content" style="text-align: center;">
 					<h3>판매자는 관심매물을 확인할 수 없습니다.</h3>
@@ -205,7 +242,9 @@
 	        }
 	    });
 	} */
-	function toggleLike(button, product_id) {
+	
+	/*0110 좋아요실제코드  */
+	/* function toggleLike(button, product_id) {
 	    // 현재 liked 상태 확인
 	    const liked = button.classList.contains("liked");
 	    const is_liked = !liked; // 현재 상태의 반대 값을 서버로 보냄
@@ -233,9 +272,80 @@
 	            // 오류 메시지 표시
 	            alert("오류가 발생했습니다. 다시 시도해주세요.");
 	        }
-	    });
-	}
+	    }); 
+	    }*/
+	    
+	    
+	    /* 테스트코드 */
+	function toggleLike(button, product_id, event) {
+    // 이벤트 전파 차단
+    if (event) {
+        event.stopPropagation();
+    }
 
-	</script>
+    // 현재 liked 상태 확인
+    const is_liked = button.classList.contains("liked");
+    
+    // 좋아요 취소 시 확인 창 표시
+    if (is_liked && !confirm("'좋아요!'를 취소하시겠습니까? "+ is_liked)) {
+        return; // 취소 버튼 클릭 시 동작 중단
+    }
+
+    $.ajax({
+        url: `${contextPath}/toggleLike`, // 서버 API 경로
+        type: "POST",
+        contentType: "application/json", // JSON 데이터 전송
+        data: JSON.stringify({
+            product_id: product_id,
+            user_id:user_id,
+            is_liked: is_liked // 현재 상태를 서버로 전송
+        }),
+        success: function (response) {
+            if (response.success) {
+                // 좋아요 취소 또는 등록에 성공한 경우
+                if (is_liked==0) {
+                    // 좋아요 취소: 카드 삭제
+                    $(`#card-${product_id}`).remove();
+                    alert(response.message);
+                } else {
+                    // 좋아요 등록: 버튼 스타일 업데이트
+                    button.classList.add("liked");
+                    button.querySelector("i").classList.remove("bi-heart");
+                    button.querySelector("i").classList.add("bi-heart-fill");
+                }
+            } else {
+                alert(response.message || "알 수 없는 오류가 발생했습니다.");
+            }
+        },
+        error: function () {
+            alert("오류가 발생했습니다. 다시 시도해주세요.");
+        }
+    });
+}
+  
+</script>
+ 
+<%-- <div id="favorites-container">
+    <c:forEach var="product" items="${favoritesList}">
+        <div id="card-${product.product_id}" class="product-card">
+            <img src="resources/images/products/${product.image}" alt="${product.name}" />
+             <img class="product-image" 
+                         src="resources/images/products/${product.product_id}.jpeg" 
+                         alt="${product.product_name}" 
+                         onerror="this.src='https://placehold.co/200x200';">
+            <h3>${product.product_name}</h3>
+            <p>${product.description}</p>
+            <button class="btn btn-like ${product.liked ? 'liked' : ''}" 
+                onclick="toggleLike(this, ${product.product_id})">
+                <i class="bi ${product.liked ? 'bi-heart-fill' : 'bi-heart'}"></i>
+            </button>
+        </div>
+    </c:forEach>
+</div> --%>
+
+	    
+	    
+	
+
 </body>
 </html>
