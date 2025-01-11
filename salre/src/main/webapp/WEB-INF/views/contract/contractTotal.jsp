@@ -93,16 +93,12 @@
 					<label>계약금:</label> <span>${contract.price}</span>
 				</div>
 				<div class="form-group">
-					<label>중도금:</label>
-					 <span>${contract.middle_payment}</span>
-					  <label>중도금 지급일:</label>
-					  <span>${contract.middle_payment_day}</span>
+					<label>중도금:</label> <span>${contract.middle_payment}</span> <label>중도금
+						지급일:</label> <span>${contract.middle_payment_day}</span>
 				</div>
 				<div class="form-group">
-					<label>잔금:</label> 
-					<span>${contract.balance_payment}</span>
-					<label>잔금 지급일:</label>
-					<span>${contract.balance_payment_day}</span>
+					<label>잔금:</label> <span>${contract.balance_payment}</span> <label>잔금
+						지급일:</label> <span>${contract.balance_payment_day}</span>
 				</div>
 				<div class="form-group">
 					<label>임대차 기간:</label> <span>${product.enter_day}</span> ~ <span>${contract.contract_date}</span>
@@ -121,30 +117,52 @@
 			</section>
 			<!-- 제출 버튼 -->
 			<div class="button-group">
-				<button type="button" class="btn btn-primary"
-					onclick="makeContractPaper()">계약서 초안생성</button>
-				
-			</div>
+    <button type="button" class="btn btn-primary" onclick="makeContractPaper()">계약서 생성</button>
+    <div id="closeButtonContainer"></div>
+    </div>
 		</form>
 	</div>
 
-<script>
-    // JSP에서 contextPath를 가져와 JavaScript 변수로 저장
-        	const contextPath = "${pageContext.request.contextPath}";
- 
-    // 계약서 초안 생성
-    function makeContractPaper() {
-    	console.log(contextPath);
-        const newWindow = window.open(
-        	
-            contextPath +`/contract/sample/${contract.contract_id}`,
-            '_blank',
-            'width=800,height=600'
-        );
-        if (!newWindow) {
-            alert("새 창을 열 수 없습니다. 팝업 차단을 확인하세요.");
-        }
-    }
+	<script>
+	// JSP에서 contextPath를 가져옴
+	const contextPath = "${pageContext.request.contextPath}";
+
+	// 계약서 초안 생성
+	function makeContractPaper() {
+	    console.log("초안 생성 시작:", contextPath);
+
+	    // 새 창 열기
+	    const newWindow = window.open(
+	        contextPath + `/contract/sample/${contract.contract_id}`,
+	        '_blank',
+	        'width=800,height=600'
+	    );
+
+	    // 팝업 차단 확인
+	    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+	        alert("새 창을 열 수 없습니다. 팝업 차단 설정을 확인하세요.");
+	        return;
+	    }
+
+	    // 새 창 감시
+	    const timer = setInterval(() => {
+	        if (newWindow.closed) {
+	            clearInterval(timer); // 타이머 종료
+
+	            // 닫기 버튼 동적 생성
+	            const closeButtonContainer = document.getElementById("closeButtonContainer");
+	            closeButtonContainer.innerHTML = `
+	                <button type="button" class="btn btn-secondary" onclick="closeWindow()">마이페이지</button>
+	            `;
+	        }
+	    }, 500);
+	}
+
+	// 창 닫기
+	function closeWindow() {
+	    window.location.href = "${path}/transactions";
+	}
+
 </script>
 </body>
 </html>

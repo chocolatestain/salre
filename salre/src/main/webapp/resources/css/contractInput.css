@@ -1,5 +1,35 @@
 @charset "UTF-8";
 
+.fab {
+    background-color: #E1C59D;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fab:hover {
+    background-color: #CF8E4A;
+    transform: scale(1.1);
+}
+
+.section2 h2 {
+    font-size: 1.5em;
+    border-bottom: 2px solid #CF8E4A;
+    padding-bottom: 8px;
+    margin: 0;
+    color: #CF8E4A;
+     width: 95%; 
+}
+
 body {
     font-family: 'Noto Sans KR', Arial, sans-serif;
     background-color: #FFF9ED; /* 노란 계열 배경 */
@@ -69,6 +99,24 @@ h2 {
     color: #000000; /* 검정 텍스트 */
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input {
+    flex: 1; /* 입력 필드가 가로를 채우도록 설정 */
+    padding-right: 30px; /* 오른쪽에 공간 추가 */
+}
+
+.input-group .unit {
+    position: absolute;
+    right: 10px; /* 입력 필드 오른쪽 끝 */
+    color: #888; /* 회색 텍스트 */
+    font-size: 1em;
+    pointer-events: none; /* 클릭되지 않도록 설정 */
+}
 
 textarea {
     resize: vertical;
@@ -132,4 +180,6 @@ textarea {
         flex: 0 0 100%;
         min-width: unset;
     }
+    
+
 }
