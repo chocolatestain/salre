@@ -7,11 +7,15 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.salre.main.myPage.LikeDTO;
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
@@ -141,6 +145,31 @@ public class UserService {
 	public List<ProductDTO> getFavoritesByUserId(int user_id) {
 		return userDAO.getFavoritesByUserId(user_id);
 	}
+	
+	//testcode
+	//마이페이지 - 나의 관심매물추가  
+	/*
+	 * public ResponseEntity<String> toggleLike(@RequestBody LikeDTO likeDTO) {
+	 * boolean updatedStatus = userService.toggleLike(likeDTO); return
+	 * ResponseEntity.ok(updatedStatus ? "Liked" : "Unliked"); }
+	 */
+	
+	//마이페이지 - 나의 관심매물추가
+	public void insertFavorite(LikeDTO userlike) {
+		userDAO.insertFavorite(userlike); 
+	  }
+	
+	//마이페이지 - 나의 관심매물상태변경(1>0) 
+	public void updateFavorite(LikeDTO userlike) {
+		userDAO.updateFavorite(userlike); 
+		  }
+	
+	
+	//마이페이지 - 나의 관심매물삭제  
+	public void deleteFavorite(LikeDTO userlike) {
+		userDAO.deleteFavorite(userlike); 
+	  }
+	 
 
 	// ���������� - ���� �ۼ��� �� ��� ��ȸ(Ư�� ������� �Խñ� ��� ��ȸ)
 	public List<PostDTO> getPostsByUserId(int user_id) {

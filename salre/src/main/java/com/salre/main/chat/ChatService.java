@@ -55,7 +55,7 @@ public class ChatService {
 	}
 
 	// 매물 정보 가져오기
-	public ProductDTO getProductByUserId(Integer user_id) {
+	public List<ProductDTO> getProductByUserId(Integer user_id) {
 		return chatDAO.getProductByUserId(user_id);
 	}
 

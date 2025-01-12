@@ -88,17 +88,20 @@
 			<div class="contract-rule">
 				<span>${contract.contract_rule}</span>
 			</div>
-			<div class="form-group">
+			<!-- 체크박스와 라벨을 감싸는 컨테이너 추가 -->
+			<div class="agreement-container">
 				<input type="checkbox" id="agreementCheck" name="agreementCheck"
-					value="agree"> <label for="agreementCheck">위 특약 사항을 확인하고 동의합니다.</label>
+					value="agree"> <label for="agreementCheck">위 특약 사항을
+					확인하고 동의합니다.</label>
 			</div>
 		</section>
 
 
 		<!-- 제출 버튼 -->
 		<div class="button-group">
-			<button type="button" class="btn btn-primary"onclick="goToNextPage()">수락</button>
-			<button type="button" class="btn btn-danger">반려</button>
+			<button type="button" class="btn btn-primary"
+				onclick="goToNextPage()">수락</button>
+			<button type="button" class="btn btn-danger" onclick="goToSeller()">반려</button>
 			<button type="button" class="btn btn-basic">닫기</button>
 		</div>
 
@@ -114,7 +117,32 @@
 			}
 			window.location.href = "${path}/contract/additionalInfo?contract_id=${contract.contract_id}";
 		}
-		
+		// 계약서 확인 요청
+		function goToSeller() {
+			// 알림 보내기
+			const user_id = "${contract.user_id}";
+			// 알림 내용 입력
+			const notify_content = `계약이 거절되었어요.<br>계약사항을 다시 확인해주세요.`;
+			// 알림 클릭 시 이동할 URL
+			const notify_url = "${pageContext.request.contextPath}/contract/onlyView/${contract.contract_id}";
+
+			$.ajax({
+				type : "POST",
+				url : `${pageContext.request.contextPath}/notify/send`,
+				contentType : "application/json",
+				data : JSON.stringify({
+					user_id : user_id,
+					notify_content : notify_content,
+					notify_url : notify_url
+				}),
+				success : function() {
+					console.log("알림 전송 성공");
+				},
+				error : function() {
+					console.error("알림 전송 오류");
+				}
+			});
+		};
 	</script>
 </body>
 </html>

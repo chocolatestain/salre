@@ -18,6 +18,7 @@
 		<typeAlias type="com.salre.main.myPage.PostDTO" alias="PostDTO" />
 		<typeAlias type="com.salre.main.myPage.ReviewDTO" alias="ReviewDTO" />
 		<typeAlias type="com.salre.main.myPage.ReportDTO" alias="ReportDTO" />
+		<typeAlias type="com.salre.main.myPage.LikeDTO" alias="likeVO" />		
 		<typeAlias type="com.salre.main.product.ProductDTO" alias="productVO" />
 		<typeAlias type="com.salre.main.product.RegionDTO" alias="regionVO"/>
 		<typeAlias type="com.salre.main.loan.LoanDTO" alias="loanVO" />

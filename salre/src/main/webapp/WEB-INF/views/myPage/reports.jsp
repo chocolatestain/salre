@@ -100,6 +100,12 @@ body {
                         </tr>
                             <!-- </tr> -->
                         </c:forEach>
+                          <!-- 데이터가 없을 경우 -->
+                        <c:if test="${empty reportList}">
+                            <tr>
+                                <td colspan="6">신고한 내역이 없습니다.</td>
+                            </tr>
+                        </c:if>
                         
                         <!-- 더미 데이터 (테스트용) -->
       			  <!--  <tr onclick="redirectToDetail('#')">

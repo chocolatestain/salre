@@ -28,9 +28,11 @@
 					<!-- Toggle Buyer/Seller -->
 					<div class="toggle-container">
 						<span>구매자</span>
+						
 						<div class="form-check form-switch">
 							<input class="form-check-input" type="checkbox" id="toggleSwitch">
 						</div>
+						
 						<span>판매자</span>
 					</div>
 					<!-- Icon Buttons -->
@@ -98,6 +100,7 @@
 				});
 			}
 		</script>
+		
 	</body>
 
 	</html>
