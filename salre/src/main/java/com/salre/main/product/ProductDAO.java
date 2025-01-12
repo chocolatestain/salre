@@ -63,7 +63,7 @@ public class ProductDAO implements ProductInterface {
 		  return sqlSession.update(namespace + "incrementViewCount", product_id);	
 	}
 	@Override
-	public List<ProductDTO> findProductsByRegionCode(int regionCode) {
-			return sqlSession.selectList(namespace + "findProductsByRegionCode", regionCode);
+	public List<ProductDTO> findProductsByRegionCode(int region_id) {
+			return sqlSession.selectList(namespace + "findProductsByRegionCode", region_id);
 	}
 }
