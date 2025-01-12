@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
 import com.salre.main.product.ProductDTO;
-import com.salre.main.product.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,9 +30,6 @@ public class ChatController {
 	
 	@Autowired
 	ChatService chatService;
-	
-	@Autowired
-	ProductService productService;
 	
 	@Autowired
 	UserService userService;
@@ -54,7 +50,6 @@ public class ChatController {
 		List<ProductDTO> productDTOList = chatService.getProductByUserId(user_id);
 		
 		List<ChatRoomDTO> chatRoomDTOList = null;
-		ProductDTO productDTO = null;
 		if (!productDTOList.isEmpty()) {
 			Integer product_id = productDTOList.get(0).getProduct_id(); // 매물 번호
 			
@@ -63,15 +58,11 @@ public class ChatController {
 			
 			// 채팅방 정보 조회(user_id, product_id)
 			chatRoomDTOList = chatService.selectByUserIdService(chatRoomDTO);
-			
-			// 매물 사진을 보여주기 위한 매물 정보 조회
-			productDTO = productService.selectByIdService(product_id);
 		} else {
 			// 채팅방 정보 조회(user_id)
 			chatRoomDTOList = chatService.getChatRoomInfoService(user_id);
 		}
 		
-		model.addAttribute("productDTO", productDTO);
 		model.addAttribute("chatRoomDTOList", chatRoomDTOList);
 		model.addAttribute("loggedInUser", userDTO);
 		
