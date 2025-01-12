@@ -2,6 +2,9 @@ package com.salre.main.board;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.salre.main.login.UserDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,29 +35,48 @@ public class BoardController {
 	@GetMapping(value = "/list")
 	public String boardList(@RequestParam(value = "type", required = false, defaultValue = "공지사항") String type,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			Model model) {
+			HttpServletRequest request, Model model) {
 		// 해당 페이지에서 보여줄 게시글(공지사항 or 자유게시판) 목록
 		List<BoardDTO> boardList = boardService.selectByPageService(type, page);
+		// 게시글이 없을 경우
+		if (boardList == null || boardList.isEmpty()) {
+			BoardDTO defaultBoardDTO = new BoardDTO();
+			
+			defaultBoardDTO.setBoard_id(0);
+			defaultBoardDTO.setBoard_class(type);
+			
+			boardList.add(defaultBoardDTO);
+		}
 		log.info("boardList : " + boardList);
 		
 		// /board/list/page=2 이런 식으로 요청하게 됨
 		PageDTO pageDTO = boardService.pagingParam(type, page);
 		log.info("pageDTO : " + pageDTO);
 		
+		// 로그인 정보(세션) 가져오기
+		HttpSession session = request.getSession();
+		UserDTO userDTO = (UserDTO) session.getAttribute("loggedInUser");
+		
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageDTO", pageDTO);
-//		model.addAttribute("boardList", boardService.selectAllService());
+		model.addAttribute("userDTO", userDTO);
+		model.addAttribute("type", type);
 		
 		return "board/boardList";
 	}
 	
 	// 게시글 등록 화면
-	@GetMapping(value = "/insert")
+	@GetMapping(value = "/insert.do")
 	public String boardInsertPage(@RequestParam(value = "type", required = false, defaultValue = "공지사항") String type,
-			Model model) {
-		String board_class = type;
+			HttpServletRequest request, Model model) {
+		String board_class = type; // 공지사항 or 자유게시판
+		
+		// 게시글 등록 시 user_id, writer(아이디) 필요
+		HttpSession session = request.getSession();
+		UserDTO userDTO = (UserDTO) session.getAttribute("loggedInUser");
 		
 		model.addAttribute("type", board_class);
+		model.addAttribute("userDTO", userDTO);
 		
 		return "board/boardInsert";
 	}
@@ -62,9 +86,6 @@ public class BoardController {
 	@PostMapping(value = "/insert", consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = "text/plain;charset=utf-8")
 	public String boardInsert(@RequestBody BoardDTO boardDTO) {
-		// 한글 인코딩?
-		
-		// 세션 값으로 user_id, writer(아이디) 받아오기
 		// 공지사항 : 관리자만 등록 가능, 자유게시판 : 누구나 가능
 		int result = boardService.insertService(boardDTO);
 		
@@ -73,7 +94,7 @@ public class BoardController {
 	
 	// 게시글 상세보기
 	@GetMapping(value = "/detail")
-	public String boardDetail(Integer board_id, Model model) {
+	public String boardDetail(Integer board_id, HttpServletRequest request, Model model) {
 		// 게시글 상세보기 시 조회수 증가
 		boardService.updateClickCnt(board_id);
 		
@@ -85,11 +106,16 @@ public class BoardController {
 		
 		// 댓글 수
 		int commentCnt = commentService.selectCommentCnt(board_id);
-		log.info("commentCnt : " + commentCnt);
+		
+		// 댓글 등록 시 content_writer(아이디) 필요
+		HttpSession session = request.getSession();
+		UserDTO userDTO = (UserDTO) session.getAttribute("loggedInUser");
+		log.info("userDTO : " + userDTO);
 		
 		model.addAttribute("boardDTO", boardDTO);
 		model.addAttribute("commentDTOList", commentDTOList);
 		model.addAttribute("commentCnt", commentCnt);
+		model.addAttribute("userDTO", userDTO);
 		
 		return "board/boardDetail";
 	}
