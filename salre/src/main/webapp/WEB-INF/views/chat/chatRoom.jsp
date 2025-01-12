@@ -12,6 +12,9 @@
 	<div id="scrollDiv" class="d-flex flex-column h-100 position-relative">
 	    <!-- Chat: Header -->
 	    <div class="chat-header d-flex justify-content-center align-items-center border-bottom py-4 py-lg-7">
+	        <div class="avatar">
+	        	<img src="${contextPath}/resources/images/products/${chatRoomDTO.product_id}.jpeg" alt="매물 사진" class="avatar-img">
+	        </div>
 	        <div class="row align-items-center">
 	            <!-- Content -->
 	            <div class="col-8 col-xl-12">
