@@ -115,11 +115,15 @@
 		}
 		
 		// 게시글 등록 함수
+		let user_id = ${userDTO.user_id};
+		let id = "${userDTO.id}";
 		function doInsert(type) {
 			let board_title = $('[name="board_title"]').val();
 			let board_content = $('.ql-editor').html();
 			
 			let jsonData = {
+					"user_id": user_id,
+					"writer": id,
 					"board_class": type,
 					"board_title": board_title,
 					"board_content": board_content
@@ -133,7 +137,7 @@
 				success: function(res) {
 					alert(res);
 					// 게시글 등록 이후 게시판 목록 조회로 이동
-					location.href="${contextPath}/board/list";
+					location.href="${contextPath}/board/list?type=" + type;
 				},
 				error: function(err) {
 					alert(err);

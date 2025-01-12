@@ -5,6 +5,9 @@
 <html>
 <head>
 	<title>게시판 목록</title>
+	
+	<!-- 외부 CSS -->
+	<link rel="stylesheet" href="${contextPath}/resources/css/boardList.css">
 </head>
 <body>
 	<!-- =======================
@@ -23,7 +26,7 @@
 						</div>
 						<!-- Offcanvas body -->
 						<div class="offcanvas-body p-3 p-xl-0">
-							<div class="bg-dark border rounded-3 pb-0 p-3 w-100">
+							<div id="dashboard" class="border rounded-3 pb-0 p-3 w-100">
 								<!-- Dashboard menu -->
 								<div class="list-group list-group-dark list-group-borderless">
 									<a class="list-group-item" href="${contextPath}/board/list?type=공지사항"><i class="bi bi-pencil-square fa-fw me-2"></i>공지사항</a>
@@ -50,69 +53,60 @@
 						<!-- Card body START -->
 						<div class="card-body">
 			
-							<!-- Search and select START -->
-							<div class="row g-3 align-items-center justify-content-between mb-4">
-								<!-- Search -->
-								<div class="col-md-8">
-									<form class="rounded position-relative">
-										<input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
-										<button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
-											<i class="fas fa-search fs-6 "></i>
-										</button>
-									</form>
-								</div>
-			
-								<!-- Select option -->
-								<div class="col-md-3">
-									<!-- Short by filter -->
-									<form>
-										<select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
-											<option value="">Sort by</option>
-											<option>Free</option>
-											<option>Newest</option>
-											<option>Oldest</option>
-										</select>
-									</form>
-								</div>
-							</div>
-							<!-- Search and select END -->
-			
 							<!-- Order list table START -->
 							<div class="table-responsive border-0">
 								<!-- Table START -->
-								<table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+								<table class="table align-middle p-4 mb-0 table-hover">
 									<!-- Table head -->
-									<thead>
+									<thead style="background-color: #CF8E4A;">
 										<tr>
-											<th scope="col" class="border-0 rounded-start">제목</th>
-											<th scope="col" class="border-0">작성자</th>
-											<th scope="col" class="border-0">작성일시</th>
-											<th scope="col" class="border-0 rounded-end">조회수</th>
+											<th scope="col" class="border-0 rounded-start text-light">제목</th>
+											<th scope="col" class="border-0 text-light">작성자</th>
+											<th scope="col" class="border-0 text-light">작성일시</th>
+											<th scope="col" class="border-0 rounded-end text-light">조회수</th>
 										</tr>
 									</thead>
 			
 									<!-- Table body START -->
 									<tbody>
 										<c:forEach items="${boardList}" var="board">
-											<!-- Table item -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="${contextPath}/board/detail?board_id=${board.board_id}">${board.board_title}</a></h6>
-												</td>
-												<!-- Table data -->
-												<td class="text-center text-sm-start text-primary-hover">
-													<a href="#" class="text-body"><u>${board.writer}</u></a>
-												</td>
-				
-												<!-- Table data -->
-												<td>
-													<fmt:formatDate value="${board.created_at}" pattern="yyyy-MM-dd HH:mm" />
-												</td>
-				
-												<!-- Table data -->
-												<td>${board.click_cnt}</td>
-											</tr>
+											<c:choose>
+												<%-- 게시글이 없을 경우 --%>
+												<c:when test="${board.board_id eq 0}">
+													<tr>
+														<td colspan="4" class="text-center">${board.board_class} 게시글이 없습니다.</td>
+													</tr>
+												</c:when>
+												<%-- 게시글이 있을 경우 --%>
+												<c:otherwise>
+													<!-- Table item -->
+													<tr>
+														<!-- Table data -->
+														<td>
+															<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="${contextPath}/board/detail?board_id=${board.board_id}">${board.board_title}</a></h6>
+														</td>
+														<!-- Table data -->
+														<td class="text-center text-sm-start text-primary-hover">
+															<c:choose>
+																<c:when test="${board.board_class == '공지사항'}">
+																	관리자
+																</c:when>
+																<c:otherwise>
+																	${board.writer}
+																</c:otherwise>
+															</c:choose>
+														</td>
+						
+														<!-- Table data -->
+														<td>
+															<fmt:formatDate value="${board.created_at}" pattern="yyyy-MM-dd HH:mm" />
+														</td>
+						
+														<!-- Table data -->
+														<td>${board.click_cnt}</td>
+													</tr>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
 									</tbody>
 									<!-- Table body END -->
@@ -133,7 +127,7 @@
 											</c:when>
 											<%-- 1페이지가 아닌 경우에는 '<'을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
 											<c:otherwise>
-												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?page=${pageDTO.page - 1}" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?type=${type}&page=${pageDTO.page - 1}" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
 											</c:otherwise>
 										</c:choose>
 										
@@ -146,7 +140,7 @@
 												</c:when>
 												
 												<c:otherwise>
-													<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?page=${i}">${i}</a></li>
+													<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?type=${type}&page=${i}">${i}</a></li>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -156,7 +150,7 @@
 												<li class="page-item mb-0"><a class="page-link"><i class="fas fa-angle-right"></i></a></li>
 											</c:when>
 											<c:otherwise>
-												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?page=${pageDTO.page + 1}"><i class="fas fa-angle-right"></i></a></li>
+												<li class="page-item mb-0"><a class="page-link" href="${contextPath}/board/list?type=${type}&page=${pageDTO.page + 1}"><i class="fas fa-angle-right"></i></a></li>
 											</c:otherwise>
 										</c:choose>
 									</ul>
@@ -165,10 +159,15 @@
 							<!-- Pagination END -->
 							
 							<c:if test="${boardList[0].board_class == '공지사항'}">
-								<a class="btn btn-secondary float-end mt-3" href="${contextPath}/board/insert?type=공지사항"><i class="bi bi-pencil-square fa-fw me-2"></i>글쓰기</a>
+								<%-- 로그인한 아이디가 'admin'일 때만 글쓰기 버튼 보이게 설정 --%>
+								<c:if test="${userDTO.id == 'admin'}">
+									<a id="btn_write" class="btn btn-secondary float-end mt-3" href="${contextPath}/board/insert.do?type=공지사항">
+										<i class="bi bi-pencil-square fa-fw me-2"></i>글쓰기
+									</a>
+								</c:if>
 							</c:if>
 							<c:if test="${boardList[0].board_class == '자유게시판'}">
-								<a class="btn btn-secondary float-end mt-3" href="${contextPath}/board/insert?type=자유게시판"><i class="bi bi-pencil-square fa-fw me-2"></i>글쓰기</a>
+								<a id="btn_write" class="btn btn-secondary float-end mt-3" href="${contextPath}/board/insert.do?type=자유게시판"><i class="bi bi-pencil-square fa-fw me-2"></i>글쓰기</a>
 							</c:if>
 						</div>
 						<!-- Card body END -->
