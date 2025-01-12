@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.salre.main.myPage.LikeDTO;
 import com.salre.main.myPage.PostDTO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
@@ -103,6 +104,22 @@ public class UserDAO implements UserDAOInterface {
   	public List<ProductDTO> getFavoritesByUserId(int user_id){
   		return sqlSession.selectList(namespace + "getFavoritesByUserId", user_id);		
   	}
+  	
+	//마이페이지 - 나의 관심매물추가
+	public void insertFavorite(LikeDTO userlike) {
+		sqlSession.insert(namespace + "insertFavorite", userlike); 
+	}
+	  
+	//마이페이지 - 나의 관심매물상태변경(1>0) 
+	public void updateFavorite(LikeDTO userlike) {
+		sqlSession.update(namespace + "updateFavorite",userlike);
+	}
+	
+	//마이페이지 - 나의 관심매물삭제  
+	public void deleteFavorite(LikeDTO userlike) {
+		sqlSession.delete(namespace + "deleteFavorite", userlike); 
+	}
+	 
 
 	// ���������� - ���� �ŷ���Ȳ - �ı��ۼ�
 	public void insertReview(ReviewDTO review) {

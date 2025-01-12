@@ -44,10 +44,10 @@ public class HomeController {
     @ResponseBody
     public List<ProductDTO> getNearbyProducts(@RequestBody Map<String, String> regionData) {
         String regionName = regionData.get("region"); // ex: 강남구
-        System.out.println("2222222222Regiondata , controller : " + regionData);
-        // 지역코드 조회
+        System.out.println("Region DATA : " + regionData);
+ 
         int regionCode = regionService.selectIdByRegion(regionName); 
-        // 매물 정보 조회
+ 
         return productService.findProductsByRegionCode(regionCode);
     }
 }

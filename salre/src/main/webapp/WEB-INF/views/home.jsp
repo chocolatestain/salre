@@ -11,8 +11,7 @@
 
 			<title>살래?!</title>
 
-			<script type="text/javascript"
-				src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78"></script>
+			<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
 			
 			<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 			
@@ -20,6 +19,7 @@
 			<link rel="stylesheet" href="${contextPath}/resources/css/home.css">
 			    <!-- Swiper CSS -->
 		    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
 		</head>
 
 		<body>
@@ -35,7 +35,7 @@
 				</section>
 
 				<section class="stats">
-					<p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount } </span>개의 집을 보고
+					<p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount}</span>개의 집을 보고
 						있습니다.</p>
 				</section>
 
@@ -49,13 +49,16 @@
                     <!-- 추천 상품 리스트 반복문 -->
                     <c:forEach var="product" items="${recommendedProducts}">
                         <div class="swiper-slide">
-                            <img src="https://via.placeholder.com/200x100" alt="${product.product_name}" class="carousel-image">
+                         <a href="/product/detail/${product.product_id}" class="product-link">
+                            <img src="https://placehold.co/200x100" alt="${product.product_name}" class="carousel-image">
                             <h3>${product.product_name}</h3>
                             <p>${product.description}</p>
                             <p><strong>${product.payment_type}</strong></p>
-                            <p>${product.rentfee} 원 / 월</p>
+                            <p>${product.deposit} 원 / 월</p>
+                             </a>
                         </div>
                     </c:forEach>
+                  
                 </div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
@@ -105,24 +108,27 @@
             });
         });
  
+     // Swiper 초기화
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 3,        // 한 번에 보여줄 슬라이드 수
-            spaceBetween: 20,        // 슬라이드 사이 간격
-            loop: true,              // 반복 여부
+            spaceBetween: 10,        // 슬라이드 간의 간격
+            loop: true,              // 슬라이드 반복 여부
             autoplay: {
-                delay: 3000,         // 3초마다 자동으로 슬라이드 전환 (밀리초 단위)
-                disableOnInteraction: false, // 사용자 상호작용 시 자동 슬라이드 전환이 멈추지 않게
+                delay: 3000,         // 3초마다 자동으로 슬라이드 전환
+                disableOnInteraction: false, // 사용자 상호작용 시에도 자동 슬라이드 전환 유지
             },
             navigation: {
                 nextEl: '.swiper-button-next',  // '다음' 버튼
                 prevEl: '.swiper-button-prev',  // '이전' 버튼
             },
             pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
+                el: '.swiper-pagination', // 페이지네이션 표시
+                clickable: true,           // 페이지네이션 클릭 가능하게
             },
         });
-	
+
+
+        let swiperInstance; // Swiper 인스턴스를 전역 변수로 선언
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function (position) {
@@ -132,89 +138,79 @@
                     // Kakao API를 활용해 주소 정보 가져오기
                     const geocoder = new kakao.maps.services.Geocoder();
                     const coord = new kakao.maps.LatLng(latitude, longitude);
-
+                    
                     geocoder.coord2RegionCode(coord.getLng(), coord.getLat(), function (result, status) {
                         if (status === kakao.maps.services.Status.OK) {
                             const region = result.find(r => r.region_type === 'H');
-                            const regionName = region.address_name; // ex: 강남구
+                            const regionName = region.address_name; // ex: 서울특별시 서대문구 연희동
 
                             if (!regionName.includes('서울')) {
                                 alert('서울 지역만 지원합니다.');
                                 return;
                             }
 
-                            // Ajax로 지역 정보 전송
-                            console.log(regionName);
-                            sendRegionToServer(regionName);
+                            // '서울특별시' 제거하고 구 단위만 추출
+                            const districtName = regionName.replace('서울특별시', '').split(' ')[1]; // ex: 서대문구
+  
+                            // Ajax로 구 단위 정보 전송
+                            sendRegionToServer(districtName);
                         }
                     });
                 },
                 function () {
                     // 위치 정보 제공 거부 시 기본값으로 종로구 설정
-                    alert('위치 정보 제공이 거부로 설정되어 있습니다.');
+                    console.log('위치 정보 제공이 거부로 설정되어 있습니다.');
                     sendRegionToServer('종로구');
                 }
             );
         } else {
-            alert('브라우저에서 위치 정보 기능을 지원하지 않습니다.');
+            console.log('브라우저에서 위치 정보 기능을 지원하지 않습니다.');
             sendRegionToServer('종로구');
         }
 
         function sendRegionToServer(regionName) {
-            fetch('/nearby-products', {
+ 
+            fetch('/salre/nearby-products', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ region: regionName }),
             })
-                .then(response => response.json())
-                .then(data => {
-                    updateSwiper(data);
-                })
-                .catch(error => console.error('지역 정보 전송 중 오류:', error));
+            .then(response => response.json())
+            .then(data => { 
+                updateSwiper(data);  // Swiper 업데이트 함수 호출
+            })
+            .catch(error => console.error('지역 정보 전송 중 오류:', error));
         }
-        
-     // Swiper 업데이트 함수
-        function updateSwiper(products) {
-            const swiperWrapper = document.querySelector('.swiper-wrapper');
-            swiperWrapper.innerHTML = ''; // 기존 슬라이드 초기화
+ 
+function updateSwiper(products) {
+    const swiperWrapper = document.querySelector('.swiper-wrapper');
+    swiperWrapper.innerHTML = ''; // 기존 슬라이드 초기화
 
-            products.forEach(product => {
-                const slide = document.createElement('div');
-                slide.className = 'swiper-slide';
-                slide.innerHTML = `
-                    <img src="${product.imageUrl}" alt="${product.productName}" class="carousel-image">
-                    <h3>${product.productName}</h3>
-                    <p>${product.description}</p>
-                    <p><strong>${product.paymentType}</strong></p>
-                    <p>${product.rentFee} 원 / 월</p>
-                `;
-                swiperWrapper.appendChild(slide);
-            });
-            
-            // Swiper를 새로 초기화
-            new Swiper('.swiper-container', {
-                slidesPerView: 3,
-                spaceBetween: 20,
-                loop: true,
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-            });
+    products.forEach(product => {
+   
+
+        // 필드 값이 비어있지 않다면 슬라이드 추가
+       
+        if (product.product_name && product.description && product.payment_type && product.deposit) {
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.innerHTML = `
+            	<a href="product/detail/\${product.product_id}" class="product-link">
+            	<img src="https://placehold.co/200x100" alt="${product.product_name}" class="carousel-image">
+                <h3>\${product.product_name}</h3>
+                <p>\${product.description}</p>
+                <p><strong>\${product.payment_type}</strong></p>
+                <p>\${product.deposit} 원 / 월</p>
+                </a>
+            `;
+          
+            swiperWrapper.appendChild(slide);
+        } else {
+            console.log('Invalid product data:', product);  // 데이터가 이상한 경우 
         }
-
-    </script> 
-			<%@ include file="common/footer.jsp" %>
+    });
  
 		</body>
 

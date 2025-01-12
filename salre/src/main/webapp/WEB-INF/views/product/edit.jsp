@@ -3,7 +3,9 @@
 
 <html>
 <head>
-    <title>매물 수정</title>
+    <title>살래?</title>
+    <!-- Favicon -->
+	<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 <h1>매물 수정</h1>
