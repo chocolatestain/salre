@@ -50,7 +50,18 @@
                         </nav>
                     </div>
                     <div class="auth">
-                        <a href="${contextPath}/login">로그인</a> <a href="${contextPath}/signup">회원가입</a>
+                        <c:choose>
+	        			<c:when test="${not empty sessionScope.loggedInUser}">
+	        				<!-- 로그인 상태일 때 -->
+		        			<a href="${contextPath}/logout">로그아웃</a>
+		        			<a href="${contextPath}/transactions">마이페이지</a>
+	        			</c:when>
+	        			<c:otherwise>
+	        				<!-- 로그아웃 상태일 때 -->
+	        				<a href="${contextPath}/login">로그인</a>
+	        				<a href="${contextPath}/signup">회원가입</a>
+	        			</c:otherwise>
+	        		</c:choose>
                     </div>
                 </header>
                 <!-- Header END -->
