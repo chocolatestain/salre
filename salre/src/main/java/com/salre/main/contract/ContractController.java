@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
@@ -290,7 +291,9 @@ public class ContractController {
 	     //서명한 계약서 보기
 			@GetMapping("/viewSignContract/{contract_id}")
 			public String viewSignContract(@PathVariable(required = true) Integer contract_id, Model model) {
-				ContractDTO contract = contractService.getContractById(contract_id);	
+				ContractDTO contract = contractService.getContractById(contract_id);
+				ProductDTO product = productService.selectByContractId(contract_id);
+				model.addAttribute("product",product);
 				model.addAttribute("contract",contract);
 				return "contract/viewSignContract"; // 계약서 이미지를 보여주는 JSP
 			}
@@ -330,17 +333,22 @@ public class ContractController {
 	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("임차인 서명 추가 중 오류 발생");
 	         }
 	     }
-	     @GetMapping("/pay/{contract_id}")
-	     public String pay(@PathVariable int contract_id,Model model) {
-	    	ContractDTO contract = contractService.getContractById(contract_id); 
+	     @GetMapping("/payCheck/{contract_id}")
+	     public String checkPaymentResult(@PathVariable("contract_id") int contract_id,Model model) {
+	    	ContractDTO contract = contractService.getContractById(contract_id);
+	    //알림 보낸 시간도 보내고싶음
 	    	model.addAttribute("contract",contract);
-	    	return "contract/viewAccount";
+	    	return "contract/payCheck";
 	     }
 	     
 	     //판매자가 송금완료 눌렀을때
-	     @GetMapping("/payComplete/{contract_id}")
-	     public void payComplete(@PathVariable int contract_id) {
-	    	 contractService.updateContractStatus(contract_id,5);//계약상태값 변경 5 : 송금완료
+	     @PostMapping("/updateStatus")
+	     @ResponseBody
+	     public ResponseEntity<String> updateContractStatus(@RequestBody  Map<String, Integer> data) {
+	    	 int contractId = (Integer) data.get("contract_id");
+	    	 int contractStatus = (Integer) data.get("contract_status");
+	    	 contractService.updateContractStatus(contractId,contractStatus);//계약상태값 변경 5 : 송금완료
+	    	 return ResponseEntity.ok("상태 업데이트 성공");
 	     }
 	     
 	     
