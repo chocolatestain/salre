@@ -16,15 +16,15 @@
             <input type="hidden" name="contract_id" value="${contract.contract_id}" />
             <div class="form-group">
                 <label for="account">계좌번호:</label>
-                <input type="text" id="account" name="account" required value = "673002-01-000000">
+                <input type="text" id="account" name="account" required >
             </div>
             <div class="form-group">
                 <label for="account_name">예금주:</label>
-                <input type="text" id="account_name" name="account_name" required value = "임대인">
+                <input type="text" id="account_name" name="account_name" required >
             </div>
             <div class="form-group">
                 <label for="bank_name">은행명:</label>
-                <input type="text" id="bank_name" name="bank_name" required value="국민은행">
+                <input type="text" id="bank_name" name="bank_name" required >
             </div>
             <section class="section">
 				<!-- 증빙 서류 등록 -->

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
 import com.salre.main.product.ProductDTO;
-import com.salre.main.product.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +38,7 @@ public class ChatController {
     private SimpMessagingTemplate simpMessagingTemplate;
 	
 	// 채팅 메인 화면
-	@GetMapping("/main")
+	@GetMapping("/main.do")
 	public String main(HttpServletRequest request, Model model) {
 		// 로그인 정보(세션) 가져오기
 		HttpSession session = request.getSession();
@@ -48,11 +47,11 @@ public class ChatController {
 		Integer user_id = userDTO.getUser_id(); // 회원 번호
 		
 		// 매물 정보 가져오기
-		ProductDTO productDTO = chatService.getProductByUserId(user_id);
+		List<ProductDTO> productDTOList = chatService.getProductByUserId(user_id);
 		
 		List<ChatRoomDTO> chatRoomDTOList = null;
-		if (productDTO != null) {
-			Integer product_id = productDTO.getProduct_id(); // 매물 번호
+		if (!productDTOList.isEmpty()) {
+			Integer product_id = productDTOList.get(0).getProduct_id(); // 매물 번호
 			
 			ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
 														   .product_id(product_id).build();
@@ -65,12 +64,13 @@ public class ChatController {
 		}
 		
 		model.addAttribute("chatRoomDTOList", chatRoomDTOList);
+		model.addAttribute("loggedInUser", userDTO);
 		
 		return "chat/chatMain";
 	}
 	
 	// 채팅방 생성
-	@PostMapping("/createChatRoom")
+	@PostMapping("/createChatRoom.do")
 	public String createChatRoom(HttpServletRequest request,
 			@RequestParam("product_id") String product_id,
 			@RequestParam("product_user_id") String product_user_id,
@@ -101,7 +101,7 @@ public class ChatController {
 			chatService.createChatRoom(chatRoomDTO);
 		}
 		
-		return "redirect:/chat/main";
+		return "redirect:/chat/main.do";
 	}
 	
 	// 채팅방 입장

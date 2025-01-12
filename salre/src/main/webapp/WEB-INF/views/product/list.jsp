@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>매물 목록</title>
+    <title>살래?</title>
+    <!-- Favicon -->
+	<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 <h1>매물 목록</h1>

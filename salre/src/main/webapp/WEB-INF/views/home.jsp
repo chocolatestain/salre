@@ -35,7 +35,7 @@
 				</section>
 
 				<section class="stats">
-					<p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount } </span>개의 집을 보고
+					<p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount}</span>개의 집을 보고
 						있습니다.</p>
 				</section>
 
@@ -159,17 +159,18 @@
                 },
                 function () {
                     // 위치 정보 제공 거부 시 기본값으로 종로구 설정
-                    alert('위치 정보 제공이 거부로 설정되어 있습니다.');
+                    console.log('위치 정보 제공이 거부로 설정되어 있습니다.');
                     sendRegionToServer('종로구');
                 }
             );
         } else {
-            alert('브라우저에서 위치 정보 기능을 지원하지 않습니다.');
+            console.log('브라우저에서 위치 정보 기능을 지원하지 않습니다.');
             sendRegionToServer('종로구');
         }
 
         function sendRegionToServer(regionName) {
-            fetch('/salre/nearby-products', {
+ 
+            fetch('/salre/nearby-products', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -210,35 +211,6 @@ function updateSwiper(products) {
             console.log('Invalid product data:', product);  // 데이터가 이상한 경우 
         }
     });
- 
-
-    // Swiper가 이미 초기화되어 있으면 갱신
-    if (swiperInstance) {
-        swiperInstance.update();  // 이미 초기화된 Swiper 인스턴스에서 슬라이드를 업데이트
-    } else {
-        // Swiper 초기화가 안 된 경우, 최초 한 번만 초기화
-        swiperInstance = new Swiper('.swiper-container', {
-            slidesPerView: 3,        // 한 번에 보여줄 슬라이드 수
-            spaceBetween: 20,        // 슬라이드 사이 간격
-            loop: true,              // 반복 여부
-            autoplay: {
-                delay: 3000,         // 3초마다 자동으로 슬라이드 전환 (밀리초 단위)
-                disableOnInteraction: false, // 사용자 상호작용 시 자동 슬라이드 전환이 멈추지 않게
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',  // '다음' 버튼
-                prevEl: '.swiper-button-prev',  // '이전' 버튼
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-        });
-    }
-}
-
-
-    </script> 
  
 		</body>
 

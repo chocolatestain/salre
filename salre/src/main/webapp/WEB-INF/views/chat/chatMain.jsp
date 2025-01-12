@@ -74,7 +74,7 @@
 		                                        <div class="row gx-5">
 		                                            <div class="col-auto">
 		                                                <div class="avatar">
-		                                                    <img src="${contextPath}/resources/bootstrap/chat/assets/img/avatars/6.jpg" alt="#" class="avatar-img">
+		                                                    <img src="${contextPath}/resources/images/products/${chatRoom.product_id}.jpeg" alt="매물 사진" class="avatar-img">
 		                                                </div>
 		                                            </div>
 		
@@ -82,7 +82,7 @@
 		                                                <div class="d-flex align-items-center mb-3">
 		                                                    <h5 class="me-auto mb-0">${chatRoom.room_name}</h5>
 		                                                    <span class="text-muted small ms-2">
-		                                                    	<fmt:formatDate value="${chatRoom.send_time}" pattern="hh:mm"/>
+		                                                    	<fmt:formatDate value="${chatRoom.send_time}" pattern="HH:mm"/>
 		                                                    </span>
 		                                                </div>
 		
@@ -141,10 +141,8 @@
 	
 	<!-- 채팅방 입장 -->
 	<script type="text/javascript">
-		/* let user_id = "${loggedInUser.user_id}"; 1:김광진, 3:홍길동 */
-		/* let user_name = "${loggedInUser.user_name}"; 1:김광진, 3:홍길동 */
-		const user_id = 1;
-		const user_name = "김광진";
+		let user_id = ${loggedInUser.user_id};
+		let user_name = "${loggedInUser.user_name}";
 		
 		function enterChatRoom(chatRoom_id) {
 			$.ajax({
@@ -268,7 +266,7 @@
 	        if (messageContent) {
 	        	// 스크롤을 맨 아래로 이동
 		        scrollToBottom();
-		        
+	        	
 	            // WebSocket/STOMP 등을 통해 서버에 메시지 전송
 	            if (stompClient && stompClient.connected) {
 	            	const message = {

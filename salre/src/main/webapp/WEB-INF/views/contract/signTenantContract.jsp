@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="container">
+		<h2>계약서 보기</h2>
 		<form id="contractInput" action="${path}/contract/saveSignature">
 			<c:if test="${not empty contract.contract_imgpath}">
 				<div class="contract-image-container">
@@ -23,10 +24,11 @@
 				</div>
 			</c:if>
 			<c:if test="${not empty errorMessage}">
-				<p class="error-message">${errorMessage}</p>
+				<p style="color: red;">${errorMessage}</p>
 			</c:if>
 			<!-- 서명 영역 -->
-			<c:if test="${contract.contract_status == '2'}">
+
+			<c:if test="${contract.contract_status == '3'}">
 				<section class="section">
 					<h2>서명</h2>
 					<canvas id="signatureCanvas" class="signature-canvas"></canvas>
@@ -35,20 +37,16 @@
 							onclick="saveAndCompleteSignature()">서명 완료</button>
 						<button type="button" class="btn btn-secondary"
 							onclick="clearSignature()">지우기</button>
-
 					</div>
 				</section>
 			</c:if>
-
 			<c:if test="${contract.contract_status == '1'}">
 				<p style="color: red;">잘못된 접근입니다.</p>
 			</c:if>
-			<c:if test="${contract.contract_status == '3'}">
-				<p style="color: red;">잘못된 접근입니다.</p>
+			<c:if test="${contract.contract_status == '2'}">
+				<p class="message">임대인 서명 전입니다.</p>
 			</c:if>
-
-			<c:if
-				test="${contract.contract_status == 4 or contract.contract_status == 5}">
+			<c:if test="${contract.contract_status == 4 or contract.contract_status == 5}">
 				<p class="message">서명을 이미 완료하였습니다.</p>
 			</c:if>
 		</form>
@@ -85,7 +83,7 @@
         function saveAndCompleteSignature() {
             const signatureData = canvas.toDataURL('image/png'); // 서명 데이터를 Base64로 변환
 
-            fetch("${path}/contract/landlord-sign/${contract.contract_id}", {
+            fetch("${path}/contract/tenant-sign/${contract.contract_id}", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ signature: signatureData })
@@ -104,19 +102,19 @@
                 alert('서명을 저장하는 중 오류가 발생했습니다.');
             });
         }
-        function openModal(imageSrc) {
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
+      //모달 
+		  function openModal(imageSrc) {
+	            const modal = document.getElementById('imageModal');
+	            const modalImage = document.getElementById('modalImage');
 
-            modal.style.display = "flex"; // 모달 창 표시
-            modalImage.src = imageSrc; // 클릭한 이미지 경로 설정
-        }
+	            modal.style.display = "flex"; // 모달 창 표시
+	            modalImage.src = imageSrc; // 클릭한 이미지 경로 설정
+	        }
 
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.style.display = "none"; // 모달 창 숨김
-        }
-
+	        function closeModal() {
+	            const modal = document.getElementById('imageModal');
+	            modal.style.display = "none"; // 모달 창 숨김
+	        }
     </script>
 </body>
 </html>
