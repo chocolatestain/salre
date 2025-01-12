@@ -35,7 +35,7 @@
 				</section>
 
 				<section class="stats">
-					<p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount } </span>개의 집을 보고
+					<p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount}</span>개의 집을 보고
 						있습니다.</p>
 				</section>
 
@@ -151,17 +151,17 @@
                 },
                 function () {
                     // 위치 정보 제공 거부 시 기본값으로 종로구 설정
-                    alert('위치 정보 제공이 거부로 설정되어 있습니다.');
+                    console.log('위치 정보 제공이 거부로 설정되어 있습니다.');
                     sendRegionToServer('종로구');
                 }
             );
         } else {
-            alert('브라우저에서 위치 정보 기능을 지원하지 않습니다.');
+            console.log('브라우저에서 위치 정보 기능을 지원하지 않습니다.');
             sendRegionToServer('종로구');
         }
 
         function sendRegionToServer(regionName) {
-            fetch('/nearby-products', {
+            fetch('${contextPath}/nearby-products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

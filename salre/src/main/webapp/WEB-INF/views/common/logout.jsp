@@ -12,8 +12,7 @@
     session.removeAttribute("loggedInUser"); // 세션에서 'user' 속성 제거
 %>
 <script>
-    alert("로그아웃 되었습니다.");
-    window.location.href = "<%= contextPath %>/login";
+    window.location.href = "<%= contextPath %>/";
 </script>
 
 </body>
