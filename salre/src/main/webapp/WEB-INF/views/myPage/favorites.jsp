@@ -10,7 +10,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewPort" content="width=device-width, initial-scale=1.0">
-<title>나의 관심매물</title>
+<title>살래?</title>
+<!-- Favicon -->
+<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -106,7 +108,7 @@
 
 			<!-- Main Content -->
 			<div class="col-md-9">
-				<h1 class="mb-4">My Page - 나의 관심매물</h1>
+				<h1 class="mb-4">나의 관심매물</h1>
 
 				<!-- 구매자 콘텐츠 -->
 				 <div id="buyer-content">

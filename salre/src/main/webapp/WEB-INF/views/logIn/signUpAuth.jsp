@@ -6,7 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - 본인인증</title>
+    <title>살래?</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
     <style>
         body {
             display: flex;
@@ -144,7 +146,7 @@
         if (rsp.success) {
           // 인증 성공 시 로직
         	//alert("본인인증 성공: " + rsp.imp_uid);
-        	alert("본인인증을 성공하였습니다.");
+        	console.log("본인인증을 성공하였습니다.");
           	console.log(rsp);
             // 서버로 인증 데이터를 전달하여 세션에 저장
             $.ajax({
@@ -152,7 +154,7 @@
                 type: "POST",
                 data: { imp_uid: rsp.imp_uid },
                 success: function () {
-                    alert("본인인증 데이터 저장 완료");
+                    console.log("본인인증 데이터 저장 완료");
                     document.getElementById("next-button").disabled=false;
                     //location.href = "${contextPath}/signUpInfo"; // signUpInfo.jsp로 이동
                 },
@@ -166,7 +168,7 @@
              
         } else {
           // 인증 실패 시 로직
-        	 alert("본인인증 실패: " + rsp.error_msg);
+        	 alert("본인인증 실패\n" + rsp.error_msg);
         }  //if end 
       }  //함수 end 
     ); //IMP.certification end 
@@ -189,11 +191,11 @@
 
         <!-- 우측 폼 섹션 -->
         <div class="form-section">
-            <h1>Sign Up / 본인인증</h1>
+            <h1>회원가입</h1>
+            <h2>본인인증</h2>
             <p>
                 회원님의 소중한 개인정보 보호를 위해 본인확인이 필요합니다.<br>
                 아래 버튼을 눌러 본인인증을 진행해주세요.<br>
-                
             </p>
             <button type="button" onclick="requestCertification()">본인인증</button>
             <div class="actions">

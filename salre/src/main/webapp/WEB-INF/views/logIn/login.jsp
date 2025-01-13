@@ -7,7 +7,9 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Log In</title>
+            <title>살래?</title>
+            <!-- Favicon -->
+            <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <style>
                 body {
@@ -44,6 +46,21 @@
                     justify-content: center;
                 }
 
+                .controls {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 1200px;
+                    margin-bottom: 30px;
+                }
+
+                .controls button {
+                    background-color: #fff;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 2rem;
+                }
+
                 .form-section h1 {
                     margin-bottom: 20px;
                     font-size: 32px;
@@ -72,6 +89,7 @@
                     font-size: 14px;
                     border: 1px solid #ccc;
                     border-radius: 4px;
+                    box-sizing: border-box;
                 }
 
                 .form-section form .password-toggle {
@@ -133,7 +151,12 @@
                 <div class="image-section">
                 </div>
                 <div class="form-section">
-                    <h1>Log In</h1>
+                    <!-- Controls -->
+                    <div class="controls">
+                        <button onclick="history.back()">⬅️</button>
+                    </div>
+
+                    <h1>로그인</h1>
                     <!-- 에러 메시지 표시 -->
                     <c:if test="${not empty error}">
                         <p style="color: red; margin-bottom: 10px;">${error}</p>
@@ -141,24 +164,28 @@
 
                     <form action="${contextPath}/login" method="post">
                         <div class="form-group">
-                            <label for="id">ID</label>
-                            <input type="text" id="id" name="id" placeholder="ID를 입력하세요." required>
+                            <label for="id">아이디</label>
+                            <input type="text" id="id" name="id" placeholder="아이디 입력" required>
                         </div>
                         <div class="form-group password-toggle">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="PW를 입력하세요." required>
+                            <label for="password">비밀번호</label>
+                            <input type="password" id="password" name="password" placeholder="비밀번호 입력" required>
                         </div>
                         <div class="actions">
-                            <!--  <label>
-                        <input type="checkbox" name="remember"> Remember me
-                    </label> -->
-                            <a href="${contextPath}/findId">Forgot Id?</a>
-                            <a href="${contextPath}/findPassword">Forgot Password?</a>
+                            <!--
+                            <label>
+                                <input type="checkbox" name="remember"> Remember me
+                            </label>
+                        -->
+                            <a href="${contextPath}/findId">아이디 찾기</a>
+                            <a href="${contextPath}/findPassword">비밀번호 찾기</a>
                         </div>
-                        <button type="submit">Log In</button>
+                        <br>
+                        <button type="submit">로그인</button>
                     </form>
                     <div class="signup-link">
-                        <p>No account yet? <a href="${contextPath}/signup">Sign Up</a></p>
+                        <p>아직 계정이 없다면?</p>
+                        <p><a href="${contextPath}/signup">회원가입</a></p>
                     </div>
                 </div>
             </div>

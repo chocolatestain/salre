@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+/*
+사용하기로 한 색상
+#E1C59D
+#CF8E4A
+#80543E
+
+#A9AB8E
+#455F9E
+#2C3562
+*/
+#dashboard {
+	background-color: #CF8E4A;
+}
+
+.card-body thead {
+	background-color: #CF8E4A;
+}
+
+.page-link {
+	background-color: #E1C59D !important;
+	color: #80543E !important;
+}
+
+.page-link:hover {
+	background-color: #CF8E4A !important;
+	color: white !important;
+	border-color: #CF8E4A !important;
+}
+
+#btn_write {
+	background-color: #A9AB8E;
+	border-color: #A9AB8E;
+}
+
+#btn_write:hover {
+	background-color: #858865;
+}

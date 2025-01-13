@@ -74,7 +74,7 @@
 		                                        <div class="row gx-5">
 		                                            <div class="col-auto">
 		                                                <div class="avatar">
-		                                                    <img src="${contextPath}/resources/images/products/${productDTO.product_id}.jpeg" alt="매물 사진" class="avatar-img">
+		                                                    <img src="${contextPath}/resources/images/products/${chatRoom.product_id}.jpeg" alt="매물 사진" class="avatar-img">
 		                                                </div>
 		                                            </div>
 		

@@ -7,6 +7,7 @@
 <html>
 <head>
     <title>계약서</title>
+    	<link rel="stylesheet" href="${path}/resources/css/viewaccountt.css">
 </head>
 <body>
     <h2>계좌 정보</h2>
@@ -18,11 +19,13 @@
                 <button type="button" class="btn btn-primary" onclick="payComplete()">송금 완료</button>
             </div>
         </section>
+    
         <script>
         function payComplete() {
             // 알림창 표시
             alert("판매자에게 송금확인을 요청했어요! 확인 될때까지 기다려주세요. 감사합니다.");
         }
+        
         </script>
 </body>
 </html>

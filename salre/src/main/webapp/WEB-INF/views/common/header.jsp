@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>살래?!</title>
+	<title>살래?</title>
 	
 	<!-- Meta Tags -->
 	<meta charset="UTF-8">
@@ -45,7 +45,12 @@
 		<div class="container">
 			<nav class="navbar navbar-expand-xl">
 				<!-- Logo -->
-		        <a class="navbar-brand logo" href="${contextPath}/">살래?</a>
+		        <a class="navbar-brand logo" href="${contextPath}/">
+					<div style="padding-right: 15px; display: flex; align-items: center; flex-direction: row; justify-content: center;">
+						<img src="${contextPath}/resources/images/favicon.ico" style="width: 64px; flex-shrink: 0;">
+						<span style="padding-left: 15px;">살래?</span>
+					</div>
+				</a>
 		        
 		        <!-- Nav Main menu -->
 		        <ul class="navbar-nav mx-auto">
