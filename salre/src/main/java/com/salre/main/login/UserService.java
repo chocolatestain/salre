@@ -88,7 +88,7 @@ public class UserService {
 	public void generateVerificationCode(String email) {// ������ȣ ���� �� �߼�
 		String verificationCode = String.valueOf(new Random().nextInt(900000) + 100000);
 		verificationCodes.put(email, verificationCode);
-		sendEmail(email, "��й�ȣ ã�� ������ȣ", "������ȣ: " + verificationCode);
+		sendEmail(email, "[살래?]비밀번호 찾기 인증코드", "인증코드: " + verificationCode);
 	}
 
 	public boolean verifyCode(String email, String verificationCode) {// ������ȣ Ȯ��
@@ -161,8 +161,8 @@ public class UserService {
 	
 	//마이페이지 - 나의 관심매물상태변경(1>0) 
 	public void updateFavorite(LikeDTO userlike) {
-		userDAO.updateFavorite(userlike); 
-		  }
+		 userDAO.updateFavorite(userlike);
+	}
 	
 	
 	//마이페이지 - 나의 관심매물삭제  
@@ -181,8 +181,16 @@ public class UserService {
 		return userDAO.selectReviewsByUserId(user_id);
 	}
 
-	// ���������� - ���� �ۼ��� �ı�(����)
+	// 마이페이지 - 나의거래현황 - 거래완료 - 리뷰작성
+//	public boolean isReviewWritten(int user_id, int product_id) {
+//	    return userDAO.checkReviewExists(user_id, product_id);
+//	}
+	public boolean isReviewWritten(ReviewDTO reviewDTO) {
+		return userDAO.checkReviewExists(reviewDTO);
+	}
 
+	
+	// ���������� - ���� �ۼ��� �ı�(����)
 	public void updateReview(int review_id, int review_rate, String review_content) {
 		userDAO.updateReview(review_id, review_rate, review_content);
 	}
