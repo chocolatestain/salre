@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/headerBoard.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -149,7 +149,7 @@
 	Page content END -->
 	
 	<!-- Footer -->
-	<%@ include file="../common/footer.jsp" %>
+	<%@ include file="../common/footerBoard.jsp" %>
 	
 	<!-- 게시글 삭제 -->
 	<script type="text/javascript">
