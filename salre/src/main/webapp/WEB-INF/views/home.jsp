@@ -20,7 +20,6 @@
             <link rel="stylesheet" href="${contextPath}/resources/css/home.css">
             <!-- Swiper CSS -->
             <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-
         </head>
 
         <body>
