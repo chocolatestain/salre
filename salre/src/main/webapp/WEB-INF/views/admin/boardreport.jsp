@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewPort" content="width=device-width, initial-scale=1.0">
-    <title>신고 관리</title>
+    <title>살래?</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/manageReports.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link
@@ -19,11 +19,6 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
-    header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -48,10 +43,6 @@ p {
     font-size: 18px;
     color: #555;
 }
-        header {
-            text-align: center;
-            margin-bottom: 0; /* bottom margin을 0으로 설정 */
-        }
     </style>
 </head>
 <body>

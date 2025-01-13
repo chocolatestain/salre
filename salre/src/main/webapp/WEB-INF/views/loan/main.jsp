@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ include file="../common/header_tmp.jsp" %>
         <!DOCTYPE html>
         <html lang="ko">
 
@@ -80,6 +79,8 @@
         </head>
 
         <body>
+            <%@ include file="../common/header.jsp" %>
+
             <!-- Main Banner -->
             <section class="main-banner">
                 <div>
@@ -87,10 +88,10 @@
                     <h2>나에게 딱 맞는 대출을 찾아드려요</h2>
 
                     <div class="form-box">
-                        <form action="result" method="POST" onsubmit="return validateForm()">
+                        <form action="result" method="POST">
                             <h3>
                                 <label for="age">나이</label>
-                                <input type="number" name="age" min="19" max="100" placeholder="만 나이 입력" />
+                                <input type="number" name="age" min="19" max="100" placeholder="만 나이 입력" required />
                                 <label for="income">연 소득</label>
                                 <select name="income">
                                     <option value="3500l">3500만원 이하</option>
@@ -109,19 +110,7 @@
                 </div>
             </section>
 
-            <%@ include file="../common/footer_tmp.jsp" %>
-
-                <script>
-                    function validateForm() {
-                        var age = document.querySelector('input[name="age"]').value;
-
-                        if (!age) {
-                            alert("나이를 입력해주세요");
-
-                            return false;
-                        }
-                    }
-                </script>
+            <%@ include file="../common/footer.jsp" %>
         </body>
 
         </html>
