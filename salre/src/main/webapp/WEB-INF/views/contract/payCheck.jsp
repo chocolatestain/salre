@@ -32,7 +32,7 @@
            <label>송금액:</label><span><fmt:formatNumber value="${contract.price}" type="number" groupingUsed="true"/>원</span> 
             </div>
           <div class="form-group">
-           <label>송금 시간:</label><span>2025-01-13 13:53</span> 
+           <label>송금 시간:</label><span></span> 
             </div>
         </section>
         </c:if>

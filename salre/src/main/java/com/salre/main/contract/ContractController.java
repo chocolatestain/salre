@@ -58,17 +58,13 @@ public class ContractController {
 	// 1.거래 시작 누리고 첫화면  "정보확인"(매물,회원정보 조회)
 	//구매자 - 정보확인 페이지
 	@GetMapping("/dealstart")
-	public String tenantContract(HttpServletRequest request,Model model) {
-		//int p_id = (int)request.getAttribute("product_id");
-	
+	public String tenantContract(HttpServletRequest request,int p_id,Model model) {
+		
 		HttpSession session = request.getSession();
 		
 	
 		UserDTO user = (UserDTO) session.getAttribute("loggedInUser");//구매자 user_id
 		System.out.println("user_id"+user.getUser_id());
-		
-		
-		int p_id = 87;
  
 		ProductDTO product = productService.selectByIdService(p_id);
 		System.out.println(product);
