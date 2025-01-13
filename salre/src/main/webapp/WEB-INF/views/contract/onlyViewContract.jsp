@@ -2,11 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../common/header.jsp" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>계약서</title>
+    <title>살래?</title>
 </head>
 <body>
     <h2>계약서 보기</h2>
@@ -29,5 +30,6 @@
         window.close();
     }
     </script>
+    <%@ include file="../common/footer.jsp" %>
 </body>
 </html>

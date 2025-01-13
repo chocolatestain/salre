@@ -8,7 +8,7 @@
 <html>
 <head>
 
-<title>계약 입력</title>
+<title>살래?</title>
 
 <link rel="stylesheet" href="${path}/resources/css/contractInput.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -207,5 +207,6 @@ document.getElementById('terms-select').addEventListener('change', (event) => {
     endDateInput.addEventListener("change", validateDates);
     contractDateInput.addEventListener("change", validateDates);
 </script>
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

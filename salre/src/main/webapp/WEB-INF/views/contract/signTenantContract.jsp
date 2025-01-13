@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../common/header.jsp" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-<title>계약서</title>
+<title>살래?</title>
 <link rel="stylesheet" href="${path}/resources/css/contract.css">
 </head>
 <body>
@@ -116,5 +117,6 @@
 	            modal.style.display = "none"; // 모달 창 숨김
 	        }
     </script>
+	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

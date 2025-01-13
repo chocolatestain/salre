@@ -1,13 +1,5 @@
 @charset "UTF-8";
 
-body {
-    font-family: 'Noto Sans KR', Arial, sans-serif;
-    background-color: #FDF8F0; /* 노란 계열 배경 */
-    margin: 0;
-    padding: 0;
-    color: #000000; /* 진한 텍스트 색상 */
-}
-
 .container {
     max-width: 900px;
     margin: 30px auto;
@@ -53,7 +45,7 @@ h2 {
     min-width: 120px;
     text-align: right;
     margin-right: 10px;
-    color: #00000;
+    color: #000;
 }
 
 .form-group span,
@@ -187,5 +179,3 @@ textarea {
 .agreement-container label {
     cursor: pointer; /* 체크박스를 클릭한 것처럼 보이도록 포인터 커서 */
 }
-
-
