@@ -34,7 +34,7 @@
 	        </div>
 	        
 	        <div class="ms-auto">
-		        <a href="${contextPath}/contract/dealstart" class="btn-sm btn-success">거래 시작</a>
+		        <a href="${contextPath}/contract/dealstart?product_id=${chatRoomDTO.product_id}" class="btn-sm btn-success">거래 시작</a>
 		        <button onclick="exitChatRoom();" class="btn">
 		        	<img src="${contextPath}/resources/bootstrap/chat/assets/img/icons/x.svg" alt="Close Icon">
 		        </button>
