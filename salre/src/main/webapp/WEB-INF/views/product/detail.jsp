@@ -3,249 +3,222 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+ 	<%@ include file="../common/header.jsp" %>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
- 	<%@ include file="../common/header.jsp" %>
+
 <style>
-    /* 기본 설정 */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: "Inter", Helvetica, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* 좌우 가운데 정렬 */
-      justify-content: flex-start; /* 상단 정렬 */
-      background-color: #f9f9f9;
-    }
-    .product-address{
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #555;
-      margin-top: 20px;
-    }
-    /* 헤더 스타일 */
-    header {
-      position: fixed; /* 항상 맨 위에 고정 */
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #fff;
-      border-bottom: 1px solid #ddd;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
-      z-index: 10;
-    }
+/* 기본 설정 */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Inter", Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 좌우 가운데 정렬 */
+  justify-content: flex-start; /* 상단 정렬 */
+  background-color: #f9f9f9;
+}
+.product-address {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #555;
+  margin-top: 20px;
+}
+/* 헤더 스타일 */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 10;
+}
 
-    header .logo {
-      font-size: clamp(1.5rem, 2.5vw, 3rem);
-    }
+header .logo {
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
+  font-weight: bold;
+}
 
-    header nav a {
-      font-size: clamp(1rem, 1.5vw, 1.5rem);
-      margin: 0 10px;
-      text-decoration: none;
-      color: #333;
-    }
+header nav a {
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+}
 
-    header .auth a {
-      margin-left: 15px;
-      padding: 10px 20px;
-      background-color: #f4a261;
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-    footer {
-            width:150%;
-            display: flex;
-            justify-content: space-around;
-            background-color: #222;
-            color: #fff;
-            padding: 20px 0;
-        }
-        footer div {
-            text-align: left;
-        }
-        footer a {
-            color: #f4a261;
-            text-decoration: none;
-    }
-    /* 콘텐츠 영역 */
-    .screen {
-      margin-top: 80px; /* 고정된 header 높이만큼 여백 추가 */
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 1200px;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-top : 200px;
-    }
+header .auth a {
+  margin-left: 15px;
+  padding: 10px 20px;
+  background-color: #f4a261;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+}
+/* 푸터 스타일 */
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+}
 
-    /* 왼쪽, 오른쪽 패널 스타일 */
-    .left, .right { 
-      padding: 20px; 
-    }
+footer div {
+  text-align: left;
+}
 
-    /* 이미지 및 텍스트 스타일 */
-    .main-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-    }
+footer a {
+  color: #f4a261;
+  text-decoration: none;
+}
 
-    .product-directory {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 20px;
-    }
+/* 콘텐츠 영역 */
+.screen {
+  margin-top: 200px; /* 고정된 header 높이만큼 여백 추가 */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
-    .seller-profile {
-      display: flex;
-      align-items: center;
-      margin-top: 20px;
-      gap: 10px;
-    }
+/* 왼쪽, 오른쪽 패널 스타일 */
+.left, .right {
 
-    .generic-avatar {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-      margin-right : 5px;
-    }
-    .review-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-    }
-    .seller-name {
-      font-size: 2rem;
-      font-weight : b;
-      color: #333;
-    }
-
-    .product-info {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .product-status {
-      font-weight: bold;
-      color: #f4a261;
-    }
-
-    .product-price {
-      font-size: 1.5rem;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .info-category {
-      font-size: 1.5rem;
-      color: #333;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .info-content {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.5;
-    }
-
-    .product-descript-name {
-      font-weight: bold;
-      font-size: 2rem;
-      color: #333;
-    }
-    .recent-review {
-      font-weight: bold;
-      font-size: 2rem;
-      color: #333;
-      margin-top: 10px;
-    }
-    .review-seller-name{
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 50px;
-    }
-    .review-seller-region{
-      font-size: 1rem;
-      color: #555;
-    }
-  .review-content{ 
-    font-size: 1rem;
-    color: #555;
-
- 
-  }
-  .product-descript {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.5;
-  }
-
-  .division-line {
-    margin-top: 20px;
-  }
-
-  .review-container{
-    margin-top : 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .review{ 
-    display: flex;
-    gap: 10px; 
-    align-items: flex-start;  
-    border : 1px solid #ddd;
-    padding: 10px;
-    border-radius: 10px;
-
-  } 
-  .review-content{
-    display: flex;
-    gap: 10px;
-    flex-direction: column;    
-  } 
-  .review-content p {
-  display: -webkit-box; /* Webkit 기반 브라우저에서 box처럼 동작하도록 설정 */
-  -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
-  -webkit-line-clamp: 3; /* Webkit 브라우저에서 최대 3줄까지 표시 */
-  overflow: hidden; /* 넘치는 텍스트 숨기기 */
-  text-overflow: ellipsis; /* 넘친 텍스트에 ... 추가 */
+  padding: 20px;
+}
+.right{
+	gap : 20px;
+}
+/* 이미지 및 텍스트 스타일 */
+.main-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover; /* 크기가 더 클 때 잘리고, 작으면 늘어남 */
   
-  display: box; /* 구버전 Firefox 및 Opera 지원 */
-  box-orient: vertical; /* 구버전 Firefox 및 Opera 지원 */
-  line-clamp: 3; /* 표준 CSS 속성, 일부 최신 브라우저 지원 */
-  
+}
+
+.product-directory {
   font-size: 1rem;
-  color: #555; 
-
-  margin: 0;
-  padding: 0;
+  color: #555;
+  margin-bottom: 20px;
 }
- 
+
+.seller-profile {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.generic-avatar, .review-avatar {
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
+
+.generic-avatar {
+  width: 75px;
+  height: 75px;
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+}
+
 .seller-name {
-  margin: 0;
-  padding: 0;
+  font-size: 2rem;
+  color: #333;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-#addressCopyButton{
+.product-info {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-status {
+  font-weight: bold;
+  color: #f4a261;
+}
+
+.product-price, .info-category {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.info-content, .product-descript, .review-content {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.product-descript-name, .recent-review {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #333;
+}
+
+.review-seller-name, .review-seller-region {
+  font-size: 1rem;
+  color: #333;
+}
+
+.division-line {
+  margin-top: 20px;
+}
+
+/* 리뷰 영역 */
+.review-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.review-content p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+#addressCopyButton {
   padding: 12px 11px;
   background-color: #f4a261;
   color: #fff;
@@ -253,78 +226,72 @@
   cursor: pointer;
   border-radius: 5px;
 }
-  .product-address{
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #555;
-    margin-top: 20px;
+
+.reviewer {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
 }
-  .reviewer{
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+  header nav a {
+    font-size: 1rem;
+    margin: 5px;
   }
-    /* 반응형 처리 */
-    @media (max-width: 768px) {
-      header nav a {
-        font-size: 1rem;
-        margin: 5px;
-      }
 
-      .screen {
-        grid-template-columns: 1fr;
-        padding: 10px;
-        margin-top : 300px;
-      }
+  .screen {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    margin-top: 300px;
+  }
 
-      .left, .right {
-        padding: 15px;
-      }
-      .division-line {
-        margin-top: 20px;
-      }
-    }
-    .large-font{
-	  font-size:xxx-large;
-	    .status {
-	        font-weight: bold;
-	  }      
-    } 
-    .status-before {
-        color: green !important;
-    }
-    .status-in-progress {
-        color: orange !important;
-    }
-    .status-completed { 
-        color: gray !important;
-    }
-    .status-unknown { 
-        color: red !important;
-    }
- 	#price-row{
-	    display: flex; /* Flexbox를 사용하여 자식 요소를 가로로 배치 */
-	    gap: 10px; /* 각 div 사이에 간격을 설정 */
-	    align-items: center; /* 세로 중앙 정렬 */
+  .left, .right {
+    padding: 15px;
+  }
+}
 
- 	}
- 	   .chat-button {
- 	    display: block; 
-  
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #f4a261;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .chat-button:hover {
-            background-color: #80543E;
-        }
+/* 기타 스타일 */
+#price-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.chat-button {
+  display: block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #f4a261;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
+  background-color: #80543E;
+}
+
+.status-before {
+  color: green !important;
+}
+
+.status-in-progress {
+  color: orange !important;
+}
+
+.status-completed {
+  color: gray !important;
+}
+
+.status-unknown {
+  color: red !important;
+}
+
   </style>
 
 </head>
@@ -333,13 +300,35 @@
 
   <div class="screen">
     <div class="left"> 
-      <img class="main-image" src="https://placehold.co/600x600" alt="Main Image" />
+    <div>
+      <img class="main-image" 
+     src="../../resources/images/products/${product.product_id}.jpeg" 
+     onerror="this.onerror=null; this.src='https://placehold.co/600x600'" 
+     alt="Main Image" />
+     </div>
       <div class="seller-profile">
         <img class="generic-avatar" src="https://placehold.co/75x75" alt="Avatar" />
         <p class="seller-name">
-          <span class="seller-nickname">${product.user_id}</span> 
-        </p>
+          <span class="seller-nickname">${user_nickname}</span> 
+                  </p>
+          	<form action="${contextPath}/chat/createChatRoom.do" method="post">
+		<input type="hidden" name="product_id" value="${product.product_id}">
+		<input type="hidden" name="product_user_id" value="${product.user_id}">
+		<input type="hidden" name="product_name" value="${product.product_name}"> 
+		 <button type="submit" id = "chatButton" class="chat-button">채팅하기</button>
+		</form>	  
       </div>
+		<input type="hidden" id="product_status" value="${product.product_status}">
+
+		<script>
+		    // product_status 값 가져오기
+		    const productStatus = document.getElementById("product_status").value;
+		
+		    // product_status가 2면 버튼 숨기기
+		    if (productStatus === "2") {
+		        document.getElementById("chatButton").style.display = "none";
+		    }
+		</script>
 
       <div class="division-line">
         <hr />
@@ -383,26 +372,28 @@
               <div class = "readCount">조회수 ${product.view_count } 회</div>
               </div>
             </div> 
-            
-            <div class="info-row" id = "price-row">
-			    <div class="${status }">
-			        <h2>${label}</h2> 
-			    </div>
-			    <div class="payment-type" style="display:inline;">
+            	<div id = "status" style="display: flex;  align-items : center;">
+				<div class="info-row" id="price-row" style = "margin-right : 20px;">
+				    <div class="${status}">
+				        <h2>${label}</h2> 
+				    </div>
+				</div> 
+			    <div class="payment-type" style="display:inline; margin-right : 20px;">
 			        <h2>${product.payment_type}</h2>
 			    </div>
 			    <div class="deposit" id = "product_deposit">
-			        <h2>${product.deposit}</h2>
+			        <h2>${product.deposit} </h2>
 			    </div>
 			    <div class="rentfee"> 
 			         <c:choose>
 				        <c:when test="${product.payment_type == '월세'}">
-				            <h2>/ ${product.rentfee}</h2>
+				            <h2> / ${product.rentfee}</h2>
 				        </c:when>
 				        <c:otherwise>
  
 				        </c:otherwise>
 				    </c:choose>
+				    </div>
 	   		    </div>
 			</div>
 
@@ -426,14 +417,14 @@
             </div>  
             <div class="info-row">
               <div class="info-category">방향</div>
-              <div class="info-content">${product.direction} 향</div>
+              <div class="info-content">${product.direction} </div>
             </div> 
-            
-            </div>   
-            <p class="product-descript">
+             <p class="product-descript">
               ${product.description }
             </p>  
 			<div id="map" style="width:550px;height:200px;"></div>
+   
+           
    <script>  
     let map; // 전역 변수로 지도 객체 생성
     const query = "${product.address }"
@@ -516,18 +507,13 @@
             alert("API 호출 중 오류가 발생했습니다.");
         }
     }
-</script>
+		</script>
 
 		<div class="product-address" id="address">
 		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-	<form action="${contextPath}/chat/createChatRoom.do" method="post">
-		<input type="hidden" name="product_id" value="${product.product_id}">
-		<input type="hidden" name="product_user_id" value="${product.user_id}">
-		<input type="hidden" name="product_name" value="${product.product_name}">
-		<button type="submit" class="chat-button">채팅하기</button>
-	</form>	
+
  	   <script>
 		  document.getElementById("address").addEventListener("click", function() {
 		    var copyText = document.getElementById("address");
@@ -548,8 +534,8 @@
 		      });
 		  });
 		</script> 
-	            </div>
-	          </div> 
+    </div>  <!--  script end   -->
+	         	</div>         
   	<footer>
 		  <div>
 		      <h3>형태 별 검색</h3>
@@ -572,25 +558,36 @@
 	
 	
 	 <script> 
-	    function formatNumber(value) {
-	        if (value < 1000000) return (value /100000) + " 만";  
-	
-	        const units = ["", "억", "천만", "백만", "십만"];
-	        const result = [];
-	        let remainer = value;
-	
-	        for (let i = 0; i < units.length; i++) {
-	            const unitValue = Math.pow(10, 8 - i * 4);  
-	            const unitAmount = Math.floor(remainer / unitValue);
-	            if (unitAmount > 0) {
-	                result.push(unitAmount + units[i]);
-	                remainer %= unitValue;
-	            }
-	            console.log(unitValue, unitAmount);
-	        }
-	        return result.join(" ");
-	    }
-	    
+
+	 function formatNumber(num) {
+		    const units = ["백만", "천만", "억"]; // 각 단위 정의
+		    let result = ''; // 결과 문자열
+		    let unitIndex = 0; // 단위 인덱스
+			console.log(num);
+		    // 1억 단위로 나누면서 단위 붙임
+		    while (num > 0) {
+		        const remainder = num % 10000; // 10,000으로 나눈 나머지
+		        if (remainder > 0) {
+		            let part = remainder.toString(); // 나머지를 문자열로 변환
+		            if (unitIndex > 0) {
+		                part = part.replace(/0+$/, ''); // 뒤에 있는 0 제거
+		            }
+		            result = part + (units[unitIndex] ? units[unitIndex] : '') + result; // 결과에 추가
+		        }
+		        num = Math.floor(num / 10000); // 10,000으로 나눈 몫을 다시 num에 저장
+		        unitIndex++; // 단위 인덱스 증가
+		    }
+
+		    // "백", "천" 단위가 중간에 있을 경우 제거
+		    result = result.replace(/(천|백)(?=\d)/g, ''); // 백, 천이 중간에 있을 경우 제거
+
+		    // "만" 단위도 절삭
+		    if (result.includes("백만") && !result.includes("천")) {
+		        result = result.replace(/만$/, ''); // 만 단위가 필요 없으면 제거
+		    }
+			console.log(result);
+		    return result || '0'; // 결과 반환, 0이면 '0' 반환
+		}
 
 	</script> 
 

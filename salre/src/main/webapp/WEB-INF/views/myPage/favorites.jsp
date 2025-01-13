@@ -133,7 +133,7 @@
 						            <c:forEach var="product" items="${favoritesList}">
 						            
 						             <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
-						                <div class="product-card" style="position:relative;">
+						                <div class="product-card" id="#card-${product.product_id}" style="position:relative;">
 						                    
 						                    <c:choose>
 						                    	  <c:when test="${product.product_status == 1}">

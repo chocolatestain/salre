@@ -119,10 +119,12 @@
         
 <!--     </insert> -->
        <insert id="insertReview" parameterType="map">
-    INSERT INTO review (user_id, seller_id, review_rate, review_content)
+    INSERT INTO review (user_id, seller_id, product_id,is_review, review_rate, review_content)
     VALUES (
         #{user_id},
         #{seller_id},
+        #{product_id},
+        #{is_review},
         #{review_rate},
         #{review_content}
     )
@@ -220,18 +222,24 @@
     <!-- 마이페이지 - 내가 작성한 후기 -->
     <select id="selectReviewsByUserId" parameterType="int" resultMap="reviewResultMap">
        <!--  SELECT * FROM review WHERE user_id = #{user_id} -->
-         SELECT distinct
-	        r.review_id,
-	        r.user_id AS buyer_id,
-	        r.seller_id,
-	        r.review_rate,
-	        r.review_content,
-	        u.id AS seller_name,
-	        p.product_name
-	    FROM review r
-	    JOIN product p ON r.seller_id = p.user_id
-	    JOIN user u ON p.user_id = u.user_id
-	    WHERE r.user_id = #{user_id};
+         SELECT 
+		    r.review_id,
+		    r.user_id AS buyer_id,
+		    r.seller_id,
+		    r.product_id,
+		    r.review_rate,
+		    r.review_content,
+		    p.product_name,
+		    u.id AS seller_name
+		FROM 
+		    review r
+		LEFT JOIN 
+		    product p ON r.product_id = p.product_id
+		LEFT JOIN 
+		    <!-- user u ON p.user_id = u.user_id -->
+		    user u ON r.seller_id = u.user_id
+		WHERE 
+		    r.user_id = #{user_id}
     </select>
    
 	<!--  마이페이지 - 내가 작성한 후기(수정)-->

@@ -161,6 +161,9 @@ public class UserService {
 	
 	//마이페이지 - 나의 관심매물상태변경(1>0) 
 	public void updateFavorite(LikeDTO userlike) {
+		//System.out.println("userlike user_id : " + userlike.getUser_id());
+		//System.out.println("userlike product_id : " + userlike.getProduct_id());
+		
 		 userDAO.updateFavorite(userlike);
 	}
 	

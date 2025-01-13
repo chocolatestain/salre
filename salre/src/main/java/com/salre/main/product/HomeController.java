@@ -47,7 +47,9 @@ public class HomeController {
         System.out.println("Region DATA : " + regionData);
  
         int regionCode = regionService.selectIdByRegion(regionName); 
- 
+        System.out.println(regionCode);
         return productService.findProductsByRegionCode(regionCode);
+        
+        
     }
 }

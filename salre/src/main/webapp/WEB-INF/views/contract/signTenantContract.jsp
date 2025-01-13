@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="container">
-		<h2>계약서 보기</h2>
+		<h2>[임차인]계약서 보기</h2>
 		<form id="contractInput" action="${path}/contract/saveSignature">
 			<c:if test="${not empty contract.contract_imgpath}">
 				<div class="contract-image-container">

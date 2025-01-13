@@ -19,10 +19,10 @@ public class ProductDTO {
 
 	int product_id;
 	int user_id;
-	int region_id;
+	Integer region_id;
 	String product_name;
 	String payment_type;
-	int product_status;
+	Integer product_status;
 	int view_count;
 	String address;
 	String address_detail;
@@ -30,9 +30,9 @@ public class ProductDTO {
 	int rentfee;
 	double area;
 	String product_type;
-	int floor;
+	Integer floor;
 	Date enter_day;
-	int room_count;
+	Integer room_count;
 	int bath_count;
 	Date approve_day;
 	int park_count;
