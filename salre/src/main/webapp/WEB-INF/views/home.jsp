@@ -24,7 +24,7 @@
 
         <body>
             <!-- Content -->
-            <div class="container">
+            <div class="container" style="background-color: #f5f5f5;">
                 <section class="main-banner">
                     <h1>살래?</h1>
                     <p>찾고, 보고, 사고 내가 찾는 부동산</p>
