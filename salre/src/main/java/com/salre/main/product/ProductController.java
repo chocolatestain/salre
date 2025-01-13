@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.salre.main.login.UserDTO;
+import com.salre.main.login.UserService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,7 +31,11 @@ public class ProductController {
 
     @Autowired
     private RegionService regionService;
-
+    
+    @Autowired
+    
+    private UserService userservice;
+    
     @GetMapping("/insert")
     public String showCreateForm() {
         return "product/insert";
@@ -42,7 +49,7 @@ public class ProductController {
         MultipartFile file = request.getFile("photo");  // 
         // 일반 요청 파라미터 처리
         String sigungu = request.getParameter("sigungu"); 
-
+        int nextProduct_id = productService.nextId();
         // sigungu 값 출력 (테스트용)
         System.out.println("시군구: " + sigungu);
         System.out.println(productDTO);
@@ -76,7 +83,7 @@ public class ProductController {
         // 비즈니스 로직 처리 (상품 등록)
         productService.insertProduct(productDTO);
 
-        return "redirect:/";
+        return "redirect:/product/detail/" + nextProduct_id;
     }
  
     // 모든 product return 
@@ -94,16 +101,29 @@ public class ProductController {
         @RequestParam(value = "product_status", required = false) String productStatus,
         @RequestParam(value = "room_count", required = false) String roomCount,
         @RequestParam(value = "floor", required = false) String floor,
-        Model model
-    ) {
+        Model model) {
 
-        // 필터 값을 기반으로 검색 조건 처리
-        ProductDTO filter = new ProductDTO();
-        filter.setRegion_id(regionId != null && !regionId.isEmpty() ? Integer.parseInt(regionId) : null);
-        filter.setPayment_type(paymentType);
-        filter.setProduct_status(productStatus != null && !productStatus.isEmpty() ? Integer.parseInt(productStatus) : null);
-        filter.setRoom_count(roomCount != null && !roomCount.isEmpty() ? Integer.parseInt(roomCount) : null);
-        filter.setFloor(floor != null && !floor.isEmpty() ? Integer.parseInt(floor) : null);
+    	
+    	System.out.println(regionId);
+    	System.out.println(paymentType);
+    	System.out.println(productStatus);
+    	System.out.println(roomCount);
+    	System.out.println(floor);
+    	// 필터 값을 기반으로 검색 조건 처리
+    	ProductDTO filter = new ProductDTO();
+    	filter.setRegion_id(regionId == null || regionId.isEmpty() ? null : Integer.parseInt(regionId));
+    	filter.setPayment_type(paymentType == null || paymentType.isEmpty() ? null : paymentType);
+
+    	if (productStatus != null && !productStatus.isEmpty()) {
+    	    filter.setProduct_status(Integer.parseInt(productStatus));
+    	} else {
+    	    filter.setProduct_status(null);
+    	}
+    	
+    	filter.setRoom_count(roomCount == null || roomCount.isEmpty() ? null : Integer.parseInt(roomCount));
+    	filter.setFloor(floor == null || floor.isEmpty() ? null : Integer.parseInt(floor));
+
+
 
         // 서비스 호출
         List<ProductDTO> searchResults = productService.searchByConditions(filter);
@@ -116,11 +136,12 @@ public class ProductController {
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
     	ProductDTO product = productService.selectByIdService(product_id);
+    	UserDTO user = userservice.getUserById(product.getUser_id());
     	String status = "status-before";
     	String label = "거래 전";
     	switch (product.getProduct_status()) {
     	    case 0:
-    	    	status = "status-pending";
+    	    	status = "status-before";
     	    	label = "거래 전";
     	        break;
     	    case 1:
@@ -138,6 +159,7 @@ public class ProductController {
     	model.addAttribute("status", status);
     	model.addAttribute("product", product);
     	model.addAttribute("label", label);
+    	model.addAttribute("user_nickname", user.getId());
     	productService.incrementViewCount(product_id);
     	return "product/detail";
     }  
@@ -145,8 +167,9 @@ public class ProductController {
     public String searchProducts(@RequestParam("search") String searchQuery, Model model) {
         // 검색어가 비어있을 때 예외 처리
         if (searchQuery == null || searchQuery.trim().isEmpty()) {
-            model.addAttribute("message", "검색어를 입력해주세요.");
-            return "/product/search";
+        	List<ProductDTO> searchResults = productService.selectAllProducts();
+            model.addAttribute("searchResults", searchResults);
+            return "product/search";
         }
 
         log.info("검색어: {}", searchQuery);  // 로그로 검색어 확인
@@ -164,4 +187,7 @@ public class ProductController {
 
         return "product/search";
     }
+    
+ 
+
 }

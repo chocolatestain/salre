@@ -100,7 +100,8 @@ body {
                                 <td>${post.click_cnt}</td>
                                 <td>${commentCountMap[post.board_id]}</td> <!-- 댓글 수 표시 -->     
                                 <td>
-                                    <a href="${contextPath}/post/detail?id=${post.user_id}" class="btn btn-primary btn-sm">View</a>
+                                    <%-- <a href="${contextPath}/post/detail?id=${post.user_id}" class="btn btn-primary btn-sm">View</a> --%>
+                                    <a href="${contextPath}/board/detail?board_id=${post.board_id}" class="btn btn-primary btn-sm">View</a>
                                 </td>
                            <!--  </tr> -->
                         </c:forEach>

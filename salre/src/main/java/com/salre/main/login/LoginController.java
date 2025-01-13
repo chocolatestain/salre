@@ -122,10 +122,21 @@ public class LoginController {
 		*/
 	
 		// 로그인 페이지
-	@GetMapping("/login")
-	public String loginPage() {
-		return "logIn/login"; // login.jsp 반환
-	}
+//	@GetMapping("/login")
+//	public String loginPage() {
+//		return "logIn/login"; // login.jsp 반환
+//	}
+		@GetMapping("/login")
+		public String loginPage(@RequestParam(value = "redirectUri", required = false) String redirectUri, HttpSession session) {
+		    // 리다이렉트할 URI를 세션에 저장
+		    if (redirectUri != null && !redirectUri.contains("/login")) { // 로그인 페이지는 제외
+		        session.setAttribute("redirectUri", redirectUri);
+		    }
+		    return "logIn/login"; // 로그인 페이지 반환
+		}
+
+		
+		
 
 	@GetMapping("/admin/myPage")
 	public void admin() {

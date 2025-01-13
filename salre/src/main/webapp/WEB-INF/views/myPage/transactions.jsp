@@ -57,7 +57,8 @@
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
-            width: 200px;
+            width: 250px;
+            height: 550px; 
             margin: 10px;
             padding: 15px;
             text-align: center;
@@ -92,6 +93,11 @@
             color: #f4a261;
             margin-top: 10px;
         }
+        
+        .product-card .review-button {
+		    margin-top: 15px; /* 버튼과 글씨 사이 간격 */
+		    display: inline-block; /* 버튼 위치 고정 */
+		}	
  
 
 
@@ -306,27 +312,23 @@
                             / ${productB.rentfee} 만 원 월세
                         </c:if>
                     </div>  
-	                    <button class="btn btn-outline-danger" onclick="openReviewModal(${productB.product_id})">
-					        리뷰작성
-					    </button>
-	                    
-                   <%--  <c:choose>
-					    <c:when test="${!productB.reviewWritten}">
-					        <button class="btn btn-outline-danger" onclick="openReviewModal(${productB.product_id})">
-					            리뷰작성
-					        </button>
-					    </c:when>
-					    <c:otherwise>
-					        <button class="btn btn-success" disabled>
-					            리뷰작성 완료
-					        </button>
-					    </c:otherwise>
-					</c:choose> --%>
-        
-        
+                     
+					<c:choose>
+                                <c:when test="${productB.product_status == 2}">
+                                    <span class="badge-status bg-secondary">거래완료</span>        
+								    <button 
+									    class="btn btn-outline-danger review-button" 
+									    <%-- data-bs-toggle="modal" 
+									    data-bs-target="#reviewModal" 
+									    data-review-id="${productB.product_id} --%>
+									    onclick="openReviewModal(event, this)">
+									    리뷰작성
+									</button>
+					   			</c:when>
+					  </c:choose>      
                 </div>
                 </a>
-                
+                 		
             </c:forEach>
         </c:if>
         <c:if test="${empty buyerProductList}">
@@ -613,7 +615,7 @@
     };
 
     $.ajax({
-        url: `${contextPath}/transactions/registerReview?product_id=` + product_id,  // product_id는 쿼리 파라미터로 전송
+        url: `${contextPath}/transactions/registerReview//?product_id=` + product_id,  // product_id는 쿼리 파라미터로 전송
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(reviewData),  // reviewDTO 데이터 전송
@@ -658,6 +660,22 @@
 	            }
 	        });
 	    });
+	
+	    function openReviewModal(product_id) {
+	    	
+	    	// 이벤트 전파 차단
+	        if (event) {
+	            event.stopPropagation();
+	        	event.preventDefault();
+	        }
+
+	        // 리뷰 ID를 숨겨진 필드에 설정
+	        document.getElementById('review_id').value = product_id;
+
+	        // Bootstrap 모달을 열기
+	        const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+	        reviewModal.show();
+	    }
 	</script>
 	
 </body>

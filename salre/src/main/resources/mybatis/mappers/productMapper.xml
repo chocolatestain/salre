@@ -67,9 +67,11 @@
     <if test="room_count != null">
         AND room_count = #{room_count}
     </if>
-    <if test="floor != null">
-        AND floor = #{floor}
-    </if>
+	<if test="floor != null and floor != -1">
+	    AND floor = #{floor}
+	</if>
+
+ 
 </select>
 <select id = "incrementViewCount" parameterType ="int">
 	UPDATE product

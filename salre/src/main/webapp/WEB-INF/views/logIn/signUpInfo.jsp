@@ -7,9 +7,9 @@
         <% String certifiedName=(String) session.getAttribute("certifiedName"); String certifiedPhone=(String)
             session.getAttribute("certifiedPhone"); String certifiedBirthday=(String)
             session.getAttribute("certifiedBirthday"); System.out.println("Info 세션 데이터:"); System.out.println("Name: " + certifiedName);
-    System.out.println(" Phone: " + certifiedPhone);
-    System.out.println(" Birthday: " + certifiedBirthday);
-%>
+		    System.out.println(" Phone: " + certifiedPhone);
+		    System.out.println(" Birthday: " + certifiedBirthday);
+		%>
 
 <!DOCTYPE html>
 <html lang=" en">

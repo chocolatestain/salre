@@ -159,6 +159,8 @@ public class MyPageController {
 	        UserDTO user = (UserDTO) userObj;
 	        int user_id = user.getUser_id(); // user_id 추출
 	        System.out.println("### user_id: " + user_id);
+	        //System.out.println("### product_id: " + product_id);
+	        
 
 	        // ProductDTO를 통해 seller_id 가져오기
 	        ProductDTO product = productService.selectByIdService(product_id);
@@ -174,8 +176,8 @@ public class MyPageController {
 	        review.setProduct_id(product_id);
 	        
 	        // 리뷰 중복 작성 확인
-	        boolean reviewExists = userService.isReviewWritten(review);
-	        if (reviewExists) {
+	        boolean is_review = userService.isReviewWritten(review);
+	        if (is_review) {
 	            throw new IllegalArgumentException("이미 작성된 리뷰입니다.");
 	        }
 
