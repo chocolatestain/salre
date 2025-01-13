@@ -121,8 +121,14 @@ public class UserDAO implements UserDAOInterface {
 	}
 	  
 	//마이페이지 - 나의 관심매물상태변경(1>0) 
-	public void updateFavorite(LikeDTO userlike) {
+	public void updateFavorite(LikeDTO userlike) { 
+		System.out.println("userlike user_id : " + userlike.getUser_id());
+		System.out.println("userlike product_id : " + userlike.getProduct_id());
+		System.out.println("userlike is_liked before : " + userlike.is_liked());
+		
 		sqlSession.update(namespace + "updateFavorite",userlike);
+		
+		System.out.println("userlike is_liked after : " + userlike.is_liked());
 	}
 	
 	//마이페이지 - 나의 관심매물삭제  
