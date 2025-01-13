@@ -198,7 +198,12 @@
                         $.ajax({
                             type: "POST",
                             url: `${pageContext.request.contextPath}/notify/check/\${notify_id}`,
+                            data: {
+                                notify_id: notify_id
+                            },
                             success: function () {
+                                // notify_id를 세션에 저장
+                                sessionStorage.setItem('notify_id', notify_id);
                                 window.location.href = notify_url;
                             },
                             error: function () {

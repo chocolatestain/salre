@@ -19,6 +19,11 @@ public class NotifyRepository {
         return sqlSession.selectList(namespace + "select", user_id);
     }
 
+    // 알림 상세 조회
+    public NotifyDTO selectById(int notify_id) {
+        return sqlSession.selectOne(namespace + "selectById", notify_id);
+    }
+
     // 읽지 않은 알림 개수 조회
     public int selectUnread(int user_id) {
         int count = sqlSession.selectList(namespace + "selectUnread", user_id).size();

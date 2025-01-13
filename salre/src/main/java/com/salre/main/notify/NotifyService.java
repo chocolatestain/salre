@@ -15,6 +15,11 @@ public class NotifyService {
         return notifyRepository.select(user_id);
     }
 
+    // 알림 상세 조회
+    public NotifyDTO selectById(int notify_id) {
+        return notifyRepository.selectById(notify_id);
+    }
+
     // 읽지 않은 알림 개수 조회
     public int selectUnread(int user_id) {
         return notifyRepository.selectUnread(user_id);
