@@ -88,8 +88,14 @@
 		// 송금완료 누른 날짜
 		 const notify_time = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식
 		// 알림 내용 입력
-		const notify_content = `임차인이 송금을 완료 했어요.<br>${contract.bank_name}은행의 ${contract.account}계좌를 
-		확인해주세요.<br> 보내신 금액은 ${contract.price}원 입니다.<br> 송금일: \${notify_time}`;
+		const notify_content = `임차인이 송금을 완료 했어요.
+								<br>
+								은행명: ${contract.bank_name}
+								<br>
+								계좌번호: ${contract.account}
+								<br>
+								송금액: ${contract.price}원
+								`;
 		console.log(notify_content);
 		// 알림 클릭 시 이동할 URL
 		const notify_url = "${path}/contract/payCheck/${contract.contract_id}";
