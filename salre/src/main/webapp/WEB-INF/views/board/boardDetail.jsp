@@ -112,6 +112,7 @@
 									<div class="collapse show" id="collapseComment">
 										<div class="d-flex mt-3">
 											<textarea id="comment_content" class="form-control mb-0" placeholder="댓글을 남겨보세요" rows="2" spellcheck="false"></textarea>
+											<!-- 댓글 등록 버튼 -->
 											<c:choose>
 												<c:when test="${userDTO eq null}">
 													<button class="btn btn-sm btn-primary-soft ms-2 px-4 mb-0 flex-shrink-0" disabled>
@@ -131,9 +132,12 @@
 							
 							<!-- Button -->
 							<div class="d-flex justify-content-end mt-4">
-								<a href="${contextPath}/board/list" class="btn btn-primary">목록</a>
-								<a href="${contextPath}/board/update?board_id=${boardDTO.board_id}" class="btn btn-success ms-2">수정</a>
-								<button onclick="javascript:doDelete(${boardDTO.board_id})" class="btn btn-danger ms-2">삭제</button>
+								<a href="${contextPath}/board/list?type=${boardDTO.board_class}" class="btn btn-primary">목록으로 이동</a>
+								<%-- 본인이 작성한 글만 수정, 삭제 가능 --%>
+								<c:if test="${userDTO.id == boardDTO.writer}">
+									<a href="${contextPath}/board/update?board_id=${boardDTO.board_id}" class="btn btn-success ms-2">수정</a>
+									<button onclick="javascript:doDelete(${boardDTO.board_id})" class="btn btn-danger ms-2">삭제</button>
+								</c:if>
 							</div>
 						</div>
 						<!-- Card body END -->

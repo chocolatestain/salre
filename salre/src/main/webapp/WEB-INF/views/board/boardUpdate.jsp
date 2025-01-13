@@ -15,7 +15,7 @@
 				<!-- Course description -->
 				<div class="col-12">
 					<div class="card-header bg-transparent border-bottom">
-						<h3 class="mb-0">게시글 수정하기</h3>
+						<h3 class="mb-0">${boardDTO.board_class} 수정하기</h3>
 					</div>
 					
 					<div class="col-12 p-2">
@@ -114,10 +114,11 @@
 		function doUpdate() {
 			let board_title = $('[name="board_title"]').val();
 			let board_content = $('.ql-editor').html();
+			const board_class = "${boardDTO.board_class}";
 			
 			let jsonData = {
 					"board_id": ${boardDTO.board_id},
-					"board_class": "공지사항",
+					"board_class": board_class,
 					"board_title": board_title,
 					"board_content": board_content
 			};
@@ -130,7 +131,7 @@
 				success: function(res) {
 					alert(res);
 					// 게시글 수정 이후 게시판 목록 조회로 이동
-					location.href="${contextPath}/board/list";
+					location.href="${contextPath}/board/list?type=" + board_class;
 				},
 				error: function(err) {
 					alert(err);
