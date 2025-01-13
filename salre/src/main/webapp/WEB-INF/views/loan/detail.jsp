@@ -1,188 +1,188 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ include file="../common/header_tmp.jsp" %>
-        <!DOCTYPE html>
-        <html lang="ko">
+    <!DOCTYPE html>
+    <html lang="ko">
 
-        <head>
-            <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"
-                type="image/x-icon" />
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>살래?</title>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <style>
-                .main-banner {
-                    padding: 40px;
-                    background: #f5f5f5;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    text-align: center;
-                }
+    <head>
+        <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" type="image/x-icon" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>살래?</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            .main-banner {
+                padding: 40px;
+                background: #f5f5f5;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
 
-                .main-banner h1 {
-                    font-size: 2.5rem;
-                    color: #333;
-                }
+            .main-banner h1 {
+                font-size: 2.5rem;
+                color: #333;
+            }
 
-                .main-banner h2 {
-                    font-size: 1.25rem;
-                    color: #666;
-                    margin-bottom: 2rem;
-                }
+            .main-banner h2 {
+                font-size: 1.25rem;
+                color: #666;
+                margin-bottom: 2rem;
+            }
 
-                .controls {
-                    display: flex;
-                    justify-content: space-between;
-                    width: 100%;
-                    max-width: 1200px;
-                    margin-bottom: 30px;
-                }
+            .controls {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                max-width: 1200px;
+                margin-bottom: 30px;
+            }
 
-                .controls button {
-                    background-color: #f5f5f5;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 2rem;
-                }
+            .controls button {
+                background-color: #f5f5f5;
+                border: none;
+                cursor: pointer;
+                font-size: 2rem;
+            }
 
-                .form-box {
-                    background-color: #fff;
-                    padding: 2rem;
-                    border-radius: 10px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    margin-bottom: 2rem;
-                    width: 100%;
-                    max-width: 1200px;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 300px;
-                }
+            .form-box {
+                background-color: #fff;
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 2rem;
+                width: 100%;
+                max-width: 1200px;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 300px;
+            }
 
-                .bank-logo {
-                    width: 64px;
-                    flex-shrink: 0;
-                }
+            .bank-logo {
+                width: 64px;
+                flex-shrink: 0;
+            }
 
-                .loan-logo {
-                    width: 200%;
-                    height: 200%;
-                    flex-shrink: 0;
-                    border-radius: 5px;
-                }
+            .loan-logo {
+                width: 200%;
+                height: 200%;
+                flex-shrink: 0;
+                border-radius: 5px;
+            }
 
-                .info {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    justify-content: flex-start;
-                    text-align: left;
-                    line-height: 0;
-                }
+            .info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                text-align: left;
+                line-height: 0;
+            }
 
-                .info ul {
-                    padding-left: 20px;
-                }
+            .info ul {
+                padding-left: 20px;
+            }
 
-                .table-box {
-                    background-color: #fff;
-                    padding: 2rem;
-                    border-radius: 10px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    margin-bottom: 2rem;
-                    width: 100%;
-                    max-width: 800px;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-direction: column;
-                }
+            .table-box {
+                background-color: #fff;
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 2rem;
+                width: 100%;
+                max-width: 800px;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
 
-                .data {
-                    text-align: left;
-                    width: 50%;
-                }
+            .data {
+                text-align: left;
+                width: 50%;
+            }
 
-                .helper {
-                    font-size: 1rem;
-                    margin-top: 10px;
-                }
+            .helper {
+                font-size: 1rem;
+                margin-top: 10px;
+            }
 
-                input {
-                    width: 100%;
-                    padding: 0.75rem;
-                    margin: 1rem 0;
-                    font-size: 1rem;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    box-sizing: border-box;
-                }
+            input {
+                width: 100%;
+                padding: 0.75rem;
+                margin: 1rem 0;
+                font-size: 1rem;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
 
-                .data button {
-                    background-color: #f4a261;
-                    color: white;
-                    cursor: pointer;
-                    border: none;
-                    width: 100%;
-                    padding: 0.75rem;
-                    margin: 1rem 0;
-                    font-size: 1rem;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    box-sizing: border-box;
-                }
+            .data button {
+                background-color: #f4a261;
+                color: white;
+                cursor: pointer;
+                border: none;
+                width: 100%;
+                padding: 0.75rem;
+                margin: 1rem 0;
+                font-size: 1rem;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
 
-                .data button:hover {
-                    background-color: #e76f51;
-                }
+            .data button:hover {
+                background-color: #e76f51;
+            }
 
-                table {
-                    width: 100%;
-                    border-collapse: separate;
-                    border-spacing: 0;
-                    margin-bottom: 20px;
-                    background-color: #fff;
-                    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
-                    border-radius: 5px;
-                    overflow: hidden;
-                }
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                margin-bottom: 20px;
+                background-color: #fff;
+                box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                overflow: hidden;
+            }
 
-                th,
-                td {
-                    padding: 10px;
-                    text-align: center;
-                    border: 1px solid #666;
-                }
+            th,
+            td {
+                padding: 10px;
+                text-align: center;
+                border: 1px solid #666;
+            }
 
-                th {
-                    background-color: #f4a261;
-                    color: white;
-                    font-weight: bold;
-                }
+            th {
+                background-color: #f4a261;
+                color: white;
+                font-weight: bold;
+            }
 
-                td {
-                    color: #333;
-                }
+            td {
+                color: #333;
+            }
 
-                #scroll {
-                    position: fixed;
-                    bottom: 30px;
-                    right: 30px;
-                    z-index: 9999;
-                    border: none;
-                    background-color: #999;
-                    cursor: pointer;
-                    padding: 10px;
-                    border-radius: 10px;
-                    font-size: 2rem;
-                }
-            </style>
-        </head>
+            #scroll {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                z-index: 9999;
+                border: none;
+                background-color: #999;
+                cursor: pointer;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 2rem;
+            }
+        </style>
+    </head>
 
-        <body>
+    <body>
+        <%@ include file="../common/header.jsp" %>
+
             <!-- Main Banner -->
             <section class="main-banner">
                 <h1>대출 상세정보</h1>
@@ -217,7 +217,7 @@
                 </div>
             </section>
 
-            <%@ include file="../common/footer_tmp.jsp" %>
+            <%@ include file="../common/footer.jsp" %>
 
                 <button onclick="scrollToTop()" id="scroll">⬆️</button>
 
@@ -485,6 +485,6 @@
                         }
                     }
                 </script>
-        </body>
+    </body>
 
-        </html>
+    </html>

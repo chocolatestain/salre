@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 대시보드</title>
+    <title>살래?</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
@@ -20,11 +20,6 @@
         margin: 0;
         font-family: 'Arial', sans-serif;
         background-color: #f8f9fa;
-    }
-
-    header {
-        text-align: center;
-        margin-bottom: 20px;
     }
 
     .section-card {

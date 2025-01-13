@@ -1,108 +1,108 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ include file="../common/header_tmp.jsp" %>
-        <!DOCTYPE html>
-        <html lang="ko">
+    <!DOCTYPE html>
+    <html lang="ko">
 
-        <head>
-            <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"
-                type="image/x-icon" />
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>살래?</title>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <style>
-                .main-banner {
-                    padding: 40px;
-                    background: #f5f5f5;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
+    <head>
+        <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" type="image/x-icon" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>살래?</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            .main-banner {
+                padding: 40px;
+                background: #f5f5f5;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-                .main-banner>div {
-                    width: 50%;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                }
+            .main-banner>div {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
 
-                .main-banner h1 {
-                    font-size: 2.5rem;
-                    color: #333;
-                }
+            .main-banner h1 {
+                font-size: 2.5rem;
+                color: #333;
+            }
 
-                .main-banner h2 {
-                    font-size: 1.25rem;
-                    color: #666;
-                    margin-bottom: 3rem;
-                }
+            .main-banner h2 {
+                font-size: 1.25rem;
+                color: #666;
+                margin-bottom: 3rem;
+            }
 
-                button {
-                    width: 100%;
-                    padding: 0.75rem;
-                    margin: 1rem 0;
-                    font-size: 1rem;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    box-sizing: border-box;
-                }
+            button {
+                width: 100%;
+                padding: 0.75rem;
+                margin: 1rem 0;
+                font-size: 1rem;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
 
-                .notify-list {
-                    display: grid;
-                    align-items: start;
-                    align-content: start;
-                    width: 100%;
-                    max-width: 1200px;
-                }
+            .notify-list {
+                display: grid;
+                align-items: start;
+                align-content: start;
+                width: 100%;
+                max-width: 1200px;
+            }
 
-                .notify-list button {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    background: #fff;
-                    color: #000;
-                    border-radius: 10px;
-                    margin: 0.5rem;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    transition: transform 0.2s;
-                    border: none;
-                    cursor: pointer;
-                    text-align: left;
-                    padding: 20px;
-                }
+            .notify-list button {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: #fff;
+                color: #000;
+                border-radius: 10px;
+                margin: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s;
+                border: none;
+                cursor: pointer;
+                text-align: left;
+                padding: 20px;
+            }
 
-                .notify-list button.checked {
-                    background-color: #e5e5e5;
-                    filter: grayscale(100%);
-                }
+            .notify-list button.checked {
+                background-color: #e5e5e5;
+                filter: grayscale(100%);
+            }
 
-                .notify-list button:hover {
-                    background-color: #d5d5d5;
-                    filter: none;
-                }
+            .notify-list button:hover {
+                background-color: #d5d5d5;
+                filter: none;
+            }
 
-                .notify-icon {
-                    font-size: 2.5rem;
-                    margin-right: 20px;
-                }
+            .notify-icon {
+                font-size: 2.5rem;
+                margin-right: 20px;
+            }
 
-                .notify-content {
-                    font-size: 1.25rem;
-                    flex-grow: 1;
-                    text-align: left;
-                }
+            .notify-content {
+                font-size: 1.25rem;
+                flex-grow: 1;
+                text-align: left;
+            }
 
-                .notify-time {
-                    font-size: 1rem;
-                    color: #666;
-                    align-self: flex-start;
-                    margin-left: 20px;
-                }
-            </style>
-        </head>
+            .notify-time {
+                font-size: 1rem;
+                color: #666;
+                align-self: flex-start;
+                margin-left: 20px;
+            }
+        </style>
+    </head>
 
-        <body>
+    <body>
+        <%@ include file="../common/header.jsp" %>
+
             <!-- Main Banner -->
             <section class="main-banner">
                 <h1>알림 확인</h1>
@@ -110,7 +110,7 @@
                 <div class="notify-list"></div>
             </section>
 
-            <%@ include file="../common/footer_tmp.jsp" %>
+            <%@ include file="../common/footer.jsp" %>
 
                 <script>
                     const user_id = "${loggedInUser.user_id}";
@@ -238,6 +238,6 @@
                         }
                     }
                 </script>
-        </body>
+    </body>
 
-        </html>
+    </html>
