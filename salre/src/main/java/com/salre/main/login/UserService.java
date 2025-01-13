@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.salre.main.myPage.LikeDTO;
 import com.salre.main.myPage.PostDTO;
+import com.salre.main.myPage.ReportDAO;
 import com.salre.main.myPage.ReportDTO;
 import com.salre.main.myPage.ReviewDTO;
 import com.salre.main.product.ProductDTO;
@@ -29,7 +30,8 @@ public class UserService {
 	@Autowired
 	@Qualifier("UserDAO")
 	public UserDAO userDAO;
-
+	@Autowired
+	public ReportDAO reportDAO;
 	// --ȸ������
 	public int registerUser(UserDTO user) {
 		// ��й�ȣ ��ȣȭ
@@ -204,7 +206,10 @@ public class UserService {
 	public List<ReportDTO> getMyreportsByUserId(int user_id) {
 		return userDAO.selectReportsByUserId(user_id);
 	}
-
+	public  void addReport(int user_id,int product_id,String report_content,int report_class)  {
+		 reportDAO.addReport(user_id, product_id, report_content, report_class);
+	}
+	
 	// ���������� - ȸ����������
 	public void updateUserInfo(UserDTO user) {
 		userDAO.updateUserInfo(user);

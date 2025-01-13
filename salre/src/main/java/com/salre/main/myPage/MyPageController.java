@@ -319,6 +319,21 @@ public class MyPageController {
 		    }
 		
 		}
-		 
-		
+		@PostMapping("/addreports")
+		public ResponseEntity<String> addReports(@RequestParam("reportType") int reportType,
+		                       @RequestParam("reportContent") String reportContent,
+		                       @RequestParam("product_id") int productId,
+		                       HttpSession session) {
+		    // 현재 로그인한 사용자 정보 가져오기
+		    UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
+		    int userId = user.getUser_id();
+
+		    // 신고 내용 저장 처리
+		    userService.addReport(userId, productId, reportContent, reportType);
+
+		    // 로깅 (디버깅 용도로 사용)
+		    System.out.println("신고 저장 완료 - 유저 ID: " + userId + ", 상품 ID: " + productId + 
+		                       ", 신고 유형: " + reportType + ", 내용: " + reportContent);
+		    return ResponseEntity.ok("신고가 성공적으로 접수되었습니다.");
+		}
 }
