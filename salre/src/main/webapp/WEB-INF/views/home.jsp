@@ -197,6 +197,7 @@
 
         initializeSwiper(); // Swiper 초기화 호출
     </script>
+    <%@ include file="common/footer.jsp" %>
 </body>
 
 </html>

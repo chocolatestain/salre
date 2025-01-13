@@ -34,7 +34,7 @@
                     <div class="logo">
                         <nav>
                             <a href="${contextPath}/">
-                                <div style="padding-right: 20px;">
+                                <div style="padding-right: 5px;">
                                     <img src="${contextPath}/resources/images/favicon.ico">
                                 </div>
                                 <div>살래?</div>
