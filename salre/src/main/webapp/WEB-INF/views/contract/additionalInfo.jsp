@@ -22,10 +22,28 @@
                 <label for="account_name">예금주:</label>
                 <input type="text" id="account_name" name="account_name" required >
             </div>
-            <div class="form-group">
-                <label for="bank_name">은행명:</label>
-                <input type="text" id="bank_name" name="bank_name" required >
-            </div>
+              <div class="form-group">
+            <label for="bank_name">은행명:</label>
+            <select id="bank_name" name="bank_name" required>
+                <option value="">은행을 선택하세요</option>
+                <option value="BNK경남은행">BNK경남은행</option>
+                <option value="BNK부산은행">BNK부산은행</option>
+                <option value="IBK기업은행">IBK기업은행</option>
+                <option value="iM뱅크">iM뱅크</option>
+                <option value="KB국민은행">KB국민은행</option>
+                <option value="NH농협은행">NH농협은행</option>
+                <option value="SC제일은행">SC제일은행</option>
+                <option value="Sh수협은행">Sh수협은행</option>
+                <option value="광주은행">광주은행</option>
+                <option value="신한은행">신한은행</option>
+                <option value="우리은행">우리은행</option>
+                <option value="제주은행">제주은행</option>
+                <option value="카카오뱅크">카카오뱅크</option>
+                <option value="케이뱅크">케이뱅크</option>
+                <option value="토스뱅크">토스뱅크</option>
+                <option value="하나은행">하나은행</option>
+            </select>
+        </div>
             <section class="section">
 				<!-- 증빙 서류 등록 -->
 				<h2>증빙 서류 등록</h2>

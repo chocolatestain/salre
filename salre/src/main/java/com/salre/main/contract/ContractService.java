@@ -117,10 +117,16 @@ public class ContractService {
         // 서명 정보
         data.put("landlord_address", user.getAddress()+user.getAddress_detail()); // 임대인 주소
         data.put("landlord_resident_num", user.getResident_num()); // 임대인 주민등록번호
+        String userResidentNnum2 = user.getResident_num2();
+        String userNewResidentNnum2 = "-"+userResidentNnum2;
+        data.put("landlord_resident_num2", userNewResidentNnum2); // 임대인 주민등록번호
         data.put("landlord_phone_num", user.getPhone_num()); // 임대인 전화번호
         data.put("landlord_name",user.getUser_name()); // 임대인 이름
         data.put("tenant_address",tenant.getAddress()+tenant.getAddress_detail()); // 임차인 주소
         data.put("tenant_resident_num", tenant.getResident_num());// 임차인 주민등록번호
+        String residentNnum2 = tenant.getResident_num2();
+        String newResidentNnum2 = "-"+residentNnum2;
+        data.put("tenant_resident_num2", newResidentNnum2);// 임차인 주민등록번호
         data.put("tenant_phone_num", tenant.getPhone_num());// 임차인 전화번호
         data.put("tenant_name", tenant.getUser_name());// 임차인 이름
 

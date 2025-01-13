@@ -24,14 +24,7 @@
 				<h2>계약 내용</h2>
 
 				<div class="form-group">
-					<label for="deposit_INT">보증금:</label>
-					<div class="input-group">
-						<input type="text" id="deposit" name="deposit_INT" required
-							oninput="formatNumber(this)" /> <span class="unit">원</span>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="price">계약금:</label>
+					<label for="price">계약금 *</label>
 					<div class="input-group">
 						<input type="text" id="price" name="price" required
 							oninput="formatNumber(this)" /> <span class="unit">원</span>
@@ -61,7 +54,7 @@
 				<c:choose>
 					<c:when test="${product.payment_type=='월세'}">
 						<div class="form-group2">
-							<label for="rent_fee_day">월세 입금일:</label> <input type="number"
+							<label for="rent_fee_day">월세 입금일 *</label> <input type="number"
 								id="rent_fee_day" name="rent_fee_day" min="1" max="9"
 								placeholder="매달 0일"><br>
 						</div>
@@ -69,27 +62,31 @@
 				</c:choose>
 
 				<div class="form-group">
-					<label for="contract_startdate">임대차 기간:</label> <input type="date"
+					<label for="contract_startdate">임대차 기간 *</label> <input type="date"
 						id="contract_startdate" name="contract_startdate" required
 						> ~ <input type="date"
 						id="contract_enddate" name="contract_enddate" required
 						>
 				</div>
 				<div class="form-group">
-					<label for="contract_date">계약일:</label> <input type="date"
-						id="contract_date" name="contract_date" required
-						>
+					<label for="contract_date">계약일 *</label>
+					 <input type="date"	id="contract_date" name="contract_date" required>
 				</div>
 			</section>
 
 			<!-- 특약사항 -->
 			<section class="section2">
-				<div
-					style="display: flex; justify-content: space-between; align-items: center;">
+				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<h2 style="margin: 0;">특약사항</h2>
+					<div style="display: flex; align-items: center; gap: 10px;">
+					 <p style="display: flex; align-items:center; gap:10px;">자주쓰는 특약사항</p>
 					<button id="fab-btn" class="fab" type="button" title="자주 쓰는 특약사항">
 						💡</button>
+						
 				</div>
+				</div>
+				</section>
+				<section>
 				<div class="special-terms" style="margin-top: 15px;">
 					<textarea id="contract_rule" name="contract_rule" rows="10"
 						cols="50" placeholder="특약사항을 작성하세요..." style="width: 100%;"></textarea>
@@ -179,6 +176,36 @@ document.getElementById('terms-select').addEventListener('change', (event) => {
             field.value = field.value.replace(/,/g, ""); // ',' 제거
         });
     });
+    
+
+    // 요소 가져오기
+    const startDateInput = document.getElementById("contract_startdate");
+    const endDateInput = document.getElementById("contract_enddate");
+    const contractDateInput = document.getElementById("contract_date");
+	
+    // 날짜 검증 함수
+    function validateDates() {
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+        const contractDate = new Date(contractDateInput.value);
+
+        // 종료일은 시작일보다 이후여야 함
+        if (endDate <= startDate) {
+            alert("종료일은 시작일 이후여야 합니다.");
+            endDateInput.value = ""; // 종료일 초기화
+        }
+
+        // 계약일은 시작일과 같거나 그 이전이어야 함
+        if (contractDate > startDate) {
+            alert("계약일은 임대차 시작일과 같거나 그 이전이어야 합니다.");
+            contractDateInput.value = ""; // 계약일 초기화
+        }
+    }
+
+    // 이벤트 리스너 추가
+    startDateInput.addEventListener("change", validateDates);
+    endDateInput.addEventListener("change", validateDates);
+    contractDateInput.addEventListener("change", validateDates);
 </script>
 </body>
 </html>
