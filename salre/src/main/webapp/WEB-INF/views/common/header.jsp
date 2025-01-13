@@ -47,10 +47,10 @@
                             <a href="${contextPath}/product/insert">방내놓기</a>
                             <c:choose>
                                 <c:when test="${not empty sessionScope.loggedInUser}">
-                                        <a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a>
+                                        <a href="${contextPath}/chat/main.do" target="_blank">채팅</a>
                                 </c:when>
                                 <c:otherwise>
-                                        <a class="nav-link" href="${contextPath}/chat/main.do">채팅</a>
+                                        <a href="${contextPath}/chat/main.do">채팅</a>
                                 </c:otherwise>
                             </c:choose>
                             <a href="${contextPath}/board/list">게시판</a>
