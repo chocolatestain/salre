@@ -125,7 +125,7 @@
 			// 알림 내용 입력
 			const notify_content = `계약이 거절되었어요.<br>계약사항을 다시 확인해주세요.`;
 			// 알림 클릭 시 이동할 URL
-			const notify_url = "${pageContext.request.contextPath}/contract/onlyView/${contract.contract_id}";
+			const notify_url = "${path}/notify/main";
 
 			$.ajax({
 				type : "POST",
@@ -137,6 +137,7 @@
 					notify_url : notify_url
 				}),
 				success : function() {
+					alert("계약이 반려되었습니다.");
 					console.log("알림 전송 성공");
 				},
 				error : function() {
