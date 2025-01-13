@@ -107,7 +107,7 @@
 			<%@ include file="../common/sidebar.jsp"%>
 
 			<!-- Main Content -->
-			<div class="col-md-9">
+			<div class="col-md-9" style="margin-top: 30px;">
 				<h1 class="mb-4">나의 관심매물</h1>
 
 				<!-- 구매자 콘텐츠 -->

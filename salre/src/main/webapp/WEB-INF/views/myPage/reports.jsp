@@ -77,7 +77,7 @@ body {
 
 			<!-- Main Content -->
 			<div class="col-md-9">
-				<h1 class="mb-4">나의 신고내역</h1>
+				<h1 class="mb-4" style="margin-top: 30px;">나의 신고내역</h1>
 
 				<!-- 작성한 글 테이블 -->
 				<div class="table-container">
@@ -87,8 +87,8 @@ body {
 								<th>신고분류</th>
 								<th>신고내용</th>
 								<th>신고일자</th>
-								<th>처리결과</th>
-<<<<<<< HEAD
+								<!-- <th>처리결과</th> -->
+
 
 							</tr>
 						</thead>
@@ -102,14 +102,14 @@ body {
 											<c:when test="${report.report_class == 0}">허위매물</c:when>
 											<c:when test="${report.report_class == 1}">게시판</c:when>
 											<c:when test="${report.report_class == 2}">기타</c:when>
-											<c:otherwise>알 수 없음</c:otherwise>
+											<c:otherwise>잘못된 접근입니다.</c:otherwise>
 										</c:choose>
 									</td>
 									<td>${report.report_content}</td>
 									<td>${report.report_time}</td>
-									<td><a
+								<%-- 	<td><a
 										href="${contextPath}/report/detail?id=${report.user_id}"
-										class="btn btn-primary btn-sm">View</a></td>
+										class="btn btn-primary btn-sm">View</a></td> --%>
 								</tr>
 							</c:forEach>
 							<!-- 데이터가 없을 경우 -->
@@ -124,11 +124,7 @@ body {
 			</div>
 		</div>
 	</div>
-=======
->>>>>>> branch 'merge/part/all' of https://github.com/chocolatestain/salre.git
-
-							</tr>
-						</thead>
+						 </thead>
 						<tbody>
 							<!-- 서버에서 데이터를 받아오는 부분 -->
 							<c:forEach var="report" items="${reportList}">
