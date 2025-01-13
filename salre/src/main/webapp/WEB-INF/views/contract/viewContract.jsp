@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="container">
+	<h2>[임대인]계약서 보기</h2>
 		<form id="contractInput" action="${path}/contract/saveSignature">
 			<c:if test="${not empty contract.contract_imgpath}">
 				<div class="contract-image-container">
@@ -94,7 +95,7 @@
             .then(data => {
                 if (data.imagePath) {
                     alert('서명이 성공적으로 저장되었습니다.');
-                    window.location.href = "${path}/contract/viewSignContract/${contract.contract_id}"; // 서명 후 계약서 보기 페이지로 이동
+                    window.location.href = "${path}/contract/viewSignContract2/${contract.contract_id}"; // 서명 후 계약서 보기 페이지로 이동
                 } else {
                     alert('서명 저장에 실패했습니다.');
                 }
