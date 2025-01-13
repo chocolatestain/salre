@@ -72,7 +72,7 @@ body {
 
         <!-- Main Content -->
         <div class="col-md-9">
-            <h1 class="mb-4">나의 거래후기</h1>
+            <h1 class="mb-4" style="margin-top: 30px;">나의 거래후기</h1>
             <br>
             
             <h2>내가 작성한 후기</h2>
