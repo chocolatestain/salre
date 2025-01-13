@@ -4,13 +4,12 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+ 	<%@ include file="../common/header.jsp" %>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>살래?</title>
-<script
-	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
-<%@ include file="../common/header.jsp"%>
+<script	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
 <style>
 /* 기본 설정 */
 body, html {
@@ -48,43 +47,6 @@ header {
 	z-index: 10;
 }
 
-header .logo {
-	font-size: clamp(1.5rem, 2.5vw, 3rem);
-}
-
-header nav a {
-	font-size: clamp(1rem, 1.5vw, 1.5rem);
-	margin: 0 10px;
-	text-decoration: none;
-	color: #333;
-}
-
-header .auth a {
-	margin-left: 15px;
-	padding: 10px 20px;
-	background-color: #f4a261;
-	color: #fff;
-	border-radius: 5px;
-	text-decoration: none;
-}
-
-footer {
-	width: 150%;
-	display: flex;
-	justify-content: space-around;
-	background-color: #222;
-	color: #fff;
-	padding: 20px 0;
-}
-
-footer div {
-	text-align: left;
-}
-
-footer a {
-	color: #f4a261;
-	text-decoration: none;
-}
 /* 콘텐츠 영역 */
 .screen {
 	margin-top: 80px; /* 고정된 header 높이만큼 여백 추가 */
@@ -419,6 +381,17 @@ textarea {
 					<span class="seller-nickname">${product.user_id}</span>
 				</p>
 			</div>
+		<input type="hidden" id="product_status" value="${product.product_status}">
+
+		<script>
+		    // product_status 값 가져오기
+		    const productStatus = document.getElementById("product_status").value;
+		
+		    // product_status가 2면 버튼 숨기기
+		    if (productStatus === "2") {
+		        document.getElementById("chatButton").style.display = "none";
+		    }
+		</script>
 
 			<div class="division-line">
 				<hr />
@@ -636,7 +609,7 @@ textarea {
             alert("API 호출 중 오류가 발생했습니다.");
         }
     }
-</script>
+		</script>
 
 			<div class="product-address" id="address">${product.address }
 				${product.address_detail}</div>
@@ -693,25 +666,36 @@ textarea {
 
 
 	<script> 
-	    function formatNumber(value) {
-	        if (value < 1000000) return (value /100000) + " 만";  
-	
-	        const units = ["", "억", "천만", "백만", "십만"];
-	        const result = [];
-	        let remainer = value;
-	
-	        for (let i = 0; i < units.length; i++) {
-	            const unitValue = Math.pow(10, 8 - i * 4);  
-	            const unitAmount = Math.floor(remainer / unitValue);
-	            if (unitAmount > 0) {
-	                result.push(unitAmount + units[i]);
-	                remainer %= unitValue;
-	            }
-	            console.log(unitValue, unitAmount);
-	        }
-	        return result.join(" ");
-	    }
-	    
+
+	 function formatNumber(num) {
+		    const units = ["백만", "천만", "억"]; // 각 단위 정의
+		    let result = ''; // 결과 문자열
+		    let unitIndex = 0; // 단위 인덱스
+			console.log(num);
+		    // 1억 단위로 나누면서 단위 붙임
+		    while (num > 0) {
+		        const remainder = num % 10000; // 10,000으로 나눈 나머지
+		        if (remainder > 0) {
+		            let part = remainder.toString(); // 나머지를 문자열로 변환
+		            if (unitIndex > 0) {
+		                part = part.replace(/0+$/, ''); // 뒤에 있는 0 제거
+		            }
+		            result = part + (units[unitIndex] ? units[unitIndex] : '') + result; // 결과에 추가
+		        }
+		        num = Math.floor(num / 10000); // 10,000으로 나눈 몫을 다시 num에 저장
+		        unitIndex++; // 단위 인덱스 증가
+		    }
+
+		    // "백", "천" 단위가 중간에 있을 경우 제거
+		    result = result.replace(/(천|백)(?=\d)/g, ''); // 백, 천이 중간에 있을 경우 제거
+
+		    // "만" 단위도 절삭
+		    if (result.includes("백만") && !result.includes("천")) {
+		        result = result.replace(/만$/, ''); // 만 단위가 필요 없으면 제거
+		    }
+			console.log(result);
+		    return result || '0'; // 결과 반환, 0이면 '0' 반환
+		}
 
 	</script>
 	<script>
