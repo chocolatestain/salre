@@ -6,6 +6,19 @@
 <!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
 <mapper namespace="com.salre.main.login.UserDAOInterface">
 
+ <!-- 리뷰 테이블 join/ResultMap 정의 -->
+    <resultMap id="reviewResultMap" type="com.salre.main.myPage.ReviewDTO">
+        <result column="review_id" property="review_id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="seller_id" property="seller_id"/>
+        <result column="review_rate" property="review_rate"/>
+        <result column="review_content" property="review_content"/> 
+        <result column="seller_name" property="seller_name"/> 
+        <result column="product_name" property="product_name"/> 
+          
+    </resultMap>
+
+
    <!-- 회원가입 -->
     <insert id="insertUser" parameterType="userVO">
         INSERT INTO user (id, password, user_name, phone_num, email, resident_num, address, address_detail, resident_num2)
@@ -136,6 +149,13 @@
 		INNER JOIN `contract` c ON p.product_id = c.product_id
 		WHERE c.user_id = #{user_id}
 	</select>
+	
+	<!-- 마이페이지 - 나의거래현황 - 거래완료 - 리뷰작성 -->
+	<select id="checkReviewExists" parameterType="ReviewDTO" resultType="int">
+    SELECT COUNT(*)
+    FROM review
+    WHERE user_id = #{user_id} AND product_id = #{product_id}
+	</select>
 
 	<!-- 마이페이지 - 나의 거래현황/ 거래목록 조회 (판매자)-->
 	<select id="getTransactionByUserId" parameterType="int" resultType="ProductVO">
@@ -174,6 +194,7 @@
 		    WHERE 
 		    user_id=#{user_id}
 		    AND product_id = #{product_id}
+		    
 	</update>
 
     <!-- 관심 매물 삭제 -->
@@ -181,18 +202,36 @@
         DELETE FROM `like`
         WHERE user_id = #{user_id} 
         AND product_id = #{product_id}
-        AND is_liked = 0
+        AND is_liked = true
     </delete>
 	
 	
     <!-- 마이페이지 - 내가 작성한 글 목록 조회/ 특정 사용자의 게시글 목록 조회 -->
     <select id="selectPostsByUserId" parameterType="int" resultType="PostDTO">
-        SELECT * FROM board WHERE user_id = #{user_id}
+        <!-- SELECT * FROM board WHERE user_id = #{user_id} -->
+        SELECT * 
+			FROM board b
+			inner join 
+				comment c on b.user_id=c.user_id
+			where
+				b.user_id=#{user_id}
     </select>
 
     <!-- 마이페이지 - 내가 작성한 후기 -->
-    <select id="selectReviewsByUserId" parameterType="int" resultType="ReviewDTO">
-        SELECT * FROM review WHERE user_id = #{user_id}
+    <select id="selectReviewsByUserId" parameterType="int" resultMap="reviewResultMap">
+       <!--  SELECT * FROM review WHERE user_id = #{user_id} -->
+         SELECT distinct
+	        r.review_id,
+	        r.user_id AS buyer_id,
+	        r.seller_id,
+	        r.review_rate,
+	        r.review_content,
+	        u.id AS seller_name,
+	        p.product_name
+	    FROM review r
+	    JOIN product p ON r.seller_id = p.user_id
+	    JOIN user u ON p.user_id = u.user_id
+	    WHERE r.user_id = #{user_id};
     </select>
    
 	<!--  마이페이지 - 내가 작성한 후기(수정)-->

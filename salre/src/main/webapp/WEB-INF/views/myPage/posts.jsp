@@ -97,8 +97,8 @@ body {
                                 <td>${post.board_title}</td>
                                 <td>${post.board_content}</td>
                                 <td>${post.created_at}</td>
-                                <td>${post.updated_at}</td>
                                 <td>${post.click_cnt}</td>
+                                <td>${commentCountMap[post.board_id]}</td> <!-- 댓글 수 표시 -->     
                                 <td>
                                     <a href="${contextPath}/post/detail?id=${post.user_id}" class="btn btn-primary btn-sm">View</a>
                                 </td>

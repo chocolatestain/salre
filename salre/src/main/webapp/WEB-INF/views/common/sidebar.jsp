@@ -83,6 +83,28 @@
 					console.error('SSE 연결 오류');
 				};
 			});
+			
+			 $(document).ready(function () {
+		            // 페이지 로드 시 "나의 거래현황"에서만 활성화
+		            if (window.location.href.includes('/transactions')) {
+		                $('#toggleSwitch').prop('disabled', false);
+		            } else {
+		                $('#toggleSwitch').prop('disabled', true).prop('checked', false);
+		            }
+
+		            // 메뉴 클릭 이벤트 처리
+		            $('ul li a').on('click', function (event) {
+		                const href = $(this).attr('href');
+
+		                if (href.includes('/transactions')) {
+		                    // "나의 거래현황"에서 토글 활성화
+		                    $('#toggleSwitch').prop('disabled', false);
+		                } else {
+		                    // 다른 메뉴에서는 토글 비활성화
+		                    $('#toggleSwitch').prop('disabled', true).prop('checked', false);
+		                }
+		            });
+		        });
 
 			function count(item) {
 				$.ajax({
