@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -63,7 +64,8 @@
 							<label>거래유형:</label> <span>${product.payment_type}</span>
 						</div>
 						<div class="form-group">
-							<label>보증금:</label> <span>${product.deposit}</span>
+						<label>보증금:</label>
+					<span><fmt:formatNumber value="${product.deposit}" type="number" groupingUsed="true"/>원</span>
 						</div>
 					</c:when>
 					<c:when test="${product.payment_type == '월세'}">
@@ -87,18 +89,32 @@
 			<section class="section">
 				<h2>계약 내용</h2>
 				<div class="form-group">
-					<label>보증금:</label> <span>${product.deposit}</span>
+					<label>보증금:</label>
+					<span><fmt:formatNumber value="${product.deposit}" type="number" groupingUsed="true"/>원</span>
 				</div>
 				<div class="form-group">
-					<label>계약금:</label> <span>${contract.price}</span>
+					<label>계약금:</label>
+					<span><fmt:formatNumber value="${contract.price}" type="number" groupingUsed="true"/>원</span>
 				</div>
+				
+					
+					<c:if test="${not empty contract.middle_payment}">
+					<div class="form-group">
+					<label>중도금:</label>
+					<span><fmt:formatNumber value="${contract.middle_payment}" type="number" groupingUsed="true"/>원</span>
+					<label>중도금 지급일:</label> <span>${contract.middle_payment_day}</span>
+					</div>				
+					</c:if>
+					 
+				
+				
 				<div class="form-group">
-					<label>중도금:</label> <span>${contract.middle_payment}</span> <label>중도금
-						지급일:</label> <span>${contract.middle_payment_day}</span>
-				</div>
-				<div class="form-group">
-					<label>잔금:</label> <span>${contract.balance_payment}</span> <label>잔금
-						지급일:</label> <span>${contract.balance_payment_day}</span>
+					<c:if test="${not empty contract.balance_payment}">
+						<label>잔금:</label> 
+					 <span><fmt:formatNumber value="${contract.balance_payment}" type="number" groupingUsed="true"/>원</span>
+					 <label>잔금 지급일:</label> <span>${contract.balance_payment_day}</span>
+					 </c:if>
+					 
 				</div>
 				<div class="form-group">
 					<label>임대차 기간:</label> <span>${product.enter_day}</span> ~ <span>${contract.contract_date}</span>

@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,67 +14,47 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    margin-top: 100px;
     padding: 0;
     box-sizing: border-box;
     background-color: #f9f9f9;
     color: #333;
 }
 
-/* 헤더 스타일 */
- header {
-      position: fixed; /* 항상 맨 위에 고정 */
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #fff;
-      border-bottom: 1px solid #ddd;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
-      z-index: 10;
-    }
-
-    header .logo {
-      font-size: clamp(1.5rem, 2.5vw, 3rem);
-      font-weight: bold;
-    }
-
-    header nav a {
-      font-size: clamp(1rem, 1.5vw, 1.5rem);
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-      color: #333;
-    }
-
-    header .auth a {
-      margin-left: 15px;
-      padding: 10px 20px;
-      background-color: #f4a261;
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-
 /* 메인 배너 스타일 */
-.main-banner { 
+.main-banner {
     background: url('../resources/images/mainpage_bg.webp') no-repeat center center/cover;
     text-align: center;
-    padding: 30px 20px;
+    padding: 50px 20px;
+    position: relative;
+    color: #fff; /* 텍스트를 흰색으로 */
 }
- 
+
+
+.main-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 어두운 오버레이 추가 */
+    z-index: 1;
+}
+
 .main-banner h1 {
-    font-size: 32px;
-    margin-bottom: 10px;
+    font-size: 40px;
+    margin-bottom: 15px;
+    z-index: 2;
+    position: relative;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 텍스트 그림자 추가 */
 }
 
 .main-banner p {
-    font-size: 14px;
-    color: #555;
+    font-size: 16px;
+    color: #eee; /* 텍스트 색상을 밝게 조정 */
+    z-index: 2;
+    position: relative;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
 }
 
 /* 폼 섹션 스타일 */
@@ -210,43 +191,10 @@ button[type="submit"]:hover {
         font-size: 14px;
     }
     }
-  footer {
-            width:100%;
-            display: flex;
-            justify-content: space-around;
-            background-color: #222;
-            color: #fff;
-            padding: 20px 0;
-        }
-        footer div {
-            text-align: left;
-        }
-        footer a {
-            color: #f4a261;
-            text-decoration: none;
-    }
   
     </style>
 </head>
 <body>
-    <!-- 헤더 -->
-   <header>
-    <div class="logo" onclick="location.href='/salre'" style="cursor: pointer;">살래?</div>
-
-    <nav>
-      <a href="#">대출상품</a>
-      <a href="#">채팅</a>
-      <a href="#">게시판</a>
-      <a href="#">매물</a>
-      <a href="#">관심매물</a>
-      <a href="#">방내놓기</a>
-    </nav>
-    <div class="auth">
-      <a href="login.jsp">로그인</a>
-      <a href="register.jsp">회원가입</a>
-    </div>
-  </header>
-
     <!-- 메인 배너 -->
     <section class="main-banner">
         <h1>매물 등록</h1>
@@ -484,25 +432,6 @@ button[type="submit"]:hover {
                     
         </form>
     </section> 
-    <!-- 푸터 -->
-<footer>
-  <div>
-      <h3>형태 별 검색</h3>
-      <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
-  </div>
-  <div>
-      <h3>고객 지원</h3>
-      <a href="#">자주 묻는 질문(FAQ)</a><br>
-      <a href="#">Android</a><br>
-      <a href="#">iOS</a>
-  </div>
-  <div>
-      <h3>저희 회사는</h3>
-      <a href="#">회사소개</a><br>
-      <a href="#">오시는 길</a><br>
-      <a href="#">제휴문의</a><br>
-      <a href="#">채용</a><br>
-  </div>
-</footer>
+    <%@ include file="../common/footer.jsp" %>
 </body>
 </html>

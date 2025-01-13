@@ -31,12 +31,6 @@ public class NotifyController {
         return new ModelAndView("notify/main");
     }
 
-    // 알림 전송 테스트(Deprecated)
-    @GetMapping("/test")
-    public ModelAndView viewTest() {
-        return new ModelAndView("notify/test");
-    }
-
     // SSE 연결 설정
     @GetMapping(value = "/subscribe/{user_id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable int user_id) {
@@ -79,6 +73,12 @@ public class NotifyController {
     @GetMapping("/list/{user_id}")
     public List<NotifyDTO> select(@PathVariable int user_id) {
         return notifyService.select(user_id);
+    }
+
+    // 알림 상세 조회
+    @PostMapping("/select/{notify_id}")
+    public NotifyDTO selectById(@PathVariable int notify_id) {
+        return notifyService.selectById(notify_id);
     }
 
     // 읽지 않은 알림 개수 조회

@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title></title>
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Icons -->
@@ -24,7 +24,8 @@
 			<div class="container mt-5">
 				<div class="profile-container">
 					<!-- Profile Image -->
-					<img src="https://via.placeholder.com/100" alt="Profile Image">
+					 <!-- <img src="https://via.placeholder.com/100" alt="Profile Image"> -->
+			   		 <img src="${contextPath}/resources/profile.png" alt="Profile Image">
 					<!-- Toggle Buyer/Seller -->
 					<div class="toggle-container">
 						<span>구매자</span>
@@ -83,6 +84,28 @@
 					console.error('SSE 연결 오류');
 				};
 			});
+			
+			 $(document).ready(function () {
+		            // 페이지 로드 시 "나의 거래현황"에서만 활성화
+		            if (window.location.href.includes('/transactions')) {
+		                $('#toggleSwitch').prop('disabled', false);
+		            } else {
+		                $('#toggleSwitch').prop('disabled', true).prop('checked', false);
+		            }
+
+		            // 메뉴 클릭 이벤트 처리
+		            $('ul li a').on('click', function (event) {
+		                const href = $(this).attr('href');
+
+		                if (href.includes('/transactions')) {
+		                    // "나의 거래현황"에서 토글 활성화
+		                    $('#toggleSwitch').prop('disabled', false);
+		                } else {
+		                    // 다른 메뉴에서는 토글 비활성화
+		                    $('#toggleSwitch').prop('disabled', true).prop('checked', false);
+		                }
+		            });
+		        });
 
 			function count(item) {
 				$.ajax({

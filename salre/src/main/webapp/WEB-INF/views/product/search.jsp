@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="../common/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -21,23 +22,59 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
+
+        /* 메인 배너 스타일 */
+        .main-banner {
+            background: url('/salre/resources/images/mainpage_bg.webp') no-repeat center center/cover;
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+            color: #fff; /* 텍스트를 흰색으로 */
+        }
+
+        .main-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* 어두운 오버레이 추가 */
+            z-index: 1;
         }
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
+
+        .main-banner h1 {
+            font-size: 40px;
+            margin-bottom: 15px;
+            z-index: 2;
+            position: relative;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 텍스트 그림자 추가 */
         }
-        header nav a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: #333;
+
+        .main-banner p {
+            font-size: 16px;
+            color: #eee; /* 텍스트 색상을 밝게 조정 */
+            z-index: 2;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
+        }
+
+        .main-banner input {
+            padding: 10px;
+            width: 300px;
+            margin-right: 10px;
+            z-index: 2; /* z-index를 높게 설정하여 오버레이 위에 표시되도록 함 */
+            position: relative; /* z-index가 작동하려면 position이 설정되어 있어야 합니다. */
+        }
+
+        .main-banner button {
+            padding: 10px 20px;
+            background-color: #f4a261;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            z-index: 2; /* z-index를 높게 설정하여 오버레이 위에 표시되도록 함 */
+            position: relative; /* z-index가 작동하려면 position이 설정되어 있어야 합니다. */
         }
         .search-container {
             display: flex;  /* flexbox로 변경 */
@@ -74,18 +111,6 @@
             margin-top: 20px;
             padding: 20px;
             flex: 1;
-        }
-        .search{
-			padding: 60px 20px;
-        	text-align: center;  
-        	margin-top : 30px; 
-        	background: url('/salre/resources/images/mainpage_bg.webp') no-repeat center center/cover;
-        }
- 
-        .search input {
-            padding: 10px;
-            width: 300px;
-            margin-right: 10px;
         }
         .search button {
             padding: 10px 20px;
@@ -133,18 +158,6 @@
             color: #f4a261;
             margin-top: 10px;
         }
- 
-        footer {
-            display: flex;
-            justify-content: space-around;
-            background-color: #222;
-            color: #fff;
-            padding: 20px 0;
-        } 
-        footer a {
-            color: #f4a261;
-            text-decoration: none;
-        }
         .slider-tooltip {
 		    background-color: #333;
 		    color: #fff;
@@ -158,14 +171,16 @@
     </style>
 </head>
 <body>
+ 
  	<%@ include file="../common/header.jsp" %>
 
     <div class="search">
         <form action="" method="GET">
+ 
             <input type="text" name="search" placeholder="원하시는 지역, 건물을 입력해주세요.">
             <button type="submit">검색</button>
-        </form> 
-    </div>
+        </form>
+    </section>
 
 	 <div class="search-container">
     <!-- 왼쪽 필터 섹션 -->
@@ -384,24 +399,6 @@
     </section> 
 </div>
 
-    <footer>
-        <div>
-            <h3>형태 별 검색</h3>
-            <p>전세<br>월세<br>아파트<br>빌라<br>상가</p>
-        </div>
-        <div>
-            <h3>고객 지원</h3>
-            <a href="#">자주 묻는 질문(FAQ)</a><br>
-            <a href="#">Android</a><br>
-            <a href="#">iOS</a>
-        </div>
-        <div>
-            <h3>저희 회사는</h3>
-            <a href="#">회사소개</a><br>
-            <a href="#">오시는 길</a><br>
-            <a href="#">제휴문의</a><br>
-            <a href="#">채용</a><br>
-        </div>
-    </footer>
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

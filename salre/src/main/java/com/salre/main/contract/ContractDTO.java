@@ -16,27 +16,27 @@ import lombok.ToString;
 @ToString
 public class ContractDTO {
 	int contract_id;
-	int user_id;
-	int product_id;
-	int price;
-	int contract_status;
+	private int user_id;
+	private int product_id;
+	private int price;
+	private int contract_status;
 	
-	Date contract_startdate;
-	Date contract_enddate;
-	Date contract_date;
-	String contract_rule;
+	private Date contract_startdate;
+	private Date contract_enddate;
+	private Date contract_date;
+	private String contract_rule;
 	
-	Integer middle_payment;
-	Integer balance_payment;
-	String balance_payment_day;
-	String middle_payment_day;
-	Integer rent_fee_day; //1일 ,,,2일...3등
+	private	Integer middle_payment;
+	private Integer balance_payment;
+	private String balance_payment_day;
+	private String middle_payment_day;
+	private Integer rent_fee_day; //1일 ,,,2일...3등
 	
-	String account; 
-	String bank_name;
-	String account_name;
+	private String account; 
+	private String bank_name;
+	private String account_name;
 	
-	String contract_epath;
-	String contract_imgpath;
+	private String contract_epath;
+	private String contract_imgpath;
 	
 }

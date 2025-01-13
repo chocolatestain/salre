@@ -5,9 +5,9 @@
     color: white;
     border: none;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,7 +20,9 @@
     background-color: #CF8E4A;
     transform: scale(1.1);
 }
-
+.section2 {
+    position: relative; /* 부모 컨테이너 기준 위치 */
+}
 .section2 h2 {
     font-size: 1.5em;
     border-bottom: 2px solid #CF8E4A;
@@ -30,6 +32,13 @@
      width: 95%; 
 }
 
+.section2 p {
+    font-weight : bold;
+    font-size: 0.9em; /* 약간 작은 크기 */
+    color: #CF8E4A; /* 강조 색상 */
+    margin: 0;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
 body {
     font-family: 'Noto Sans KR', Arial, sans-serif;
     background-color: #FFF9ED; /* 노란 계열 배경 */

@@ -14,12 +14,8 @@
 	<!-- 2024-12-26, 회원 정보(user_id, writer) 추가 필요 -->
 	<insert id="insert" parameterType="boardDTO">
 		INSERT INTO
-		BOARD(board_class,
-			  board_title,
-			  board_content)
-		VALUES(#{board_class},
-			   #{board_title},
-			   #{board_content})
+		BOARD(user_id, writer, board_class, board_title, board_content)
+		VALUES(#{user_id}, #{writer}, #{board_class}, #{board_title}, #{board_content})
 	</insert>
 	
 	<update id="updateClickCnt" parameterType="Integer">

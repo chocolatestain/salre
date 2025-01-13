@@ -33,26 +33,28 @@ public class ExcelWriter {
                   Map.entry("building_area", "Q7"),
                   Map.entry("rental_area", "C8"),
                   Map.entry("area", "Q8"),
-                  Map.entry("deposit_CHAR", "C11"),
+                  Map.entry("deposit_CHAR", "D11"),
                   Map.entry("deposit_INT", "N11"),
-                  Map.entry("rentfee", "C15"),
+                  Map.entry("rentfee", "D15"),
                   Map.entry("rentfee_day", "O15"),
-                  Map.entry("manage_feeCHAR", "C16"),
+                  Map.entry("manage_feeCHAR", "D16"),
                   Map.entry("manage_fee", "N16"),
                   Map.entry("landlord_address", "D47"),
                   Map.entry("landlord_resident_num", "D48"),
+                  Map.entry("landlord_resident_num2", "G48"),
                   Map.entry("landlord_phone_num", "K48"),
                   Map.entry("landlord_name", "R48"),
                   Map.entry("tenant_address", "D50"),
                   Map.entry("tenant_resident_num", "D51"),
+                  Map.entry("tenant_resident_num2", "G51"),
                   Map.entry("tenant_phone_num", "K51"),
                   Map.entry("tenant_name", "R51"),
                   Map.entry("taker", "U12"),
                   
-                  Map.entry("price", "C12"), //INPUT
-                  Map.entry("middle_payment", "C13"),//INPUT
+                  Map.entry("price", "D12"), //INPUT
+                  Map.entry("middle_payment", "D13"),//INPUT
                   Map.entry("middle_payment_day", "M13"),//INPUT
-                  Map.entry("balance_payment", "C14"),//INPUT
+                  Map.entry("balance_payment", "D14"),//INPUT
                   Map.entry("balance_payment_day", "M14"),//INPUT
                   Map.entry("landlord_sign2", "X12"),//INPUT
                   Map.entry("landlord_sign", "V48"),//INPUT

@@ -1,15 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/headerBoard.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>게시판 상세보기</title>
+	
+	<!-- 외부 CSS -->
+	<link rel="stylesheet" href="${contextPath}/resources/css/boardDetail.css">
 </head>
 <body>
 	<!-- =======================
 	Page content START -->
-	<section class="pt-0">
+	<section class="pt-5">
 		<div class="container">
 			<div class="row">
 				<!-- Left sidebar START -->
@@ -23,7 +26,7 @@
 						</div>
 						<!-- Offcanvas body -->
 						<div class="offcanvas-body p-3 p-xl-0">
-							<div class="bg-dark border rounded-3 pb-0 p-3 w-100">
+							<div id="dashboard" class="border rounded-3 pb-0 p-3 w-100">
 								<!-- Dashboard menu -->
 								<div class="list-group list-group-dark list-group-borderless">
 									<a class="list-group-item" href="${contextPath}/board/list"><i class="bi bi-pencil-square fa-fw me-2"></i>공지사항</a>
@@ -43,7 +46,16 @@
 						<!-- Card header -->
 						<div class="card-header bg-transparent border-bottom">
 							<h3 class="card-header-title mb-0">${boardDTO.board_title}</h3>
-							<span class="me-3 small">${boardDTO.writer}</span>
+							<span class="me-3 small">
+								<c:choose>
+									<c:when test="${boardDTO.board_class == '공지사항'}">
+										관리자
+									</c:when>
+									<c:otherwise>
+										${board.writer}
+									</c:otherwise>
+								</c:choose>
+							</span>
 							<span class="me-3 small"><fmt:formatDate value="${boardDTO.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
 							<span class="me-3 small">조회 ${boardDTO.click_cnt}</span>
 							<span class="small float-end">댓글 수 ${commentCnt}</span>
@@ -100,7 +112,18 @@
 									<div class="collapse show" id="collapseComment">
 										<div class="d-flex mt-3">
 											<textarea id="comment_content" class="form-control mb-0" placeholder="댓글을 남겨보세요" rows="2" spellcheck="false"></textarea>
-											<button onclick="doCheck(commentRegister)" class="btn btn-sm btn-primary-soft ms-2 px-4 mb-0 flex-shrink-0"><i class="fas fa-paper-plane fs-5"></i></button>
+											<c:choose>
+												<c:when test="${userDTO eq null}">
+													<button class="btn btn-sm btn-primary-soft ms-2 px-4 mb-0 flex-shrink-0" disabled>
+														<i class="fas fa-paper-plane fs-5"></i>
+													</button>
+												</c:when>
+												<c:otherwise>
+													<button onclick="doCheck(commentRegister)" class="btn btn-sm btn-primary-soft ms-2 px-4 mb-0 flex-shrink-0">
+														<i class="fas fa-paper-plane fs-5"></i>
+													</button>
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 								</div>
@@ -126,7 +149,7 @@
 	Page content END -->
 	
 	<!-- Footer -->
-	<%@ include file="../common/footer.jsp" %>
+	<%@ include file="../common/footerBoard.jsp" %>
 	
 	<!-- 게시글 삭제 -->
 	<script type="text/javascript">
@@ -186,18 +209,20 @@
 		
 		// 댓글 등록 함수
 		function commentRegister() {
-			const board_id = "${boardDTO.board_id}";
-			/* const comment_writer = Session 값에서 id 값 */
-			/* let content = document.querySelector("#comment_content").value; */
+			const user_id = ${userDTO.user_id};
+			const board_id = ${boardDTO.board_id};
+			const comment_writer = "${userDTO.id}";
 			let comment_content = $('#comment_content').val();
+			/* let comment_content = document.querySelector("#comment_content").value; */
 			
 			$.ajax({
 				url: "${contextPath}/comment/register",
 				type: "POST",
 				contentType: "application/json",
 				data: JSON.stringify({
+					user_id: user_id,
 					board_id: board_id,
-					/* comment_writer: comment_writer, */
+					comment_writer: comment_writer,
 					comment_content: comment_content
 				}),
 				success: function(commentDTOList) {

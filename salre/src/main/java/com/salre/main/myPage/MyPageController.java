@@ -1,5 +1,6 @@
 package com.salre.main.myPage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.salre.main.board.CommentService;
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
 import com.salre.main.product.ProductDTO;
@@ -28,13 +30,15 @@ public class MyPageController {
 	private UserService userService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private CommentService commentService;
 	
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙占쏙옙占쏙옙
+	//마이페이지
 	@GetMapping("/myPage")
 	public String userInfo(HttpSession session, Model model) {	    
 		return "myPage/myPage";
 	}
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙占쏙옙占쏙옙
+	
  
 	//마이페이지 - 나의 관심매물
 	@GetMapping("/favorites")
@@ -50,6 +54,7 @@ public class MyPageController {
 		   return "myPage/favorites"; // JSP 파일 경로
 	   }
 
+
 	
 	//01.10테스트코드
 	//마이페이지-나의관심매물-좋아요해제(매물카드삭제)
@@ -59,13 +64,13 @@ public class MyPageController {
 	      Map<String, Object> response = new HashMap<>();
 	      System.out.println("##5 userlike = "+userlike);
 	      System.out.println("##4 userlike.is_liked = "+userlike.is_liked());
+	   
 	      try {
 	          if (userlike.is_liked()) {
 	        	  System.out.println("##1 userlike.is_liked = "+userlike.is_liked());
 	              userService.updateFavorite(userlike);
 	              System.out.println("##2 userlike.is_liked = "+userlike.is_liked());
 	              response.put("success", true);
-	              
 	              response.put("message", "좋아요가 취소되었습니다.");
 	              
 	          } else {
@@ -85,7 +90,7 @@ public class MyPageController {
 	
 
 
-   //�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 - �뜝�룞�삕�뜝�룞�삕 �뜝�떊琉꾩삕�뜝�룞�삕�솴
+   //나의 거래현황
    /*
 	* @GetMapping("/transactions") public String transactions() { return
 	* "myPage/transactions"; }
@@ -99,20 +104,41 @@ public class MyPageController {
 		   int user_id = user.getUser_id(); // user_id �뜝�룞�삕�뜝�룞�삕
 		   System.out.println("Extracted user_id: " + user_id);
 
-
-		   // Service �샇�뜝�룞�삕�뜝�떦�슱�삕 �뜝�뙃�떆源띿삕 �뜝�룞�삕�뜝? �뜝�룞�삕�쉶
+		   // 구매자 거래 매물 목록 가져오기
 		   List<ProductDTO> buyerProductList = userService.getBuyerTransactionByUserId(user_id);
 		   System.out.println("@#$buyerProductList: " + buyerProductList);
 		   model.addAttribute("buyerProductList", buyerProductList);
+		  
+		   /*
+		   // 리뷰 작성 여부와 매핑된 데이터를 ReviewDTO로 변환
+	        List<ReviewDTO> reviewList = new ArrayList<>();
+			
+			 * for (ProductDTO product : buyerProductList) { ReviewDTO reviewDTO = new
+			 * ReviewDTO(); reviewDTO.setProduct_id(product.getProduct_id());
+			 * reviewDTO.setProduct_name(product.getProduct_name());
+			 * reviewDTO.setProduct_status(product.getProduct_status());
+			 * 
+			 * // 리뷰 작성 여부 확인 // boolean reviewWritten =
+			 * userService.isReviewWritten(user_id, product.getProduct_id()); boolean
+			 * reviewWritten = userService.isReviewWritten(reviewDTO);
+			 * reviewDTO.setReviewWritten(reviewWritten);
+			 * 
+			 * reviewList.add(reviewDTO); }
+			 
+	        model.addAttribute("reviewList", reviewList);
+	        */
+
+
+		   // 판매자 거래 매물 목록 가져오기
 		   List<ProductDTO> productList = userService.getTransactionByUserId(user_id);
 //	        System.out.println("productList: " + productList);
 		   model.addAttribute("productList", productList);
 
-		   return "myPage/transactions"; // reports.jsp �뜝�룞�삕�솚
+		   return "myPage/transactions"; 
 	   } else {
-		   // �뜝�룞�삕�뜝�떎�슱�삕 UserDTO�뜝�룞�삕 �뜝�룞�삕�뜝�떊�냲�삕 �뜝�떥源띿삕�뜝�떥�벝�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝?
+		 
 		   System.out.println("Session does not contain a valid UserDTO.");
-		   return "redirect:/login"; // �뜝�떥源띿삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떛琉꾩삕�듃
+		   return "redirect:/login";  // 로그인 페이지로 리다이렉트
 	   }
    }
 
@@ -133,6 +159,8 @@ public class MyPageController {
 	        UserDTO user = (UserDTO) userObj;
 	        int user_id = user.getUser_id(); // user_id 추출
 	        System.out.println("### user_id: " + user_id);
+	        //System.out.println("### product_id: " + product_id);
+	        
 
 	        // ProductDTO를 통해 seller_id 가져오기
 	        ProductDTO product = productService.selectByIdService(product_id);
@@ -145,6 +173,13 @@ public class MyPageController {
 	        // ReviewDTO에 user_id와 seller_id 설정
 	        review.setUser_id(user_id);
 	        review.setSeller_id(seller_id);
+	        review.setProduct_id(product_id);
+	        
+	        // 리뷰 중복 작성 확인
+	        boolean is_review = userService.isReviewWritten(review);
+	        if (is_review) {
+	            throw new IllegalArgumentException("이미 작성된 리뷰입니다.");
+	        }
 
 	        // 후기를 등록
 	        userService.registerReview(review);
@@ -164,48 +199,60 @@ public class MyPageController {
 
 			
 			
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙 占쌜쇽옙占쏙옙 占쏙옙.. 占쏙옙占? 占쏙옙회
+	//마이페이지  - 내가 작성한 글
 	@GetMapping("/posts")
 	public String getMyPosts(HttpSession session, Model model) {
-	    // 占쏙옙占실울옙占쏙옙 UserDTO 占쏙옙체 占쏙옙占쏙옙占쏙옙占쏙옙
+	   
 	    Object userObj = session.getAttribute("loggedInUser");
 	    
 	    if (userObj instanceof UserDTO) {
 	        UserDTO user = (UserDTO) userObj;
-	        int user_id = user.getUser_id(); // user_id 占쏙옙占쏙옙
+	        int user_id = user.getUser_id(); // user_id 추출
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service 호占쏙옙占싹울옙 占쌉시깍옙 占쏙옙占? 占쏙옙회
+	        // 작성 글 목록 가져오기
 	        List<PostDTO> postList = userService.getPostsByUserId(user_id);
+	        
+	        // 게시글별 댓글 수 추가
+	        Map<Integer, Integer> commentCountMap = new HashMap<>();
+	        for (PostDTO post : postList) {
+	            int commentCount = commentService.selectCommentCnt(post.getBoard_id());
+	            System.out.println("@@Board ID: " + post.getBoard_id());
+	            System.out.println("@@Comment Count: " + commentCount);
+	            commentCountMap.put(post.getBoard_id(), commentCount);
+	        }
+	        
 	        System.out.println("postList: " + postList);
+	        System.out.println("commentCountMap: " + commentCountMap);
 	        model.addAttribute("postList", postList);
+	        model.addAttribute("commentCountMap", commentCountMap);
 	        return "myPage/posts"; // post.jsp 占쏙옙환
 	    } else {
-	        // 占쏙옙占실울옙 UserDTO占쏙옙 占쏙옙占신놂옙 占싸깍옙占싸듸옙占쏙옙 占쏙옙占쏙옙 占쏙옙占?
+	        
 	        System.out.println("Session does not contain a valid UserDTO.");
-	        return "redirect:/login"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싱뤄옙트
+	        return "redirect:/login"; 
 	    }
 	}
+	
+	
+	
  
 	
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙 占신뤄옙占식깍옙
+	//마이페이지  - 나의 거래후기
 	@GetMapping("/reviews") 
-	public String getMyreviews(HttpSession session, Model model) {
-		  // 占쏙옙占실울옙占쏙옙 UserDTO 占쏙옙체 占쏙옙占쏙옙占쏙옙占쏙옙
+	public String getMyreviews(HttpSession session, Model model) {		  
 	    Object userObj = session.getAttribute("loggedInUser");
 	    
 	    if (userObj instanceof UserDTO) {
 	        UserDTO user = (UserDTO) userObj;
-	        int user_id = user.getUser_id(); // user_id 占쏙옙占쏙옙
+	        int user_id = user.getUser_id(); // user_id 추출
 	        System.out.println("Extracted user_id: " + user_id);
 
-	        // Service 호占쏙옙占싹울옙 占쌉시깍옙 占쏙옙占? 占쏙옙회
 	        List<ReviewDTO> reviewList = userService.getMyreviewsByUserId(user_id);
 	        System.out.println("reviewList: " + reviewList);
 	        model.addAttribute("reviewList", reviewList);
-	        return "myPage/reviews"; // reviews.jsp 占쏙옙환
+	        return "myPage/reviews"; // reviews.jsp 반환
 	    } else {
-	        // 占쏙옙占실울옙 UserDTO占쏙옙 占쏙옙占신놂옙 占싸깍옙占싸듸옙占쏙옙 占쏙옙占쏙옙 占쏙옙占?
 	        System.out.println("Session does not contain a valid UserDTO.");
 	        return "redirect:/login"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싱뤄옙트
 	    }
@@ -213,7 +260,7 @@ public class MyPageController {
 	}
 
 	
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙 占신뤄옙占식깍옙(占쏙옙占쏙옙占쏙옙튼 클占쏙옙占쏙옙)
+	//마이페이지  - 나의 거래후기(수정)
 	@PostMapping("/reviews/update")
 	@ResponseBody
 	public Map<String, Object> updateReview(@RequestParam int review_id,
@@ -232,7 +279,7 @@ public class MyPageController {
 	    return response;
 	}
 
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙 占신뤄옙占식깍옙(占쏙옙占쏙옙占쏙옙튼 클占쏙옙占쏙옙)
+	//마이페이지  - 나의 거래후기(삭제)
 		@PostMapping("/reviews/delete")
 		@ResponseBody
 		public Map<String, Object> deleteReview(@RequestParam int review_id){
@@ -251,26 +298,26 @@ public class MyPageController {
 		}
 
 
-	//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙占쏙옙 占신곤옙占쏙옙占쏙옙
+	//마이페이지 - 나의 신고내역
 		@GetMapping("/reports") 
 		public String getMyreports(HttpSession session, Model model) {
-			  // 占쏙옙占실울옙占쏙옙 UserDTO 占쏙옙체 占쏙옙占쏙옙占쏙옙占쏙옙
+			 
 		    Object userObj = session.getAttribute("loggedInUser");
 		    
 		    if (userObj instanceof UserDTO) {
 		        UserDTO user = (UserDTO) userObj;
-		        int user_id = user.getUser_id(); // user_id 占쏙옙占쏙옙
+		        int user_id = user.getUser_id(); // user_id 추출
 		        System.out.println("Extracted user_id: " + user_id);
 
-		        // Service 호占쏙옙占싹울옙 占쌉시깍옙 占쏙옙占? 占쏙옙회
+		        // Service 
 		        List<ReportDTO> reportList = userService.getMyreportsByUserId(user_id);
 		        System.out.println("reportList: " + reportList);
 		        model.addAttribute("reportList", reportList);
 		        return "myPage/reports"; // reports.jsp 占쏙옙환
 		    } else {
-		        // 占쏙옙占실울옙 UserDTO占쏙옙 占쏙옙占신놂옙 占싸깍옙占싸듸옙占쏙옙 占쏙옙占쏙옙 占쏙옙占?
+		        
 		        System.out.println("Session does not contain a valid UserDTO.");
-		        return "redirect:/login"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싱뤄옙트
+		        return "redirect:/login"; 
 		    }
 		
 		}

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title></title>
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -29,7 +29,8 @@
 				<div class="profile-container" onclick="window.location.href='${contextPath}/admin/myPage';">
 				 
 			    <!-- Profile Image -->
-			    <img src="https://via.placeholder.com/100" alt="Profile Image">
+			    <!-- <img src="https://via.placeholder.com/100" alt="Profile Image"> -->
+			    <img src="${contextPath}/resources/profile.png" alt="Profile Image">
 			    <!-- Toggle Buyer/Seller -->
 			    <div class="toggle-container">
 			        <span>관리자</span>
