@@ -13,7 +13,7 @@ public class ReportDTO {
 	private int product_id;// �Ź���ȣ
 	private int report_class;// �Ű�з� 1.�Խñ۽Ű� 2.�����Ź��Ű� 3.����ڽŰ�
 	private String report_content;//�Ű���
-	private Timestamp report_at;
-	private int report_status;
-	private String report_work;
+	private Timestamp report_time;
+	
+	
 }
