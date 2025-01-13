@@ -83,6 +83,7 @@ body {
                     <thead>
                         <tr>
                             <th>리뷰번호</th><!-- 매물번호로 바꿔야할듯 -->
+                            <th>매물정보</th>
                             <th>판매자 ID</th>
                             <th>평점</th>
                             <th>후기내용</th>
@@ -95,12 +96,15 @@ body {
                         <!-- 서버에서 데이터를 받아오는 부분 -->
 						
                         <c:forEach var="review" items="${reviewList}"> 
+                      
                         <tr>
                            <%--  <tr onclick="redirectToDetail('${contextPath}/post/detail?id=${post.id}')"> --%>
                                 <td>${review.review_id}</td>
-                                <td>${review.seller_id}</td>
+                                <td>${review.product_name}</td>
+                                <td>${review.seller_name}</td>
                                 <td>${review.review_rate}</td>
                                 <td>${review.review_content}</td>
+                            
                         <!--        <td>
                                 <a href="#" class="btn btn-primary btn-sm">수정</a>
                             </td> -->

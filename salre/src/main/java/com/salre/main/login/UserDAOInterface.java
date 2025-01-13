@@ -15,24 +15,24 @@ import com.salre.main.product.ProductDTO;
 @Mapper
 public interface UserDAOInterface {
 
-			// ȸ������
+			// 회원가입
 			public int insertUser(UserDTO user);
 			
 			public UserDTO selectById(int  user_id);
 			
-			// �α���
+			// 로그인
 			//public UserDTO selectUserById(String id,String password);
 			public UserDTO selectUserById(String id);
 			
-			// IDã��
+			// ID찾기
 			/* public String findIdByEmail(String email); */
 			public String findIdByEmailAndName(String email, String name);
 			
-		    // PWã��
+			// PW찾기
 		    public boolean checkUser(String id, String email) ;
 		    public void updatePassword(String email, String newPassword) ;
 			
-			// ȸ��Ż��
+		    // 회원탈퇴
 			public void deleteUser(String id);
 			
 			// ID�ߺ�üũ
@@ -43,6 +43,10 @@ public interface UserDAOInterface {
 
 		    //마이페이지 - 나의 거래현황 목록 조회(구매자)
 		    public List<ProductDTO> getBuyerTransactionByUserId(int user_id);
+		    
+		    //마이페이지 - 나의거래현황 - 거래완료 - 리뷰작성
+//		    public boolean checkReviewExists(int user_id, int product_id);
+		    public boolean checkReviewExists(ReviewDTO reviewDTO);
 
 		    //마이페이지 - 나의 거래현황 목록 조회
 		    public List<ProductDTO> getTransactionByUserId(int user_id);

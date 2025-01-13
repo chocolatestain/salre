@@ -33,6 +33,17 @@
 	object-fit: cover;
 }
 
+.badge-status {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-size: 12px;
+	padding: 5px 10px;
+	border-radius: 10px;
+	color: white;
+	z-index: 100; /* 겹침 문제 방지 */
+}
+
 .heart-btn {
 	background: none;
 	border: none;
@@ -122,7 +133,21 @@
 						            <c:forEach var="product" items="${favoritesList}">
 						            
 						             <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
-						                <div class="product-card">
+						                <div class="product-card" style="position:relative;">
+						                    
+						                    <c:choose>
+						                    	  <c:when test="${product.product_status == 1}">
+					                                    <span class="badge-status bg-danger">거래중</span>
+					                                </c:when>
+					                                <c:when test="${product.product_status == 2}">
+					                                    <span class="badge-status bg-secondary">거래완료</span>
+					                                </c:when>
+					                                <c:otherwise>
+					                                    <span class="badge-status bg-success">거래가능</span>
+					                                </c:otherwise>
+						                    </c:choose>
+						                    
+						                    
 						                    <img class="product-image" 
 						                         src="resources/images/products/${product.product_id}.jpeg" 
 						                         alt="${product.product_name}" 
@@ -155,13 +180,14 @@
 						                        <c:if test = "${product.payment_type == '월세' }">
 						                            / ${product.rentfee} 만 원 월세
 						                        </c:if>
-						                    </div>
-						                   </div>
-						                  </a>
-													<button onclick="toggleLike(this, '${product.product_id}', event)"
+						                        <button onclick="toggleLike(this, '${product.product_id}', event)"
 													class="heart-btn liked">
 													<i class="bi bi-heart-fill"></i>
-													</button>
+												</button>
+						                    </div>
+						                 </div>
+						              </a>
+													
 			
 						            </c:forEach>
 						        </c:if>
@@ -282,6 +308,7 @@
 	function toggleLike(button, product_id, event) {
     // 이벤트 전파 차단
     if (event) {
+    	event.preventDefault();
         event.stopPropagation();
     }
 
@@ -289,7 +316,7 @@
     const is_liked = button.classList.contains("liked");
     
     // 좋아요 취소 시 확인 창 표시
-    if (is_liked && !confirm("'좋아요!'를 취소하시겠습니까? "+ is_liked)) {
+    if (is_liked && !confirm("'좋아요!'를 취소하시겠습니까? ")) {
         return; // 취소 버튼 클릭 시 동작 중단
     }
 
@@ -303,9 +330,10 @@
             is_liked: is_liked // 현재 상태를 서버로 전송
         }),
         success: function (response) {
+        	  console.log("AJAX Response:", response); // 응답 내용 확인
             if (response.success) {
                 // 좋아요 취소 또는 등록에 성공한 경우
-                if (is_liked==0) {
+                if (is_liked==false) {
                     // 좋아요 취소: 카드 삭제
                     $(`#card-${product_id}`).remove();
                     alert(response.message);
@@ -344,10 +372,6 @@
         </div>
     </c:forEach>
 </div> --%>
-
-	    
-	    
-	
-
+    
 </body>
 </html>

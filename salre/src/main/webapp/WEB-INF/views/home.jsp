@@ -182,36 +182,39 @@
                 updateSwiper(data);  // Swiper 업데이트 함수 호출
             })
             .catch(error => console.error('지역 정보 전송 중 오류:', error));
-        }
+        };
  
-function updateSwiper(products) {
-    const swiperWrapper = document.querySelector('.swiper-wrapper');
-    swiperWrapper.innerHTML = ''; // 기존 슬라이드 초기화
+        function updateSwiper(products) {
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
+            swiperWrapper.innerHTML = ''; // 기존 슬라이드 초기화
 
-    products.forEach(product => {
-   
+            products.forEach(product => {
+        
 
-        // 필드 값이 비어있지 않다면 슬라이드 추가
-       
-        if (product.product_name && product.description && product.payment_type && product.deposit) {
-            const slide = document.createElement('div');
-            slide.className = 'swiper-slide';
-            slide.innerHTML = `
-            	<a href="product/detail/\${product.product_id}" class="product-link">
-            	<img src="https://placehold.co/200x100" alt="${product.product_name}" class="carousel-image">
-                <h3>\${product.product_name}</h3>
-                <p>\${product.description}</p>
-                <p><strong>\${product.payment_type}</strong></p>
-                <p>\${product.deposit} 원 / 월</p>
-                </a>
-            `;
-          
-            swiperWrapper.appendChild(slide);
-        } else {
-            console.log('Invalid product data:', product);  // 데이터가 이상한 경우 
-        }
-    });
+                // 필드 값이 비어있지 않다면 슬라이드 추가
+            
+                if (product.product_name && product.description && product.payment_type && product.deposit) {
+                    const slide = document.createElement('div');
+                    slide.className = 'swiper-slide';
+                    slide.innerHTML = `
+                        <a href="product/detail/\${product.product_id}" class="product-link">
+                        <img src="https://placehold.co/200x100" alt="${product.product_name}" class="carousel-image">
+                        <h3>\${product.product_name}</h3>
+                        <p>\${product.description}</p>
+                        <p><strong>\${product.payment_type}</strong></p>
+                        <p>\${product.deposit} 원 / 월</p>
+                        </a>
+                    `;
+                
+                    swiperWrapper.appendChild(slide);
+                } else {
+                    console.log('Invalid product data:', product);  // 데이터가 이상한 경우 
+                }
+            });
+        };
+
+    </script>
  
-		</body>
+    </body>
 
-		</html>
+</html>

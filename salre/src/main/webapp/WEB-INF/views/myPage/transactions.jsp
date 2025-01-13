@@ -37,12 +37,13 @@
 
 .badge-status {
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 20px;
+	right: 20px;
 	font-size: 12px;
 	padding: 5px 10px;
 	border-radius: 10px;
 	color: white;
+	z-index: 100; /* 겹침 문제 방지 */
 }
 
 .col-md-9 {
@@ -252,14 +253,30 @@
 	<section class="search-results" id="search-results">
         <c:if test="${not empty buyerProductList}">
         
+         
             <c:forEach var="productB" items="${buyerProductList}">
-            
              <a href="/salre/product/detail/${productB.product_id}" class="product-card-link">
-                <div class="product-card">
+                <div class="product-card" style="position:relative;">
+                
+                          <c:choose>
+                                <c:when test="${productB.product_status == 1}">
+                                    <span class="badge-status bg-danger">거래중</span>
+                                </c:when>
+                                <c:when test="${productB.product_status == 2}">
+                                    <span class="badge-status bg-secondary">거래완료</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge-status bg-success">거래가능</span>
+                                </c:otherwise>
+                            </c:choose>
+                
                     <img class="product-image" 
                          src="resources/images/products/${productB.product_id}.jpeg" 
                          alt="${product.product_name}" 
                          onerror="this.src='https://placehold.co/200x200';">
+				
+				    
+                            
                     <h3 style="color: black;">${productB.product_name}</h3>
                     <p>${productB.address}, ${productB.address_detail}</p>
                     <p>방 수: ${productB.room_count} | 욕실 수: ${productB.bath_count}</p>
@@ -289,8 +306,27 @@
                             / ${productB.rentfee} 만 원 월세
                         </c:if>
                     </div>  
+	                    <button class="btn btn-outline-danger" onclick="openReviewModal(${productB.product_id})">
+					        리뷰작성
+					    </button>
+	                    
+                   <%--  <c:choose>
+					    <c:when test="${!productB.reviewWritten}">
+					        <button class="btn btn-outline-danger" onclick="openReviewModal(${productB.product_id})">
+					            리뷰작성
+					        </button>
+					    </c:when>
+					    <c:otherwise>
+					        <button class="btn btn-success" disabled>
+					            리뷰작성 완료
+					        </button>
+					    </c:otherwise>
+					</c:choose> --%>
+        
+        
                 </div>
                 </a>
+                
             </c:forEach>
         </c:if>
         <c:if test="${empty buyerProductList}">
@@ -359,13 +395,26 @@
         <c:if test="${not empty productList}">
         
             <c:forEach var="product" items="${productList}">
-            
              <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
-                <div class="product-card">
+                <div class="product-card"  style="position:relative;">
+                
+                          <c:choose>
+                                <c:when test="${product.product_status == 1}">
+                                    <span class="badge-status bg-danger">거래중</span>
+                                </c:when>
+                                <c:when test="${product.product_status == 2}">
+                                    <span class="badge-status bg-secondary">거래완료</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge-status bg-success">거래가능</span>
+                                </c:otherwise>
+                          </c:choose>
+                
                     <img class="product-image" 
                          src="resources/images/products/${product.product_id}.jpeg" 
                          alt="${product.product_name}" 
                          onerror="this.src='https://placehold.co/200x200';">
+                         
                     <h3 style="color: black;">${product.product_name}</h3>
                     <p>${product.address}, ${product.address_detail}</p>
                     <p>방 수: ${product.room_count} | 욕실 수: ${product.bath_count}</p>
