@@ -29,6 +29,7 @@ body {
     color: #fff; /* 텍스트를 흰색으로 */
 }
 
+
 .main-banner::before {
     content: "";
     position: absolute;
@@ -206,7 +207,7 @@ button[type="submit"]:hover {
     <!-- 매물 정보 -->
   	<section class="form-section">
         <h2>매물 정보</h2>
-        <form action="/salre/product/insert" method="post" enctype="multipart/form-data">
+        <form action="/salre/product/insert" method="post" enctype="multipart/form-data" onsubmit="return handleSubmit();">
             <div class="form-group">
                 <label for="product_type" >매물 유형 *</label>
                 <select id="product_type" name="product_type" required>
@@ -272,6 +273,12 @@ button[type="submit"]:hover {
                 }
             }).open();
         }
+ 
+	    function handleSubmit() {
+	        alert("매물이 등록되었습니다.");
+	        return true; // 서버로 데이터 전송 허용
+	    }
+ 
     </script>
 </div>
 
@@ -317,7 +324,7 @@ button[type="submit"]:hover {
 </div>
 <div class="form-group" id="rentField">
     <label for="rent">월세</label>
-    <input type="text" id="rentfee" name="rentfee" placeholder="원">
+    <input type="number" id="rentfee" name="rentfee" placeholder="원">
 </div>
 
 <script>
@@ -336,6 +343,28 @@ button[type="submit"]:hover {
             rentField.style.display = "none"; // 월세 숨기기
         }
     }
+    
+    
+    function toggleRentField() {
+        const rentField = document.getElementById("rentField");
+        const rentInput = document.getElementById("rentfee");
+        const isRent = document.getElementById("rent").checked;
+
+        if (isRent) {
+            // 월세가 선택되었을 때 월세 입력 필드 활성화
+            rentField.style.display = "block";
+            rentInput.value = ""; // 월세 입력 필드를 비움
+            rentInput.required = true; // 필수 입력 설정
+        } else {
+            // 전세가 선택되었을 때 월세 입력 필드 숨김
+            rentField.style.display = "none";
+            rentInput.value = 0; // rentfee 값을 0으로 설정
+            rentInput.required = false; // 필수 입력 해제
+        }
+    }
+    window.onload = function () {
+        toggleRentField();
+    };
 </script>
             <div class="form-group">
                 <label for="manage_fee">관리비 *</label>
@@ -398,6 +427,9 @@ button[type="submit"]:hover {
             <!-- 제출 버튼 -->          
             <button type="submit">매물 등록</button> 
                     <input type="hidden" id="sigungu" name="sigungu">
+                    <input type="hidden" id="product_status" name="product_status" value="0">
+
+                    
         </form>
     </section> 
     <%@ include file="../common/footer.jsp" %>

@@ -20,7 +20,7 @@
         INSERT INTO region (province)
         VALUES (#{province})
     </insert>
-
+ 
     <!-- 지역 수정 -->
     <update id="updateRegion" parameterType="RegionVO">
         UPDATE region
