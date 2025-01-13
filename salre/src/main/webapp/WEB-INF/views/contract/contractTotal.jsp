@@ -2,13 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ include file="../common/header.jsp" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${path}/resources/css/style2.css">
-<title>계약서 최종확인</title>
+<title>살래?</title>
 </head>
 <body>
 	<div class="container">
@@ -180,5 +181,6 @@
 	}
 
 </script>
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>
