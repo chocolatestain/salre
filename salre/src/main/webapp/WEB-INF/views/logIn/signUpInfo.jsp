@@ -30,32 +30,6 @@
                         font-family: Arial, sans-serif;
                         background-color: #f9f9f9;
                     }
-<<<<<<< HEAD
-                },
-                error: function () {
-                    alert("ID 중복 체크 중 오류가 발생했습니다.");
-                },
-            });
-        }
-    </script>
-</body> --%>
-<body>
-    <div class="container">
-        <div class="image-section"></div>
-<!--  스크롤   <div class="form-section" style = "overflow:auto;   height : 500px;"> -->
-        <div class="form-section" >
-            <h1>Sign Up / 회원정보입력</h1>
-            <form action="${contextPath}/signup" method="post" onsubmit="return validateSignUp()">
-                <div class="form-group">
-                    <label for="id">ID</label>
-                    <div class="form-group-inline">
-                        <input type="text" id="id" name="id" placeholder="ID" required>
-                        <button type="button" onclick="checkIdAvailability()">ID 중복체크</button>
-                    </div>
-                     <span id="id-check-message" style="font-size: 14px;"></span>
-                </div>
-=======
->>>>>>> branch 'merge/part/all' of https://github.com/chocolatestain/salre.git
 
                     .container {
                         display: flex;
@@ -341,33 +315,6 @@
                         </form>
                     </div>
                 </div>
-<<<<<<< HEAD
-                 
-            </form>
-        </div>
-    </div>
-      <script>
-      
-      /* ID중복체크  */
-        function checkIdAvailability() {
-            const id = document.querySelector('[name="id"]').value.trim();
-            if (!id) {
-                alert("ID를 입력하세요.");
-                return;
-            }
-            // AJAX 요청을 통해 ID 중복 체크
-            $.ajax({
-            	url: "${contextPath}/checkId",
-                type: "GET",
-                data: { id },
-                success: function (response) {
-                    if (response === "available") {
-                        alert("사용 가능한 ID입니다.");
-                        showMessage("id-check-message", "사용 가능한 ID입니다.", "success-message");
-                    } else {
-                        alert("이미 사용 중인 ID입니다.");
-                        showMessage("id-check-message", "이미 사용중인 ID입니다.", "error-message");
-=======
                 <script>
 
                     /* 아이디 중복체크  */
@@ -393,7 +340,6 @@
                                 alert("아이디 중복 체크 중 오류가 발생했습니다.");
                             },
                         });
->>>>>>> branch 'merge/part/all' of https://github.com/chocolatestain/salre.git
                     }
 
                     function checkEmailAvailability() {
@@ -404,29 +350,6 @@
                             return;
                         }
 
-<<<<<<< HEAD
-    	    // AJAX 요청으로 이메일 중복 체크
-    	    $.ajax({
-    	        url: "${contextPath}/checkEmail",
-    	        type: "GET",
-    	        data: { email },
-    	        success: function(response) {
-    	            if (response === "available") {
-    	                showMessage("email-check-message", "사용 가능한 이메일입니다.", "success-message");
-    	            } else {
-    	                showMessage("email-check-message", "이미 가입된 이메일이 있습니다.", "error-message");
-    	            }
-    	        },
-    	        error: function() {
-    	            showMessage("email-check-message", "이메일 중복 체크 중 오류가 발생했습니다.", "error-message");
-    	        }
-    	    });
-    	}
-       function validateSignUp() {
-    	    // ID 중복 체크 메시지
-    	    const idMessage = document.getElementById('id-check-message').textContent;
-    	    const emailMessage = document.getElementById('email-check-message')?.textContent || '';
-=======
                         // AJAX 요청으로 이메일 중복 체크
                         $.ajax({
                             url: "${contextPath}/checkEmail",
@@ -444,53 +367,7 @@
                             }
                         });
                     }
->>>>>>> branch 'merge/part/all' of https://github.com/chocolatestain/salre.git
 
-<<<<<<< HEAD
-    	    // 유효성 검증: 중복체크 결과 확인
-    	    if (idMessage !== "사용 가능한 ID입니다.") {
-    	        alert("ID 중복체크를 완료해주세요.");
-    	        return false;
-    	    }
-    	  
-    	    if (emailMessage !== "사용 가능한 이메일입니다.") {
-    	        alert("이메일 중복체크를 완료해주세요.");
-    	        return false;
-    	    }
-
-    	    // 추가 필드 유효성 검사
-    	    const password = document.getElementById('password').value.trim();
-    	    const residentNum2 = document.getElementById('birthday2').value.trim();
-    	    const address = document.getElementById('address').value.trim();
-    	    const addressDetail = document.querySelector('[name="address_detail"]').value.trim();
-
-    	    if (!password) {
-    	        alert("비밀번호를 입력해주세요.");
-    	        return false;
-    	    }
-    	    if (!residentNum2) {
-    	        alert("주민등록번호 뒷자리를 입력해주세요.");
-    	        return false;
-    	    }
-    	    if (!address) {
-    	        alert("주소를 입력해주세요.");
-    	        return false;
-    	    }
-    	    if (!addressDetail) {
-    	        alert("상세주소를 입력해주세요.");
-    	        return false;
-    	    }
-
-    	    // 모든 유효성 검사를 통과한 경우
-    	    return true;
-    	}
-    	// 메시지 표시 함수
-    	function showMessage(elementId, message, className) {
-    	    const messageElement = document.getElementById(elementId);
-    	    messageElement.textContent = message;
-    	    messageElement.className = className;
-    	}
-=======
                     /* 주소검색 */
                     function checkAddress() {
                         new daum.Postcode({
@@ -501,7 +378,6 @@
                             }
                         }).open();
                     }
->>>>>>> branch 'merge/part/all' of https://github.com/chocolatestain/salre.git
 
                     // 메시지 표시 함수
                     function showMessage(elementId, message, className) {
