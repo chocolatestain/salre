@@ -58,7 +58,7 @@ public class ContractController {
 	// 1.거래 시작 누리고 첫화면  "정보확인"(매물,회원정보 조회)
 	//구매자 - 정보확인 페이지
 	@GetMapping("/dealstart")
-	public String tenantContract(HttpServletRequest request,int p_id,Model model) {
+	public String tenantContract(HttpServletRequest request,int product_id,Model model) {
 		
 		HttpSession session = request.getSession();
 		
@@ -66,7 +66,7 @@ public class ContractController {
 		UserDTO user = (UserDTO) session.getAttribute("loggedInUser");//구매자 user_id
 		System.out.println("user_id"+user.getUser_id());
  
-		ProductDTO product = productService.selectByIdService(p_id);
+		ProductDTO product = productService.selectByIdService(product_id);
 		System.out.println(product);
 		System.out.println(product.getUser_id());
 		UserDTO P_user = userService.getUserById(product.getUser_id());//판매자 user_id
@@ -284,7 +284,16 @@ public class ContractController {
 	    	return "contract/onlyViewContract";
 	    }
 	     
-	     //서명한 계약서 보기
+	     //임대인 서명 후 계약서
+			@GetMapping("/viewSignContract2/{contract_id}")
+			public String viewSignContract2(@PathVariable(required = true) Integer contract_id, Model model) {
+				ContractDTO contract = contractService.getContractById(contract_id);
+				ProductDTO product = productService.selectByContractId(contract_id);
+				model.addAttribute("product",product);
+				model.addAttribute("contract",contract);
+				return "contract/viewSignContract2"; // 계약서 이미지를 보여주는 JSP
+			}
+			//임차인 서명 후 계약서
 			@GetMapping("/viewSignContract/{contract_id}")
 			public String viewSignContract(@PathVariable(required = true) Integer contract_id, Model model) {
 				ContractDTO contract = contractService.getContractById(contract_id);
