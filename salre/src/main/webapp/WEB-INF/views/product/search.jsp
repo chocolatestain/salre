@@ -161,7 +161,7 @@
  	<%@ include file="../common/header.jsp" %>
 
     <div class="search">
-        <form action="product" method="GET">
+        <form action="" method="GET">
             <input type="text" name="search" placeholder="원하시는 지역, 건물을 입력해주세요.">
             <button type="submit">검색</button>
         </form> 
@@ -182,33 +182,33 @@
                     </h2>
                     <div id="collapseRegion" class="accordion-collapse collapse show" aria-labelledby="headingRegion" data-bs-parent="#filterAccordion">
                         <div class="accordion-body">
-                            <select class="form-select" name="region_id" required>
+                            <select class="form-select" name="region_id" >
                                 <option value="">지역 선택</option>
-                                <option value="1">종로구</option>
-                                <option value="2">중구</option>
-                                <option value="3">용산구</option>
-                                <option value="4">성동구</option>
-                                <option value="5">광진구</option>
-                                <option value="6">동대문구</option>
-                                <option value="7">중랑구</option>
-                                <option value="8">성북구</option>
-                                <option value="9">강북구</option>
-                                <option value="10">도봉구</option>
-                                <option value="11">노원구</option>
-                                <option value="12">은평구</option>
-                                <option value="13">서대문구</option>
-                                <option value="14">마포구</option>
-                                <option value="15">양천구</option>
-                                <option value="16">강서구</option>
-                                <option value="17">구로구</option>
-                                <option value="18">금천구</option>
-                                <option value="19">영등포구</option>
-                                <option value="20">동작구</option>
-                                <option value="21">관악구</option>
-                                <option value="22">서초구</option>
-                                <option value="23">강남구</option>
-                                <option value="24">송파구</option>
-                                <option value="25">강동구</option>
+								    <option value="1" ${param.region_id == '1' ? 'selected' : ''}>종로구</option>
+								    <option value="2" ${param.region_id == '2' ? 'selected' : ''}>중구</option>
+								    <option value="3" ${param.region_id == '3' ? 'selected' : ''}>용산구</option>
+								    <option value="4" ${param.region_id == '4' ? 'selected' : ''}>성동구</option>
+								    <option value="5" ${param.region_id == '5' ? 'selected' : ''}>광진구</option>
+								    <option value="6" ${param.region_id == '6' ? 'selected' : ''}>동대문구</option>
+								    <option value="7" ${param.region_id == '7' ? 'selected' : ''}>중랑구</option>
+								    <option value="8" ${param.region_id == '8' ? 'selected' : ''}>성북구</option>
+								    <option value="9" ${param.region_id == '9' ? 'selected' : ''}>강북구</option>
+								    <option value="10" ${param.region_id == '10' ? 'selected' : ''}>도봉구</option>
+								    <option value="11" ${param.region_id == '11' ? 'selected' : ''}>노원구</option>
+								    <option value="12" ${param.region_id == '12' ? 'selected' : ''}>은평구</option>
+								    <option value="13" ${param.region_id == '13' ? 'selected' : ''}>서대문구</option>
+								    <option value="14" ${param.region_id == '14' ? 'selected' : ''}>마포구</option>
+								    <option value="15" ${param.region_id == '15' ? 'selected' : ''}>양천구</option>
+								    <option value="16" ${param.region_id == '16' ? 'selected' : ''}>강서구</option>
+								    <option value="17" ${param.region_id == '17' ? 'selected' : ''}>구로구</option>
+								    <option value="18" ${param.region_id == '18' ? 'selected' : ''}>금천구</option>
+								    <option value="19" ${param.region_id == '19' ? 'selected' : ''}>영등포구</option>
+								    <option value="20" ${param.region_id == '20' ? 'selected' : ''}>동작구</option>
+								    <option value="21" ${param.region_id == '21' ? 'selected' : ''}>관악구</option>
+								    <option value="22" ${param.region_id == '22' ? 'selected' : ''}>서초구</option>
+								    <option value="23" ${param.region_id == '23' ? 'selected' : ''}>강남구</option>
+								    <option value="24" ${param.region_id == '24' ? 'selected' : ''}>송파구</option>
+								    <option value="25" ${param.region_id == '25' ? 'selected' : ''}>강동구</option>
                             </select>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                     </h2>
                     <div id="collapsePayment" class="accordion-collapse collapse show" aria-labelledby="headingPayment" data-bs-parent="#filterAccordion">
                         <div class="accordion-body">
-                            <select class="form-select" name="payment_type" required>
+                            <select class="form-select" name="payment_type" >
                                 <option value="">결제 유형 선택</option>
                                 <option value="전세">전세</option>
                                 <option value="월세">월세</option>
@@ -237,11 +237,11 @@
                     </h2>
                     <div id="collapseStatus" class="accordion-collapse collapse show" aria-labelledby="headingStatus" data-bs-parent="#filterAccordion">
                         <div class="accordion-body">
-                            <select class="form-select" name="product_status" required>
-                                <option value="">상태 선택</option>
-                                <option value="0">거래 전</option>
-                                <option value="1">거래 중</option>
-                                <option value="2">거래 후</option>
+                            <select class="form-select" name="product_status" >
+                                   <option value="">상태 선택</option>
+								    <option value="0" ${param.product_status == '0' ? 'selected' : ''}>거래 전</option>
+								    <option value="1" ${param.product_status == '1' ? 'selected' : ''}>거래 중</option>
+								    <option value="2" ${param.product_status == '2' ? 'selected' : ''}>거래 후</option>
                             </select>
                         </div>
                     </div>
@@ -254,59 +254,79 @@
                     </h2>
                     <div id="collapseRooms" class="accordion-collapse collapse show" aria-labelledby="headingRooms" data-bs-parent="#filterAccordion">
                         <div class="accordion-body">
-                            <select class="form-select" name="room_count" required>
-                                <option value="">방 개수 선택</option>
-                                <option value="1">1개</option>
-                                <option value="2">2개</option>
-                                <option value="3">3개</option>
-                                <option value="4">4개</option>
-                                <option value="5">5개</option>
-                                <option value="6">6개</option>
+                            <select class="form-select" name="room_count" >
+                                <option value="">방 개수</option>
+                                <option value="1" ${param.room_count == '1' ? 'selected' : ''}>1개</option>
+								<option value="2" ${param.room_count == '2' ? 'selected' : ''}>2개</option>
+								<option value="3" ${param.room_count == '3' ? 'selected' : ''}>3개</option>
+								<option value="4" ${param.room_count == '4' ? 'selected' : ''}>4개</option>
+								<option value="5" ${param.room_count == '5' ? 'selected' : ''}>5개</option>
+								<option value="6" ${param.room_count == '6' ? 'selected' : ''}>6개</option>
+
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- 층 수 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFloor"> 
-                    </h2>
-                    <div id="collapseFloor" class="accordion-collapse collapse show" aria-labelledby="headingFloor" data-bs-parent="#filterAccordion">
-                        <div class="accordion-body">
-                            <label class="filter-label" >층 수 선택</label>
-                            <div class="slider-container" style="position: relative; width: 90%;">
-							    <input type="range" class="form-range filter-slider" name="floor" min="-1" max="30" step="1" value="-1" style = "margin-top : 50px;" >
-							    <div class="slider-tooltip" style="position: absolute; top: -30px; left: 0; transform: translateX(-50%); display: none;">
-							        <span id="tooltipValue">지하</span>
-							    </div>
-							</div>  
-                        </div>
-                    </div>
-                </div>
-            </div>
+					              <div class="accordion-item">
+					    <h2 class="accordion-header" id="headingFloor"></h2>
+					    <div id="collapseFloor" class="accordion-collapse collapse show" aria-labelledby="headingFloor" data-bs-parent="#filterAccordion">
+					        <div class="accordion-body">
+					            <label class="filter-label">층 수 선택</label>
+					            <div class="slider-container" style="position: relative; width: 90%;">
+					                <!-- 슬라이더 값 기억 -->
+					                <input type="range" class="form-range filter-slider" name="floor" 
+					                       min="-1" max="30" step="1" 
+					                       value="${param.floor != null ? param.floor : '-1'}" 
+					                       style="margin-top: 50px;">
+					                <div class="slider-tooltip" style="position: absolute; top: -30px; left: 0; transform: translateX(-50%); display: none;">
+					                    <span id="tooltipValue">${param.floor != null ? param.floor : '전체'}</span> <!-- 초기값을 전체로 설정 -->
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
 
 
-    <script>
-    $("input[name='floor']").on('input', function() {
-        var value = parseInt($(this).val());
-        if (value === 0) {
-            $(this).val(1); // 0을 건너뛰고 1로 설정
-            value = 1;
-        }
-        
-        var floorText = value < 0 ? "지하" : (value <= 10 ? value + "층" : 
-                      (value <= 15 ? "11-15층" : 
-                      (value <= 20 ? "16-20층" : 
-                      (value <= 30 ? "21-30층" : "30층 이상"))));
-        
-        var tooltip = $(this).siblings(".slider-tooltip");
-        $("#tooltipValue").text(floorText);
+		<script>
+	    // 폼 제출 전에 선택되지 않은 필드 제거
+	    $("form").on("submit", function() {
+	        // 각 필드에서 기본값(빈 값)을 가진 선택 항목을 제외하고 서버로 보냄
+	        $("select").each(function() {
+	            // 기본값(빈 값)을 가진 항목을 찾고 해당 항목이 선택되지 않으면 삭제
+	            if ($(this).val() === "" || $(this).val() === null) {
+	                $(this).remove();
+	            }
+	        });
+	    });
+ 
+	    // 슬라이더의 input 이벤트 처리
+	    $("input[name='floor']").on('input', function() {
+	        var value = parseInt($(this).val());
+	        if (value === 0) {
+	            $(this).val(1); // 0을 건너뛰고 1로 설정
+	            value = 1;
+	        }
 
-        // 말풍선 표시 및 위치 업데이트
-        var sliderWidth = $(this).width();
-        var offset = (value - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min")) * sliderWidth;
-        tooltip.css({ left: offset + "px", display: "block" });
-    });
+	        // 값에 맞는 텍스트 설정
+	        var floorText = value < 0 ? "전체" : (value <= 10 ? value + "층" : 
+	                      (value <= 15 ? "11-15층" : 
+	                      (value <= 20 ? "16-20층" : 
+	                      (value <= 30 ? "21-30층" : "30층 이상"))));
+	        
+	        var tooltip = $(this).siblings(".slider-tooltip");
+	        $("#tooltipValue").text(floorText);
+
+	        // 말풍선 표시 및 위치 업데이트
+	        var sliderWidth = $(this).width();
+	        var offset = (value - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min")) * sliderWidth;
+	        tooltip.css({ left: offset + "px", display: "block" });
+	    });
+
+	    // 페이지 로드 시 초기값 "전체" 설정
+	    $(document).ready(function() {
+	        $("input[name='floor']").trigger('input');
+	    });
 
     </script>
             <!-- 제출 버튼 -->
