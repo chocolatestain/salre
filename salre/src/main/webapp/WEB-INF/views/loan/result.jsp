@@ -1,223 +1,224 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <%@ include file="../common/header_tmp.jsp" %>
-            <!DOCTYPE html>
-            <html lang="ko">
+        <!DOCTYPE html>
+        <html lang="ko">
 
-            <head>
-                <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"
-                    type="image/x-icon" />
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>살래?</title>
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <style>
-                    .main-banner {
-                        padding: 40px;
-                        background: #f5f5f5;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    }
+        <head>
+            <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"
+                type="image/x-icon" />
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>살래?</title>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <style>
+                .main-banner {
+                    padding: 40px;
+                    background: #f5f5f5;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
 
-                    .main-banner h1 {
-                        font-size: 2.5rem;
-                        color: #333;
-                    }
+                .main-banner h1 {
+                    font-size: 2.5rem;
+                    color: #333;
+                }
 
-                    .main-banner h2 {
-                        font-size: 1.25rem;
-                        color: #666;
-                        margin-bottom: 2rem;
-                    }
+                .main-banner h2 {
+                    font-size: 1.25rem;
+                    color: #666;
+                    margin-bottom: 2rem;
+                }
 
-                    .controls {
-                        display: flex;
-                        justify-content: space-between;
-                        width: 100%;
-                        max-width: 1200px;
-                        margin-bottom: 30px;
-                    }
+                .controls {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 1200px;
+                    margin-bottom: 30px;
+                }
 
-                    .controls button {
-                        background-color: #f5f5f5;
-                        border: none;
-                        cursor: pointer;
-                        font-size: 2rem;
-                    }
+                .controls button {
+                    background-color: #f5f5f5;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 2rem;
+                }
 
-                    .sort {
-                        display: flex;
-                        justify-content: space-between;
-                        width: 100%;
-                        max-width: 1200px;
-                        margin-bottom: 30px;
-                    }
+                .sort {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 1200px;
+                    margin-bottom: 30px;
+                }
 
-                    .sort-buttons {
-                        display: flex;
-                        gap: 10px;
-                    }
+                .sort-buttons {
+                    display: flex;
+                    gap: 10px;
+                }
 
-                    .sort button {
-                        padding: 10px 15px;
-                        background-color: #666;
-                        color: #fff;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        font-size: 1rem;
-                    }
+                .sort button {
+                    padding: 10px 15px;
+                    background-color: #666;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                }
 
-                    #init {
-                        background-color: #999;
-                    }
+                #init {
+                    background-color: #999;
+                }
 
-                    .sort button.active {
-                        background-color: #f4a261;
-                    }
+                .sort button.active {
+                    background-color: #f4a261;
+                }
 
-                    .sort-result {
-                        display: flex;
-                        align-items: center;
-                        font-size: 1.25rem;
-                        color: #333;
-                    }
+                .sort-result {
+                    display: flex;
+                    align-items: center;
+                    font-size: 1.25rem;
+                    color: #333;
+                }
 
-                    .container {
-                        width: 100%;
-                        max-width: 1200px;
-                        display: flex;
-                        flex-direction: space-between;
-                        gap: 30px;
-                    }
+                .container {
+                    width: 100%;
+                    max-width: 1200px;
+                    display: flex;
+                    flex-direction: space-between;
+                    gap: 30px;
+                }
 
-                    .filters-section {
-                        display: flex;
-                        gap: 20px;
-                        height: 100%;
-                    }
+                .filters-section {
+                    display: flex;
+                    gap: 20px;
+                    height: 100%;
+                }
 
-                    .filters {
-                        background: #fff;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        padding-bottom: 20px;
-                        border-radius: 10px;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        width: 250px;
-                        accent-color: #f4a261;
-                    }
+                .filters {
+                    background: #fff;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    padding-bottom: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    width: 250px;
+                    accent-color: #f4a261;
+                }
 
-                    .filters-display {
-                        display: flex;
-                        align-items: baseline;
-                        justify-content: space-between;
-                    }
+                .filters-display {
+                    display: flex;
+                    align-items: baseline;
+                    justify-content: space-between;
+                }
 
-                    .filters input[type="range"] {
-                        width: 100%;
-                    }
+                .filters input[type="range"] {
+                    width: 100%;
+                }
 
-                    .filters h3 {
-                        margin-bottom: 10px;
-                        color: #333;
-                    }
+                .filters h3 {
+                    margin-bottom: 10px;
+                    color: #333;
+                }
 
-                    .selectControl {
-                        padding: 5px 10px;
-                        margin-top: 10px;
-                        background-color: #999;
-                        color: #fff;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        font-size: 0.75rem;
-                    }
+                .selectControl {
+                    padding: 5px 10px;
+                    margin-top: 10px;
+                    background-color: #999;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 0.75rem;
+                }
 
-                    #filter {
-                        padding: 10px 20px;
-                        margin-top: 10px;
-                        background-color: #f4a261;
-                        color: #fff;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        font-size: 1rem;
-                        width: 100%
-                    }
+                #filter {
+                    padding: 10px 20px;
+                    margin-top: 10px;
+                    background-color: #f4a261;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    width: 100%
+                }
 
-                    .loan-results {
-                        display: grid;
-                        align-items: start;
-                        align-content: start;
-                        grid-template-columns: repeat(2, 2fr);
-                        gap: 20px;
-                        width: 100%;
-                        max-width: 1200px;
-                    }
+                .loan-results {
+                    display: grid;
+                    align-items: start;
+                    align-content: start;
+                    grid-template-columns: repeat(2, 2fr);
+                    gap: 20px;
+                    width: 100%;
+                    max-width: 1200px;
+                }
 
-                    .loan-card {
-                        background: #fff;
-                        border-radius: 10px;
-                        padding: 20px;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        transition: transform 0.2s;
-                        border: none;
-                        cursor: pointer;
-                        text-align: left;
-                        max-height: 200px;
-                    }
+                .loan-card {
+                    background: #fff;
+                    border-radius: 10px;
+                    padding: 20px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    transition: transform 0.2s;
+                    border: none;
+                    cursor: pointer;
+                    text-align: left;
+                    max-height: 200px;
+                }
 
-                    .loan-card:hover {
-                        transform: translateY(-5px);
-                        background-color: #d1d1d1;
-                    }
+                .loan-card:hover {
+                    transform: translateY(-5px);
+                    background-color: #d1d1d1;
+                }
 
-                    .loan-card-content {
-                        display: flex;
-                        align-items: center;
-                        gap: 15px;
-                    }
+                .loan-card-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                }
 
-                    .bank-logo {
-                        width: 64px;
-                        flex-shrink: 0;
-                    }
+                .bank-logo {
+                    width: 64px;
+                    flex-shrink: 0;
+                }
 
-                    .loan-card-text {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 5px;
-                    }
+                .loan-card-text {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
 
-                    .loan-card-text h3,
-                    .loan-card-text h4 {
-                        margin: 0;
-                        color: #333;
-                    }
+                .loan-card-text h3,
+                .loan-card-text h4 {
+                    margin: 0;
+                    color: #333;
+                }
 
-                    .loan-card p {
-                        color: #666;
-                        margin: 5px 0;
-                    }
+                .loan-card p {
+                    color: #666;
+                    margin: 5px 0;
+                }
 
-                    #scroll {
-                        position: fixed;
-                        bottom: 30px;
-                        right: 30px;
-                        z-index: 9999;
-                        border: none;
-                        background-color: #999;
-                        cursor: pointer;
-                        padding: 10px;
-                        border-radius: 10px;
-                        font-size: 2rem;
-                    }
-                </style>
-            </head>
+                #scroll {
+                    position: fixed;
+                    bottom: 30px;
+                    right: 30px;
+                    z-index: 9999;
+                    border: none;
+                    background-color: #999;
+                    cursor: pointer;
+                    padding: 10px;
+                    border-radius: 10px;
+                    font-size: 2rem;
+                }
+            </style>
+        </head>
 
-            <body>
+        <body>
+            <%@ include file="../common/header.jsp" %>
+
                 <!-- Main Banner -->
                 <section class="main-banner">
                     <h1>대출 조회결과</h1>
@@ -303,80 +304,80 @@
                     </div>
                 </section>
 
-                <%@ include file="../common/footer_tmp.jsp" %>
+                <%@ include file="../common/footer.jsp" %>
 
-                <button onclick="scrollToTop()" id="scroll">⬆️</button>
+                    <button onclick="scrollToTop()" id="scroll">⬆️</button>
 
-                <script>
-                    $(document).ready(function () {
-                        // 서버에서 전달된 값 가져오기
-                        const userAge = `${param.age}`;
+                    <script>
+                        $(document).ready(function () {
+                            // 서버에서 전달된 값 가져오기
+                            const userAge = `${param.age}`;
 
-                        const paramIncome = "${param.income}";
-                        const incomeValue = {
-                            step: {
-                                "3500l": 35000000,
-                                "5000l": 50000000,
-                                "5000h": 2147483647
-                            }
-                        };
-                        const userIncome = incomeValue.step[paramIncome];
+                            const paramIncome = "${param.income}";
+                            const incomeValue = {
+                                step: {
+                                    "3500l": 35000000,
+                                    "5000l": 50000000,
+                                    "5000h": 2147483647
+                                }
+                            };
+                            const userIncome = incomeValue.step[paramIncome];
 
-                        // 필터 조건 정의
-                        const filters = {
-                            byRate: (item, rate) => item.loan_rate <= parseFloat(rate),
-                            byLimit: (item, limit) => item.loan_limit / 100000000 <= parseFloat(limit),
-                            byBank: (item, banks) => banks.length === 0 || banks.includes(item.bank_name),
-                            byRepay1: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원리금"),
-                            byRepay2: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원금"),
-                            byRepay3: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("만기"),
-                            byOption1: (item, isChecked) => isChecked ? true : !item.loan_name.includes("중소기업청년"),
-                            byOption2: (item, isChecked) => isChecked ? true : !item.loan_name.includes("버팀목")
-                        };
+                            // 필터 조건 정의
+                            const filters = {
+                                byRate: (item, rate) => item.loan_rate <= parseFloat(rate),
+                                byLimit: (item, limit) => item.loan_limit / 100000000 <= parseFloat(limit),
+                                byBank: (item, banks) => banks.length === 0 || banks.includes(item.bank_name),
+                                byRepay1: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원리금"),
+                                byRepay2: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원금"),
+                                byRepay3: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("만기"),
+                                byOption1: (item, isChecked) => isChecked ? true : !item.loan_name.includes("중소기업청년"),
+                                byOption2: (item, isChecked) => isChecked ? true : !item.loan_name.includes("버팀목")
+                            };
 
-                        var bankObj = {
-                            "BNK경남은행": "bnk_logo.png", "BNK부산은행": "bnk_logo.png", "IBK기업은행": "ibk_logo.png", "iM뱅크": "im_logo.png",
-                            "KB국민은행": "kb_logo.png", "NH농협은행": "nh_logo.png", "SC제일은행": "sc_logo.png", "Sh수협은행": "sh_logo.png",
-                            "광주은행": "gj_logo.png", "신한은행": "shinhan_logo.png", "우리은행": "woori_logo.png", "제주은행": "jeju_logo.png",
-                            "카카오뱅크": "kakao_logo.png", "케이뱅크": "kbank_logo.png", "토스뱅크": "toss_logo.png", "하나은행": "hana_logo.png"
-                        };
+                            var bankObj = {
+                                "BNK경남은행": "bnk_logo.png", "BNK부산은행": "bnk_logo.png", "IBK기업은행": "ibk_logo.png", "iM뱅크": "im_logo.png",
+                                "KB국민은행": "kb_logo.png", "NH농협은행": "nh_logo.png", "SC제일은행": "sc_logo.png", "Sh수협은행": "sh_logo.png",
+                                "광주은행": "gj_logo.png", "신한은행": "shinhan_logo.png", "우리은행": "woori_logo.png", "제주은행": "jeju_logo.png",
+                                "카카오뱅크": "kakao_logo.png", "케이뱅크": "kbank_logo.png", "토스뱅크": "toss_logo.png", "하나은행": "hana_logo.png"
+                            };
 
-                        Object.entries(bankObj).forEach(function ([bank_name, bank_logo]) {
-                            let bankLabel = `<label><input type="checkbox" name="bank" value="\${bank_name}" checked> \${bank_name}</label> <br>`;
+                            Object.entries(bankObj).forEach(function ([bank_name, bank_logo]) {
+                                let bankLabel = `<label><input type="checkbox" name="bank" value="\${bank_name}" checked> \${bank_name}</label> <br>`;
 
-                            $('#bank').append(bankLabel);
-                        });
-
-                        // 이미지 로드 함수
-                        function preloadImages() {
-                            Object.values(bankObj).forEach(logo => {
-                                const img = new Image();
-                                img.src = `${pageContext.request.contextPath}/resources/images/bank/\${logo}`;
+                                $('#bank').append(bankLabel);
                             });
-                        }
 
-                        let list = [];
-                        let view = [];
-                        let length = 0;
+                            // 이미지 로드 함수
+                            function preloadImages() {
+                                Object.values(bankObj).forEach(logo => {
+                                    const img = new Image();
+                                    img.src = `${pageContext.request.contextPath}/resources/images/bank/\${logo}`;
+                                });
+                            }
 
-                        function saveList() {
-                            // 초기 데이터 저장
-                            sessionStorage.setItem('list', JSON.stringify(list));
-                        }
+                            let list = [];
+                            let view = [];
+                            let length = 0;
 
-                        function saveView() {
-                            // view 저장
-                            sessionStorage.setItem('view', JSON.stringify(view));
-                        }
+                            function saveList() {
+                                // 초기 데이터 저장
+                                sessionStorage.setItem('list', JSON.stringify(list));
+                            }
 
-                        function draw(view) {
-                            $('#loanResults').empty();
+                            function saveView() {
+                                // view 저장
+                                sessionStorage.setItem('view', JSON.stringify(view));
+                            }
 
-                            view.forEach(function (item) {
-                                let img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[item.bank_name]}"
+                            function draw(view) {
+                                $('#loanResults').empty();
+
+                                view.forEach(function (item) {
+                                    let img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[item.bank_name]}"
                                         alt="\${item.bank_name} 로고" class="bank-logo">`;
 
-                                $('#loanResults').append(`
+                                    $('#loanResults').append(`
                                     <form action="detail" method="POST">
                                         <input type="hidden" name="id" value="\${item.loan_id}" />
                                         <div class="loan-card" onclick="this.closest('form').submit()">
@@ -397,200 +398,200 @@
                                         </div>
                                     </form>
                                 `);
+                                });
+
+                                $('#resultValue').html(`총 \${list.length}개 중 \${length}개 조회 완료`);
+                            }
+
+                            // Ajax 요청 함수
+                            $.ajax({
+                                url: `${pageContext.request.contextPath}/loan/select`,
+                                type: 'GET',
+                                data: {
+                                    age: userAge,
+                                    income: userIncome
+                                },
+                                success: function (response) {
+                                    preloadImages();
+
+                                    list = response;
+                                    view = response;
+
+                                    length = view.length;
+
+                                    saveList();
+                                    saveView();
+
+                                    draw(view);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(xhr.responseText);
+                                }
                             });
 
-                            $('#resultValue').html(`총 \${list.length}개 중 \${length}개 조회 완료`);
-                        }
+                            // 금리순 버튼이 기본적으로 활성화된 상태
+                            $('#sortRate').addClass('active');
 
-                        // Ajax 요청 함수
-                        $.ajax({
-                            url: `${pageContext.request.contextPath}/loan/select`,
-                            type: 'GET',
-                            data: {
-                                age: userAge,
-                                income: userIncome
-                            },
-                            success: function (response) {
-                                preloadImages();
+                            // 금리순 정렬 버튼 클릭
+                            $('#sortRate').click(function () {
+                                // 활성화된 버튼 상태 업데이트
+                                $('#sortRate').addClass('active');
+                                $('#sortLimit').removeClass('active');
 
-                                list = response;
-                                view = response;
+                                view = JSON.parse(sessionStorage.getItem('view')) || [];
+
+                                view.sort(function (a, b) {
+                                    return a.loan_rate - b.loan_rate;
+                                });
+
+                                saveView();
+
+                                draw(view);
+                            });
+
+                            // 금리순 정렬 버튼 클릭
+                            $('#sortLimit').click(function () {
+                                // 활성화된 버튼 상태 업데이트
+                                $('#sortLimit').addClass('active');
+                                $('#sortRate').removeClass('active');
+
+                                view = JSON.parse(sessionStorage.getItem('view')) || [];
+
+                                view.sort(function (a, b) {
+                                    return b.loan_limit - a.loan_limit;
+                                });
+
+                                saveView();
+
+                                draw(view);
+                            });
+
+                            // 전체 선택 기능
+                            function selectAll() {
+                                $('input[name="bank"]').each(function () {
+                                    $(this).prop('checked', true);
+                                });
+
+                                $('#repay1').prop('checked', true);
+                                $('#repay2').prop('checked', true);
+                                $('#repay3').prop('checked', true);
+
+                                $('#option1').prop('checked', true);
+                                $('#option2').prop('checked', true);
+                            }
+
+                            // 전체 해제 기능
+                            function deselectAll() {
+                                $('input[name="bank"]').each(function () {
+                                    $(this).prop('checked', false);
+                                });
+
+                                $('#repay1').prop('checked', false);
+                                $('#repay2').prop('checked', false);
+                                $('#repay3').prop('checked', false);
+
+                                $('#option1').prop('checked', false);
+                                $('#option2').prop('checked', false);
+                            }
+
+                            $('#selectAll').click(function () {
+                                selectAll();
+                            });
+
+                            $('#deselectAll').click(function () {
+                                deselectAll();
+                            });
+
+                            // 필터 조회 버튼 클릭
+                            $('#filter').click(function () {
+                                // 필터 조건 가져오기
+                                const rate = $('#rate').text();
+                                const limit = $('#limit').text();
+                                const bank = [];
+                                const repay1 = $('#repay1').is(':checked');
+                                const repay2 = $('#repay2').is(':checked');
+                                const repay3 = $('#repay3').is(':checked');
+                                const option1 = $('#option1').is(':checked');
+                                const option2 = $('#option2').is(':checked');
+
+                                // 은행 체크박스 값 가져오기
+                                $('#bank input:checked').each(function () {
+                                    bank.push($(this).parent().text().trim());
+                                });
+
+                                // 활성화된 버튼 상태 업데이트
+                                $('#sortRate').addClass('active');
+                                $('#sortLimit').removeClass('active');
+
+                                view = JSON.parse(sessionStorage.getItem('list')) || [];
+
+                                // List에서 필터 조건에 맞는 항목 필터링
+                                view = view.filter(item =>
+                                    filters.byRate(item, rate) &&
+                                    filters.byLimit(item, limit) &&
+                                    filters.byBank(item, bank) &&
+                                    filters.byRepay1(item, repay1) &&
+                                    filters.byRepay2(item, repay2) &&
+                                    filters.byRepay3(item, repay3) &&
+                                    filters.byOption1(item, option1) &&
+                                    filters.byOption2(item, option2)
+                                );
 
                                 length = view.length;
+
+                                view.sort(function (a, b) {
+                                    return a.loan_rate - b.loan_rate;
+                                });
+
+                                saveView();
+
+                                // 필터링된 결과 화면에 출력
+                                draw(view);
+                            });
+
+                            // 필터 초기화 기능
+                            $('#init').click(function () {
+                                // 활성화된 버튼 상태 업데이트
+                                $('#sortRate').addClass('active');
+                                $('#sortLimit').removeClass('active');
+
+                                list = JSON.parse(sessionStorage.getItem('list')) || [];
+                                view = JSON.parse(sessionStorage.getItem('list')) || [];
+
+                                length = view.length;
+
+                                list.sort(function (a, b) {
+                                    return a.loan_rate - b.loan_rate;
+                                });
+
+                                // 필터 값 초기화
+                                $('#rate').text('5');
+                                $('#limit').text('5');
+                                $('input[type="range"]').val('5');
+
+                                selectAll();
 
                                 saveList();
                                 saveView();
 
-                                draw(view);
-                            },
-                            error: function (xhr, status, error) {
-                                console.log(xhr.responseText);
+                                draw(list);
+                            });
+                        });
+
+                        // 스크롤 버튼 기능
+                        function scrollToTop() {
+                            const position =
+                                document.documentElement.scrollTop || document.body.scrollTop;
+
+                            if (position) {
+                                window.requestAnimationFrame(() => {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                                    scrollToTop();
+                                });
                             }
-                        });
-
-                        // 금리순 버튼이 기본적으로 활성화된 상태
-                        $('#sortRate').addClass('active');
-
-                        // 금리순 정렬 버튼 클릭
-                        $('#sortRate').click(function () {
-                            // 활성화된 버튼 상태 업데이트
-                            $('#sortRate').addClass('active');
-                            $('#sortLimit').removeClass('active');
-
-                            view = JSON.parse(sessionStorage.getItem('view')) || [];
-
-                            view.sort(function (a, b) {
-                                return a.loan_rate - b.loan_rate;
-                            });
-
-                            saveView();
-
-                            draw(view);
-                        });
-
-                        // 금리순 정렬 버튼 클릭
-                        $('#sortLimit').click(function () {
-                            // 활성화된 버튼 상태 업데이트
-                            $('#sortLimit').addClass('active');
-                            $('#sortRate').removeClass('active');
-
-                            view = JSON.parse(sessionStorage.getItem('view')) || [];
-
-                            view.sort(function (a, b) {
-                                return b.loan_limit - a.loan_limit;
-                            });
-
-                            saveView();
-
-                            draw(view);
-                        });
-
-                        // 전체 선택 기능
-                        function selectAll() {
-                            $('input[name="bank"]').each(function () {
-                                $(this).prop('checked', true);
-                            });
-
-                            $('#repay1').prop('checked', true);
-                            $('#repay2').prop('checked', true);
-                            $('#repay3').prop('checked', true);
-
-                            $('#option1').prop('checked', true);
-                            $('#option2').prop('checked', true);
                         }
+                    </script>
+        </body>
 
-                        // 전체 해제 기능
-                        function deselectAll() {
-                            $('input[name="bank"]').each(function () {
-                                $(this).prop('checked', false);
-                            });
-
-                            $('#repay1').prop('checked', false);
-                            $('#repay2').prop('checked', false);
-                            $('#repay3').prop('checked', false);
-
-                            $('#option1').prop('checked', false);
-                            $('#option2').prop('checked', false);
-                        }
-
-                        $('#selectAll').click(function () {
-                            selectAll();
-                        });
-
-                        $('#deselectAll').click(function () {
-                            deselectAll();
-                        });
-
-                        // 필터 조회 버튼 클릭
-                        $('#filter').click(function () {
-                            // 필터 조건 가져오기
-                            const rate = $('#rate').text();
-                            const limit = $('#limit').text();
-                            const bank = [];
-                            const repay1 = $('#repay1').is(':checked');
-                            const repay2 = $('#repay2').is(':checked');
-                            const repay3 = $('#repay3').is(':checked');
-                            const option1 = $('#option1').is(':checked');
-                            const option2 = $('#option2').is(':checked');
-
-                            // 은행 체크박스 값 가져오기
-                            $('#bank input:checked').each(function () {
-                                bank.push($(this).parent().text().trim());
-                            });
-
-                            // 활성화된 버튼 상태 업데이트
-                            $('#sortRate').addClass('active');
-                            $('#sortLimit').removeClass('active');
-
-                            view = JSON.parse(sessionStorage.getItem('list')) || [];
-
-                            // List에서 필터 조건에 맞는 항목 필터링
-                            view = view.filter(item =>
-                                filters.byRate(item, rate) &&
-                                filters.byLimit(item, limit) &&
-                                filters.byBank(item, bank) &&
-                                filters.byRepay1(item, repay1) &&
-                                filters.byRepay2(item, repay2) &&
-                                filters.byRepay3(item, repay3) &&
-                                filters.byOption1(item, option1) &&
-                                filters.byOption2(item, option2)
-                            );
-
-                            length = view.length;
-
-                            view.sort(function (a, b) {
-                                return a.loan_rate - b.loan_rate;
-                            });
-
-                            saveView();
-
-                            // 필터링된 결과 화면에 출력
-                            draw(view);
-                        });
-
-                        // 필터 초기화 기능
-                        $('#init').click(function () {
-                            // 활성화된 버튼 상태 업데이트
-                            $('#sortRate').addClass('active');
-                            $('#sortLimit').removeClass('active');
-
-                            list = JSON.parse(sessionStorage.getItem('list')) || [];
-                            view = JSON.parse(sessionStorage.getItem('list')) || [];
-
-                            length = view.length;
-
-                            list.sort(function (a, b) {
-                                return a.loan_rate - b.loan_rate;
-                            });
-
-                            // 필터 값 초기화
-                            $('#rate').text('5');
-                            $('#limit').text('5');
-                            $('input[type="range"]').val('5');
-
-                            selectAll();
-
-                            saveList();
-                            saveView();
-
-                            draw(list);
-                        });
-                    });
-
-                    // 스크롤 버튼 기능
-                    function scrollToTop() {
-                        const position =
-                            document.documentElement.scrollTop || document.body.scrollTop;
-
-                        if (position) {
-                            window.requestAnimationFrame(() => {
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                                scrollToTop();
-                            });
-                        }
-                    }
-                </script>
-            </body>
-
-            </html>
+        </html>

@@ -47,14 +47,12 @@
 
     header .logo {
       font-size: clamp(1.5rem, 2.5vw, 3rem);
-      font-weight: bold;
     }
 
     header nav a {
       font-size: clamp(1rem, 1.5vw, 1.5rem);
       margin: 0 10px;
       text-decoration: none;
-      font-weight: bold;
       color: #333;
     }
 
@@ -67,7 +65,7 @@
       text-decoration: none;
     }
     footer {
-            width:100%;
+            width:150%;
             display: flex;
             justify-content: space-around;
             background-color: #222;
