@@ -33,11 +33,11 @@
         </section>
 
         <section class="stats">
-            <p>현재 <span>${regionCount}</span>개의 지역에서 <span>@@@</span>명이 <span>${productCount}</span>개의 집을 보고
-                있습니다.</p>
+            <h3>현재 <span>${regionCount}</span>개의 지역에서 <span>67</span>명이 <span>${productCount}</span>개의 집을 보고
+                있습니다.</h3>
         </section>
 
-        <div id="map1" style="width: 70%; height: 600px"></div>
+        <div id="map1" style="width: 100%; height: 600px;"></div>
 
         <!-- 추천 상품 캐러셀 -->
         <section class="carousel-section">
