@@ -81,6 +81,12 @@ public class NotifyController {
         return notifyService.select(user_id);
     }
 
+    // 알림 상세 조회
+    @PostMapping("/select/{notify_id}")
+    public NotifyDTO selectById(@PathVariable int notify_id) {
+        return notifyService.selectById(notify_id);
+    }
+
     // 읽지 않은 알림 개수 조회
     @GetMapping("/unread/{user_id}")
     public int selectUnread(@PathVariable int user_id) {

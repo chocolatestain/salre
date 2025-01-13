@@ -9,6 +9,12 @@
 		ORDER BY 5 DESC;
 	</select>
 
+	<select id="selectById" parameterType="int" resultType="notifyVO">
+		SELECT *
+		FROM notification
+		WHERE notify_id = #{notify_id};
+	</select>
+
 	<select id="selectUnread" parameterType="int" resultType="notifyVO">
 		SELECT *
 		FROM notification

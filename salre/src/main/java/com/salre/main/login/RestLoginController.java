@@ -29,6 +29,7 @@ public class RestLoginController {
 	        return isAvailable ? "available" : "unavailable";
 	    }
 	
+	 
 
 		/*
 		 * // ���� �����͸� ���ǿ� ����
