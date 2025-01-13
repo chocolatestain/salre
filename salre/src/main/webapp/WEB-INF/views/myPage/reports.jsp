@@ -65,9 +65,9 @@ body {
 </head>
 <body>
 
-<%@ include file="../common/header.jsp" %>
+	<%@ include file="../common/header.jsp"%>
 
-<	<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<!-- Sidebar -->
 			<%@ include file="../common/sidebar.jsp"%>
