@@ -1,7 +1,11 @@
 package com.salre.main.chat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -48,20 +52,40 @@ public class ChatController {
 		
 		// 매물 정보 가져오기
 		List<ProductDTO> productDTOList = chatService.getProductByUserId(user_id);
+		log.info("productDTOList : " + productDTOList);
 		
-		List<ChatRoomDTO> chatRoomDTOList = null;
+		List<ChatRoomDTO> chatRoomDTOList = new ArrayList<>();
 		if (!productDTOList.isEmpty()) {
-			Integer product_id = productDTOList.get(0).getProduct_id(); // 매물 번호
-			
-			ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
-														   .product_id(product_id).build();
-			
-			// 채팅방 정보 조회(user_id, product_id)
-			chatRoomDTOList = chatService.selectByUserIdService(chatRoomDTO);
+			for (ProductDTO productDTO : productDTOList) {
+				Integer product_id = productDTO.getProduct_id(); // 매물 번호
+				
+				ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
+															   .product_id(product_id).build();
+				
+				// 채팅방 정보 조회(user_id, product_id)
+				List<ChatRoomDTO> result = chatService.selectByUserIdService(chatRoomDTO);
+				
+				if (result != null) {
+					chatRoomDTOList.addAll(result);
+					
+					chatRoomDTOList = chatRoomDTOList.stream()
+						    .collect(Collectors.toMap(
+						        chatRoom -> chatRoom.getRoom_name(), // 중복을 판단할 키
+						        chatRoom -> chatRoom,                // 값
+						        (existing, replacement) -> existing  // 중복 발생 시 기존 값을 유지
+						    ))
+						    .values() // Map의 값만 가져오기
+						    .stream()
+						    .collect(Collectors.toList());
+				}
+			}
 		} else {
 			// 채팅방 정보 조회(user_id)
 			chatRoomDTOList = chatService.getChatRoomInfoService(user_id);
 		}
+		log.info("chatRoomDTOList : " + chatRoomDTOList);
+		Set<ChatRoomDTO> chatRoomDTOSet = new HashSet<>(chatRoomDTOList);
+		log.info("chatRoomDTOSet : " + chatRoomDTOSet);
 		
 		model.addAttribute("chatRoomDTOList", chatRoomDTOList);
 		model.addAttribute("loggedInUser", userDTO);
@@ -89,7 +113,7 @@ public class ChatController {
 		UserDTO userDTO2 = userService.getUserById(productUserId);
 		String product_user_name = userDTO2.getUser_name(); // 매물 등록한 사람의 이름
 		
-		String room_name = product_name + "(" + user_name + ", " + product_user_name + ")";
+		String room_name = product_name + "(임차인: " + user_name + ", 임대인: " + product_user_name + ")";
 		
 		ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
 													   .room_name(room_name)

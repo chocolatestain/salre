@@ -145,7 +145,9 @@ public class BoardController {
 	public String boardUpdate(@RequestBody BoardDTO boardDTO) {
 		int result = boardService.updateService(boardDTO);
 		
-		return result > 0 ? "공지사항이 수정되었습니다." : "공지사항 수정을 실패했습니다.";
+		String type = boardDTO.getBoard_class();
+		
+		return result > 0 ? type + "이 수정되었습니다." : type + " 수정을 실패했습니다.";
 	}
 	
 }
