@@ -1,5 +1,8 @@
 package com.salre.main.board;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -122,10 +125,15 @@ public class BoardController {
 	
 	// 게시글 삭제
 	@GetMapping(value = "/delete")
-	public String boardDelete(Integer board_id) {
+	public String boardDelete(Integer board_id) throws UnsupportedEncodingException {
+		// 게시글 삭제 후 공지사항 or 자유게시판 페이지로 돌아가기 위해 type = board_class 설정
+		BoardDTO boardDTO = boardService.selectByBoardIdService(board_id);
+		String type = boardDTO.getBoard_class();
+		String encodedType = URLEncoder.encode(type, StandardCharsets.UTF_8.toString());
+		
 		boardService.deleteService(board_id);
 		
-		return "redirect:list";
+		return "redirect:list?type=" + encodedType;
 	}
 	
 	// 게시글 수정 화면
