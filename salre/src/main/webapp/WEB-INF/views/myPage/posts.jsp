@@ -60,6 +60,18 @@ body {
     background-color: #0056b3;
     border-color: #0056b3;
 }
+
+.table .custom-view-btn {
+    background-color: #ff5722; /* 새로운 배경색 (주황색 예시) */
+    border-color: #ff5722;     /* 테두리 색상 */
+    color: white;              /* 텍스트 색상 */
+}
+
+.table .custom-view-btn:hover {
+    background-color: #e64a19; /* 호버 시 색상 */
+    border-color: #e64a19;
+}
+
 </style>
 </head>
 <body>
@@ -99,7 +111,8 @@ body {
                                 <td>${post.click_cnt}</td>
                                 <td>
                                     <%-- <a href="${contextPath}/post/detail?id=${post.user_id}" class="btn btn-primary btn-sm">View</a> --%>
-                                    <a href="${contextPath}/board/detail?board_id=${post.board_id}" class="btn btn-primary btn-sm">View</a>
+                                    <%-- <a href="${contextPath}/board/detail?board_id=${post.board_id}" class="btn btn-primary btn-sm">View</a> --%>
+                                    <a href="${contextPath}/board/detail?board_id=${post.board_id}" class="btn custom-view-btn btn-sm">View</a>
                                 </td>
                            <!--  </tr> -->
                         </c:forEach>

@@ -222,5 +222,19 @@ public class UserService {
 	public UserDTO getUserById(int user_id) {
 		return userDAO.selectById(user_id);
 	}
+	
+
+	//admin-매물신고내역조회
+	public List<ReportDTO> getAdminPropertiesReportsByReportClass(int report_class) {
+		return userDAO.selectAdminPropertiesReportsByReportClass(report_class);
+	}
+	//admin-신고처리무효화
+	public void updateReportStatus(int report_id, String status) {
+		userDAO.updateReportStatus(report_id, status);
+	}
+	//admin-매물삭제  
+	public void deletePropertyById(int product_id) {
+		userDAO.deletePropertyById(product_id);
+	}
 
 }
