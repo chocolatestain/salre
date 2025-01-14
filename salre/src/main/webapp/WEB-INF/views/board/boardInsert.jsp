@@ -33,6 +33,9 @@
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/css/style.css">
+	
+	<!-- 외부 CSS -->
+	<link rel="stylesheet" href="${contextPath}/resources/css/boardList.css">
 </head>
 <body>
 	<!-- =======================

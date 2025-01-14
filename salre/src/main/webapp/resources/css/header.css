@@ -78,18 +78,19 @@ header .menu nav a {
 header .menu nav a::after {
   content: '';
   position: absolute;
-  left: 50%; /* 중앙 정렬 */
+  right: 0; /* 오른쪽에서 시작 */
   bottom: 0;
   width: 0; /* 초기 너비 0 */
-  height: 2px;
+  height: 2.5px;
   background-color: #f4a261; /* 강조 색상 */
   border-radius: 2px;
-  transform: translateX(-50%); /* 중앙 정렬 보정 */
-  transition: width 0.3s ease-in-out; /* 너비 변경에 애니메이션 적용 */
+  transition: width 0.3s ease-in-out; /* 너비에만 애니메이션 적용 */
 }
 
 header .menu nav a:hover::after {
-  width: 100%; /* hover 시 밑줄이 100%로 확장됨 */
+  width: 100%; /* 호버 시 전체 너비로 확장 */
+  left: 0; /* 왼쪽으로 확장 */
+  right: auto;
 }
 
 header .menu nav a:hover {
