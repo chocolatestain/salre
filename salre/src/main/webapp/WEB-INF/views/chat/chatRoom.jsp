@@ -12,7 +12,7 @@
 	<div id="scrollDiv" class="d-flex flex-column h-100 position-relative">
 	    <!-- Chat: Header -->
 	    <div class="chat-header d-flex justify-content-center align-items-center border-bottom py-4 py-lg-7">
-	        <div class="avatar">
+	        <div class="avatar me-5">
 	        	<img src="${contextPath}/resources/images/products/${chatRoomDTO.product_id}.jpeg" alt="매물 사진" class="avatar-img">
 	        </div>
 	        <div class="row align-items-center">
@@ -23,7 +23,7 @@
 	                    <div class="col-12">
 	                        <div class="row align-items-center gx-5">
 	                            <div class="col overflow-hidden">
-	                                <h5 class="text-truncate text-center fw-bold">${chatRoomDTO.room_name}</h5>
+	                                <h5 class="text-truncate">${chatRoomDTO.room_name}</h5>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -70,7 +70,7 @@
 	
 	                <div class="col">
 	                    <div class="input-group">
-	                        <textarea id="chatInput" class="form-control px-0" placeholder="Type your message..." rows="1" data-emoji-input="" data-autosize="true"></textarea>
+	                        <textarea id="chatInput" class="form-control px-0" placeholder="채팅을 입력해주세요." rows="1" data-emoji-input="" data-autosize="true"></textarea>
 	
 	                        <a href="#" class="input-group-text text-body pe-0" data-emoji-btn="">
 	                            <span class="icon icon-lg">
@@ -81,7 +81,7 @@
 	                </div>
 	
 	                <div class="col-auto">
-	                    <button onclick="sendMessage(${chatRoomDTO.chatRoom_id})" type="button" class="btn btn-icon btn-primary rounded-circle ms-5">
+	                    <button onclick="sendMessage(${chatRoomDTO.chatRoom_id})" type="button" class="btn btn-icon btn-primary rounded-circle ms-5" style="background-color: #CF8E4A;">
 	                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
 	                    </button>
 	                </div>
