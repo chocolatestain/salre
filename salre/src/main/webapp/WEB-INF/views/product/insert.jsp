@@ -28,7 +28,7 @@
     <!-- 매물 정보 -->
   	<section class="form-section">
         <h2>매물 정보</h2>
-        <form action="/salre/product/insert" method="post" enctype="multipart/form-data" onsubmit="return handleSubmit();">
+        <form action="/salre/product/insert.do" method="post" enctype="multipart/form-data" onsubmit="return handleSubmit();">
             <div class="form-group">
                 <label for="product_type" >매물 유형 *</label>
                 <select id="product_type" name="product_type" required>
@@ -103,33 +103,46 @@
 </div>
 
 
-            <div class="form-group">
-            	<label for ="address">상세 주소 </label>
-            	<input type = "text" id = "address_detail" name = "address_detail" placeholder = "상세 주소(없는 경우 비움)">
-            	</div>
-            <div class="form-group">
-                <label for="area">매물 크기 *</label>
-                <input type="number" id="area" name="area" placeholder="크기 입력 (㎡)" required>
-            </div>
-            <div class="form-group">
-                <label for="room_count">방 개수 *</label>
-                <input type="number" id="room_count" name="room_count" placeholder="방 개수" required>
-            </div>
-            <div class="form-group">
-                <label for="room_count">화장실 수*</label>
-                <input type="number" id="bath_count" name="bath_count" placeholder="화장실 개수" required>
-            </div>
-            <div class="form-group">
-                <label for="room_count">층 *</label>
-                <input type="number" id="floor" name="floor" placeholder="층" required>
-            </div>
-            <div class="form-group">
-                <label for="direction">방향 *</label>
-                <input type="radio" id="direction" name="direction" value="동" required> 동
-                <input type="radio" id="direction" name="direction" value="서" required> 서
-                <input type="radio" id="direction" name="direction" value="남" required> 남
-                <input type="radio" id="direction" name="direction" value="북" required> 북
-            </div>
+    <form action="/salre/product/insert" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+    <!-- 상세 주소 -->
+    <div class="form-group">
+        <label for="address_detail">상세 주소</label>
+        <input type="text" id="address_detail" name="address_detail" placeholder="상세 주소(없는 경우 비움)">
+    </div>
+
+    <!-- 매물 크기 -->
+    <div class="form-group">
+        <label for="area">매물 크기 *</label>
+        <input type="number" id="area" name="area" placeholder="크기 입력 (㎡)" required>
+    </div>
+
+    <!-- 방 개수 -->
+    <div class="form-group">
+        <label for="room_count">방 개수 *</label>
+        <input type="number" id="room_count" name="room_count" placeholder="방 개수" required>
+    </div>
+
+    <!-- 화장실 수 -->
+    <div class="form-group">
+        <label for="bath_count">화장실 수 *</label>
+        <input type="number" id="bath_count" name="bath_count" placeholder="화장실 개수" required>
+    </div>
+
+    <!-- 층 -->
+    <div class="form-group">
+        <label for="floor">층 *</label>
+        <input type="number" id="floor" name="floor" placeholder="층" required>
+    </div>
+
+    <!-- 방향 -->
+    <div class="form-group">
+        <label for="direction">방향 *</label>
+        <input type="radio" id="direction" name="direction" value="동" required> 동
+        <input type="radio" id="direction" name="direction" value="서" required> 서
+        <input type="radio" id="direction" name="direction" value="남" required> 남
+        <input type="radio" id="direction" name="direction" value="북" required> 북
+    </div>
+
 			
             <!-- 거래 정보 -->
           <h2>거래 정보</h2>
@@ -138,14 +151,17 @@
     <input type="radio" id="rent" name="payment_type" value="월세" required onclick="toggleRentField()"> 월세
     <input type="radio" id="sell" name="payment_type" value="전세" required onclick="toggleRentField()"> 전세
 </div>
-<div class="form-group">
-    <label for="deposit">보증금 *</label>
-    <input type="text" id="deposit" name="deposit" required placeholder="원">
-</div>
-<div class="form-group" id="rentField">
-    <label for="rent">월세</label>
-    <input type="number" id="rentfee" name="rentfee" placeholder="원">
-</div>
+ <!-- 보증금 -->
+    <div class="form-group">
+        <label for="deposit">보증금 *</label>
+        <input type="text" id="deposit" name="deposit" required placeholder="원">
+    </div>
+
+    <!-- 월세 -->
+    <div class="form-group" id="rentField">
+        <label for="rent">월세</label>
+        <input type="number" id="rentfee" name="rentfee" placeholder="원">
+    </div>
 
 <script>
     // 페이지 로드 시 초기 상태 설정
@@ -186,59 +202,68 @@
         toggleRentField();
     };
 </script>
-            <div class="form-group">
-                <label for="manage_fee">관리비 *</label>
-                <input type="text" id="manage_fee" name="manage_fee" placeholder="월 5만원">
-            </div>
-            <div class="form-group">
-                <label for="enter_day">입주 가능일 *</label>
-                <input type="date" id="enter_day" name="enter_day" required>
-            </div>
+         <!-- 관리비 -->
+    <div class="form-group">
+        <label for="manage_fee">관리비 *</label>
+        <input type="text" id="manage_fee" name="manage_fee" placeholder="월 5만원">
+    </div>
 
-            <!-- 사진 등록 -->
-            <h2>사진 등록</h2>
-            <div class="form-group">
-                <label for="photo">기본 사진 *</label>
-                <input type="file" id="photo" name="photo" accept="image/*" required>
-            </div>
+    <!-- 입주 가능일 -->
+    <div class="form-group">
+        <label for="enter_day">입주 가능일 *</label>
+        <input type="date" id="enter_day" name="enter_day" required>
+    </div>
 
-            <!-- 기본 정보 -->
-            <h2>기본 정보</h2>
-            <div class="form-group">
-                <label for="product_name">제목 *</label>
-                <input type="text" id="product_name" name="product_name" placeholder="예: 역세권 원룸 매물" required>
-            </div>
-            <div class="form-group">
-                <label for="description">상세 설명 *</label>
-                <textarea id="description" name="description" rows="5" placeholder="매물에 대한 상세 정보를 입력해주세요." required></textarea>
-            </div>
-			
-			<h2>건설 정보</h2>
-			<div class = "form-group">
-				<label for = "land_type">토지 - 지목 *</label>
-					<input id = "land_type" name = "land_type" placeholder = "'전', '답', '대', '임야', '도로', '공장용지', '잡종지', '기타'" required></input>
-			</div>
-			
-				<div class = "form-group">
-					<label for = "land_area">토지 - 면적 *</label>
-					<input id = "land_area" name = "land_area" placeholder = "184.1분의 12.483㎡" required></input>
-				</div>
-				<div class = "form-group">
-					<label for = "building_structure">건물 - 구조 *</label>
-					<input id = "building_structure" name = "building_structure" placeholder = "RC', 'SRC', 'S', '조적조', '목조', '경량철골조', '기타'" required></input>
-				</div>
-				<div class = "form-group">
-					<label for = "building_usage">건물 - 용도 * </label>
-					<input id = "building_usage" name = "building_usage" placeholder = "'주거용', '상업용', '공업용', '기타'" required></input>
-				</div>
-				<div class = "form-group">
-					<label for = "rental_area">임대할 부분</label>
-					<input id = "rental_area" name = "rental_area" placeholder = "'전체', '1층', '2층 일부', '사무실 한 칸'"></input>
-				</div>
-				<div class="form-group">
-                <label for="approve_day">사용 승인일 *</label>
-                <input type="date" id="approve_day" name="approve_day" required>
-            </div>
+          
+    <!-- 사진 등록 -->
+    <h2>사진 등록</h2>
+    <div class="form-group">
+        <label for="photo">기본 사진 *</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required onchange="return validateImageFile(this);">
+    </div>
+             <!-- 기본 정보 -->
+    <h2>기본 정보</h2>
+    <div class="form-group">
+        <label for="product_name">제목 *</label>
+        <input type="text" id="product_name" name="product_name" placeholder="예: 역세권 원룸 매물" required>
+    </div>
+    <div class="form-group">
+        <label for="description">상세 설명 *</label>
+        <textarea id="description" name="description" rows="5" placeholder="매물에 대한 상세 정보를 입력해주세요." required></textarea>
+    </div>
+
+    <h2>건설 정보</h2>
+    <div class="form-group">
+        <label for="land_type">토지 - 지목 *</label>
+        <input id="land_type" name="land_type" placeholder="'전', '답', '대', '임야', '도로', '공장용지', '잡종지', '기타'" required>
+    </div>
+
+    <div class="form-group">
+        <label for="land_area">토지 - 면적 *</label>
+        <input id="land_area" name="land_area" placeholder="184.1분의 12.483㎡" required>
+    </div>
+
+    <div class="form-group">
+        <label for="building_structure">건물 - 구조 *</label>
+        <input id="building_structure" name="building_structure" placeholder="RC', 'SRC', 'S', '조적조', '목조', '경량철골조', '기타'" required>
+    </div>
+
+    <div class="form-group">
+        <label for="building_usage">건물 - 용도 *</label>
+        <input id="building_usage" name="building_usage" placeholder="'주거용', '상업용', '공업용', '기타'" required>
+    </div>
+
+    <div class="form-group">
+        <label for="rental_area">임대할 부분</label>
+        <input id="rental_area" name="rental_area" placeholder="'전체', '1층', '2층 일부', '사무실 한 칸'">
+    </div>
+
+    <!-- 사용 승인일 -->
+    <div class="form-group">
+        <label for="approve_day">사용 승인일 *</label>
+        <input type="date" id="approve_day" name="approve_day" required>
+    </div>
+
 	 			<script>console.log("유저 id : " ${sessionScope.loggedInUser.user_id})
 	 			console.log("유저 id : " ${sessionScope.loggedInUser.user_id})</script>
 			 
@@ -252,6 +277,91 @@
     <input type="hidden" id="user_id" name="user_id" value="${sessionScope.loggedInUser.user_id}" required>
                     
         </form>
+        
+        <script>
+    // 이미지 파일 검증 (크기 및 형식)
+    function validateImageFile(input) {
+        const file = input.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!file) {
+            alert("파일을 선택해주세요.");
+            return false;
+        }
+
+        // 파일 크기 체크
+        if (file.size > maxSize) {
+            alert("파일 크기는 5MB를 초과할 수 없습니다.");
+            input.value = ''; // 파일 초기화
+            return false;
+        }
+
+        // 파일 형식 체크
+        if (!allowedTypes.includes(file.type)) {
+            alert("허용되지 않는 파일 형식입니다. (허용: JPG, PNG, GIF)");
+            input.value = ''; // 파일 초기화
+            return false;
+        }
+
+        return true;
+    }
+
+    // 숫자 입력 검증
+    function validateNumbers() {
+        const area = document.getElementById("area").value;
+        const roomCount = document.getElementById("room_count").value;
+        const bathCount = document.getElementById("bath_count").value;
+        const floor = document.getElementById("floor").value;
+        const deposit = document.getElementById("deposit").value;
+        const rentfee = document.getElementById("rentfee").value;
+        const manageFee = document.getElementById("manage_fee").value;
+        const landArea = document.getElementById("land_area").value;
+
+        // 음수 체크
+        if (area <= 0 || roomCount <= 0 || bathCount <= 0 || floor <= 0 || deposit <= 0 || rentfee < 0 || manageFee < 0 || landArea <= 0) {
+            alert("숫자는 0보다 커야 합니다.");
+            return false;
+        }
+
+        return true;
+    }
+
+    // 날짜 입력값 검증
+    function validateDates() {
+        const enterDay = document.getElementById("enter_day").value;
+        const approveDay = document.getElementById("approve_day").value;
+
+        const today = new Date();
+        const enterDate = new Date(enterDay);
+        const approveDate = new Date(approveDay);
+
+        // 입주 가능일과 사용 승인일이 오늘 이후여야 한다
+        if (enterDate < today) {
+            alert("입주 가능일은 오늘 이후여야 합니다.");
+            return false;
+        }
+
+        if (approveDate < today) {
+            alert("사용 승인일은 오늘 이후여야 합니다.");
+            return false;
+        }
+        return true;
+    }
+
+    // 전체 유효성 검사
+    function validateForm() {
+        if (!validateNumbers()) {
+            return false;
+        }
+
+        if (!validateDates()) {
+            return false;
+        }
+
+        return true;
+    }
+</script>
     </section> 
     <%@ include file="../common/footer.jsp" %>
 </body>

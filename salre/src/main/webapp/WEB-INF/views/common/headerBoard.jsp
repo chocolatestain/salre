@@ -8,6 +8,16 @@
 <head>
 	<title>살래?</title>
 	
+	<!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
+
 	<!-- 외부 CSS -->
     <%-- <link rel="stylesheet" href="${contextPath}/resources/css/home.css"> --%>
     <link rel="stylesheet" href="${contextPath}/resources/css/header.css">
@@ -78,10 +88,10 @@
                 <a href="${contextPath}/product/insert">방내놓기</a>
                 <c:choose>
                     <c:when test="${not empty sessionScope.loggedInUser}">
-                            <a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a>
+                            <a href="${contextPath}/chat/main.do" target="_blank">채팅</a>
                     </c:when>
                     <c:otherwise>
-                            <a class="nav-link" href="${contextPath}/chat/main.do">채팅</a>
+                            <a href="${contextPath}/chat/main.do">채팅</a>
                     </c:otherwise>
                 </c:choose>
                 <a href="${contextPath}/board/list">게시판</a>

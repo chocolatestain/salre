@@ -36,12 +36,12 @@ public class ProductController {
     
     private UserService userservice;
     
-    @GetMapping("/insert")
+    @GetMapping("/insert.do")
     public String showCreateForm() {
         return "product/insert";
     }
 
-    @PostMapping("/insert") // product/insert에서 작성한 내용 post  
+    @PostMapping("/insert.do") // product/insert에서 작성한 내용 post  
     public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
  
  

@@ -44,7 +44,7 @@
                     <div class="menu">
                         <nav>
                             <a href="${contextPath}/product?search=">매물</a>
-                            <a href="${contextPath}/product/insert">방내놓기</a>
+                            <a href="${contextPath}/product/insert.do">방내놓기</a>
                             <c:choose>
                                 <c:when test="${not empty sessionScope.loggedInUser}">
                                         <a href="${contextPath}/chat/main.do" target="_blank">채팅</a>

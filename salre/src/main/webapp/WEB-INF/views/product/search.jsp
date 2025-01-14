@@ -115,7 +115,7 @@
         .search button {
             padding: 10px 20px;
             background-color: #f4a261;
-            color: #fff;
+            color: #fff;	
             border: none;
             cursor: pointer;
         }
