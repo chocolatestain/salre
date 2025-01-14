@@ -14,6 +14,7 @@ public class ReportDTO {
 	private int report_class;// �Ű�з� 1.�Խñ۽Ű� 2.�����Ź��Ű� 3.����ڽŰ�
 	private String report_content;//�Ű���
 	private Timestamp report_time;
+	private String status;
 	
 	
 }

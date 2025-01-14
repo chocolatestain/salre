@@ -3,6 +3,7 @@ package com.salre.main.product;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
+import com.salre.main.myPage.ReviewDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +37,8 @@ public class ProductController {
     @Autowired
     
     private UserService userservice;
+    
+ 
     
     @GetMapping("/insert.do")
     public String showCreateForm() {
@@ -135,39 +139,63 @@ public class ProductController {
  
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
-    	ProductDTO product = productService.selectByIdService(product_id);
-    	System.out.println(product);
-    	System.out.println(product.getUser_id());
-    	UserDTO user = userservice.getUserById(product.getUser_id());
-    	System.out.println( userservice.getUserById(product.getUser_id()));
-    	String status = "status-before";
-    	String label = "거래 전";
-    	switch (product.getProduct_status()) {
-    	    case 0:
-    	    	status = "status-before";
-    	    	label = "거래 전";
-    	        break;
-    	    case 1:
-    	    	status = "status-in-progress";
-    	    	label = "거래 중";
-    	        break;
-    	    case 2:
-    	    	status = "status-completed";
-    	    	label = "거래 완료";
-    	    	break; 
-    	    case 3:
-    	    	status ="status-unknown";
-    	    	label = "오류";
-    	} 
-    	model.addAttribute("status", status);
-    	model.addAttribute("product", product);
-    	model.addAttribute("label", label);
-    	model.addAttribute("user_nickname", user.getId());
-    	System.out.println(user.getUser_id());
-    	System.out.println(user.getId());
-    	productService.incrementViewCount(product_id);
-    	return "product/detail";
-    }  
+        // 상품 정보를 가져옴
+        ProductDTO product = productService.selectByIdService(product_id);
+        System.out.println(product);
+        System.out.println(product.getUser_id());
+
+        // 상품을 등록한 사용자 정보 가져오기
+        UserDTO user = userservice.getUserById(product.getUser_id());
+        System.out.println("user : " + user);
+        System.out.println("user_id : " + user.getUser_id());
+        System.out.println("id : " + user.getId());
+        System.out.println(userservice.getUserById(product.getUser_id()));
+
+        // 사용자에 대한 리뷰 목록 가져오기
+        List<ReviewDTO> review = userservice.getMyreviewsByUserId(product.getUser_id());
+        user.getId();
+        
+        // 첫 두 개의 리뷰만 가져오기
+        List<ReviewDTO> topReviews = review.stream().limit(2).collect(Collectors.toList());
+        
+        // 상품 상태에 따른 처리
+        String status = "status-before";
+        String label = "거래 전";
+        switch (product.getProduct_status()) {
+            case 0:
+                status = "status-before";
+                label = "거래 전";
+                break;
+            case 1:
+                status = "status-in-progress";
+                label = "거래 중";
+                break;
+            case 2:
+                status = "status-completed";
+                label = "거래 완료";
+                break;
+            case 3:
+                status = "status-unknown";
+                label = "오류";
+                break;
+        }
+
+        // 모델에 필요한 값 추가
+        model.addAttribute("status", status);
+        model.addAttribute("product", product);
+        model.addAttribute("label", label);
+        model.addAttribute("user_nickname", user.getId());
+        model.addAttribute("review", topReviews);  // 첫 2개의 리뷰만 추가
+        model.addAttribute("user_id", user.getUser_id());
+        System.out.println(user.getUser_id());
+        System.out.println(user.getId());
+
+        // 상품 조회수 증가
+        productService.incrementViewCount(product_id);
+
+        return "product/detail";  // 해당 JSP 페이지로 반환
+    }
+
     @GetMapping("")
     public String searchProducts(@RequestParam("search") String searchQuery, Model model) {
         // 검색어가 비어있을 때 예외 처리

@@ -44,4 +44,10 @@ public class ProductDTO {
 	String building_structure;
 	String building_usage;
 	String rental_area;
+	int loan1;
+	int loan2;
+	int loan3;
+	int plan1;
+	int plan2;
+	int plan3;
 }

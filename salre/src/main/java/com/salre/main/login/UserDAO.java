@@ -174,6 +174,27 @@ public class UserDAO implements UserDAOInterface {
 	public void updateUserInfo(UserDTO user) {
 		// sqlSession.updateUserInfo(namespace+"updateUserInfo",user);
 		sqlSession.update(namespace + "updateUserInfo", user);
-	};
+	}
+	
+	//admin-게시물신고내역조회
+		public List<ReportDTO> selectAdminReportsByReportClass(int report_class) {
+			return sqlSession.selectList(namespace + "selectAdminReportsByReportClass", report_class);
+		}
+	//admin-매물신고내역조회
+		public List<ReportDTO> selectAdminPropertiesReportsByReportClass(int report_class) {
+			return sqlSession.selectList(namespace + "selectAdminReportsByReportClass", report_class);
+		}
+	//admin-신고처리무효화
+		public void updateReportStatus(int report_id, String status) {
+			System.out.println(status);
+			sqlSession.update(namespace + "updateReportStatus", Map.of("report_id", report_id, "status", status));
+		}
+		
+	//admin-매물삭제  
+		public void deletePropertyById(int product_id) {
+			sqlSession.delete(namespace + "deletePropertyById", product_id);
+		}		
+	
+		
 
 }

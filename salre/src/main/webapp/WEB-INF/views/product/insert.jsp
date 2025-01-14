@@ -232,7 +232,47 @@
                 <label for="approve_day">사용 승인일 *</label>
                 <input type="date" id="approve_day" name="approve_day" required>
             </div>
+			<!-- 대출 가능 여부 -->
+<h2>대출 가능 여부</h2>
+<div class="form-group">
+    <label for="loan">대출 1 *</label>
+    <input type="radio" id="loan_yes" name="loan" value="가능" required> 가능
+    <input type="radio" id="loan_no" name="loan" value="불가능" required> 불가능
+</div>
 
+<div class="form-group">
+    <label for="loan2">대출 2 *</label>
+    <input type="radio" id="loan2_yes" name="loan2" value="가능" required> 가능
+    <input type="radio" id="loan2_no" name="loan2" value="불가능" required> 불가능
+</div>
+
+<div class="form-group">
+    <label for="loan3">대출 3 *</label>
+    <input type="radio" id="loan3_yes" name="loan3" value="가능" required> 가능
+    <input type="radio" id="loan3_no" name="loan3" value="불가능" required> 불가능
+</div>
+
+<!-- 계획 가능 여부 -->
+<h2>정책 적용 여부</h2>
+<div class="form-group">
+    <label for="plan1">계획 1 *</label>
+    <input type="radio" id="plan1_yes" name="plan1" value="가능" required> 가능
+    <input type="radio" id="plan1_no" name="plan1" value="불가능" required> 불가능
+</div>
+
+<div class="form-group">
+    <label for="plan2">계획 2 *</label>
+    <input type="radio" id="plan2_yes" name="plan2" value="가능" required> 가능
+    <input type="radio" id="plan2_no" name="plan2" value="불가능" required> 불가능
+</div>
+
+<div class="form-group">
+    <label for="plan3">계획 3 *</label>
+    <input type="radio" id="plan3_yes" name="plan3" value="가능" required> 가능
+    <input type="radio" id="plan3_no" name="plan3" value="불가능" required> 불가능
+</div>
+			
+			
             <input type="hidden" id="sigungu" name="sigungu">
             <input type="hidden" id="product_status" name="product_status" value="0">
             <input type="hidden" id="user_id" name="user_id" value="${sessionScope.loggedInUser.user_id}" required>

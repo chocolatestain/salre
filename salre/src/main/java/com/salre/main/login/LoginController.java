@@ -182,10 +182,10 @@ public class LoginController {
 				session.setAttribute("board2PostCount", 120); // 寃뚯?���뙋 2 寃뚯?��湲� �닔
 				session.setAttribute("board3PostCount", 130); // 寃뚯?���뙋 3 寃뚯?��湲� �닔
 				session.setAttribute("contractCount", 50); // �쟾泥� ?�꾩�? 嫄댁?��
-				return "redirect:admin/myPage";
+				return "redirect:admin/productreport";
 			}
 			model.addAttribute("user", user);
-			return "redirect:transactions"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
+			return "redirect:/"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
 
 			// return "redirect:/home"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?��?��?��?�� ?��?��?��?��
 		}
@@ -273,40 +273,36 @@ public class LoginController {
 	        return response;
 	    }
 
-	    @GetMapping("/admin/boardreport")
-		public String boardReport() {
-
-			return "admin/boardreport";
-		}
+		/*
+		 * @GetMapping("/admin/boardreport"){ return "admin/boardreport"; }
+		 */
 
 		@GetMapping("/admin/productreport")
-		public String productReport() {
-
+		public String productReport(Model model) {
+			int report_class=1;  
+	        List<ReportDTO> reportedProperties = userService.getAdminPropertiesReportsByReportClass(report_class);
+	        System.out.println("reportedProperties: " + reportedProperties);
+	        model.addAttribute("reportedProperties", reportedProperties);
 			return "admin/productreport";
 		}
 
 		
-		@GetMapping("/admin/handleBoardReport") 
-		public String getMyreports(HttpSession session, Model model) {
-			  // �뜝�룞�삕�뜝�떎�슱�삕�뜝�룞�삕 UserDTO �뜝�룞�삕泥� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕
-		    Object userObj = session.getAttribute("loggedInUser");
+		@PostMapping("/admin/handlePropertyReport") 
+		public String handlePropertyReport(  int report_id , String action ,  RedirectAttributes redirectAttributes) {
+			System.out.println("report_id : " + report_id + ":"+ action);
+	 
 
-		    if (userObj instanceof UserDTO) {
-		        UserDTO user = (UserDTO) userObj;
-		        int user_id = user.getUser_id(); // user_id �뜝�룞�삕�뜝�룞�삕
-		        System.out.println("Extracted user_id: " + user_id);
-
-		        // Service �샇�뜝�룞�삕�뜝�떦�슱�삕 �뜝�뙃�떆源띿삕 �뜝�룞�삕�뜝? �뜝�룞�삕�쉶
-		        List<ReportDTO> boardreportList = userService.getBoardReportsByUserId(user_id);
-		        System.out.println("boardreportList: " + boardreportList);
-		        model.addAttribute("boardreportList", boardreportList);
-		        return "myPage/reports"; // reports.jsp �뜝�룞�삕�솚
+		    if ("resolve".equals(action)) {
+		        userService.updateReportStatus(report_id, "resolved"); // 신고 무효화 상태 업데이트
+		        redirectAttributes.addFlashAttribute("message", "신고가 반려되었습니다.");
+		    } else if ("delete".equals(action)  ) {
+		    	//userService.deletePropertyById(product_id); // 매물 삭제
+		    	userService.updateReportStatus(report_id, "deleted"); // 매물 삭제 상태 업데이트
+		        redirectAttributes.addFlashAttribute("message", "매물이 삭제되었습니다.");
 		    } else {
-		        // �뜝�룞�삕�뜝�떎�슱�삕 UserDTO�뜝�룞�삕 �뜝�룞�삕�뜝�떊�냲�삕 �뜝�떥源띿삕�뜝�떥�벝�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝?
-		        System.out.println("Session does not contain a valid UserDTO.");
-		        return "redirect:/login"; // �뜝�떥源띿삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떛琉꾩삕�듃
+		        redirectAttributes.addFlashAttribute("error", "잘못된 요청입니다.");
 		    }
-
+		    return "redirect:/admin/productreport";
 		}
 
 		@GetMapping("/admin/userreport")

@@ -273,6 +273,34 @@
 		  WHERE id = #{id}   
  
 	</update>
+	
+	  <!-- admin-게시물신고내역조회 -->
+    <select id="selectAdminReportsByReportClass" parameterType="int" resultType="ReportDTO">
+      SELECT * 
+      FROM report 
+      WHERE report_class = #{report_class}    	
+    </select>
+    
+	  <!-- admin-매물신고내역조회 -->
+    <select id="selectAdminPropertiesReportsByReportClass" parameterType="int" resultType="ReportDTO">
+      SELECT * 
+      FROM report 
+      WHERE report_class = #{report_class}    	
+    </select>
+ 
+ 	 <!-- admin-신고처리무효화 -->
+	 <update id="updateReportStatus" parameterType="map">
+	    UPDATE report
+	    SET status = #{status}
+	    WHERE report_id = #{report_id}
+	 </update>
+	 
+	<!--  admin-매물삭제  --> 
+	 <delete id="deletePropertyById" parameterType="int">
+	    DELETE FROM property WHERE property_id = #{propertyId}
+	</delete>
+ 
+ 
  
     
 </mapper>

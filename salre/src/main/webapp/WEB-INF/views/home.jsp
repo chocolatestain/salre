@@ -74,7 +74,7 @@
             if (value >= 100000000) {
                 return (value / 100000000).toFixed(0) + ' 억';
             } else if (value >= 10000000) {
-                return (value / 10000).toFixed(0) + ' 천만';
+                return (value / 10000).toFixed(0) + ' 만';
             } else {
                 return value.toLocaleString() + ' 원'; // 기본적으로 원 단위로 표시
             }
@@ -128,7 +128,7 @@
         let swiperInstance;
         function initializeSwiper() {
             swiperInstance = new Swiper('.swiper-container', {
-                slidesPerView: 3,
+                slidesPerView: 5,
                 spaceBetween: 10,
                 loop: true,
                 autoplay: {

@@ -80,7 +80,14 @@ public interface UserDAOInterface {
 			  
 			// ���������� - ȸ����������
 		    public void updateUserInfo(UserDTO user);
-					 
-
+		    
+			//admin-매물신고내역조회
+			public List<ReportDTO> selectAdminPropertiesReportsByReportClass(int report_class);
+				
+			//admin-신고처리무효화
+			public void updateReportStatus(int report_id, String status);
+			
+			//admin-매물삭제  
+			public void deletePropertyById(int product_id);
 
 }

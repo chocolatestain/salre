@@ -26,7 +26,7 @@
 	<div class="col-md-3 sidebar">
 
 		<div class="container mt-5">
-				<div class="profile-container" onclick="window.location.href='${contextPath}/admin/myPage';">
+				<div class="profile-container" onclick="window.location.href='${contextPath}/admin/productreport';">
 				 
 			    <!-- Profile Image -->
 			    <!-- <img src="https://via.placeholder.com/100" alt="Profile Image"> -->
@@ -39,9 +39,9 @@
 		</div>	
  
 		<ul> 
-			<li><a href="${contextPath}/admin/boardreport">게시물 신고 관리</a></li>
+			<%-- <li><a href="${contextPath}/admin/boardreport">게시물 신고 관리</a></li> --%>
 			<li><a href="${contextPath}/admin/productreport">매물 신고 관리</a></li>
-			<li><a href="${contextPath}/admin/userreport">사용자 신고 관리</a></li>
+			<%-- <li><a href="${contextPath}/admin/userreport">사용자 신고 관리</a></li> --%>
 		</ul>
 	</div>
 </body>

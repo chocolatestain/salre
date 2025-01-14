@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -49,75 +50,52 @@
 		    if (productStatus === "2") {
 		        document.getElementById("chatButton").style.display = "none";
 		    }
-		    
-		    // 채팅하기 버튼 클릭 시 알림 발생
-		    $('#chatButton').click(function() {
-		    	// 알림 보내기
-				const user_id = ${product.user_id};
-				// 알림 내용 입력
-				const notify_content = "매물에 대한 새로운 채팅이 있습니다.<br>채팅을 확인해주세요.";
-				// 알림 클릭 시 이동할 URL
-				const notify_url = "${contextPath}/chat/main.do";
-
-				$.ajax({
-					type : "POST",
-					url : "${contextPath}/notify/send",
-					contentType : "application/json",
-					data : JSON.stringify({
-						user_id : user_id,
-						notify_content : notify_content,
-						notify_url : notify_url
-					}),
-					success : function() {
-						console.log("알림 전송 성공");
-					},
-					error : function() {
-						console.error("알림 전송 오류");
-					}
-				});
-		    });
 		</script>
 
       <div class="division-line">
         <hr />
       </div>
-      <div class="recent-review">최근 리뷰
-          <div class = "review-container">
-            <div class = "review">
-              <div class = "reviewer">
-                <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-                <p class="seller-name">
-                  <span class="review-seller-name">xyl4h4jrhe<br /></span> 
-                  <span class="review-seller-region">종로구</span>                                  
-                </p>
-              </div>
-              <div class = "review-content">
-                <p>집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요</p>
-              </div>
-            </div>
-            <div class = "review">
-              <div class = "reviewer">
-                <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-                <p class="seller-name">
-                  <span class="review-seller-name">xyl4h4jrhe<br /></span>
-                  <span class="review-seller-region">종로구</span>
-                </p>
-              </div>
-              <div class = "review-content">
-                <p>집이 고장났는데 고쳐주질 않아요요집이 고장났는요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐데 고쳐주질 쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주않아요요집이 고장났는데 고쳐주질 않아요요집이 고장났는데 고쳐주질 않아요요집이 고장났는데 고쳐주질 않아요요</p>
-              </div>
-            </div> 
-            </div>
-          </div>
+<div class="recent-review">최근 리뷰
+    <div class="review-container">
+        <c:choose>
+ 
+            <c:when test="${not empty review}">
+                <c:forEach var="review" items="${review}">
+                    <div class="review">
+                        <div class="reviewer">
+                            <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
+                            <p class="seller-name">
+                                <span class="review-seller-name">${review.user_id}<br /></span>
+                            </p>
+                        </div>
+                        <div class="review-content">
+                            <p>${review.review_content}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when> 
+            <c:otherwise>
+                <p class="no-review">현재 등록된 리뷰가 없습니다.</p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
+
         </div>
         <div class="right">
   
           <div class="product-info">
                       <div style="display: flex; justify-content: space-between; align-items: center;">
               <p class="product-descript-name" style="margin-top : 30px;">상세 내용</p>
-           	<div>
+           	<div class = "links-right" >
+   
               <a href="report_page.html" id="report" style="text-decoration: none; color: #f4a261; cursor: pointer;">신고하기</a>
-              <div class = "readCount">조회수 ${product.view_count } 회</div>
+                  	<div class = "links-right2">
+                      	<button class="btn_like" data-product-id="${product.product_id}" data-user-id="${user_id}">Like</button>
+						<div id="like-message"></div>
+             			<div class = "readCount">  조회수  ${product.view_count } 회</div>
+              </div>
               </div>
             </div> 
             	<div id = "status" style="display: flex;  align-items : center;">
@@ -190,10 +168,27 @@
 	        const depositElement = document.getElementById('product_deposit');
 	        const depositValue = parseInt(depositElement.innerText, 10); 
 	        
-	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + '</h2>';
+	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + ' </h2>';
  
     };
 
+    document.querySelector('.btn_like').addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        const userId = this.getAttribute('data-user-id');
+        const url = `/salre/toggleLike/${product_product_id}/${user_id}`;
+
+        fetch(url, {
+            method: 'GET',
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                // 서버로부터 반환된 메시지를 처리
+                document.getElementById('like-message').innerText = data;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
     
     // Kakao 지도 초기화 함수
     function initMap(x, y) {
@@ -261,7 +256,7 @@
 		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-
+	
  	   <script>
 		  document.getElementById("address").addEventListener("click", function() {
 		    var copyText = document.getElementById("address");
@@ -281,8 +276,12 @@
 		        alert("복사 실패: " + err);
 		      });
 		  });
+		  
+		  $('.btn_like').click(function () {
+			   $(this).toggleClass("on")
+			 });
 		</script> 
-    </div>  <!--  script end   -->
+    </div>   
 	         	</div>         
  
 	
@@ -299,7 +298,7 @@
 		        if (remainder > 0) {
 		            let part = remainder.toString(); // 나머지를 문자열로 변환
 		            if (unitIndex > 0) {
-		                part = part.replace(/0+$/, ''); // 뒤에 있는 0 제거
+			                part = part.replace(/0+$/, ''); // 뒤에 있는 0 제거
 		            }
 		            result = part + (units[unitIndex] ? units[unitIndex] : '') + result; // 결과에 추가
 		        }
@@ -316,8 +315,7 @@
 		    }
 			console.log(result);
 		    return result || '0'; // 결과 반환, 0이면 '0' 반환
-		}
-
+		} 
 	</script> 
 		<%@ include file="../common/footer.jsp" %>
 </body> 
