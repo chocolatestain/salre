@@ -83,16 +83,17 @@
     padding: 10px;
     box-sizing: border-box;
 }
-
+/toggleelike
 /* 슬라이드 안의 이미지 */
 .carousel-image {
     width: 100%;
     height: auto;
-    max-width: 200px; /* 이미지의 최대 너비 설정 */
+    max-width: 400px; /* 이미지의 최대 너비 설정 */
+    max-width:300px;
     border-radius: 8px; /* 모서리 둥글게 처리 */
     object-fit: cover; /* 이미지 비율을 맞추어 잘라내기 */
     transition: transform 0.3s ease; /* 이미지 확대 효과 */
- 
+ 	
     border-radius: 8px; /* 이미지 둥글게 처리 */
     
     object-position: center;   /* 이미지가 잘려도 중앙에 위치하도록 설정 */

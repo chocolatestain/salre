@@ -18,7 +18,26 @@
       color: #555;
       margin-top: 20px;
     }
-    /* 헤더 스타일 */
+	 .btn_like {width: 50px; height: 50px;background: url(https://umings.github.io/images/i_like_off.png) no-repeat center / 50px; cursor: pointer; border:0; font-size:0; margin:50px auto; display:block;}
+	.btn_like.on {background: url(https://umings.github.io/images/i_like_on.png) no-repeat center / 50px; animation: beating .5s 1 alternate;}
+	@keyframes beating {
+	    0% {transform: scale(1);}
+	    40% {transform: scale(1.25);}
+	    70% {transform: scale(0.9);}
+	    100% {transform: scale(1);}
+	  }
+.links-right2{
+		 display:flex; 
+	 flex-direction :column; 
+	 align-items: center;
+}
+	 .links-right{
+	 max-width : 300px;
+	 display:flex; 
+	 flex-direction :row; 
+	     align-items: flex-end;
+	 }
+	 
     header {
       position: fixed; /* 항상 맨 위에 고정 */
       top: 0;
