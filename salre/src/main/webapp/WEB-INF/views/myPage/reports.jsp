@@ -23,6 +23,7 @@ body {
 	background-color: #f8f9fa;
 }
 
+
 /* 테이블 컨테이너 */
 .table-container {
 	background-color: #ffffff;
@@ -62,6 +63,7 @@ body {
 	background-color: #0056b3;
 	border-color: #0056b3;
 }
+
 </style>
 </head>
 <body>
@@ -75,7 +77,7 @@ body {
 
 			<!-- Main Content -->
 			<div class="col-md-9">
-				<h1 class="mb-4">나의 신고내역</h1>
+				<h1 class="mb-4" style="margin-top: 30px;">나의 신고내역</h1>
 
 				<!-- 작성한 글 테이블 -->
 				<div class="table-container">
@@ -85,10 +87,44 @@ body {
 								<th>신고분류</th>
 								<th>신고내용</th>
 								<th>신고일자</th>
-								<th>처리결과</th>
+								<!-- <th>처리결과</th> -->
+
 
 							</tr>
 						</thead>
+						<tbody>
+							<!-- 서버에서 데이터를 받아오는 부분 -->
+							<c:forEach var="report" items="${reportList}">
+								<tr>
+
+									<td>
+										<c:choose>
+											<c:when test="${report.report_class == 0}">허위매물</c:when>
+											<c:when test="${report.report_class == 1}">게시판</c:when>
+											<c:when test="${report.report_class == 2}">기타</c:when>
+											<c:otherwise>잘못된 접근입니다.</c:otherwise>
+										</c:choose>
+									</td>
+									<td>${report.report_content}</td>
+									<td>${report.report_time}</td>
+								<%-- 	<td><a
+										href="${contextPath}/report/detail?id=${report.user_id}"
+										class="btn btn-primary btn-sm">View</a></td> --%>
+								</tr>
+							</c:forEach>
+							<!-- 데이터가 없을 경우 -->
+							<c:if test="${empty reportList}">
+								<tr>
+									<td colspan="6">신고한 내역이 없습니다.</td>
+								</tr>
+							</c:if>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+						 </thead>
 						<tbody>
 							<!-- 서버에서 데이터를 받아오는 부분 -->
 							<c:forEach var="report" items="${reportList}">

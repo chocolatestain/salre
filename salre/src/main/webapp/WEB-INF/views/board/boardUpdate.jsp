@@ -5,6 +5,34 @@
 <html>
 <head>
 	<title>게시글 수정</title>
+	
+	<!-- Meta Tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
+	
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/tiny-slider/tiny-slider.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/glightbox/css/glightbox.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/aos/aos.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/choices/css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/quill/css/quill.snow.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/vendor/stepper/css/bs-stepper.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/assets/css/style.css">
 </head>
 <body>
 	<!-- =======================
@@ -15,7 +43,7 @@
 				<!-- Course description -->
 				<div class="col-12">
 					<div class="card-header bg-transparent border-bottom">
-						<h3 class="mb-0">게시글 수정하기</h3>
+						<h3 class="mb-0">${boardDTO.board_class} 수정하기</h3>
 					</div>
 					
 					<div class="col-12 p-2">
@@ -72,6 +100,22 @@
 	<!-- =======================
 	Steps END -->
 	
+	<!-- Back to top -->
+	<div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i></div>
+	
+	<!-- Bootstrap JS -->
+	<script src="${contextPath}/resources/bootstrap/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	
+	<!-- Vendors -->
+	<script src="${contextPath}/resources/bootstrap/assets/vendor/choices/js/choices.min.js"></script>
+	<script src="${contextPath}/resources/bootstrap/assets/vendor/aos/aos.js"></script>
+	<script src="${contextPath}/resources/bootstrap/assets/vendor/glightbox/js/glightbox.js"></script>
+	<script src="${contextPath}/resources/bootstrap/assets/vendor/quill/js/quill.min.js"></script>
+	<script src="${contextPath}/resources/bootstrap/assets/vendor/stepper/js/bs-stepper.min.js"></script>
+	
+	<!-- Template Functions -->
+	<script src="${contextPath}/resources/bootstrap/assets/js/functions.js"></script>
+	
 	<!-- Footer -->
 	<%@ include file="../common/footerBoard.jsp" %>
 	
@@ -114,10 +158,11 @@
 		function doUpdate() {
 			let board_title = $('[name="board_title"]').val();
 			let board_content = $('.ql-editor').html();
+			const board_class = "${boardDTO.board_class}";
 			
 			let jsonData = {
 					"board_id": ${boardDTO.board_id},
-					"board_class": "공지사항",
+					"board_class": board_class,
 					"board_title": board_title,
 					"board_content": board_content
 			};
@@ -130,7 +175,7 @@
 				success: function(res) {
 					alert(res);
 					// 게시글 수정 이후 게시판 목록 조회로 이동
-					location.href="${contextPath}/board/list";
+					location.href="${contextPath}/board/list?type=" + board_class;
 				},
 				error: function(err) {
 					alert(err);

@@ -5,10 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>살래?!</title>
+
+<!-- 외부 CSS -->
+<link rel="stylesheet" href="${contextPath}/resources/css/footerBoard.css">
 </head>
 <body>
 	<!-- Footer -->
-    <footer class="pt-5">
+    <!-- <footer class="pt-5">
     	<div class="container">
     		<div class="row g-4">
 		        <div class="col-lg-4">
@@ -30,22 +33,39 @@
 		        </div>
 	        </div>
         </div>
-    </footer>
+    </footer> -->
     
-    <!-- Back to top -->
-	<div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i></div>
-	
-	<!-- Bootstrap JS -->
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	
-	<!-- Vendors -->
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/choices/js/choices.min.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/aos/aos.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/glightbox/js/glightbox.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/quill/js/quill.min.js"></script>
-	<script src="${contextPath}/resources/bootstrap/assets/vendor/stepper/js/bs-stepper.min.js"></script>
-	
-	<!-- Template Functions -->
-	<script src="${contextPath}/resources/bootstrap/assets/js/functions.js"></script>
+    <!-- Footer START -->
+    <footer>
+        <div>
+            <h3>형태별 검색</h3>
+            <ul>
+                <li><a href="#">전세</a></li>
+                <li><a href="#">월세</a></li>
+                <li><a href="#">아파트</a></li>
+                <li><a href="#">빌라</a></li>
+                <li><a href="#">상가</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>고객 지원</h3>
+            <ul>
+                <li><a href="#">자주 묻는 질문(FAQ)</a></li>
+                <li><a href="#">1:1 문의</a></li>
+                <li><a href="#">Android</a></li>
+                <li><a href="#">iOS</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>저희 회사는</h3>
+            <ul>
+                <li><a href="#">회사소개</a></li>
+                <li><a href="#">오시는 길</a></li>
+                <li><a href="#">제휴문의</a></li>
+                <li><a href="#">채용</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- Footer END -->
 </body>
 </html>

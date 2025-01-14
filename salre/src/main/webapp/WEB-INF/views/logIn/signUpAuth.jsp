@@ -62,7 +62,7 @@
             padding: 10px;
             font-size: 16px;
             color: white;
-            background-color: #007bff;
+            background-color: #f4a261;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -70,7 +70,7 @@
         }
 
         .form-section button:hover {
-            background-color: #0056b3;
+            background-color: #e76f51;
         }
 
         .form-section .actions {
@@ -83,14 +83,14 @@
             flex: 1;
             margin: 0 5px;
             background: transparent;
-            border: 1px solid #007bff;
-            color: #007bff;
+            border: 1px solid #f4a261;
+            color: #f4a261;
             border-radius: 4px;
             cursor: pointer;
         }
 
         .form-section .actions button:hover {
-            background-color: #007bff;
+            background-color: #e76f51;
             color: white;
         }
         

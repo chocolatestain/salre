@@ -106,7 +106,7 @@
                     right: 10px;
                     transform: translateY(-50%);
                     cursor: pointer;
-                    color: #007bff;
+                    color: #f4a261;
                 }
 
                 .form-section form .actions {
@@ -117,7 +117,7 @@
 
                 .form-section form .actions a {
                     font-size: 14px;
-                    color: #007bff;
+                    color: #f4a261;
                     text-decoration: none;
                 }
 
@@ -126,10 +126,14 @@
                     padding: 10px;
                     font-size: 16px;
                     color: white;
-                    background-color: #007bff;
+                    background-color: #f4a261;
                     border: none;
                     border-radius: 4px;
                     cursor: pointer;
+                }
+
+                .form-section form button:hover {
+                    background-color: #e76f51; /* 호버 시 색상 */
                 }
 
                 .form-section .signup-link {
@@ -138,7 +142,7 @@
                 }
 
                 .form-section .signup-link a {
-                    color: #007bff;
+                    color: #f4a261;
                     text-decoration: none;
                 }
             </style>
@@ -153,7 +157,9 @@
                 <div class="form-section">
                     <!-- Controls -->
                     <div class="controls">
-                        <button onclick="history.back()">⬅️</button>
+                        <button onclick="history.back()">
+                            <img src="${pageContext.request.contextPath}/resources/images/left.png">
+                        </button>
                     </div>
 
                     <h1>로그인</h1>
