@@ -148,6 +148,7 @@
     left: 0;
     width: 100%;
     text-align: center;
+    top : 30px;
 }
 
 .swiper-pagination-bullet {

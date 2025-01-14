@@ -116,7 +116,7 @@
                     const user_id = "${loggedInUser.user_id}";
 
                     var iconObj = {
-                        "송금": "💸", "계약": "📜", "서명": "✒️"
+                        "채팅": "🤗", "계약": "📜", "서명": "✒️", "송금": "💸"
                     };
 
                     $(document).ready(function () {
