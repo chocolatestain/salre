@@ -40,7 +40,7 @@
         <div id="map1" style="width: 100%; height: 600px;"></div>
 
 	        <!-- 추천 상품 캐러셀 -->
-	        <section class="carousel-section">
+	        <section class="carousel-section" style="text-align: center;">
 	            <h2>근처 핫한 매물</h2>
 	            <div class="swiper-container">
 	                <div class="swiper-wrapper">
@@ -134,7 +134,7 @@
 	                    const slide = document.createElement('div');
 	                    slide.className = 'swiper-slide';
 	                    slide.innerHTML = `
-	                        <a href="/salre/product/detail/\${product.product_id}" class="product-link">
+	                        <a href="/salre/product/detail/\${product.product_id}" class="product-link" style="text-decoration: none;">
 	                            <img src="resources/images/products/\${product.product_id}.jpeg" 
 	                            onerror="this.src='https://placehold.co/200x200'" 
 	                            alt="\${product.product_name}" class="carousel-image"
