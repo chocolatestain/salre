@@ -3,274 +3,14 @@
 
 <!DOCTYPE html>
 <html lang="ko">
- 	<%@ include file="../common/header.jsp" %>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
+
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
-
-<style>
-/* 기본 설정 */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Inter", Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* 좌우 가운데 정렬 */
-  justify-content: flex-start; /* 상단 정렬 */
-  background-color: #f9f9f9;
-}
-header, footer {
-  display: block; /* 기본 블록 요소로 설정하여 flexbox 영향을 받지 않게 함 */
-}
-.product-address {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #555;
-  margin-top: 20px;
-}
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 색 기반 그라디언트 */
-  color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-  
-/* 푸터 스타일 */
-footer {
-    display: flex;
-    justify-content: center; /* 푸터 섹션들을 수평 가운데 정렬 */
-    align-items: flex-start; /* 섹션들을 상단에 정렬 */
-    flex-wrap: wrap; /* 화면 크기 줄어들 때 줄바꿈 허용 */
-    background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 블루 그라데이션 */
-    color: #fff;
-    padding: 20px 0;
-    flex-direction : row;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 추가 */
-    text-align: center; /* 전체적인 텍스트를 가운데 정렬 */
-}
-
-
- 
-
-/* 콘텐츠 영역 */
-.screen {
-  margin-top: 200px; /* 고정된 header 높이만큼 여백 추가 */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* 왼쪽, 오른쪽 패널 스타일 */
-.left, .right {
-
-  padding: 20px;
-}
-.right{
-	gap : 20px;
-}
-/* 이미지 및 텍스트 스타일 */
-.main-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover; /* 크기가 더 클 때 잘리고, 작으면 늘어남 */
-  
-}
-
-.product-directory {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.seller-profile {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.generic-avatar, .review-avatar {
-  border-radius: 50%;
-  border: 2px solid #ddd;
-}
-
-.generic-avatar {
-  width: 75px;
-  height: 75px;
-}
-
-.review-avatar {
-  width: 50px;
-  height: 50px;
-}
-
-.seller-name {
-  font-size: 2rem;
-  color: #333;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.product-info {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.product-status {
-  font-weight: bold;
-  color: #f4a261;
-}
-
-.product-price, .info-category {
-  font-size: 1.5rem;
-  color: #333;
-  font-weight: bold;
-}
-
-.info-content, .product-descript, .review-content {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
-}
-
-.product-descript-name, .recent-review {
-  font-weight: bold;
-  font-size: 2rem;
-  color: #333;
-}
-
-.review-seller-name, .review-seller-region {
-  font-size: 1rem;
-  color: #333;
-}
-
-.division-line {
-  margin-top: 20px;
-}
-
-/* 리뷰 영역 */
-.review-container {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.review {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.review-content p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-}
-
-#addressCopyButton {
-  padding: 12px 11px;
-  background-color: #f4a261;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.reviewer {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-/* 반응형 처리 */
-@media (max-width: 768px) {
-  header nav a {
-    font-size: 1rem;
-    margin: 5px;
-  }
-
-  .screen {
-    grid-template-columns: 1fr;
-    padding: 10px;
-    margin-top: 300px;
-  }
-
-  .left, .right {
-    padding: 15px;
-  }
-}
-
-/* 기타 스타일 */
-#price-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.chat-button {
-  display: block;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: white;
-  background-color: #f4a261;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.chat-button:hover {
-  background-color: #80543E;
-}
-
-.status-before {
-  color: green !important;
-}
-
-.status-in-progress {
-  color: orange !important;
-}
-
-.status-completed {
-  color: gray !important;
-}
-
-.status-unknown {
-  color: red !important;
-}
-
-  </style>
-
+ 	<%@ include file="../common/header.jsp" %>
+    <link rel="stylesheet" href="${contextPath}/resources/css/detail.css">
 </head>
 <body>
 
@@ -278,23 +18,28 @@ footer {
   <div class="screen">
     <div class="left"> 
     <div>
-      <img class="main-image" 
-     src="../../resources/images/products/${product.product_id}.jpeg" 
-     onerror="this.onerror=null; this.src='https://placehold.co/600x600'" 
-     alt="Main Image" />
+      <img 
+    class="main-image" 
+    src="../../resources/images/products/${product.product_id}.jpeg" 
+    onerror="this.onerror=null; this.src='https://placehold.co/600x600'" 
+    alt="Main Image" 
+    style="width: 600px; height: 600px; object-fit: cover;">
      </div>
-      <div class="seller-profile">
-        <img class="generic-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-        <p class="seller-name">
-          <span class="seller-nickname">${user_nickname}</span> 
-                  </p>
-          	<form action="${contextPath}/chat/createChatRoom.do" method="post">
-		<input type="hidden" name="product_id" value="${product.product_id}">
-		<input type="hidden" name="product_user_id" value="${product.user_id}">
-		<input type="hidden" name="product_name" value="${product.product_name}"> 
-		 <button type="submit" id = "chatButton" class="chat-button">채팅하기</button>
-		</form>	  
-      </div>
+		<div class="seller-profile">
+		  <img class="generic-avatar" src="https://placehold.co/75x75" alt="Avatar" />
+		  <p class="seller-name">
+		    <span class="seller-nickname">${user_nickname}</span> 
+		  </p>
+		  <div style="display: flex; justify-content: flex-end; width: 100%;">
+		    <form action="${contextPath}/chat/createChatRoom.do" method="post">
+		      <input type="hidden" name="product_id" value="${product.product_id}">
+		      <input type="hidden" name="product_user_id" value="${product.user_id}">
+		      <input type="hidden" name="product_name" value="${product.product_name}">
+		      <button type="submit" id="chatButton" class="chat-button">채팅하기</button>
+		    </form>
+		  </div>
+		</div>
+
 		<input type="hidden" id="product_status" value="${product.product_status}">
 
 		<script>

@@ -156,7 +156,9 @@
 
                     <!-- Controls -->
                     <div class="controls">
-                        <button onclick="history.back()">⬅️</button>
+                        <button onclick="history.back()">
+                            <img src="${pageContext.request.contextPath}/resources/images/left.png">
+                        </button>
                     </div>
 
                     <h1>아이디 찾기</h1>

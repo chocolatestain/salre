@@ -8,6 +8,7 @@ footer {
     background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 블루 그라데이션 */
     color: #fff;
     padding: 20px 0;
+    flex-direction : row;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 추가 */
     text-align: center; /* 전체적인 텍스트를 가운데 정렬 */
 }

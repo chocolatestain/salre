@@ -156,7 +156,9 @@
                 <div class="form-section">
                     <!-- Controls -->
                     <div class="controls">
-                        <button onclick="history.back()">⬅️</button>
+                        <button onclick="history.back()">
+                            <img src="${pageContext.request.contextPath}/resources/images/left.png">
+                        </button>
                     </div>
 
                     <h1>비밀번호 찾기</h1>

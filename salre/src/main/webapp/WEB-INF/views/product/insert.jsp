@@ -9,190 +9,11 @@
     <title>살래?</title>
     <!-- Favicon -->
 	<link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
-    <style>
-    /* 기본 설정 */
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
-/* 메인 배너 스타일 */
-.main-banner {
-    background: url('../resources/images/mainpage_bg.webp') no-repeat center center/cover;
-    text-align: center;
-    padding: 50px 20px;
-    position: relative;
-    color: #fff; /* 텍스트를 흰색으로 */
-}
-
-
-.main-banner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 어두운 오버레이 추가 */
-    z-index: 1;
-}
-
-.main-banner h1 {
-    font-size: 40px;
-    margin-bottom: 15px;
-    z-index: 2;
-    position: relative;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 텍스트 그림자 추가 */
-}
-
-.main-banner p {
-    font-size: 16px;
-    color: #eee; /* 텍스트 색상을 밝게 조정 */
-    z-index: 2;
-    position: relative;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
-}
-
-/* 폼 섹션 스타일 */
-.form-section {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-}
-
-.form-section h2 {
-    font-size: 40px;
-    margin-bottom: 20px;
-    color: #333;
-    border-bottom: 2px solid #f4a261;
-    padding-bottom: 5px;
-}
-
-.form-group {
-	font-size : 1rem;
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #f5f5f5;
-    box-shadow: 0 0 4px rgba(108, 99, 255, 0.5);
-}
-
-.form-group input[type="radio"] {
-    width: auto;
-    margin-right: 5px;
-}
-
-button[type="submit"] {
-    background-color: #80543E;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 103%;
-}
-
-button[type="submit"]:hover { 
-    background-color: #E1C59D;
-}
-
-
-/* 반응형 디자인 추가 (Media Queries) */
-@media (max-width: 768px) {
-    /* 모바일 및 태블릿 화면 크기 */
-    .main-banner h1 {
-        font-size: 24px;
-    }
-
-    .form-section h2 {
-        font-size: 30px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea,
-    button[type="submit"] {
-        font-size: 14px;
-    }
-
-    header .logo {
-        font-size: 2rem;
-    }
-
-    header nav {
-        display: none; /* 메뉴 숨기기 */
-    }
-
-    header .auth {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    footer div {
-        margin-bottom: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    /* 작은 모바일 화면 */
-    .main-banner h1 {
-        font-size: 20px;
-    }
-
-    .form-section {
-        padding: 10px;
-    }
-
-    .form-group label {
-        font-size: 14px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 8px;
-        font-size: 12px;
-    }
-
-    button[type="submit"] {
-        font-size: 14px;
-    }
-    }
-  
-    </style>
+	    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
+	    <!-- 외부 CSS -->
+    <link rel="stylesheet" href="${contextPath}/resources/css/insert.css">
+ 
 </head>
 <body>
     <!-- 메인 배너 -->
@@ -224,8 +45,7 @@ button[type="submit"]:hover {
     <br>
     <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
+
     <script>
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
@@ -419,16 +239,17 @@ button[type="submit"]:hover {
                 <label for="approve_day">사용 승인일 *</label>
                 <input type="date" id="approve_day" name="approve_day" required>
             </div>
-				<h2>TESTTEST</h2>
-				<div class = "form-group">
-					<label for = "user_id">사용자 id</label>
-					<input id = "user_id" name = "user_id" required></input>
-				</div>
+	 			<script>console.log("유저 id : " ${sessionScope.loggedInUser.user_id})
+	 			console.log("유저 id : " ${sessionScope.loggedInUser.user_id})</script>
+			 
+				
+ 
+					
             <!-- 제출 버튼 -->          
             <button type="submit">매물 등록</button> 
                     <input type="hidden" id="sigungu" name="sigungu">
                     <input type="hidden" id="product_status" name="product_status" value="0">
-
+    <input type="hidden" id="user_id" name="user_id" value="${sessionScope.loggedInUser.user_id}" required>
                     
         </form>
     </section> 
