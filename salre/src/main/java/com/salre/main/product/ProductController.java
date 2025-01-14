@@ -136,7 +136,10 @@ public class ProductController {
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
     	ProductDTO product = productService.selectByIdService(product_id);
+    	System.out.println(product);
+    	System.out.println(product.getUser_id());
     	UserDTO user = userservice.getUserById(product.getUser_id());
+    	System.out.println( userservice.getUserById(product.getUser_id()));
     	String status = "status-before";
     	String label = "거래 전";
     	switch (product.getProduct_status()) {
@@ -160,6 +163,8 @@ public class ProductController {
     	model.addAttribute("product", product);
     	model.addAttribute("label", label);
     	model.addAttribute("user_nickname", user.getId());
+    	System.out.println(user.getUser_id());
+    	System.out.println(user.getId());
     	productService.incrementViewCount(product_id);
     	return "product/detail";
     }  

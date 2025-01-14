@@ -84,4 +84,10 @@
 	WHERE region_id = #{region_id}
 	LIMIT 10
 </select>
+
+<update id="updateProductStatusByContract" parameterType="map">
+    UPDATE product
+    SET product_status = #{product_status}
+    WHERE product_id = #{product_id}
+</update>
 </mapper>
