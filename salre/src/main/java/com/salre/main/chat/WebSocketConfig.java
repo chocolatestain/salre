@@ -21,7 +21,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// STOMP 엔드포인트 등록
         registry.addEndpoint("/chat-websocket") // chatMain.jsp > connectWebSocket()에서 사용
-                .setAllowedOrigins("*") // CORS 허용
+                .setAllowedOrigins("http://192.168.0.*:8070/") // CORS 허용
+//                .setAllowedOrigins("*") // CORS 허용
                 .withSockJS(); // SockJS 지원
 	}
 
