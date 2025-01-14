@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 
-<title>살래?! 채팅</title>
+<title>살래?</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
@@ -61,48 +61,69 @@
 	
 	                        <div class="container py-8">
 	                            <!-- Title -->
-	                            <div class="mb-8">
+	                            <div class="mb-8 d-flex align-items-center">
+	                            	<!-- Controls -->
+				                    <a href="${contextPath}" class="me-3">
+				                    	<img src="${contextPath}/resources/images/favicon.ico" style="width: 30px; flex-shrink: 0">
+				                    </a>
 	                                <h2 class="fw-bold m-0">채팅 목록</h2>
+	                                <h4 class="fw-bold m-0 ms-auto"><u>${loggedInUser.user_name}</u> 님</h4>
 	                            </div>
 	
 	                            <!-- Chats -->
 	                            <div class="card-list">
-	                            	<c:forEach items="${chatRoomDTOList}" var="chatRoom">
-		                                <!-- Card -->
-		                                <a href="javascript:enterChatRoom(${chatRoom.chatRoom_id});" class="card border-0 text-reset">
-		                                    <div class="card-body">
-		                                        <div class="row gx-5">
-		                                            <div class="col-auto">
-		                                                <div class="avatar">
-		                                                    <img src="${contextPath}/resources/images/products/${chatRoom.product_id}.jpeg" alt="매물 사진" class="avatar-img">
-		                                                </div>
-		                                            </div>
-		
-		                                            <div class="col">
-		                                                <div class="d-flex align-items-center mb-3">
-		                                                    <h5 class="me-auto mb-0">${chatRoom.room_name}</h5>
-		                                                    <span class="text-muted small ms-2">
-		                                                    	<fmt:formatDate value="${chatRoom.send_time}" pattern="HH:mm"/>
-		                                                    </span>
-		                                                </div>
-		
-		                                                <div class="d-flex align-items-center">
-		                                                    <div class="line-clamp me-auto">
-		                                                    	${chatRoom.chat_content}
-		                                                    </div>
-		
-		                                                    <c:if test="${chatRoom.is_checkFalseCnt ne 0}">
-			                                                    <div class="badge badge-circle bg-warning ms-5">
-			                                                        <span>${chatRoom.is_checkFalseCnt}</span>
-			                                                    </div>
-		                                                    </c:if>
-		                                                </div>
-		                                            </div>
-		                                        </div>
-		                                    </div><!-- .card-body -->
-		                                </a>
-		                                <!-- Card -->
-	                                </c:forEach>
+	                            	<c:choose>
+	                            		<c:when test="${empty chatRoomDTOList}">
+	                            			<a class="card border-0 text-reset">
+		                            			<!-- Card -->
+			                                    <div class="card-body">
+			                                        <div class="row gx-5 justify-content-center">
+			                                            <div class="col-auto">
+			                                                채팅방이 없습니다.
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </a>
+	                            		</c:when>
+	                            		<c:otherwise>
+			                            	<c:forEach items="${chatRoomDTOList}" var="chatRoom">
+				                                <!-- Card -->
+				                                <a href="javascript:enterChatRoom(${chatRoom.chatRoom_id});" class="card border-0 text-reset">
+				                                    <div class="card-body">
+				                                        <div class="row gx-5">
+				                                            <div class="col-auto">
+				                                                <div class="avatar">
+				                                                    <img src="${contextPath}/resources/images/products/${chatRoom.product_id}.jpeg" alt="매물 사진" class="avatar-img">
+				                                                </div>
+				                                            </div>
+				
+				                                            <div class="col">
+				                                                <div class="d-flex align-items-center mb-3">
+				                                                    <h5 class="me-auto mb-0">${chatRoom.room_name}</h5>
+				                                                    <span class="text-muted small ms-2">
+				                                                    	<fmt:formatDate value="${chatRoom.send_time}" pattern="HH:mm"/>
+				                                                    </span>
+				                                                </div>
+				
+				                                                <div class="d-flex align-items-center">
+				                                                    <div class="line-clamp me-auto">
+				                                                    	${chatRoom.chat_content}
+				                                                    </div>
+				
+				                                                    <c:if test="${chatRoom.is_checkFalseCnt ne 0}">
+					                                                    <div class="badge badge-circle bg-warning ms-5">
+					                                                        <span>${chatRoom.is_checkFalseCnt}</span>
+					                                                    </div>
+				                                                    </c:if>
+				                                                </div>
+				                                            </div>
+				                                        </div>
+				                                    </div><!-- .card-body -->
+				                                </a>
+				                                <!-- Card -->
+			                                </c:forEach>
+	                                	</c:otherwise>
+	                                </c:choose>
 	                            </div>
 	                            <!-- Chats -->
 	                        </div>

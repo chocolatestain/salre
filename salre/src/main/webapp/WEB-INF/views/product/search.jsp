@@ -115,7 +115,7 @@
         .search button {
             padding: 10px 20px;
             background-color: #f4a261;
-            color: #fff;
+            color: #fff;	
             border: none;
             cursor: pointer;
         }
@@ -130,6 +130,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
             overflow: hidden;  
    			display: inline-block;  
+   		    min-height: 470px; /* 최소 높이를 설정 */
         }
         .product-card img {
             border-radius: 8px;

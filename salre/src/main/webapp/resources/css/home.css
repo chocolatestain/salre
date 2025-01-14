@@ -148,6 +148,7 @@
     left: 0;
     width: 100%;
     text-align: center;
+    top : 30px;
 }
 
 .swiper-pagination-bullet {
@@ -168,8 +169,8 @@
 }
 
 .swiper-slide {
-    width: 200px;  /* 슬라이드 너비 */
-    height: 200px; /* 슬라이드 높이 */
+    width: 400px;  /* 슬라이드 너비 */
+    height: 300px; /* 슬라이드 높이 */
     display: flex!important;             /* 슬라이드 안에서 중앙 정렬을 위해 flex 사용 */
     justify-content: center;   /* 가로 중앙 정렬 */
     align-items: center;       /* 세로 중앙 정렬 */

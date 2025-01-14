@@ -1,6 +1,8 @@
 package com.salre.main.product;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +68,16 @@ public class ProductDAO implements ProductInterface {
 	public List<ProductDTO> findProductsByRegionCode(int region_id) {
 			return sqlSession.selectList(namespace + "findProductsByRegionCode", region_id);
 	}
+	@Override
+	public int updateProductStatusByContract(int product_id, int product_status) {
+	    // 파라미터로 전달할 Map 생성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("product_id", product_id);
+	    params.put("product_status", product_status);
+
+	    // update 쿼리 실행
+	    return sqlSession.update(namespace + "updateProductStatusByContract", params);
+	}
+
+
 }

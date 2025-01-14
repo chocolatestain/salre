@@ -69,7 +69,9 @@ public class ProductService {
 	public List<ProductDTO> findProductsByRegionCode(int regionCode) {
 		return productDAO.findProductsByRegionCode(regionCode);
 	}
- 
+	public int updateProductStatusByContract(int product_id, int product_status) {
+		return productDAO.updateProductStatusByContract(product_id, product_status);
+	}
 }
 
 

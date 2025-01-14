@@ -36,12 +36,12 @@ public class ProductController {
     
     private UserService userservice;
     
-    @GetMapping("/insert")
+    @GetMapping("/insert.do")
     public String showCreateForm() {
         return "product/insert";
     }
 
-    @PostMapping("/insert") // product/insert에서 작성한 내용 post  
+    @PostMapping("/insert.do") // product/insert에서 작성한 내용 post  
     public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
  
  
@@ -136,7 +136,10 @@ public class ProductController {
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
     	ProductDTO product = productService.selectByIdService(product_id);
+    	System.out.println(product);
+    	System.out.println(product.getUser_id());
     	UserDTO user = userservice.getUserById(product.getUser_id());
+    	System.out.println( userservice.getUserById(product.getUser_id()));
     	String status = "status-before";
     	String label = "거래 전";
     	switch (product.getProduct_status()) {
@@ -160,6 +163,8 @@ public class ProductController {
     	model.addAttribute("product", product);
     	model.addAttribute("label", label);
     	model.addAttribute("user_nickname", user.getId());
+    	System.out.println(user.getUser_id());
+    	System.out.println(user.getId());
     	productService.incrementViewCount(product_id);
     	return "product/detail";
     }  

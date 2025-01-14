@@ -40,7 +40,7 @@
         <div id="map1" style="width: 100%; height: 600px;"></div>
 
         <!-- 추천 상품 캐러셀 -->
-        <section class="carousel-section">
+        <section class="carousel-section" style="text-align: center;">
             <h2>근처 핫한 매물</h2>
             <div class="swiper-container">
                 <div class="swiper-wrapper">
@@ -52,7 +52,8 @@
                                 <h3>${product.product_name}</h3>
                                 <p>${product.description}</p>
                                 <p><strong>${product.payment_type}</strong></p>
-                                <p>${product.deposit} 원 / 월</p>
+                                <p id="formatted-deposit-${product.product_id}"></p> <!-- 변경된 부분 -->
+                                <p id="formatted-rentfee-${product.product_id}"></p> <!-- 변경된 부분 -->
                             </a>
                         </div>
                     </c:forEach>
@@ -65,6 +66,26 @@
     </div>
 
     <script>
+        // deposit과 rentfee를 읽기 쉽게 포맷팅하는 함수
+        function formatCurrency(value) {
+            // 정수만 남기고 소수점 제거
+            value = Math.floor(value);
+            
+            if (value >= 100000000) {
+                return (value / 100000000).toFixed(0) + ' 억';
+            } else if (value >= 10000000) {
+                return (value / 10000).toFixed(0) + ' 천만';
+            } else {
+                return value.toLocaleString() + ' 원'; // 기본적으로 원 단위로 표시
+            }
+        }
+
+        // 페이지 로딩 후 추천 상품의 deposit과 rentfee 값 포맷팅
+        <c:forEach var="product" items="${recommendedProducts}">
+            document.getElementById("formatted-deposit-${product.product_id}").innerText = formatCurrency(${product.deposit});
+            document.getElementById("formatted-rentfee-${product.product_id}").innerText = formatCurrency(${product.rentfee});
+        </c:forEach>
+
         // 지도 표시
         var mapContainer = document.getElementById('map1');
         var mapOption = {
@@ -130,18 +151,21 @@
             swiperWrapper.innerHTML = ''; // 기존 슬라이드 초기화
 
             products.forEach(product => {
-                if (product.product_name && product.description && product.payment_type && product.deposit) {
+                if (product.product_name && product.description && product.payment_type && product.deposit && product.rentfee) {
                     const slide = document.createElement('div');
                     slide.className = 'swiper-slide';
                     slide.innerHTML = `
-                        <a href="/product/detail/${product.product_id}" class="product-link">
-                            <img src="https://placehold.co/200x100" alt="${product.product_name}" class="carousel-image">
-                            <h3>${product.product_name}</h3>
-                            <p>${product.description}</p>
-                            <p><strong>${product.payment_type}</strong></p>
-                            <p>${product.deposit} 원 / 월</p>
+                        <a href="/salre/product/detail/\${product.product_id}" class="product-link" style="text-decoration: none;">
+                            <img src="resources/images/products/\${product.product_id}.jpeg" 
+                            onerror="this.src='https://placehold.co/200x200'" 
+                            alt="\${product.product_name}" class="carousel-image"
+                            style="width: 250px; height: 150px; object-fit: cover;">
+                            <h3>\${product.product_name}</h3> 
+                            <p><strong>\${product.payment_type}</strong></p>
+                            <p>\${formatCurrency(product.deposit)} 원 / \${formatCurrency(product.rentfee)}</p>
                         </a>
                     `;
+
                     swiperWrapper.appendChild(slide);
                 }
             });
