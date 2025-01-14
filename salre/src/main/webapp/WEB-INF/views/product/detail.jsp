@@ -55,34 +55,24 @@
       <div class="division-line">
         <hr />
       </div>
-      <div class="recent-review">최근 리뷰
-          <div class = "review-container">
-            <div class = "review">
-              <div class = "reviewer">
-                <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-                <p class="seller-name">
-                  <span class="review-seller-name">xyl4h4jrhe<br /></span> 
-                  <span class="review-seller-region">종로구</span>                                  
-                </p>
-              </div>
-              <div class = "review-content">
-                <p>집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요</p>
-              </div>
+<div class="recent-review">최근 리뷰
+    <div class="review-container">
+        <c:forEach var="review" items="${review}">
+            <div class="review">
+                <div class="reviewer">
+                    <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
+                    <p class="seller-name">
+                        <span class="review-seller-name">${review.user_id}<br /></span>
+                    </p>
+                </div>
+                <div class="review-content">
+                    <p>${review.review_content}</p>
+                </div>
             </div>
-            <div class = "review">
-              <div class = "reviewer">
-                <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-                <p class="seller-name">
-                  <span class="review-seller-name">xyl4h4jrhe<br /></span>
-                  <span class="review-seller-region">종로구</span>
-                </p>
-              </div>
-              <div class = "review-content">
-                <p>집이 고장났는데 고쳐주질 않아요요집이 고장났는요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐데 고쳐주질 쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주않아요요집이 고장났는데 고쳐주질 않아요요집이 고장났는데 고쳐주질 않아요요집이 고장났는데 고쳐주질 않아요요</p>
-              </div>
-            </div> 
-            </div>
-          </div>
+        </c:forEach>
+    </div>
+</div>
+
         </div>
         <div class="right">
   
