@@ -62,6 +62,10 @@
 	                        <div class="container py-8">
 	                            <!-- Title -->
 	                            <div class="mb-8 d-flex align-items-center">
+	                            	<!-- Controls -->
+				                    <a href="${contextPath}" class="me-3">
+				                    	<img src="${contextPath}/resources/images/favicon.ico" style="width: 30px; flex-shrink: 0">
+				                    </a>
 	                                <h2 class="fw-bold m-0">채팅 목록</h2>
 	                                <h4 class="fw-bold m-0 ms-auto"><u>${loggedInUser.user_name}</u> 님</h4>
 	                            </div>
