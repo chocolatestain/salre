@@ -34,7 +34,7 @@
                     <div class="logo">
                         <nav>
                             <a href="${contextPath}/">
-                                <div style="padding-right: 20px;">
+                                <div style="padding-right: 5px;">
                                     <img src="${contextPath}/resources/images/favicon.ico">
                                 </div>
                                 <div>살래?</div>
@@ -47,10 +47,10 @@
                             <a href="${contextPath}/product/insert">방내놓기</a>
                             <c:choose>
                                 <c:when test="${not empty sessionScope.loggedInUser}">
-                                        <a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a>
+                                        <a href="${contextPath}/chat/main.do" target="_blank">채팅</a>
                                 </c:when>
                                 <c:otherwise>
-                                        <a class="nav-link" href="${contextPath}/chat/main.do">채팅</a>
+                                        <a href="${contextPath}/chat/main.do">채팅</a>
                                 </c:otherwise>
                             </c:choose>
                             <a href="${contextPath}/board/list">게시판</a>

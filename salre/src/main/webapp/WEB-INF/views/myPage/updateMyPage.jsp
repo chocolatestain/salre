@@ -69,10 +69,10 @@ System.out.println("Birthday: " + certifiedBirthday);
 			<!-- Main Content -->
 			<div class="col-md-9 content">
 
-				<h1 class="mb-4">나의 정보관리(수정)</h1>
+				<h1 class="mb-4" style="margin-top: 30px;">나의 정보관리(수정)</h1>
 				<br> <br>
 
-				<h4 class="mb-4">나의 정보(수정)</h4>
+				<h4 class="mb-4" style="margin-top: 30px;">나의 정보(수정)</h4>
 				<!-- <form> -->
 
 				<div class="center-container" >

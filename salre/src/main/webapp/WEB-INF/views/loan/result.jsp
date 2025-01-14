@@ -68,8 +68,10 @@
                     font-size: 1rem;
                 }
 
-                #init {
+                #resultValue {
                     background-color: #999;
+                    color: #fff;
+                    cursor: default;
                 }
 
                 .sort button.active {
@@ -233,10 +235,9 @@
                         <div class="sort-buttons">
                             <button id="sortRate">금리순</button>
                             <button id="sortLimit">한도순</button>
-                            <button id="init">필터 초기화</button>
                         </div>
                         <div class="sort-result">
-                            <span id="resultValue"></span>
+                            <button id="resultValue" disabled></button>
                         </div>
                     </div>
 
@@ -294,9 +295,6 @@
                                 </div>
                                 <label><input type="checkbox" id="option1" checked> 중소기업 재직자 대상</label> <br>
                                 <label><input type="checkbox" id="option2" checked> 청년 대상</label>
-                                <br><br>
-                                <hr>
-                                <button id="filter">필터 적용</button>
                             </div>
                         </div>
 
@@ -310,9 +308,7 @@
 
                     <script>
                         $(document).ready(function () {
-                            // 서버에서 전달된 값 가져오기
                             const userAge = `${param.age}`;
-
                             const paramIncome = "${param.income}";
                             const incomeValue = {
                                 step: {
@@ -323,11 +319,10 @@
                             };
                             const userIncome = incomeValue.step[paramIncome];
 
-                            // 필터 조건 정의
                             const filters = {
                                 byRate: (item, rate) => item.loan_rate <= parseFloat(rate),
                                 byLimit: (item, limit) => item.loan_limit / 100000000 <= parseFloat(limit),
-                                byBank: (item, banks) => banks.length === 0 || banks.includes(item.bank_name),
+                                byBank: (item, banks) => banks.length > 0 && banks.includes(item.bank_name),
                                 byRepay1: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원리금"),
                                 byRepay2: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("원금"),
                                 byRepay3: (item, isChecked) => isChecked ? true : !item.repayment_type.includes("만기"),
@@ -344,11 +339,9 @@
 
                             Object.entries(bankObj).forEach(function ([bank_name, bank_logo]) {
                                 let bankLabel = `<label><input type="checkbox" name="bank" value="\${bank_name}" checked> \${bank_name}</label> <br>`;
-
                                 $('#bank').append(bankLabel);
                             });
 
-                            // 이미지 로드 함수
                             function preloadImages() {
                                 Object.values(bankObj).forEach(logo => {
                                     const img = new Image();
@@ -361,49 +354,43 @@
                             let length = 0;
 
                             function saveList() {
-                                // 초기 데이터 저장
                                 sessionStorage.setItem('list', JSON.stringify(list));
                             }
 
                             function saveView() {
-                                // view 저장
                                 sessionStorage.setItem('view', JSON.stringify(view));
                             }
 
                             function draw(view) {
                                 $('#loanResults').empty();
-
                                 view.forEach(function (item) {
-                                    let img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[item.bank_name]}"
-                                        alt="\${item.bank_name} 로고" class="bank-logo">`;
+                                    let img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[item.bank_name]}" alt="\${item.bank_name} 로고" class="bank-logo">`;
 
                                     $('#loanResults').append(`
-                                    <form action="detail" method="POST">
-                                        <input type="hidden" name="id" value="\${item.loan_id}" />
-                                        <div class="loan-card" onclick="this.closest('form').submit()">
-                                            <div class="loan-card-content">
-                                                \${img}
-                                                <div class="loan-card-text">
-                                                    <h3>\${item.loan_name}</h3>
-                                                    <h4>\${item.bank_name}</h4>
+                                        <form action="detail" method="POST">
+                                            <input type="hidden" name="id" value="\${item.loan_id}" />
+                                            <div class="loan-card" onclick="this.closest('form').submit()">
+                                                <div class="loan-card-content">
+                                                    \${img}
+                                                    <div class="loan-card-text">
+                                                        <h3>\${item.loan_name}</h3>
+                                                        <h4>\${item.bank_name}</h4>
+                                                    </div>
                                                 </div>
+                                                <hr>
+                                                <p>기준금리: \${item.loan_rate}%</p>
+                                                <p>최대한도: \${item.loan_limit.toLocaleString()}원
+                                                    <span style="font-size: 1rem;">(\${item.loan_limit / 100000000}억원)</span>
+                                                </p>
+                                                <p>상환방식: \${item.repayment_type}</p>
                                             </div>
-                                            <hr>
-                                            <p>기준금리: \${item.loan_rate}%</p>
-                                            <p>
-                                                최대한도: \${item.loan_limit.toLocaleString()}원
-                                                <span style="font-size: 1rem;">(\${item.loan_limit / 100000000}억원)</span>
-                                            </p>
-                                            <p>상환방식: \${item.repayment_type}</p>
-                                        </div>
-                                    </form>
-                                `);
+                                        </form>
+                                    `);
                                 });
 
                                 $('#resultValue').html(`총 \${list.length}개 중 \${length}개 조회 완료`);
                             }
 
-                            // Ajax 요청 함수
                             $.ajax({
                                 url: `${pageContext.request.contextPath}/loan/select`,
                                 type: 'GET',
@@ -429,168 +416,85 @@
                                 }
                             });
 
-                            // 금리순 버튼이 기본적으로 활성화된 상태
                             $('#sortRate').addClass('active');
 
-                            // 금리순 정렬 버튼 클릭
                             $('#sortRate').click(function () {
-                                // 활성화된 버튼 상태 업데이트
                                 $('#sortRate').addClass('active');
                                 $('#sortLimit').removeClass('active');
 
                                 view = JSON.parse(sessionStorage.getItem('view')) || [];
-
                                 view.sort(function (a, b) {
                                     return a.loan_rate - b.loan_rate;
                                 });
 
-                                saveView();
+                                length = view.length;  // 현재 필터링된 결과의 개수 업데이트
 
+                                saveView();
                                 draw(view);
                             });
 
-                            // 금리순 정렬 버튼 클릭
                             $('#sortLimit').click(function () {
-                                // 활성화된 버튼 상태 업데이트
                                 $('#sortLimit').addClass('active');
                                 $('#sortRate').removeClass('active');
 
                                 view = JSON.parse(sessionStorage.getItem('view')) || [];
-
                                 view.sort(function (a, b) {
                                     return b.loan_limit - a.loan_limit;
                                 });
 
-                                saveView();
+                                length = view.length;  // 현재 필터링된 결과의 개수 업데이트
 
+                                saveView();
                                 draw(view);
                             });
 
-                            // 전체 선택 기능
-                            function selectAll() {
-                                $('input[name="bank"]').each(function () {
-                                    $(this).prop('checked', true);
-                                });
+                            $('input[type="range"], input[name="bank"], input[id^="repay"], input[id^="option"]').on('input change', function () {
+                                const rate = $('input[type="range"]').eq(0).val();
+                                const limit = $('input[type="range"]').eq(1).val();
+                                const banks = $('input[name="bank"]:checked').map(function () {
+                                    return $(this).val();
+                                }).get();
+                                const repay1 = $('#repay1').prop('checked');
+                                const repay2 = $('#repay2').prop('checked');
+                                const repay3 = $('#repay3').prop('checked');
+                                const option1 = $('#option1').prop('checked');
+                                const option2 = $('#option2').prop('checked');
 
-                                $('#repay1').prop('checked', true);
-                                $('#repay2').prop('checked', true);
-                                $('#repay3').prop('checked', true);
+                                view = list
+                                    .filter(item => filters.byRate(item, rate))
+                                    .filter(item => filters.byLimit(item, limit))
+                                    .filter(item => filters.byBank(item, banks))
+                                    .filter(item => filters.byRepay1(item, repay1))
+                                    .filter(item => filters.byRepay2(item, repay2))
+                                    .filter(item => filters.byRepay3(item, repay3))
+                                    .filter(item => filters.byOption1(item, option1))
+                                    .filter(item => filters.byOption2(item, option2));
 
-                                $('#option1').prop('checked', true);
-                                $('#option2').prop('checked', true);
-                            }
+                                // 정렬 상태 유지: 현재 활성화된 버튼에 따라 정렬
+                                if ($('#sortRate').hasClass('active')) {
+                                    view.sort(function (a, b) {
+                                        return a.loan_rate - b.loan_rate;
+                                    });
+                                } else if ($('#sortLimit').hasClass('active')) {
+                                    view.sort(function (a, b) {
+                                        return b.loan_limit - a.loan_limit;
+                                    });
+                                }
 
-                            // 전체 해제 기능
-                            function deselectAll() {
-                                $('input[name="bank"]').each(function () {
-                                    $(this).prop('checked', false);
-                                });
+                                length = view.length;
 
-                                $('#repay1').prop('checked', false);
-                                $('#repay2').prop('checked', false);
-                                $('#repay3').prop('checked', false);
-
-                                $('#option1').prop('checked', false);
-                                $('#option2').prop('checked', false);
-                            }
+                                saveView();
+                                draw(view);
+                            });
 
                             $('#selectAll').click(function () {
-                                selectAll();
+                                $('input[name="bank"]').prop('checked', true).trigger('change');
                             });
 
                             $('#deselectAll').click(function () {
-                                deselectAll();
-                            });
-
-                            // 필터 조회 버튼 클릭
-                            $('#filter').click(function () {
-                                // 필터 조건 가져오기
-                                const rate = $('#rate').text();
-                                const limit = $('#limit').text();
-                                const bank = [];
-                                const repay1 = $('#repay1').is(':checked');
-                                const repay2 = $('#repay2').is(':checked');
-                                const repay3 = $('#repay3').is(':checked');
-                                const option1 = $('#option1').is(':checked');
-                                const option2 = $('#option2').is(':checked');
-
-                                // 은행 체크박스 값 가져오기
-                                $('#bank input:checked').each(function () {
-                                    bank.push($(this).parent().text().trim());
-                                });
-
-                                // 활성화된 버튼 상태 업데이트
-                                $('#sortRate').addClass('active');
-                                $('#sortLimit').removeClass('active');
-
-                                view = JSON.parse(sessionStorage.getItem('list')) || [];
-
-                                // List에서 필터 조건에 맞는 항목 필터링
-                                view = view.filter(item =>
-                                    filters.byRate(item, rate) &&
-                                    filters.byLimit(item, limit) &&
-                                    filters.byBank(item, bank) &&
-                                    filters.byRepay1(item, repay1) &&
-                                    filters.byRepay2(item, repay2) &&
-                                    filters.byRepay3(item, repay3) &&
-                                    filters.byOption1(item, option1) &&
-                                    filters.byOption2(item, option2)
-                                );
-
-                                length = view.length;
-
-                                view.sort(function (a, b) {
-                                    return a.loan_rate - b.loan_rate;
-                                });
-
-                                saveView();
-
-                                // 필터링된 결과 화면에 출력
-                                draw(view);
-                            });
-
-                            // 필터 초기화 기능
-                            $('#init').click(function () {
-                                // 활성화된 버튼 상태 업데이트
-                                $('#sortRate').addClass('active');
-                                $('#sortLimit').removeClass('active');
-
-                                list = JSON.parse(sessionStorage.getItem('list')) || [];
-                                view = JSON.parse(sessionStorage.getItem('list')) || [];
-
-                                length = view.length;
-
-                                list.sort(function (a, b) {
-                                    return a.loan_rate - b.loan_rate;
-                                });
-
-                                // 필터 값 초기화
-                                $('#rate').text('5');
-                                $('#limit').text('5');
-                                $('input[type="range"]').val('5');
-
-                                selectAll();
-
-                                saveList();
-                                saveView();
-
-                                draw(list);
+                                $('input[name="bank"]').prop('checked', false).trigger('change');
                             });
                         });
-
-                        // 스크롤 버튼 기능
-                        function scrollToTop() {
-                            const position =
-                                document.documentElement.scrollTop || document.body.scrollTop;
-
-                            if (position) {
-                                window.requestAnimationFrame(() => {
-                                    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                                    scrollToTop();
-                                });
-                            }
-                        }
                     </script>
         </body>
 

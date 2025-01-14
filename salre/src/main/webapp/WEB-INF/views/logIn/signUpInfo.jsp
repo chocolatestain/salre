@@ -7,9 +7,9 @@
         <% String certifiedName=(String) session.getAttribute("certifiedName"); String certifiedPhone=(String)
             session.getAttribute("certifiedPhone"); String certifiedBirthday=(String)
             session.getAttribute("certifiedBirthday"); System.out.println("Info 세션 데이터:"); System.out.println("Name: " + certifiedName);
-    System.out.println(" Phone: " + certifiedPhone);
-    System.out.println(" Birthday: " + certifiedBirthday);
-%>
+		    System.out.println(" Phone: " + certifiedPhone);
+		    System.out.println(" Birthday: " + certifiedBirthday);
+		%>
 
 <!DOCTYPE html>
 <html lang=" en">
@@ -123,7 +123,7 @@
                         font-size: 14px;
                         /* font-weight: bold; */
                         color: white;
-                        background-color: #007bff;
+                        background-color: #f4a261;
                         /* 버튼 배경색 */
                         border: none;
                         border-radius: 4px;
@@ -132,7 +132,7 @@
                     }
 
                     .form-group-inline button:hover {
-                        background-color: #0056b3;
+                        background-color: #e76f51;
                         /* 마우스 오버 시 버튼 색상 */
                     }
 
@@ -149,14 +149,14 @@
                         padding: 10px;
                         font-size: 16px;
                         color: white;
-                        background-color: #007bff;
+                        background-color: #f4a261;
                         border: none;
                         border-radius: 4px;
                         cursor: pointer;
                     }
 
                     button:hover {
-                        background-color: #0056b3;
+                        background-color: #e76f51;
                     }
 
                     .navigation-buttons {
@@ -167,14 +167,14 @@
                     .navigation-buttons button {
                         flex: 1;
                         background: transparent;
-                        border: 1px solid #007bff;
-                        color: #007bff;
+                        border: 1px solid #f4a261;
+                        color: #f4a261;
                         border-radius: 4px;
                         cursor: pointer;
                     }
 
                     .navigation-buttons button:hover {
-                        background-color: #007bff;
+                        background-color: #e76f51;
                         color: white;
                     }
 
@@ -202,7 +202,7 @@
                         text-align: center;
                         margin-top: 15px;
                         font-size: 14px;
-                        color: #007bff;
+                        color: #f4a261;
                         text-decoration: none;
                     }
 

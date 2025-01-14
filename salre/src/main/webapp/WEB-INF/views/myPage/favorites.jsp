@@ -59,7 +59,7 @@
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
-            width: 200px;
+            width: 250px;
             margin: 10px;
             padding: 15px;
             text-align: center;
@@ -107,7 +107,7 @@
 			<%@ include file="../common/sidebar.jsp"%>
 
 			<!-- Main Content -->
-			<div class="col-md-9">
+			<div class="col-md-9" style="margin-top: 30px;">
 				<h1 class="mb-4">나의 관심매물</h1>
 
 				<!-- 구매자 콘텐츠 -->
@@ -133,7 +133,7 @@
 						            <c:forEach var="product" items="${favoritesList}">
 						            
 						             <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
-						                <div class="product-card" style="position:relative;">
+						                <div class="product-card" id="#card-${product.product_id}" style="position:relative;">
 						                    
 						                    <c:choose>
 						                    	  <c:when test="${product.product_status == 1}">
@@ -244,67 +244,6 @@
 	<!-- 좋아요 기능 -->
 	<script>
 	
-	/* function toggleLike(button, product_id) {
-	    const liked = button.classList.contains("liked");
-
-	    $.ajax({
-	        url: `${contextPath}/favorites/toggleLike`,
-	        type: "POST",
-	        data: {
-	            productId: product_id,
-	            liked: is_liked
-	        },
-	        success: function () {
-	            if (liked) {
-	                button.classList.remove("liked");
-	                button.querySelector("i").classList.remove("bi-heart-fill");
-	                button.querySelector("i").classList.add("bi-heart");
-	            } else {
-	                button.classList.add("liked");
-	                button.querySelector("i").classList.remove("bi-heart");
-	                button.querySelector("i").classList.add("bi-heart-fill");
-	            }
-	        },
-	        error: function () {
-	            alert("오류가 발생했습니다. 다시 시도해주세요.");
-	        }
-	    });
-	} */
-	
-	/*0110 좋아요실제코드  */
-	/* function toggleLike(button, product_id) {
-	    // 현재 liked 상태 확인
-	    const liked = button.classList.contains("liked");
-	    const is_liked = !liked; // 현재 상태의 반대 값을 서버로 보냄
-
-	    $.ajax({
-	        url: `${contextPath}/favorites/toggleLike`,
-	        type: "POST",
-	        data: {
-	            productId: product_id,
-	            liked: is_liked
-	        },
-	        success: function () {
-	            // 요청 성공 시에만 상태 업데이트
-	            if (liked) {
-	                button.classList.remove("liked");
-	                button.querySelector("i").classList.remove("bi-heart-fill");
-	                button.querySelector("i").classList.add("bi-heart");
-	            } else {
-	                button.classList.add("liked");
-	                button.querySelector("i").classList.remove("bi-heart");
-	                button.querySelector("i").classList.add("bi-heart-fill");
-	            }
-	        },
-	        error: function () {
-	            // 오류 메시지 표시
-	            alert("오류가 발생했습니다. 다시 시도해주세요.");
-	        }
-	    }); 
-	    }*/
-	    
-	    
-	    /* 테스트코드 */
 	function toggleLike(button, product_id, event) {
     // 이벤트 전파 차단
     if (event) {
@@ -331,21 +270,9 @@
         }),
         success: function (response) {
         	  console.log("AJAX Response:", response); // 응답 내용 확인
-            if (response.success) {
-                // 좋아요 취소 또는 등록에 성공한 경우
-                if (is_liked==false) {
-                    // 좋아요 취소: 카드 삭제
-                    $(`#card-${product_id}`).remove();
-                    alert(response.message);
-                } else {
-                    // 좋아요 등록: 버튼 스타일 업데이트
-                    button.classList.add("liked");
-                    button.querySelector("i").classList.remove("bi-heart");
-                    button.querySelector("i").classList.add("bi-heart-fill");
-                }
-            } else {
-                alert(response.message || "알 수 없는 오류가 발생했습니다.");
-            }
+    
+            location.href = "${contextPath}/favorites"// 좋아요 해제한 매물목록 삭제 후 F5역할
+            
         },
         error: function () {
             alert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -353,25 +280,6 @@
     });
 }
   
-</script>
- 
-<%-- <div id="favorites-container">
-    <c:forEach var="product" items="${favoritesList}">
-        <div id="card-${product.product_id}" class="product-card">
-            <img src="resources/images/products/${product.image}" alt="${product.name}" />
-             <img class="product-image" 
-                         src="resources/images/products/${product.product_id}.jpeg" 
-                         alt="${product.product_name}" 
-                         onerror="this.src='https://placehold.co/200x200';">
-            <h3>${product.product_name}</h3>
-            <p>${product.description}</p>
-            <button class="btn btn-like ${product.liked ? 'liked' : ''}" 
-                onclick="toggleLike(this, ${product.product_id})">
-                <i class="bi ${product.liked ? 'bi-heart-fill' : 'bi-heart'}"></i>
-            </button>
-        </div>
-    </c:forEach>
-</div> --%>
-    
+</script>    
 </body>
 </html>

@@ -73,19 +73,18 @@ body {
 
         <!-- Main Content -->
         <div class="col-md-9">
-            <h1 class="mb-4">내가 작성한 글(자유게시판)</h1>
+            <h1 class="mb-4" style="margin-top: 30px;">내가 작성한 글(자유게시판)</h1>
 
             <!-- 작성한 글 테이블 -->
             <div class="table-container">
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            
+                            <th>게시판 종류</th>
                             <th>제목</th>
                             <th>내용</th>
                             <th>작성일자</th>
                             <th>조회수</th>
-                            <th>댓글수</th>
                             <th>Action</th>
                        
                         </tr>
@@ -93,14 +92,14 @@ body {
                     <tbody>
                         <!-- 서버에서 데이터를 받아오는 부분 -->
                         <c:forEach var="post" items="${postList}">
-                         <%--    <tr onclick="redirectToDetail('${contextPath}/post/detail?id=${post.user_id}')"> --%>
+                         		<td>${post.board_class}</td>
                                 <td>${post.board_title}</td>
                                 <td>${post.board_content}</td>
                                 <td>${post.created_at}</td>
                                 <td>${post.click_cnt}</td>
-                                <td>${commentCountMap[post.board_id]}</td> <!-- 댓글 수 표시 -->     
                                 <td>
-                                    <a href="${contextPath}/post/detail?id=${post.user_id}" class="btn btn-primary btn-sm">View</a>
+                                    <%-- <a href="${contextPath}/post/detail?id=${post.user_id}" class="btn btn-primary btn-sm">View</a> --%>
+                                    <a href="${contextPath}/board/detail?board_id=${post.board_id}" class="btn btn-primary btn-sm">View</a>
                                 </td>
                            <!--  </tr> -->
                         </c:forEach>

@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../common/header.jsp" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-<title>계약 추가사항 확인</title>
+<title>살래?</title>
 <link rel="stylesheet" href="${path}/resources/css/style2.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -124,7 +125,7 @@
 			// 알림 내용 입력
 			const notify_content = `계약이 거절되었어요.<br>계약사항을 다시 확인해주세요.`;
 			// 알림 클릭 시 이동할 URL
-			const notify_url = "${pageContext.request.contextPath}/contract/onlyView/${contract.contract_id}";
+			const notify_url = "${path}/notify/main";
 
 			$.ajax({
 				type : "POST",
@@ -136,6 +137,7 @@
 					notify_url : notify_url
 				}),
 				success : function() {
+					alert("계약이 반려되었습니다.");
 					console.log("알림 전송 성공");
 				},
 				error : function() {
@@ -144,5 +146,6 @@
 			});
 		};
 	</script>
+	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

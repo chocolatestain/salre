@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../common/header.jsp" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 
-
-<title>계약서</title>
+<title>살래?</title>
 <link rel="stylesheet" href="${path}/resources/css/contract.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -67,5 +67,6 @@
             window.close();
         }
 	</script>
+	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

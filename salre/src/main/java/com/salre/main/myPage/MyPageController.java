@@ -109,26 +109,6 @@ public class MyPageController {
 		   System.out.println("@#$buyerProductList: " + buyerProductList);
 		   model.addAttribute("buyerProductList", buyerProductList);
 		  
-		   /*
-		   // 리뷰 작성 여부와 매핑된 데이터를 ReviewDTO로 변환
-	        List<ReviewDTO> reviewList = new ArrayList<>();
-			
-			 * for (ProductDTO product : buyerProductList) { ReviewDTO reviewDTO = new
-			 * ReviewDTO(); reviewDTO.setProduct_id(product.getProduct_id());
-			 * reviewDTO.setProduct_name(product.getProduct_name());
-			 * reviewDTO.setProduct_status(product.getProduct_status());
-			 * 
-			 * // 리뷰 작성 여부 확인 // boolean reviewWritten =
-			 * userService.isReviewWritten(user_id, product.getProduct_id()); boolean
-			 * reviewWritten = userService.isReviewWritten(reviewDTO);
-			 * reviewDTO.setReviewWritten(reviewWritten);
-			 * 
-			 * reviewList.add(reviewDTO); }
-			 
-	        model.addAttribute("reviewList", reviewList);
-	        */
-
-
 		   // 판매자 거래 매물 목록 가져오기
 		   List<ProductDTO> productList = userService.getTransactionByUserId(user_id);
 //	        System.out.println("productList: " + productList);
@@ -137,7 +117,7 @@ public class MyPageController {
 		   return "myPage/transactions"; 
 	   } else {
 		 
-		   System.out.println("Session does not contain a valid UserDTO.");
+		   System.out.println("로그인 후 이용해주세요.");
 		   return "redirect:/login";  // 로그인 페이지로 리다이렉트
 	   }
    }
@@ -159,6 +139,8 @@ public class MyPageController {
 	        UserDTO user = (UserDTO) userObj;
 	        int user_id = user.getUser_id(); // user_id 추출
 	        System.out.println("### user_id: " + user_id);
+	        //System.out.println("### product_id: " + product_id);
+	        
 
 	        // ProductDTO를 통해 seller_id 가져오기
 	        ProductDTO product = productService.selectByIdService(product_id);
@@ -174,8 +156,8 @@ public class MyPageController {
 	        review.setProduct_id(product_id);
 	        
 	        // 리뷰 중복 작성 확인
-	        boolean reviewExists = userService.isReviewWritten(review);
-	        if (reviewExists) {
+	        boolean is_review = userService.isReviewWritten(review);
+	        if (is_review) {
 	            throw new IllegalArgumentException("이미 작성된 리뷰입니다.");
 	        }
 
@@ -212,22 +194,23 @@ public class MyPageController {
 	        List<PostDTO> postList = userService.getPostsByUserId(user_id);
 	        
 	        // 게시글별 댓글 수 추가
-	        Map<Integer, Integer> commentCountMap = new HashMap<>();
-	        for (PostDTO post : postList) {
-	            int commentCount = commentService.selectCommentCnt(post.getBoard_id());
-	            System.out.println("@@Board ID: " + post.getBoard_id());
-	            System.out.println("@@Comment Count: " + commentCount);
-	            commentCountMap.put(post.getBoard_id(), commentCount);
-	        }
-	        
+			/*
+			 * Map<Integer, Integer> commentCountMap = new HashMap<>(); for (PostDTO post :
+			 * postList) { int commentCount =
+			 * commentService.selectCommentCnt(post.getBoard_id());
+			 * //System.out.println("@@Board ID: " + post.getBoard_id());
+			 * //System.out.println("@@Comment Count: " + commentCount);
+			 * commentCountMap.put(post.getBoard_id(), commentCount);
+			 }*/
+			 
 	        System.out.println("postList: " + postList);
-	        System.out.println("commentCountMap: " + commentCountMap);
+	        //System.out.println("commentCountMap: " + commentCountMap);
 	        model.addAttribute("postList", postList);
-	        model.addAttribute("commentCountMap", commentCountMap);
+	        //model.addAttribute("commentCountMap", commentCountMap);
 	        return "myPage/posts"; // post.jsp 占쏙옙환
 	    } else {
 	        
-	        System.out.println("Session does not contain a valid UserDTO.");
+	        System.out.println("로그인 후 이용해주세요.");
 	        return "redirect:/login"; 
 	    }
 	}
@@ -251,8 +234,8 @@ public class MyPageController {
 	        model.addAttribute("reviewList", reviewList);
 	        return "myPage/reviews"; // reviews.jsp 반환
 	    } else {
-	        System.out.println("Session does not contain a valid UserDTO.");
-	        return "redirect:/login"; // 占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싱뤄옙트
+	        System.out.println("로그인 후 이용해주세요.");
+	        return "redirect:/login"; 
 	    }
 	
 	}
@@ -314,11 +297,26 @@ public class MyPageController {
 		        return "myPage/reports"; // reports.jsp 占쏙옙환
 		    } else {
 		        
-		        System.out.println("Session does not contain a valid UserDTO.");
+		        System.out.println("로그인 후 이용해주세요.");
 		        return "redirect:/login"; 
 		    }
 		
 		}
-		 
-		
+		@PostMapping("/addreports")
+		public ResponseEntity<String> addReports(@RequestParam("reportType") int reportType,
+		                       @RequestParam("reportContent") String reportContent,
+		                       @RequestParam("product_id") int productId,
+		                       HttpSession session) {
+		    // 현재 로그인한 사용자 정보 가져오기
+		    UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
+		    int userId = user.getUser_id();
+
+		    // 신고 내용 저장 처리
+		    userService.addReport(userId, productId, reportContent, reportType);
+
+		    // 로깅 (디버깅 용도로 사용)
+		    System.out.println("신고 저장 완료 - 유저 ID: " + userId + ", 상품 ID: " + productId + 
+		                       ", 신고 유형: " + reportType + ", 내용: " + reportContent);
+		    return ResponseEntity.ok("신고가 성공적으로 접수되었습니다.");
+		}
 }

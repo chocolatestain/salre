@@ -24,7 +24,8 @@
 			<div class="container mt-5">
 				<div class="profile-container">
 					<!-- Profile Image -->
-					<img src="https://via.placeholder.com/100" alt="Profile Image">
+					 <!-- <img src="https://via.placeholder.com/100" alt="Profile Image"> -->
+			   		 <img src="${contextPath}/resources/profile.png" alt="Profile Image">
 					<!-- Toggle Buyer/Seller -->
 					<div class="toggle-container">
 						<span>구매자</span>

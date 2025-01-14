@@ -29,7 +29,8 @@
 				<div class="profile-container" onclick="window.location.href='${contextPath}/admin/myPage';">
 				 
 			    <!-- Profile Image -->
-			    <img src="https://via.placeholder.com/100" alt="Profile Image">
+			    <!-- <img src="https://via.placeholder.com/100" alt="Profile Image"> -->
+			    <img src="${contextPath}/resources/profile.png" alt="Profile Image">
 			    <!-- Toggle Buyer/Seller -->
 			    <div class="toggle-container">
 			        <span>관리자</span>
