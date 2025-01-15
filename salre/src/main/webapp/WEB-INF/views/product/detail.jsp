@@ -287,23 +287,23 @@ function submitReport() {
  
     };
 
-    document.querySelector('.btn_like').addEventListener('click', function () {
-        const productId = this.getAttribute('data-product-id');
-        const userId = this.getAttribute('data-user-id');
-        const url = `/salre/toggleLike/${product_product_id}/${user_id}`;
+//     document.querySelector('.btn_like').addEventListener('click', function () {
+//         const productId = this.getAttribute('data-product-id');
+//         const userId = this.getAttribute('data-user-id');
+//         const url = `/salre/toggleLike/${product_product_id}/${user_id}`;
 
-        fetch(url, {
-            method: 'GET',
-        })
-            .then((response) => response.text())
-            .then((data) => {
-                // 서버로부터 반환된 메시지를 처리
-                document.getElementById('like-message').innerText = data;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
+//         fetch(url, {
+//             method: 'GET',
+//         })
+//             .then((response) => response.text())
+//             .then((data) => {
+//                 // 서버로부터 반환된 메시지를 처리
+//                 document.getElementById('like-message').innerText = data;
+//             })
+//             .catch((error) => {
+//                 console.error('Error:', error);
+//             });
+//     });
     
     // Kakao 지도 초기화 함수
     function initMap(x, y) {

@@ -128,7 +128,7 @@
         let swiperInstance;
         function initializeSwiper() {
             swiperInstance = new Swiper('.swiper-container', {
-                slidesPerView: 5,
+                slidesPerView: 3,
                 spaceBetween: 10,
                 loop: true,
                 autoplay: {
