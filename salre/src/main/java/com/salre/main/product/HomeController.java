@@ -1,6 +1,5 @@
 package com.salre.main.product;
  
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +47,7 @@ public class HomeController {
  
         int regionCode = regionService.selectIdByRegion(regionName); 
         System.out.println(regionCode);
+        System.out.println(productService.findProductsByRegionCode(regionCode));
         return productService.findProductsByRegionCode(regionCode);
         
         

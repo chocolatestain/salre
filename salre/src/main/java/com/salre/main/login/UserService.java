@@ -7,13 +7,10 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.salre.main.myPage.LikeDTO;
 import com.salre.main.myPage.PostDTO;
@@ -209,8 +206,8 @@ public class UserService {
 	public List<ReportDTO> getMyreportsByUserId(int user_id) {
 		return userDAO.selectReportsByUserId(user_id);
 	}
-	public  void addReport(int user_id,int product_id,String report_content,int report_class)  {
-		 reportDAO.addReport(user_id, product_id, report_content, report_class);
+	public  void addReport(int user_id,int product_id,String report_content,int report_class,String status)  {
+		 reportDAO.addReport(user_id, product_id, report_content, report_class, status);
 	}
 	
 	// ���������� - ȸ����������

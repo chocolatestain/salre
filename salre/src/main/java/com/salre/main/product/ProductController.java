@@ -141,23 +141,40 @@ public class ProductController {
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
         // 상품 정보를 가져옴
         ProductDTO product = productService.selectByIdService(product_id);
-        System.out.println(product);
-        System.out.println(product.getUser_id());
 
         // 상품을 등록한 사용자 정보 가져오기
         UserDTO user = userservice.getUserById(product.getUser_id());
-        System.out.println("user : " + user);
-        System.out.println("user_id : " + user.getUser_id());
-        System.out.println("id : " + user.getId());
-        System.out.println(userservice.getUserById(product.getUser_id()));
 
         // 사용자에 대한 리뷰 목록 가져오기
         List<ReviewDTO> review = userservice.getMyreviewsByUserId(product.getUser_id());
-        user.getId();
         
+        System.out.println("review : " + review);
         // 첫 두 개의 리뷰만 가져오기
         List<ReviewDTO> topReviews = review.stream().limit(2).collect(Collectors.toList());
         
+        System.out.println("topReview : " + topReviews);
+        // 첫 두 리뷰의 작성자 ID 추출
+        List<Integer> topReviewUserIds = topReviews.stream()
+                                                   .map(ReviewDTO::getUser_id)
+                                                   .collect(Collectors.toList());
+        
+        System.out.println("reviewIds : " + topReviewUserIds);
+       
+        // 첫 번째 리뷰 작성자와 두 번째 리뷰 작성자의 정보를 가져옴
+        UserDTO user1 = !topReviewUserIds.isEmpty() ? userservice.getUserById(topReviewUserIds.get(0)) : null;
+        UserDTO user2 = topReviewUserIds.size() > 1 ? userservice.getUserById(topReviewUserIds.get(1)) : null;
+        	
+        System.out.println(user1);
+        System.out.println(user2);
+        
+        // 디버깅 출력
+        if (user1 != null) {
+            System.out.println("User 1: " + user1.getId());
+        }
+        if (user2 != null) {
+            System.out.println("User 2: " + user2.getId());
+        }
+
         // 상품 상태에 따른 처리
         String status = "status-before";
         String label = "거래 전";
@@ -185,15 +202,17 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("label", label);
         model.addAttribute("user_nickname", user.getId());
-        model.addAttribute("review", topReviews);  // 첫 2개의 리뷰만 추가
+        model.addAttribute("review", topReviews); // 첫 2개의 리뷰만 추가
         model.addAttribute("user_id", user.getUser_id());
-        System.out.println(user.getUser_id());
-        System.out.println(user.getId());
+        
+        // 리뷰 작성자들의 닉네임 추가
+        model.addAttribute("username1", user1 != null ? user1.getId() : "알 수 없음");
+        model.addAttribute("username2", user2 != null ? user2.getId() : "알 수 없음");
 
         // 상품 조회수 증가
         productService.incrementViewCount(product_id);
 
-        return "product/detail";  // 해당 JSP 페이지로 반환
+        return "product/detail"; // 해당 JSP 페이지로 반환
     }
 
     @GetMapping("")

@@ -1,6 +1,5 @@
 package com.salre.main.myPage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salre.main.board.CommentService;
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
 import com.salre.main.product.ProductDTO;
@@ -30,8 +27,6 @@ public class MyPageController {
 	private UserService userService;
 	@Autowired
 	private ProductService productService;
-	@Autowired
-	private CommentService commentService;
 	
 	//마이페이지
 	@GetMapping("/myPage")
@@ -289,7 +284,6 @@ public class MyPageController {
 		        UserDTO user = (UserDTO) userObj;
 		        int user_id = user.getUser_id(); // user_id 추출
 		        System.out.println("Extracted user_id: " + user_id);
-
 		        // Service 
 		        List<ReportDTO> reportList = userService.getMyreportsByUserId(user_id);
 		        System.out.println("reportList: " + reportList);
@@ -306,13 +300,14 @@ public class MyPageController {
 		public ResponseEntity<String> addReports(@RequestParam("reportType") int reportType,
 		                       @RequestParam("reportContent") String reportContent,
 		                       @RequestParam("product_id") int productId,
+		                       @RequestParam("status") String status,
 		                       HttpSession session) {
 		    // 현재 로그인한 사용자 정보 가져오기
 		    UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
 		    int userId = user.getUser_id();
-
+		    System.out.println(status);
 		    // 신고 내용 저장 처리
-		    userService.addReport(userId, productId, reportContent, reportType);
+		    userService.addReport(userId, productId, reportContent, reportType, status);
 
 		    // 로깅 (디버깅 용도로 사용)
 		    System.out.println("신고 저장 완료 - 유저 ID: " + userId + ", 상품 ID: " + productId + 
