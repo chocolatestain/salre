@@ -209,7 +209,7 @@
                             <div class="helper"></div>
                             <input type="number" name="amount" placeholder="금액 입력" />
                             <label for="period">대출기간 (개월)</label>
-                            <input type="number" name="period" placeholder="기간 입력" max="120"/>
+                            <input type="number" name="period" placeholder="기간 입력" />
                         </h3>
                         <hr>
                         <button id="doCalc">계산</button>
@@ -317,6 +317,13 @@
                                 alert("모든 항목을 입력해주세요.");
 
                                 return false;
+                            }
+
+                            if (period > 120) {
+                                alert("최대 대출기간은 10년입니다.");
+
+                                $("input[name='period']").val(120);
+                                period = 120;
                             }
 
                             $('.calc').html(`
