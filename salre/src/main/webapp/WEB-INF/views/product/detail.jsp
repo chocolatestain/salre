@@ -26,7 +26,7 @@
     style="width: 600px; height: 600px; object-fit: cover;">
      </div>
 		<div class="seller-profile">
-		  <img class="generic-avatar" src="https://placehold.co/75x75" alt="Avatar" />
+		  <img class="generic-avatar" src="https://avatar.iran.liara.run/public" alt="Avatar" />
 		  <p class="seller-name">
 		    <span class="seller-nickname">${user_nickname}</span> 
 		  </p>
@@ -63,7 +63,7 @@
                 <c:forEach var="review" items="${review}" varStatus="status">
                     <div class="review">
                         <div class="reviewer">
-                            <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
+                            <img class="review-avatar" src="https://avatar.iran.liara.run/public/boy" alt="Avatar" />
                             <p class="seller-name">
                                 <span class="review-seller-name">
                                     <c:choose>
