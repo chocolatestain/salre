@@ -48,6 +48,26 @@
                 <span>${P_user.email}</span>
             </div>
         </section>
+        <!-- 회원 정보 -->
+        <section class="section">
+            <h2>구매자 정보</h2>
+            <div class="form-group">
+                <label>아이디:</label>
+                <span>${user.user_id}</span>
+            </div>
+            <div class="form-group">
+                <label>이름:</label>
+                <span>${user.user_name}</span>
+            </div>
+            <div class="form-group">
+                <label>전화번호:</label>
+                <span>${user.phone_num}</span>
+            </div>
+            <div class="form-group">
+                <label>이메일:</label>
+                <span>${user.email}</span>
+            </div>
+        </section>
 
         <!-- 매물 정보 -->
         <section class="section">
@@ -106,7 +126,7 @@
         	<button type="button" class="btn btn-secondary">취소</button>
         	   <input type="submit" class="btn btn-primary"  value="다음" />
         	   <input type="hidden" name="product_id" value="${product.product_id}">
-        	   <input type="hidden" name="user_id" value="${P_user.user_id}">
+        	   <input type="hidden" name="user_id" value="${user.user_id}">
         	</form>
         	 </div>
 		<!--매물 사진 -->
