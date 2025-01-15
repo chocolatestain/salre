@@ -74,20 +74,12 @@
 }
 
 /* Swiper 슬라이드 */
-.swiper-slide {
-    width: auto; /* 각 슬라이드의 너비 자동 설정 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    box-sizing: border-box;
-}
+
 /toggleelike
 /* 슬라이드 안의 이미지 */
 .carousel-image {
-    width: 100%;
-    height: auto;
+    width: 200px;
+    height: 150px;
     max-width: 400px; /* 이미지의 최대 너비 설정 */
     max-width:300px;
     border-radius: 8px; /* 모서리 둥글게 처리 */
@@ -170,7 +162,7 @@
 }
 
 .swiper-slide {
-    width: 400px;  /* 슬라이드 너비 */
+    width: 300px;  /* 슬라이드 너비 */
     height: 300px; /* 슬라이드 높이 */
     display: flex!important;             /* 슬라이드 안에서 중앙 정렬을 위해 flex 사용 */
     justify-content: center;   /* 가로 중앙 정렬 */
@@ -181,4 +173,8 @@
     box-sizing: border-box;  /* 경계 포함하여 크기 계산 */
     background-color: #f5f5f5;  /* 배경색 (필요시) */
 }
-
+.swiper-slide { 
+ 
+    flex-direction: column;
+ 
+}
