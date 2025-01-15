@@ -10,11 +10,16 @@
         user_id,
         product_id,
         report_content,
-        report_class)
+        report_class,
+        status
+        )
         VALUES (
         #{user_id},
         #{product_id},
         #{report_content},
-        #{report_class})
+        #{report_class},
+        #{status}
+        )
+        
 	</insert>
 </mapper>

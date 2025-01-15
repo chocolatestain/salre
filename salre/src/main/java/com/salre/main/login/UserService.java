@@ -209,8 +209,8 @@ public class UserService {
 	public List<ReportDTO> getMyreportsByUserId(int user_id) {
 		return userDAO.selectReportsByUserId(user_id);
 	}
-	public  void addReport(int user_id,int product_id,String report_content,int report_class)  {
-		 reportDAO.addReport(user_id, product_id, report_content, report_class);
+	public  void addReport(int user_id,int product_id,String report_content,int report_class,String status)  {
+		 reportDAO.addReport(user_id, product_id, report_content, report_class, status);
 	}
 	
 	// ���������� - ȸ����������

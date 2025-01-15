@@ -60,12 +60,23 @@
         <c:choose>
  
             <c:when test="${not empty review}">
-                <c:forEach var="review" items="${review}">
+                <c:forEach var="review" items="${review}" varStatus="status">
                     <div class="review">
                         <div class="reviewer">
                             <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
                             <p class="seller-name">
-                                <span class="review-seller-name">${review.user_id}<br /></span>
+                                <span class="review-seller-name">
+                                    <c:choose>
+             
+                                        <c:when test="${status.index == 0}">
+                                            ${username1}<br />
+                                        </c:when>
+  
+                                        <c:when test="${status.index == 1}">
+                                            ${username2}<br />
+                                        </c:when>
+                                    </c:choose>
+                                </span>
                             </p>
                         </div>
                         <div class="review-content">
@@ -73,7 +84,8 @@
                         </div>
                     </div>
                 </c:forEach>
-            </c:when> 
+            </c:when>
+     
             <c:otherwise>
                 <p class="no-review">현재 등록된 리뷰가 없습니다.</p>
             </c:otherwise>
@@ -82,15 +94,46 @@
 </div>
 
 
+
         </div>
         <div class="right">
   
           <div class="product-info">
                       <div style="display: flex; justify-content: space-between; align-items: center;">
-              <p class="product-descript-name" style="margin-top : 30px;">상세 내용</p>
+              <p class="product-descript-name" style="margin-top : 30px;">${product.product_name}</p>
            	<div class = "links-right" >
    
-              <a href="report_page.html" id="report" style="text-decoration: none; color: #f4a261; cursor: pointer;">신고하기</a>
+	               <div>
+							<button type="button" class="btn btn-secondary" id="report"
+								onclick="makeReport()">신고하기</button>
+							<!-- 모달 -->
+								<div id="reportModal" class="modal">
+							<div class="modal-content">
+								<span class="close" onclick="closeModal()">&times;</span>
+								<h2>신고하기</h2>
+								<p>신고 내용을 작성해주세요.</p>
+								<!-- 신고 유형 선택 -->
+								<label for="reportType">신고 유형:</label> <select id="reportType"
+									required>
+									<option value="" disabled selected>신고 유형을 선택하세요</option>
+									<option value="0">허위매물</option>
+									<option value="1">게시판신고</option>
+									<option value="2">기타</option>
+								</select> <input type="hidden" name="product_id" id="product_id"
+									value="${product.product_id}">
+								<textarea id="reportContent" rows="5"
+									placeholder="신고 내용을 입력하세요..." required></textarea>
+									<input type="hidden" id = "status" name = "status" value = "0">									
+								<div class="button-group">
+									<button type="button" class="btn btn-primary"
+										onclick="submitReport()">확인</button>
+									<button type="button" class="btn btn-secondary"
+										onclick="closeModal()">취소</button>
+								</div>
+							</div>
+						</div>
+	              </div>
+               
                   	<div class = "links-right2">
                       	<button class="btn_like" data-product-id="${product.product_id}" data-user-id="${user_id}">Like</button>
 						<div id="like-message"></div>
@@ -145,13 +188,85 @@
               <div class="info-category">방향</div>
               <div class="info-content">${product.direction} </div>
             </div> 
+            
+             <h1>대출가능여부</h1>
+            <div class="info-row">
+			    <div class="info-category">주택도시기금</div>
+			    <div class="info-content">${product.loan1 == 1 ? '가능' : '불가능'}</div>
+			</div> 
+			<div class="info-row">
+			    <div class="info-category">중소기업 취업 청년</div>
+			    <div class="info-content">${product.loan2 == 1 ? '가능' : '불가능'}</div>
+			</div>
+			
+			<div class="info-row">
+			    <div class="info-category">버팀목 전세자금대출</div>
+			    <div class="info-content">${product.loan3 == 1 ? '가능' : '불가능'}</div>
+			</div>
+ 
+            <div class="info-row">
+             <div class="info-category">매물 설명</div>
              <p class="product-descript">
               ${product.description }
             </p>  
+            </div>
 			<div id="map" style="width:550px;height:200px;"></div>
    
-           
-   <script>  
+           <script>
+//신고하기
+	// 모달 열기
+function makeReport() {
+    const modal = document.getElementById("reportModal");
+    modal.style.display = "flex"; // 모달 표시
+}
+ 
+// 모달 닫기
+function closeModal() {
+    const modal = document.getElementById("reportModal");
+    modal.style.display = "none"; // 모달 숨김
+}
+// 신고 내용 제출
+function submitReport() {
+	 // 각 요소의 값을 변수에 저장
+    const reportType = document.getElementById("reportType").value;
+    const reportContent = document.getElementById("reportContent").value;
+    const productId = "${product.product_id}";
+    if (!reportType) {
+        alert("신고 유형을 선택하세요.");
+        return;
+    }
+    if (!reportContent.trim()) {
+        alert("신고 내용을 입력하세요.");
+        return;
+    }
+    // 데이터 전송
+    const formData = new FormData();
+    formData.append("reportType", reportType);
+    formData.append("reportContent", reportContent);
+    formData.append("product_id", productId);
+    formData.append("status",status);
+   
+	
+    fetch("${pageContext.request.contextPath}/addreports", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => {
+            if (response.ok) {
+                alert("신고가 성공적으로 접수되었습니다.");
+                closeModal(); // 모달 닫기
+                document.getElementById("reportType").value = ""; // 초기화
+                document.getElementById("reportContent").value = ""; // 초기화
+            } else {
+                alert("신고 접수에 실패했습니다. 다시 시도해주세요.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("오류가 발생했습니다. 다시 시도해주세요.");
+        });
+}
+   
     let map; // 전역 변수로 지도 객체 생성
     const query = "${product.address }"
  
@@ -199,7 +314,7 @@
             draggable: false 
         };
 
-        // 지도 생성
+        // 지도 생성	
         map = new kakao.maps.Map(mapContainer, mapOption);
 
         // 마커 생성

@@ -354,7 +354,7 @@
              <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
                 <div class="product-card">
 					<img class="product-image" 
-					     src="resources/images/products/${product.product_id}.jpeg" 
+					     src="/salre/resources/images/products/${product.product_id}.jpeg" 
 					     alt="${product.product_name}" 
 					     onerror="this.src='https://placehold.co/200x200';"
 					     style="width: 200px; height: 200px; object-fit: fill;">     

@@ -15,12 +15,13 @@ public class ReportDAO {
 
 	
 	public int addReport(int user_id,int product_id,
-			String report_content,int report_class) {
+			String report_content,int report_class, String status) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("user_id", user_id);
 		params.put("product_id", product_id);
 		params.put("report_content", report_content);
 		params.put("report_class", report_class);
+		params.put("status", status);
 		int result = sqlSession.insert(namespace + ".insertReport",params);
 	 return result;
 	}
