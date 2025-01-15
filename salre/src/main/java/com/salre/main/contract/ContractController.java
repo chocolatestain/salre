@@ -73,6 +73,7 @@ public class ContractController {
 		System.out.println(P_user);
 		model.addAttribute("product", product);
 		model.addAttribute("P_user", P_user);
+		model.addAttribute("user", user);
 		
 		return "contract/contractDetailTenant";
 	}
@@ -127,10 +128,11 @@ public class ContractController {
 	    	  ProductDTO product = productService.selectByContractId(contract_id);
 	    	  session.setAttribute("contract", contractDTO);
 	    	  session.setAttribute("product",product);
+	    	UserDTO p_user = userService.getUserById(product.getUser_id());
 	         ContractDTO contract =contractService.getContractById(contract_id);
 	         contractService.updateContractStatus(contract_id,2);//계약 상태 업데이트 2 : 계약서 작성
 	       
-	       
+	       model.addAttribute("p_user",p_user);
 	         model.addAttribute("contract",contract);
 	         // 저장된 계약 정보를 조회하는 페이지로 리다이렉트
 	         return "redirect:/contract/contractTotal?contract_id=" + contract_id +
@@ -144,9 +146,11 @@ public class ContractController {
 			ContractDTO contract = contractService.getContractById(contract_id);
 			UserDTO user = userService.getUserById(contract.getUser_id());//임대인
 			ProductDTO product = productService.selectByIdService(contract.getProduct_id());
+			UserDTO p_user = userService.getUserById(product.getUser_id());
 			UserDTO tenant = (UserDTO) session.getAttribute("loggedInUser");
 			UserDTO tenant_user = userService.getUserById(tenant.getUser_id());
 			
+			model.addAttribute("p_user",p_user);
 			  model.addAttribute("tenant_user",tenant_user);
 			    model.addAttribute("contract", contract);
 			    model.addAttribute("user", user);//임대인

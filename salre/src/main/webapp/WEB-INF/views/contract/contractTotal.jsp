@@ -19,16 +19,16 @@
 			<section class="section">
 				<h2>임대인 정보</h2>
 				<div class="form-group">
-					<label>아이디:</label> <span>${user.id}</span>
+					<label>아이디:</label> <span>${p_user.id}</span>
 				</div>
 				<div class="form-group">
-					<label>이름:</label> <span>${user.user_name}</span>
+					<label>이름:</label> <span>${p_user.user_name}</span>
 				</div>
 				<div class="form-group">
-					<label>전화번호:</label> <span>${user.phone_num}</span>
+					<label>전화번호:</label> <span>${p_user.phone_num}</span>
 				</div>
 				<div class="form-group">
-					<label>이메일:</label> <span>${user.email}</span>
+					<label>이메일:</label> <span>${p_user.email}</span>
 				</div>
 			</section>
 			<section class="section">

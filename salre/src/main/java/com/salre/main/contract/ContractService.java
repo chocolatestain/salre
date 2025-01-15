@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.salre.main.product.ProductContractDTO;
+import com.salre.main.product.ProductDAO;
+import com.salre.main.product.ProductDTO;
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserDAO;
 
@@ -34,6 +36,9 @@ public class ContractService {
 	@Autowired
 	@Qualifier("UserDAO")
 	public UserDAO userDAO;
+	@Autowired
+	public ProductDAO productDAO;
+
 	
 	
 	// 계약 ID로 조회
@@ -54,12 +59,13 @@ public class ContractService {
     // 계약 ID로 모든 매물, 판매자조회
     public ProductContractDTO getContractPById(int contract_id) {
     	return contractDAO.selectContractPById(contract_id);
-    } 
+    }
     public String processContract(Map<String, String> formData, int contract_id, String basePath,HttpSession session) throws Exception {
         Map<String, String> data = fetchContractData(contract_id, formData,session);
 
         // 1. 엑셀 작성
         String excelPath = basePath + "/excel/contractTmp_sample.xlsx";
+      System.out.println("excelpath :"+ excelPath);
         excelPath = ExcelWriter.writeContractData(excelPath, data,basePath,contract_id);
         saveContractExcelPath(contract_id, excelPath); //엑셀경로 저장
         
@@ -78,9 +84,12 @@ public class ContractService {
         // DAO 호출로 계약 데이터 조회
     	
         ProductContractDTO contract = contractDAO.selectContractPById(contract_id);
-        UserDTO user = userDAO.selectById(contract.getUser_id());
-        
+        ProductDTO product = productDAO.getProductById(contract.getProduct_id());
+        UserDTO landlord = userDAO.selectById(product.getUser_id());
+        System.out.println("landlord:"+landlord);
         UserDTO tenant = (UserDTO) session.getAttribute("loggedInUser");
+        System.out.println("tenant:"+tenant);
+        System.out.println("contract:"+contract);
         
         // 데이터 매핑 및 병합
         Map<String, String> data = new HashMap<>();
@@ -112,16 +121,16 @@ public class ContractService {
         if(contract.getBalance_payment_day() !=null) {
         	data.put("balance_payment_day", String.valueOf(contract.getBalance_payment_day()));}// 잔금일
         data.put("price", NumberToKorean.convertToKorean(contract.getPrice())); // 계약금
-        data.put("taker",user.getUser_name());//영수자
+        data.put("taker",landlord.getUser_name());//영수자
         
         // 서명 정보
-        data.put("landlord_address", user.getAddress()+user.getAddress_detail()); // 임대인 주소
-        data.put("landlord_resident_num", user.getResident_num()); // 임대인 주민등록번호
-        String userResidentNnum2 = user.getResident_num2();
+        data.put("landlord_address", landlord.getAddress()+landlord.getAddress_detail()); // 임대인 주소
+        data.put("landlord_resident_num", landlord.getResident_num()); // 임대인 주민등록번호
+        String userResidentNnum2 = landlord.getResident_num2();
         String userNewResidentNnum2 = "-"+userResidentNnum2;
         data.put("landlord_resident_num2", userNewResidentNnum2); // 임대인 주민등록번호
-        data.put("landlord_phone_num", user.getPhone_num()); // 임대인 전화번호
-        data.put("landlord_name",user.getUser_name()); // 임대인 이름
+        data.put("landlord_phone_num", landlord.getPhone_num()); // 임대인 전화번호
+        data.put("landlord_name",landlord.getUser_name()); // 임대인 이름
         data.put("tenant_address",tenant.getAddress()+tenant.getAddress_detail()); // 임차인 주소
         data.put("tenant_resident_num", tenant.getResident_num());// 임차인 주민등록번호
         String residentNnum2 = tenant.getResident_num2();
