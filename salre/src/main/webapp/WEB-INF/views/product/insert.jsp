@@ -236,20 +236,20 @@
 <h2>대출 가능 여부</h2>
 <div class="form-group">
     <label for="loan">주택도시기금 *</label>
-    <input type="radio" id="loan_yes" name="loan" value="가능" required> 가능
-    <input type="radio" id="loan_no" name="loan" value="불가능" required> 불가능
+    <input type="radio" id="loan_yes" name="loan" value="1" required> 가능
+    <input type="radio" id="loan_no" name="loan" value="0" required> 불가능
 </div>
 
 <div class="form-group">
     <label for="loan2">중소기업 취업 청년 *</label>
-    <input type="radio" id="loan2_yes" name="loan2" value="가능" required> 가능
-    <input type="radio" id="loan2_no" name="loan2" value="불가능" required> 불가능
+    <input type="radio" id="loan2_yes" name="loan2" value="1" required> 가능
+    <input type="radio" id="loan2_no" name="loan2" value="0" required> 불가능
 </div>
 
 <div class="form-group">
     <label for="loan3">버팀목 전세자금대출 *</label>
-    <input type="radio" id="loan3_yes" name="loan3" value="가능" required> 가능
-    <input type="radio" id="loan3_no" name="loan3" value="불가능" required> 불가능
+    <input type="radio" id="loan3_yes" name="loan3" value="1" required> 가능
+    <input type="radio" id="loan3_no" name="loan3" value="0" required> 불가능
 </div>
  
 			

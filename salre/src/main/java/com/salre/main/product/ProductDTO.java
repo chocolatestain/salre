@@ -47,7 +47,4 @@ public class ProductDTO {
 	int loan1;
 	int loan2;
 	int loan3;
-	int plan1;
-	int plan2;
-	int plan3;
 }

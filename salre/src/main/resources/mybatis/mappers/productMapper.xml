@@ -15,12 +15,12 @@
     (product_id, user_id, region_id, product_name, payment_type, product_status, view_count, address, address_detail, 
      deposit, rentfee, area, product_type, floor, enter_day, room_count, bath_count, approve_day, park_count, 
      manage_fee, direction, description, land_type, land_area, building_structure, building_usage, rental_area, 
-     loan1, loan2, loan3, plan1, plan2, plan3)
+     loan1, loan2, loan3)
     VALUES 
     (#{product_id}, #{user_id}, #{region_id}, #{product_name}, #{payment_type}, #{product_status}, #{view_count}, #{address}, #{address_detail}, 
      #{deposit}, #{rentfee}, #{area}, #{product_type}, #{floor}, #{enter_day}, #{room_count}, #{bath_count}, #{approve_day}, #{park_count}, 
      #{manage_fee}, #{direction}, #{description}, #{land_type}, #{land_area}, #{building_structure}, #{building_usage}, #{rental_area}, 
-     #{loan1}, #{loan2}, #{loan3}, #{plan1}, #{plan2}, #{plan3});
+     #{loan1}, #{loan2}, #{loan3});
 </insert>
 
 

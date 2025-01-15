@@ -209,7 +209,7 @@
                             <div class="helper"></div>
                             <input type="number" name="amount" placeholder="금액 입력" />
                             <label for="period">대출기간 (개월)</label>
-                            <input type="number" name="period" placeholder="기간 입력" />
+                            <input type="number" name="period" placeholder="기간 입력" max="120"/>
                         </h3>
                         <hr>
                         <button id="doCalc">계산</button>
