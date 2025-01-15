@@ -50,7 +50,7 @@ body {
 }
 
 /* 버튼 스타일 */
-.table .btn-primary {
+/* .table .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
 }
@@ -58,6 +58,16 @@ body {
 .table .btn-primary:hover {
     background-color: #0056b3;
     border-color: #0056b3;
+} */
+.table .custom-view-btn {
+    background-color: #ff5722; /* 새로운 배경색 (주황색 예시) */
+    border-color: #ff5722;     /* 테두리 색상 */
+    color: white;              /* 텍스트 색상 */
+}
+
+.table .custom-view-btn:hover {
+    background-color: #e64a19; /* 호버 시 색상 */
+    border-color: #e64a19;
 }
 </style>
 </head>
@@ -109,7 +119,7 @@ body {
                                 <a href="#" class="btn btn-primary btn-sm">수정</a>
                             </td> -->
                             <td>
-							    <button class="btn btn-primary btn-sm" 
+							    <button class="btn custom-view-btn" 
 							            data-bs-toggle="modal" 
 							            data-bs-target="#updateModal" 
 							            data-review-id="${review.review_id}" 

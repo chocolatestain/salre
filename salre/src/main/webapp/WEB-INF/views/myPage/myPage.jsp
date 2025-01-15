@@ -65,7 +65,7 @@
 
 					<div class="row mb-3">
 						<div class="col-md-6">
-							<label for="resident" class="form-label">주민등록번호</label> <input
+							<label for="resident" class="form-label">생년월일</label> <input
 								type="text" id="resident" class="form-control"
 								value="${loggedInUser.resident_num}" readonly>
 						</div>

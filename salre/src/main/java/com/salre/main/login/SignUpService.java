@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
@@ -20,28 +19,14 @@ import com.google.gson.JsonParser;
 
 @Service
 public class SignUpService {
-/*
-	@Value("${impKey}")
-	private static String impKey2;
+	private static String impKey = "imp74358381";
+	private static String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
 
-	@Value("${impSecret}")
-	private static String impSecret;
-*/
-/*
- * // apikey.properties에서 값 주입
- * 
- * @Value("${imp_key}") private String impKey;
- * 
- * @Value("${imp_secret}") private String impSecret;
- */
-	// �����ڵ�� token��û�ϰ� ����� phone�� �̸� ������
 	public static HashMap getAccessToken(String impUid) {
 //	public HashMap getAccessToken(String impUid) {
 		HashMap map = new HashMap<>();
 		System.out.println("impUid");
-
-		String impKey = "imp74358381";
-		String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+		
 		String strUrl = "https://api.iamport.kr/users/getToken"; // ��ū ��û ���� �ּ�
 		String access_token = "";
 		String phone = "";

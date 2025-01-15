@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 
-<title>살래?! 채팅</title>
+<title>살래?</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
@@ -62,6 +62,10 @@
 	                        <div class="container py-8">
 	                            <!-- Title -->
 	                            <div class="mb-8 d-flex align-items-center">
+	                            	<!-- Controls -->
+				                    <a href="${contextPath}" class="me-3">
+				                    	<img src="${contextPath}/resources/images/favicon.ico" style="width: 30px; flex-shrink: 0">
+				                    </a>
 	                                <h2 class="fw-bold m-0">채팅 목록</h2>
 	                                <h4 class="fw-bold m-0 ms-auto"><u>${loggedInUser.user_name}</u> 님</h4>
 	                            </div>
@@ -225,6 +229,14 @@
 	            	
 	            	// 스크롤을 맨 아래로 이동
         			scrollToBottom();
+	            });
+	            
+	         	// Enter 키를 눌러 메시지 전송
+	            document.getElementById("chatInput").addEventListener("keypress", function(event) {
+	                if (event.key === "Enter" && !event.shiftKey) {  // Shift + Enter는 줄바꿈을 허용하고, Enter만 전송
+	                    event.preventDefault();  // Enter 키 기본 동작 방지 (줄 바꿈 안됨)
+	                    sendMessage(chatRoom_id);  // 메시지 전송 함수 호출
+	                }
 	            });
 	        });
 	    }

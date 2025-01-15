@@ -38,7 +38,7 @@
             }
 
             .controls button {
-                background-color: #f5f5f5;
+                background-color: transparent;
                 border: none;
                 cursor: pointer;
                 font-size: 2rem;
@@ -171,7 +171,7 @@
                 right: 30px;
                 z-index: 9999;
                 border: none;
-                background-color: #999;
+                background-color: transparent;
                 cursor: pointer;
                 padding: 10px;
                 border-radius: 10px;
@@ -190,7 +190,9 @@
 
                 <!-- Controls -->
                 <div class="controls">
-                    <button onclick="history.back()">⬅️</button>
+                    <button onclick="history.back()">
+                        <img src="${pageContext.request.contextPath}/resources/images/left.png">
+                    </button>
                 </div>
 
                 <div class="form-box">
@@ -207,7 +209,7 @@
                             <div class="helper"></div>
                             <input type="number" name="amount" placeholder="금액 입력" />
                             <label for="period">대출기간 (개월)</label>
-                            <input type="number" name="period" placeholder="기간 입력" />
+                            <input type="number" name="period" placeholder="기간 입력" max="120"/>
                         </h3>
                         <hr>
                         <button id="doCalc">계산</button>
@@ -219,7 +221,9 @@
 
             <%@ include file="../common/footer.jsp" %>
 
-                <button onclick="scrollToTop()" id="scroll">⬆️</button>
+                <button onclick="scrollToTop()" id="scroll">
+                    <img src="${pageContext.request.contextPath}/resources/images/up.png">
+                </button>
 
                 <script>
                     $(document).ready(function () {

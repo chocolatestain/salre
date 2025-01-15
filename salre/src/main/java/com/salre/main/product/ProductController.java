@@ -3,6 +3,7 @@ package com.salre.main.product;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.salre.main.login.UserDTO;
 import com.salre.main.login.UserService;
+import com.salre.main.myPage.ReviewDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +38,14 @@ public class ProductController {
     
     private UserService userservice;
     
-    @GetMapping("/insert")
+ 
+    
+    @GetMapping("/insert.do")
     public String showCreateForm() {
         return "product/insert";
     }
 
-    @PostMapping("/insert") // product/insert에서 작성한 내용 post  
+    @PostMapping("/insert.do") // product/insert에서 작성한 내용 post  
     public String createProduct(@ModelAttribute ProductDTO productDTO, MultipartHttpServletRequest request, Model model) {
  
  
@@ -135,34 +139,82 @@ public class ProductController {
  
     @GetMapping("/detail/{id}")
     public String viewProduct(@PathVariable("id") int product_id, Model model) {
-    	ProductDTO product = productService.selectByIdService(product_id);
-    	UserDTO user = userservice.getUserById(product.getUser_id());
-    	String status = "status-before";
-    	String label = "거래 전";
-    	switch (product.getProduct_status()) {
-    	    case 0:
-    	    	status = "status-before";
-    	    	label = "거래 전";
-    	        break;
-    	    case 1:
-    	    	status = "status-in-progress";
-    	    	label = "거래 중";
-    	        break;
-    	    case 2:
-    	    	status = "status-completed";
-    	    	label = "거래 완료";
-    	    	break; 
-    	    case 3:
-    	    	status ="status-unknown";
-    	    	label = "오류";
-    	} 
-    	model.addAttribute("status", status);
-    	model.addAttribute("product", product);
-    	model.addAttribute("label", label);
-    	model.addAttribute("user_nickname", user.getId());
-    	productService.incrementViewCount(product_id);
-    	return "product/detail";
-    }  
+        // 상품 정보를 가져옴
+        ProductDTO product = productService.selectByIdService(product_id);
+
+        // 상품을 등록한 사용자 정보 가져오기
+        UserDTO user = userservice.getUserById(product.getUser_id());
+
+        // 사용자에 대한 리뷰 목록 가져오기
+        List<ReviewDTO> review = userservice.getMyreviewsByUserId(product.getUser_id());
+        
+        System.out.println("review : " + review);
+        // 첫 두 개의 리뷰만 가져오기
+        List<ReviewDTO> topReviews = review.stream().limit(2).collect(Collectors.toList());
+        
+        System.out.println("topReview : " + topReviews);
+        // 첫 두 리뷰의 작성자 ID 추출
+        List<Integer> topReviewUserIds = topReviews.stream()
+                                                   .map(ReviewDTO::getUser_id)
+                                                   .collect(Collectors.toList());
+        
+        System.out.println("reviewIds : " + topReviewUserIds);
+       
+        // 첫 번째 리뷰 작성자와 두 번째 리뷰 작성자의 정보를 가져옴
+        UserDTO user1 = !topReviewUserIds.isEmpty() ? userservice.getUserById(topReviewUserIds.get(0)) : null;
+        UserDTO user2 = topReviewUserIds.size() > 1 ? userservice.getUserById(topReviewUserIds.get(1)) : null;
+        	
+        System.out.println(user1);
+        System.out.println(user2);
+        
+        // 디버깅 출력
+        if (user1 != null) {
+            System.out.println("User 1: " + user1.getId());
+        }
+        if (user2 != null) {
+            System.out.println("User 2: " + user2.getId());
+        }
+
+        // 상품 상태에 따른 처리
+        String status = "status-before";
+        String label = "거래 전";
+        switch (product.getProduct_status()) {
+            case 0:
+                status = "status-before";
+                label = "거래 전";
+                break;
+            case 1:
+                status = "status-in-progress";
+                label = "거래 중";
+                break;
+            case 2:
+                status = "status-completed";
+                label = "거래 완료";
+                break;
+            case 3:
+                status = "status-unknown";
+                label = "오류";
+                break;
+        }
+
+        // 모델에 필요한 값 추가
+        model.addAttribute("status", status);
+        model.addAttribute("product", product);
+        model.addAttribute("label", label);
+        model.addAttribute("user_nickname", user.getId());
+        model.addAttribute("review", topReviews); // 첫 2개의 리뷰만 추가
+        model.addAttribute("user_id", user.getUser_id());
+        
+        // 리뷰 작성자들의 닉네임 추가
+        model.addAttribute("username1", user1 != null ? user1.getId() : "알 수 없음");
+        model.addAttribute("username2", user2 != null ? user2.getId() : "알 수 없음");
+
+        // 상품 조회수 증가
+        productService.incrementViewCount(product_id);
+
+        return "product/detail"; // 해당 JSP 페이지로 반환
+    }
+
     @GetMapping("")
     public String searchProducts(@RequestParam("search") String searchQuery, Model model) {
         // 검색어가 비어있을 때 예외 처리

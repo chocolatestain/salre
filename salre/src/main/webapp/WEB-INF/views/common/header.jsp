@@ -44,7 +44,7 @@
                     <div class="menu">
                         <nav>
                             <a href="${contextPath}/product?search=">매물</a>
-                            <a href="${contextPath}/product/insert">방내놓기</a>
+                            <a href="${contextPath}/product/insert.do">방내놓기</a>
                             <c:choose>
                                 <c:when test="${not empty sessionScope.loggedInUser}">
                                         <a href="${contextPath}/chat/main.do" target="_blank">채팅</a>
@@ -57,10 +57,13 @@
                             <a href="${contextPath}/loan/main">대출상품</a>
                         </nav>
                     </div>
-                    <div class="auth">
+                    <div class="auth" style="margin-top: 10px;">
                         <c:choose>
                             <c:when test="${not empty sessionScope.loggedInUser}">
                                 <!-- 로그인 상태일 때 -->
+                                <span style="color: #f5f5f5; font-size: 15px; font-weight: bold;">
+                                    <u>${loggedInUser.user_name}</u> 님 환영합니다.
+                                </span>
                                 <a href="${contextPath}/logout">로그아웃</a>
                                 <a href="${contextPath}/transactions">마이페이지</a>
                             </c:when>

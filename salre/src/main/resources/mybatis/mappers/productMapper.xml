@@ -10,12 +10,19 @@
 		using (product_id)
 		where contract_id = #{contract_id}
 	</select>
-    <insert id="insert" parameterType="productVO">
-        INSERT INTO product 
-		(product_id, user_id, region_id, product_name, payment_type, product_status, view_count, address, address_detail, deposit, rentfee, area, product_type, floor, enter_day, room_count, bath_count, approve_day, park_count, manage_fee, direction, description, land_type, land_area, building_structure, building_usage, rental_area)
-		VALUES 
-		(#{product_id}, #{user_id}, #{region_id}, #{product_name}, #{payment_type}, #{product_status}, #{view_count}, #{address}, #{address_detail}, #{deposit}, #{rentfee}, #{area}, #{product_type}, #{floor}, #{enter_day}, #{room_count}, #{bath_count}, #{approve_day}, #{park_count}, #{manage_fee}, #{direction}, #{description}, #{land_type}, #{land_area}, #{building_structure}, #{building_usage}, #{rental_area});
-	</insert>
+<insert id="insert" parameterType="productVO">
+    INSERT INTO product 
+    (product_id, user_id, region_id, product_name, payment_type, product_status, view_count, address, address_detail, 
+     deposit, rentfee, area, product_type, floor, enter_day, room_count, bath_count, approve_day, park_count, 
+     manage_fee, direction, description, land_type, land_area, building_structure, building_usage, rental_area, 
+     loan1, loan2, loan3)
+    VALUES 
+    (#{product_id}, #{user_id}, #{region_id}, #{product_name}, #{payment_type}, #{product_status}, #{view_count}, #{address}, #{address_detail}, 
+     #{deposit}, #{rentfee}, #{area}, #{product_type}, #{floor}, #{enter_day}, #{room_count}, #{bath_count}, #{approve_day}, #{park_count}, 
+     #{manage_fee}, #{direction}, #{description}, #{land_type}, #{land_area}, #{building_structure}, #{building_usage}, #{rental_area}, 
+     #{loan1}, #{loan2}, #{loan3});
+</insert>
+
 
     <update id="updateProduct" parameterType="productVO">
         UPDATE product SET product_name=#{product_name}, payment_type=#{payment_type}, product_status=#{product_status}, view_count=#{view_count}, address=#{address}, address_detail=#{address_detail}, deposit=#{deposit}, rentfee=#{rentfee}, area=#{area}, product_type=#{product_type}, floor=#{floor}, enter_day=#{enter_day}, room_count=#{room_count}, bath_count=#{bath_count}, approve_day=#{approve_day}, park_count=#{park_count}, manage_fee=#{manage_fee}, direction=#{direction} WHERE product_id=#{product_id}
@@ -82,6 +89,11 @@
 	SELECT * 
 	FROM product
 	WHERE region_id = #{region_id}
-	LIMIT 10
 </select>
+
+<update id="updateProductStatusByContract" parameterType="map">
+    UPDATE product
+    SET product_status = #{product_status}
+    WHERE product_id = #{product_id}
+</update>
 </mapper>

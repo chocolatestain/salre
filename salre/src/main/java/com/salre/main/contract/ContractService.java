@@ -237,12 +237,12 @@ public class ContractService {
     public String generateSampleContract(Map<String, String> formData, int contract_id, String basePath,HttpSession session) throws Exception {
         // 1. 계약 정보 생성 및 데이터 매핑
         Map<String, String> data = fetchContractData(contract_id, formData,session); // 계약 데이터와 formData 병합
-        String excelPath = basePath + "/excel/contractSample.xlsx";
+        String excelPath = basePath + "/excel/contractTmp_sample.xlsx";
         ExcelWriter.writeContractData(excelPath, data,basePath,contract_id);
         System.out.println("계약서 샘플 작성 완료");
 
         // 2. PDF 및 이미지 변환
-        String pdfPath = basePath + "/pdf/contractSample.pdf";
+        String pdfPath = basePath + "/pdf/contractTmp_sample.pdf";
         AsposePdfConverter.convertExcelToPdf(excelPath,contract_id,basePath);
         String imageName = "/resources/contractSamples/" + UUID.randomUUID() + "_sample.png";
         String imagePath = basePath + imageName;

@@ -14,7 +14,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,35 +33,15 @@ import com.salre.main.myPage.ReportDTO;
 @Controller
 //@RequestMapping("/salre")
 public class LoginController {
-	 
-	/*
-	 * @Value("${impKey}") private String impKey;
-	 * 
-	 * @Value("${impKey2}") private String impKey2;
-	 * 
-	 * @Value("${impSecret}") private String impSecret;
-	 */
-	   
-	 //  private static String impKey = 
-	  
+	private static String impKey = "3773152135261483";
+	private static String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
 
 	@Autowired
 	private UserService userService;
 	
-//	@Autowired 
-//	ProductService productService; //?�� 코드 ?��칠경?��
-	
 	// 본인인증 페이지
 	@GetMapping("/signup")
 	public String signupPage(Model model) {
-		
-		/*
-		 * System.out.println(impKey); System.out.println(impKey2);
-		 * System.out.println(impSecret);
-		 * 
-		 * model.addAttribute("impKey2", impKey2);
-		 */
-		
 		return "logIn/signUpAuth"; // signup.jsp 반환
 	}
 	
@@ -96,44 +75,19 @@ public class LoginController {
 
 	
 	// 회원정보입력 페이지
-		@GetMapping("/signUpInfo")
-		public String signupInfoPage() {
-			return "logIn/signUpInfo"; // signup.jsp 반환
+	@GetMapping("/signUpInfo")
+	public String signupInfoPage() {
+		return "logIn/signUpInfo"; // signup.jsp 반환
+	}
+
+	@GetMapping("/login")
+	public String loginPage(@RequestParam(value = "redirectUri", required = false) String redirectUri, HttpSession session) {
+		// 리다이렉트할 URI를 세션에 저장
+		if (redirectUri != null && !redirectUri.contains("/login")) { // 로그인 페이지는 제외
+			session.setAttribute("redirectUri", redirectUri);
 		}
-		
-		
-		
-		
-		
-		/*		
-		// 회원정보입력 페이지
-		@GetMapping("/signUpInfo")
-		public String signUpInfoPage(HttpSession session) {
-			// 본인인증 여부 확인(세션에 인증 여부 저장한다고 가정)
-			Boolean isCertified=(Boolean) session.getAttribute("isCertified");
-			
-			if(isCertified !=null&& isCertified) {
-				return "logIn/signUpInfo";//회원정보입력 페이지 반환
-			}else {
-				return "redirect:/signup";//인증이 완료되지 않았다면 다시 본인인증 페이지로 리다이렉트
-			}
-		}
-		
-		*/
-	
-		// 로그인 페이지
-//	@GetMapping("/login")
-//	public String loginPage() {
-//		return "logIn/login"; // login.jsp 반환
-//	}
-		@GetMapping("/login")
-		public String loginPage(@RequestParam(value = "redirectUri", required = false) String redirectUri, HttpSession session) {
-		    // 리다이렉트할 URI를 세션에 저장
-		    if (redirectUri != null && !redirectUri.contains("/login")) { // 로그인 페이지는 제외
-		        session.setAttribute("redirectUri", redirectUri);
-		    }
-		    return "logIn/login"; // 로그인 페이지 반환
-		}
+		return "logIn/login"; // 로그인 페이지 반환
+	}
 
 		
 		
@@ -182,10 +136,10 @@ public class LoginController {
 				session.setAttribute("board2PostCount", 120); // 寃뚯?���뙋 2 寃뚯?��湲� �닔
 				session.setAttribute("board3PostCount", 130); // 寃뚯?���뙋 3 寃뚯?��湲� �닔
 				session.setAttribute("contractCount", 50); // �쟾泥� ?�꾩�? 嫄댁?��
-				return "redirect:admin/myPage";
+				return "redirect:admin/productreport";
 			}
 			model.addAttribute("user", user);
-			return "redirect:transactions"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
+			return "redirect:/"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
 
 			// return "redirect:/home"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?��?��?��?�� ?��?��?��?��
 		}
@@ -273,40 +227,36 @@ public class LoginController {
 	        return response;
 	    }
 
-	    @GetMapping("/admin/boardreport")
-		public String boardReport() {
-
-			return "admin/boardreport";
-		}
+		/*
+		 * @GetMapping("/admin/boardreport"){ return "admin/boardreport"; }
+		 */
 
 		@GetMapping("/admin/productreport")
-		public String productReport() {
-
+		public String productReport(Model model) {
+			int report_class=1;  
+	        List<ReportDTO> reportedProperties = userService.getAdminPropertiesReportsByReportClass(report_class);
+	        System.out.println("reportedProperties: " + reportedProperties);
+	        model.addAttribute("reportedProperties", reportedProperties);
 			return "admin/productreport";
 		}
 
 		
-		@GetMapping("/admin/handleBoardReport") 
-		public String getMyreports(HttpSession session, Model model) {
-			  // �뜝�룞�삕�뜝�떎�슱�삕�뜝�룞�삕 UserDTO �뜝�룞�삕泥� �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕
-		    Object userObj = session.getAttribute("loggedInUser");
+		@PostMapping("/admin/handlePropertyReport") 
+		public String handlePropertyReport(  int report_id , String action ,  RedirectAttributes redirectAttributes) {
+			System.out.println("report_id : " + report_id + ":"+ action);
+	 
 
-		    if (userObj instanceof UserDTO) {
-		        UserDTO user = (UserDTO) userObj;
-		        int user_id = user.getUser_id(); // user_id �뜝�룞�삕�뜝�룞�삕
-		        System.out.println("Extracted user_id: " + user_id);
-
-		        // Service �샇�뜝�룞�삕�뜝�떦�슱�삕 �뜝�뙃�떆源띿삕 �뜝�룞�삕�뜝? �뜝�룞�삕�쉶
-		        List<ReportDTO> boardreportList = userService.getBoardReportsByUserId(user_id);
-		        System.out.println("boardreportList: " + boardreportList);
-		        model.addAttribute("boardreportList", boardreportList);
-		        return "myPage/reports"; // reports.jsp �뜝�룞�삕�솚
+		    if ("resolve".equals(action)) {
+		        userService.updateReportStatus(report_id, "resolved"); // 신고 무효화 상태 업데이트
+		        redirectAttributes.addFlashAttribute("message", "신고가 반려되었습니다.");
+		    } else if ("delete".equals(action)  ) {
+		    	//userService.deletePropertyById(product_id); // 매물 삭제
+		    	userService.updateReportStatus(report_id, "deleted"); // 매물 삭제 상태 업데이트
+		        redirectAttributes.addFlashAttribute("message", "매물이 삭제되었습니다.");
 		    } else {
-		        // �뜝�룞�삕�뜝�떎�슱�삕 UserDTO�뜝�룞�삕 �뜝�룞�삕�뜝�떊�냲�삕 �뜝�떥源띿삕�뜝�떥�벝�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝?
-		        System.out.println("Session does not contain a valid UserDTO.");
-		        return "redirect:/login"; // �뜝�떥源띿삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕�뜝�떛琉꾩삕�듃
+		        redirectAttributes.addFlashAttribute("error", "잘못된 요청입니다.");
 		    }
-
+		    return "redirect:/admin/productreport";
 		}
 
 		@GetMapping("/admin/userreport")
@@ -402,9 +352,6 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
 	public String rspTest(String imp_uid, HttpSession session, Model model) {
-	    String impKey = "3773152135261483";
-
-	    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
 	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 	    HttpRequest request = HttpRequest.newBuilder()
 	            .uri(URI.create("https://api.iamport.kr/users/getToken"))
@@ -472,10 +419,6 @@ public class LoginController {
 		@ResponseBody
 		@PostMapping(value = "/rspTest3")
 		public String rspTest3(String imp_uid, HttpSession session) {
-			
-		     String impKey = "3773152135261483";
-		    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
-		    
 		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
 		    HttpRequest request = HttpRequest.newBuilder()

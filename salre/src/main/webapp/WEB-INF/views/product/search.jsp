@@ -115,7 +115,7 @@
         .search button {
             padding: 10px 20px;
             background-color: #f4a261;
-            color: #fff;
+            color: #fff;	
             border: none;
             cursor: pointer;
         }
@@ -130,6 +130,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
             overflow: hidden;  
    			display: inline-block;  
+   		    min-height: 470px; /* 최소 높이를 설정 */
         }
         .product-card img {
             border-radius: 8px;
@@ -352,10 +353,11 @@
             
              <a href="/salre/product/detail/${product.product_id}" class="product-card-link">
                 <div class="product-card">
-                    <img class="product-image" 
-                         src="resources/images/products/${product.product_id}.jpeg" 
-                         alt="${product.product_name}" 
-                         onerror="this.src='https://placehold.co/200x200';">
+					<img class="product-image" 
+					     src="/salre/resources/images/products/${product.product_id}.jpeg" 
+					     alt="${product.product_name}" 
+					     onerror="this.src='https://placehold.co/200x200';"
+					     style="width: 200px; height: 200px; object-fit: fill;">     
                     <h3 style="color: black;">${product.product_name}</h3>
                     <p>${product.address}, ${product.address_detail}</p>
                     <p>방 수: ${product.room_count} | 욕실 수: ${product.bath_count}</p>

@@ -39,7 +39,7 @@
                 }
 
                 .controls button {
-                    background-color: #f5f5f5;
+                    background-color: transparent;
                     border: none;
                     cursor: pointer;
                     font-size: 2rem;
@@ -209,7 +209,7 @@
                     right: 30px;
                     z-index: 9999;
                     border: none;
-                    background-color: #999;
+                    background-color: transparent;
                     cursor: pointer;
                     padding: 10px;
                     border-radius: 10px;
@@ -228,7 +228,9 @@
 
                     <!-- Controls -->
                     <div class="controls">
-                        <button onclick="history.back()">⬅️</button>
+                        <button onclick="history.back()">
+                            <img src="${pageContext.request.contextPath}/resources/images/left.png">
+                        </button>
                     </div>
 
                     <div class="sort">
@@ -268,7 +270,7 @@
                                         <span id="limit">5</span>억원
                                     </span>
                                 </div>
-                                <input type="range" step="1" min="1" max="5" value="5" list="markers"
+                                <input type="range" min="1" max="5" step="0.1" value="5" list="markers"
                                     oninput="document.getElementById('limit').innerHTML=this.value;">
                                 <br><br>
                                 <hr>
@@ -304,7 +306,9 @@
 
                 <%@ include file="../common/footer.jsp" %>
 
-                    <button onclick="scrollToTop()" id="scroll">⬆️</button>
+                    <button onclick="scrollToTop()" id="scroll">
+                        <img src="${pageContext.request.contextPath}/resources/images/up.png">
+                    </button>
 
                     <script>
                         $(document).ready(function () {
@@ -495,6 +499,19 @@
                                 $('input[name="bank"]').prop('checked', false).trigger('change');
                             });
                         });
+
+                        function scrollToTop() {
+                            const position =
+                                document.documentElement.scrollTop || document.body.scrollTop;
+
+                            if (position) {
+                                window.requestAnimationFrame(() => {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                                    scrollToTop();
+                                });
+                            }
+                        }
                     </script>
         </body>
 

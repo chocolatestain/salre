@@ -14,5 +14,6 @@ public interface ProductInterface {
     public int countProduct();
     public int nextId();
 	public int incrementViewCount(int product_id);
-	public List<ProductDTO> findProductsByRegionCode(int regionCode); 
+	public List<ProductDTO> findProductsByRegionCode(int regionCode);
+	int updateProductStatusByContract(int product_id, int product_status); 
 }

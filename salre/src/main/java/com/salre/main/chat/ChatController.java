@@ -113,7 +113,7 @@ public class ChatController {
 		UserDTO userDTO2 = userService.getUserById(productUserId);
 		String product_user_name = userDTO2.getUser_name(); // 매물 등록한 사람의 이름
 		
-		String room_name = product_name + "(임차인: " + user_name + ", 임대인: " + product_user_name + ")";
+		String room_name = "<b>" + product_name + "</b><br>임차인: " + user_name + "<br>임대인: " + product_user_name;
 		
 		ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().user_id(user_id)
 													   .room_name(room_name)

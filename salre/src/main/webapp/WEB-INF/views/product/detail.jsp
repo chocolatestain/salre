@@ -3,274 +3,14 @@
 
 <!DOCTYPE html>
 <html lang="ko">
- 	<%@ include file="../common/header.jsp" %>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
+
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
-
-<style>
-/* 기본 설정 */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Inter", Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* 좌우 가운데 정렬 */
-  justify-content: flex-start; /* 상단 정렬 */
-  background-color: #f9f9f9;
-}
-header, footer {
-  display: block; /* 기본 블록 요소로 설정하여 flexbox 영향을 받지 않게 함 */
-}
-.product-address {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #555;
-  margin-top: 20px;
-}
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 색 기반 그라디언트 */
-  color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-  
-/* 푸터 스타일 */
-footer {
-    display: flex;
-    justify-content: center; /* 푸터 섹션들을 수평 가운데 정렬 */
-    align-items: flex-start; /* 섹션들을 상단에 정렬 */
-    flex-wrap: wrap; /* 화면 크기 줄어들 때 줄바꿈 허용 */
-    background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 블루 그라데이션 */
-    color: #fff;
-    padding: 20px 0;
-    flex-direction : row;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 추가 */
-    text-align: center; /* 전체적인 텍스트를 가운데 정렬 */
-}
-
-
- 
-
-/* 콘텐츠 영역 */
-.screen {
-  margin-top: 200px; /* 고정된 header 높이만큼 여백 추가 */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* 왼쪽, 오른쪽 패널 스타일 */
-.left, .right {
-
-  padding: 20px;
-}
-.right{
-	gap : 20px;
-}
-/* 이미지 및 텍스트 스타일 */
-.main-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover; /* 크기가 더 클 때 잘리고, 작으면 늘어남 */
-  
-}
-
-.product-directory {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.seller-profile {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.generic-avatar, .review-avatar {
-  border-radius: 50%;
-  border: 2px solid #ddd;
-}
-
-.generic-avatar {
-  width: 75px;
-  height: 75px;
-}
-
-.review-avatar {
-  width: 50px;
-  height: 50px;
-}
-
-.seller-name {
-  font-size: 2rem;
-  color: #333;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.product-info {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.product-status {
-  font-weight: bold;
-  color: #f4a261;
-}
-
-.product-price, .info-category {
-  font-size: 1.5rem;
-  color: #333;
-  font-weight: bold;
-}
-
-.info-content, .product-descript, .review-content {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
-}
-
-.product-descript-name, .recent-review {
-  font-weight: bold;
-  font-size: 2rem;
-  color: #333;
-}
-
-.review-seller-name, .review-seller-region {
-  font-size: 1rem;
-  color: #333;
-}
-
-.division-line {
-  margin-top: 20px;
-}
-
-/* 리뷰 영역 */
-.review-container {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.review {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.review-content p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-}
-
-#addressCopyButton {
-  padding: 12px 11px;
-  background-color: #f4a261;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.reviewer {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-/* 반응형 처리 */
-@media (max-width: 768px) {
-  header nav a {
-    font-size: 1rem;
-    margin: 5px;
-  }
-
-  .screen {
-    grid-template-columns: 1fr;
-    padding: 10px;
-    margin-top: 300px;
-  }
-
-  .left, .right {
-    padding: 15px;
-  }
-}
-
-/* 기타 스타일 */
-#price-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.chat-button {
-  display: block;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: white;
-  background-color: #f4a261;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.chat-button:hover {
-  background-color: #80543E;
-}
-
-.status-before {
-  color: green !important;
-}
-
-.status-in-progress {
-  color: orange !important;
-}
-
-.status-completed {
-  color: gray !important;
-}
-
-.status-unknown {
-  color: red !important;
-}
-
-  </style>
-
+ 	<%@ include file="../common/header.jsp" %>
+    <link rel="stylesheet" href="${contextPath}/resources/css/detail.css">
 </head>
 <body>
 
@@ -278,23 +18,28 @@ footer {
   <div class="screen">
     <div class="left"> 
     <div>
-      <img class="main-image" 
-     src="../../resources/images/products/${product.product_id}.jpeg" 
-     onerror="this.onerror=null; this.src='https://placehold.co/600x600'" 
-     alt="Main Image" />
+      <img 
+    class="main-image" 
+    src="../../resources/images/products/${product.product_id}.jpeg" 
+    onerror="this.onerror=null; this.src='https://placehold.co/600x600'" 
+    alt="Main Image" 
+    style="width: 600px; height: 600px; object-fit: cover;">
      </div>
-      <div class="seller-profile">
-        <img class="generic-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-        <p class="seller-name">
-          <span class="seller-nickname">${user_nickname}</span> 
-                  </p>
-          	<form action="${contextPath}/chat/createChatRoom.do" method="post">
-		<input type="hidden" name="product_id" value="${product.product_id}">
-		<input type="hidden" name="product_user_id" value="${product.user_id}">
-		<input type="hidden" name="product_name" value="${product.product_name}"> 
-		 <button type="submit" id = "chatButton" class="chat-button">채팅하기</button>
-		</form>	  
-      </div>
+		<div class="seller-profile">
+		  <img class="generic-avatar" src="https://avatar.iran.liara.run/public" alt="Avatar" />
+		  <p class="seller-name">
+		    <span class="seller-nickname">${user_nickname}</span> 
+		  </p>
+		  <div style="display: flex; justify-content: flex-end; width: 100%;">
+		    <form action="${contextPath}/chat/createChatRoom.do" method="post">
+		      <input type="hidden" name="product_id" value="${product.product_id}">
+		      <input type="hidden" name="product_user_id" value="${product.user_id}">
+		      <input type="hidden" name="product_name" value="${product.product_name}">
+		      <button type="submit" id="chatButton" class="chat-button">채팅하기</button>
+		    </form>
+		  </div>
+		</div>
+
 		<input type="hidden" id="product_status" value="${product.product_status}">
 
 		<script>
@@ -310,43 +55,90 @@ footer {
       <div class="division-line">
         <hr />
       </div>
-      <div class="recent-review">최근 리뷰
-          <div class = "review-container">
-            <div class = "review">
-              <div class = "reviewer">
-                <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-                <p class="seller-name">
-                  <span class="review-seller-name">xyl4h4jrhe<br /></span> 
-                  <span class="review-seller-region">종로구</span>                                  
-                </p>
-              </div>
-              <div class = "review-content">
-                <p>집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요집주인이 너무 못생겼어요</p>
-              </div>
-            </div>
-            <div class = "review">
-              <div class = "reviewer">
-                <img class="review-avatar" src="https://placehold.co/75x75" alt="Avatar" />
-                <p class="seller-name">
-                  <span class="review-seller-name">xyl4h4jrhe<br /></span>
-                  <span class="review-seller-region">종로구</span>
-                </p>
-              </div>
-              <div class = "review-content">
-                <p>집이 고장났는데 고쳐주질 않아요요집이 고장났는요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐요집이 고장났는데 고쳐주질 쳐주쳐주쳐주쳐데 고쳐주질 쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주쳐주않아요요집이 고장났는데 고쳐주질 않아요요집이 고장났는데 고쳐주질 않아요요집이 고장났는데 고쳐주질 않아요요</p>
-              </div>
-            </div> 
-            </div>
-          </div>
+<div class="recent-review">최근 리뷰
+    <div class="review-container">
+        <c:choose>
+ 
+            <c:when test="${not empty review}">
+                <c:forEach var="review" items="${review}" varStatus="status">
+                    <div class="review">
+                        <div class="reviewer">
+                            <img class="review-avatar" src="https://avatar.iran.liara.run/public/boy" alt="Avatar" />
+                            <p class="seller-name">
+                                <span class="review-seller-name">
+                                    <c:choose>
+             
+                                        <c:when test="${status.index == 0}">
+                                            ${username1}<br />
+                                        </c:when>
+  
+                                        <c:when test="${status.index == 1}">
+                                            ${username2}<br />
+                                        </c:when>
+                                    </c:choose>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="review-content">
+                            <p>${review.review_content}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when>
+     
+            <c:otherwise>
+                <p class="no-review">현재 등록된 리뷰가 없습니다.</p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
+
+
         </div>
         <div class="right">
   
           <div class="product-info">
                       <div style="display: flex; justify-content: space-between; align-items: center;">
-              <p class="product-descript-name" style="margin-top : 30px;">상세 내용</p>
-           	<div>
-              <a href="report_page.html" id="report" style="text-decoration: none; color: #f4a261; cursor: pointer;">신고하기</a>
-              <div class = "readCount">조회수 ${product.view_count } 회</div>
+              <p class="product-descript-name" style="margin-top : 30px;">${product.product_name}</p>
+           	<div class = "links-right" >
+   
+	               <div>
+							<button type="button" class="btn btn-secondary" id="report"
+								onclick="makeReport()">신고하기</button>
+							<!-- 모달 -->
+								<div id="reportModal" class="modal">
+							<div class="modal-content">
+								<span class="close" onclick="closeModal()">&times;</span>
+								<h2>신고하기</h2>
+								<p>신고 내용을 작성해주세요.</p>
+								<!-- 신고 유형 선택 -->
+								<label for="reportType">신고 유형:</label> <select id="reportType"
+									required>
+									<option value="" disabled selected>신고 유형을 선택하세요</option>
+									<option value="0">허위매물</option>
+									<option value="1">게시판신고</option>
+									<option value="2">기타</option>
+								</select> <input type="hidden" name="product_id" id="product_id"
+									value="${product.product_id}">
+								<textarea id="reportContent" rows="5"
+									placeholder="신고 내용을 입력하세요..." required></textarea>
+									<input type="hidden" id = "status" name = "status" value = "0">									
+								<div class="button-group">
+									<button type="button" class="btn btn-primary"
+										onclick="submitReport()">확인</button>
+									<button type="button" class="btn btn-secondary"
+										onclick="closeModal()">취소</button>
+								</div>
+							</div>
+						</div>
+	              </div>
+               
+                  	<div class = "links-right2">
+                      	<button class="btn_like" data-product-id="${product.product_id}" data-user-id="${user_id}">Like</button>
+						<div id="like-message"></div>
+             			<div class = "readCount">  조회수  ${product.view_count } 회</div>
+              </div>
               </div>
             </div> 
             	<div id = "status" style="display: flex;  align-items : center;">
@@ -396,13 +188,85 @@ footer {
               <div class="info-category">방향</div>
               <div class="info-content">${product.direction} </div>
             </div> 
+            
+             <h1>대출가능여부</h1>
+            <div class="info-row">
+			    <div class="info-category">주택도시기금</div>
+			    <div class="info-content">${product.loan1 == 1 ? '가능' : '불가능'}</div>
+			</div> 
+			<div class="info-row">
+			    <div class="info-category">중소기업 취업 청년</div>
+			    <div class="info-content">${product.loan2 == 1 ? '가능' : '불가능'}</div>
+			</div>
+			
+			<div class="info-row">
+			    <div class="info-category">버팀목 전세자금대출</div>
+			    <div class="info-content">${product.loan3 == 1 ? '가능' : '불가능'}</div>
+			</div>
+ 
+            <div class="info-row">
+             <div class="info-category">매물 설명</div>
              <p class="product-descript">
               ${product.description }
             </p>  
+            </div>
 			<div id="map" style="width:550px;height:200px;"></div>
    
-           
-   <script>  
+           <script>
+//신고하기
+	// 모달 열기
+function makeReport() {
+    const modal = document.getElementById("reportModal");
+    modal.style.display = "flex"; // 모달 표시
+}
+ 
+// 모달 닫기
+function closeModal() {
+    const modal = document.getElementById("reportModal");
+    modal.style.display = "none"; // 모달 숨김
+}
+// 신고 내용 제출
+function submitReport() {
+	 // 각 요소의 값을 변수에 저장
+    const reportType = document.getElementById("reportType").value;
+    const reportContent = document.getElementById("reportContent").value;
+    const productId = "${product.product_id}";
+    if (!reportType) {
+        alert("신고 유형을 선택하세요.");
+        return;
+    }
+    if (!reportContent.trim()) {
+        alert("신고 내용을 입력하세요.");
+        return;
+    }
+    // 데이터 전송
+    const formData = new FormData();
+    formData.append("reportType", reportType);
+    formData.append("reportContent", reportContent);
+    formData.append("product_id", productId);
+    formData.append("status",status);
+   
+	
+    fetch("${pageContext.request.contextPath}/addreports", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => {
+            if (response.ok) {
+                alert("신고가 성공적으로 접수되었습니다.");
+                closeModal(); // 모달 닫기
+                document.getElementById("reportType").value = ""; // 초기화
+                document.getElementById("reportContent").value = ""; // 초기화
+            } else {
+                alert("신고 접수에 실패했습니다. 다시 시도해주세요.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("오류가 발생했습니다. 다시 시도해주세요.");
+        });
+}
+   
     let map; // 전역 변수로 지도 객체 생성
     const query = "${product.address }"
  
@@ -419,10 +283,27 @@ footer {
 	        const depositElement = document.getElementById('product_deposit');
 	        const depositValue = parseInt(depositElement.innerText, 10); 
 	        
-	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + '</h2>';
+	        depositElement.innerHTML = '<h2>' + formatNumber(depositValue) + ' </h2>';
  
     };
 
+//     document.querySelector('.btn_like').addEventListener('click', function () {
+//         const productId = this.getAttribute('data-product-id');
+//         const userId = this.getAttribute('data-user-id');
+//         const url = `/salre/toggleLike/${product_product_id}/${user_id}`;
+
+//         fetch(url, {
+//             method: 'GET',
+//         })
+//             .then((response) => response.text())
+//             .then((data) => {
+//                 // 서버로부터 반환된 메시지를 처리
+//                 document.getElementById('like-message').innerText = data;
+//             })
+//             .catch((error) => {
+//                 console.error('Error:', error);
+//             });
+//     });
     
     // Kakao 지도 초기화 함수
     function initMap(x, y) {
@@ -433,7 +314,7 @@ footer {
             draggable: false 
         };
 
-        // 지도 생성
+        // 지도 생성	
         map = new kakao.maps.Map(mapContainer, mapOption);
 
         // 마커 생성
@@ -490,7 +371,7 @@ footer {
 		 	${product.address } ${product.address_detail}
 		</div>
 		<div id="copyNotification" style="display: none; color: green; font-size: 1rem; margin-top: 10px;">주소가 복사되었습니다!</div>
-
+	
  	   <script>
 		  document.getElementById("address").addEventListener("click", function() {
 		    var copyText = document.getElementById("address");
@@ -510,8 +391,12 @@ footer {
 		        alert("복사 실패: " + err);
 		      });
 		  });
+		  
+		  $('.btn_like').click(function () {
+			   $(this).toggleClass("on")
+			 });
 		</script> 
-    </div>  <!--  script end   -->
+    </div>   
 	         	</div>         
  
 	
@@ -528,7 +413,7 @@ footer {
 		        if (remainder > 0) {
 		            let part = remainder.toString(); // 나머지를 문자열로 변환
 		            if (unitIndex > 0) {
-		                part = part.replace(/0+$/, ''); // 뒤에 있는 0 제거
+			                part = part.replace(/0+$/, ''); // 뒤에 있는 0 제거
 		            }
 		            result = part + (units[unitIndex] ? units[unitIndex] : '') + result; // 결과에 추가
 		        }
@@ -545,8 +430,7 @@ footer {
 		    }
 			console.log(result);
 		    return result || '0'; // 결과 반환, 0이면 '0' 반환
-		}
-
+		} 
 	</script> 
 		<%@ include file="../common/footer.jsp" %>
 </body> 

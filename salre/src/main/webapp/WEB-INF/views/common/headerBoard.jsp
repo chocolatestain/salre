@@ -8,58 +8,21 @@
 <head>
 	<title>살래?</title>
 	
+	<!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
+
 	<!-- 외부 CSS -->
     <%-- <link rel="stylesheet" href="${contextPath}/resources/css/home.css"> --%>
     <link rel="stylesheet" href="${contextPath}/resources/css/header.css">
 </head>
 <body>
-	<%--
-	<!-- Header START -->
-	<header>
-		<div class="container">
-			<nav class="navbar navbar-expand-xl">
-				<!-- Logo -->
-		        <a class="navbar-brand logo" href="${contextPath}/">
-					<img src="${contextPath}/resources/images/favicon.ico" class="light-mode-item navbar-brand-item">
-					<span class="dark-mode-item navbar-brand-item">살래?</span>
-				</a>
-		        
-		        <!-- Nav Main menu -->
-		        <ul class="navbar-nav mx-auto">
-		        	<li class="nav-item"><a class="nav-link" href="${contextPath}/product?search=">매물</a></li>
-		            <li class="nav-item"><a class="nav-link" href="${contextPath}/product/insert">방내놓기</a></li>
-		            <c:choose>
-	        			<c:when test="${not empty sessionScope.loggedInUser}">
-		        			<li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a></li>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<li class="nav-item"><a class="nav-link" href="${contextPath}/chat/main.do">채팅</a></li>
-	        			</c:otherwise>
-	        		</c:choose>
-		            <li class="nav-item"><a class="nav-link" href="${contextPath}/board/list">게시판</a></li>
-		            <li class="nav-item"><a class="nav-link" href="${contextPath}/loan/main">대출 상품</a></li>
-		        </ul>
-		        
-		        <div class="auth">
-	        		<c:choose>
-	        			<c:when test="${not empty sessionScope.loggedInUser}">
-	        				<!-- 로그인 상태일 때 -->
-		        			<a href="${contextPath}/logout">로그아웃</a>
-		        			<a href="${contextPath}/transactions">마이페이지</a>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<!-- 로그아웃 상태일 때 -->
-	        				<a href="${contextPath}/login">로그인</a>
-	        				<a href="${contextPath}/signup">회원가입</a>
-	        			</c:otherwise>
-	        		</c:choose>
-		        </div>
-	    	</nav>
-	    </div>
-    </header>
-	<!-- Header END -->
-	--%>
-	
 	<!-- Header START -->
     <header>
         <div class="logo">
@@ -75,13 +38,13 @@
         <div class="menu">
             <nav>
                 <a href="${contextPath}/product?search=">매물</a>
-                <a href="${contextPath}/product/insert">방내놓기</a>
+                <a href="${contextPath}/product/insert.do">방내놓기</a>
                 <c:choose>
                     <c:when test="${not empty sessionScope.loggedInUser}">
-                            <a class="nav-link" href="${contextPath}/chat/main.do" target="_blank">채팅</a>
+                            <a href="${contextPath}/chat/main.do" target="_blank">채팅</a>
                     </c:when>
                     <c:otherwise>
-                            <a class="nav-link" href="${contextPath}/chat/main.do">채팅</a>
+                            <a href="${contextPath}/chat/main.do">채팅</a>
                     </c:otherwise>
                 </c:choose>
                 <a href="${contextPath}/board/list">게시판</a>
@@ -92,6 +55,9 @@
             <c:choose>
                 <c:when test="${not empty sessionScope.loggedInUser}">
                     <!-- 로그인 상태일 때 -->
+                    <span style="color: #f5f5f5; font-size: 15px; font-weight: bold;">
+                        <u>${loggedInUser.user_name}</u> 님 환영합니다.
+                    </span>
                     <a href="${contextPath}/logout">로그아웃</a>
                     <a href="${contextPath}/transactions">마이페이지</a>
                 </c:when>
