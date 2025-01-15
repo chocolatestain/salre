@@ -230,6 +230,14 @@
 	            	// 스크롤을 맨 아래로 이동
         			scrollToBottom();
 	            });
+	            
+	         	// Enter 키를 눌러 메시지 전송
+	            document.getElementById("chatInput").addEventListener("keypress", function(event) {
+	                if (event.key === "Enter" && !event.shiftKey) {  // Shift + Enter는 줄바꿈을 허용하고, Enter만 전송
+	                    event.preventDefault();  // Enter 키 기본 동작 방지 (줄 바꿈 안됨)
+	                    sendMessage(chatRoom_id);  // 메시지 전송 함수 호출
+	                }
+	            });
 	        });
 	    }
 	    
