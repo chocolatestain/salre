@@ -270,7 +270,7 @@
                                         <span id="limit">5</span>억원
                                     </span>
                                 </div>
-                                <input type="range" step="1" min="1" max="5" value="5" list="markers"
+                                <input type="range" min="1" max="5" step="0.1" value="5" list="markers"
                                     oninput="document.getElementById('limit').innerHTML=this.value;">
                                 <br><br>
                                 <hr>

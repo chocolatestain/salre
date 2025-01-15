@@ -55,7 +55,7 @@
 					<c:when test="${product.payment_type=='월세'}">
 						<div class="form-group2">
 							<label for="rent_fee_day">월세 입금일 *</label> <input type="number"
-								id="rent_fee_day" name="rent_fee_day" min="1" max="9"
+								id="rent_fee_day" name="rent_fee_day" min="1" max="30"
 								placeholder="매달 0일"><br>
 						</div>
 					</c:when>
