@@ -137,7 +137,6 @@
                     }
 
                     input {
-
                         padding: 10px;
                         font-size: 14px;
                         border: 1px solid #ccc;
@@ -250,34 +249,30 @@
 
                             <div class="form-group">
                                 <label for="name">이름</label>
-                                <input type="text" id="name" name="user_name" value="${sessionScope.certifiedName}"
-                                    readonly>
-                                <!-- <input type="text" id="name" name="user_name"  value="test18"  readonly> -->
+                                <input type="text" id="name" name="user_name" value="${sessionScope.certifiedName}" disabled>
                             </div>
 
 
                             <div class="form-group">
-
                                 <label for="phone">전화번호</label>
-                                <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}"
-                                    readonly>
-
+                                <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" disabled>
                             </div>
 
 
                             <label for="birthday">주민등록번호</label>
                             <div class="form-group-inline">
                                 <input type="text" id="birthday" name="resident_num"
-                                    value="${sessionScope.certifiedBirthday}" readonly>
+                                    value="${sessionScope.certifiedBirthday}" disabled>
                                 -
-                                <input type="text" id="birthday2" name="resident_num2" placeholder="주민등록번호 뒷자리 입력"><br>
+                                <input type="password" id="birthday2" name="resident_num2" placeholder="주민등록번호 뒷자리 입력"
+                                    oninput="validateNumbersOnly(this)" maxlength="7"><br>
                             </div>
                             <br>
 
                             <div class="form-group">
                                 <label for="email">이메일</label>
                                 <input type="email" id="email" name="email" placeholder="이메일 주소 입력" required
-                                    onblur="checkEmailAvailability()">
+                                    onblur="checkEmailAvailability(this)">
                                 <span id="email-check-message" style="font-size: 14px;"></span>
                             </div>
 
@@ -289,22 +284,9 @@
                                     <button type="button" onclick="checkAddress()">주소 검색</button>
 
                                 </div>
-                                <input type="text" id="birthday2" name="address_detail" placeholder="상세 주소 입력"
+                                <input type="text" id="address_detail" name="address_detail" placeholder="상세 주소 입력"
                                     required><br>
                             </div>
-
-
-                            <!-- <label for="address">Address</label>
-				<div class="form-group-inline">
-	               
-					
-                    <input type="text" id="address" name="address"  placeholder="Address" required> ,
-                    <input type="text" id="birthday2" name="address_detail"  placeholder="AddressDetail" required ><br>
-                </div>  -->
-                            <!-- <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" placeholder="Address" required>
-                </div> -->
                             <br>
                             <div class="navigation-buttons">
                                 <button type="button" onclick="history.back()">이전</button>
@@ -317,7 +299,7 @@
                 </div>
                 <script>
 
-                    /* 아이디 중복체크  */
+                    // 아이디 중복체크
                     function checkIdAvailability() {
                         const id = document.querySelector('[name="id"]').value.trim();
                         if (!id) {
@@ -342,30 +324,43 @@
                         });
                     }
 
-                    function checkEmailAvailability() {
-                        const email = document.querySelector('#email').value.trim();
+                    // 주민등록번호 유효성 검사
+                    function validateNumbersOnly(input) {
+                        input.value = input.value.replace(/[^0-9]/g, '');  // 숫자가 아닌 문자는 제거
+                    }
+
+                    // 이메일 유효성 검사
+                    function checkEmailAvailability(input) {
+                        const email = input.value.trim();
+                        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
                         if (!email) {
                             showMessage("email-check-message", "이메일 주소를 입력하세요.", "error-message");
                             return;
                         }
 
-                        // AJAX 요청으로 이메일 중복 체크
-                        $.ajax({
-                            url: "${contextPath}/checkEmail",
-                            type: "GET",
-                            data: { email },
-                            success: function (response) {
-                                if (response === "available") {
-                                    showMessage("email-check-message", "사용 가능한 이메일 주소입니다.", "success-message");
-                                } else {
-                                    showMessage("email-check-message", "이미 가입된 이메일 주소입니다.", "error-message");
+                        if (!emailPattern.test(email)) {
+                            showMessage("email-check-message", "올바른 이메일 주소를 입력하세요.", "error-message");
+                        }
+
+                        else {
+                            // AJAX 요청으로 이메일 중복 체크
+                            $.ajax({
+                                url: "${contextPath}/checkEmail",
+                                type: "GET",
+                                data: { email },
+                                success: function (response) {
+                                    if (response === "available") {
+                                        showMessage("email-check-message", "사용 가능한 이메일 주소입니다.", "success-message");
+                                    } else {
+                                        showMessage("email-check-message", "이미 가입된 이메일 주소입니다.", "error-message");
+                                    }
+                                },
+                                error: function () {
+                                    showMessage("email-check-message", "이메일 중복 체크 중 오류가 발생했습니다.", "error-message");
                                 }
-                            },
-                            error: function () {
-                                showMessage("email-check-message", "이메일 중복 체크 중 오류가 발생했습니다.", "error-message");
-                            }
-                        });
+                            });
+                        }
                     }
 
                     /* 주소검색 */

@@ -23,7 +23,6 @@
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 
-
 	<!-- DB 연결을 위한 Bean 생성 -->
 	<!-- 2024-12-23 추가, Connection Pooling 이용하기 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">

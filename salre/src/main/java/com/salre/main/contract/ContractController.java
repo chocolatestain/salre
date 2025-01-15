@@ -209,7 +209,6 @@ public class ContractController {
 			@GetMapping("/additionalInfo")
 			public String showAdditionalInfoPage(HttpSession session, Model model) {
 				// 계약 정보 가져오기
-				int landlord_id = (int) session.getAttribute("landlord_id");
 				ContractDTO contract = (ContractDTO)session.getAttribute("contract"); // 세션에 contract_id넣어야함
 				model.addAttribute("contract", contract);
 				

@@ -14,7 +14,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,35 +33,15 @@ import com.salre.main.myPage.ReportDTO;
 @Controller
 //@RequestMapping("/salre")
 public class LoginController {
-	 
-	/*
-	 * @Value("${impKey}") private String impKey;
-	 * 
-	 * @Value("${impKey2}") private String impKey2;
-	 * 
-	 * @Value("${impSecret}") private String impSecret;
-	 */
-	   
-	 //  private static String impKey = 
-	  
+	private static String impKey = "3773152135261483";
+	private static String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
 
 	@Autowired
 	private UserService userService;
 	
-//	@Autowired 
-//	ProductService productService; //?�� 코드 ?��칠경?��
-	
 	// 본인인증 페이지
 	@GetMapping("/signup")
 	public String signupPage(Model model) {
-		
-		/*
-		 * System.out.println(impKey); System.out.println(impKey2);
-		 * System.out.println(impSecret);
-		 * 
-		 * model.addAttribute("impKey2", impKey2);
-		 */
-		
 		return "logIn/signUpAuth"; // signup.jsp 반환
 	}
 	
@@ -96,44 +75,19 @@ public class LoginController {
 
 	
 	// 회원정보입력 페이지
-		@GetMapping("/signUpInfo")
-		public String signupInfoPage() {
-			return "logIn/signUpInfo"; // signup.jsp 반환
+	@GetMapping("/signUpInfo")
+	public String signupInfoPage() {
+		return "logIn/signUpInfo"; // signup.jsp 반환
+	}
+
+	@GetMapping("/login")
+	public String loginPage(@RequestParam(value = "redirectUri", required = false) String redirectUri, HttpSession session) {
+		// 리다이렉트할 URI를 세션에 저장
+		if (redirectUri != null && !redirectUri.contains("/login")) { // 로그인 페이지는 제외
+			session.setAttribute("redirectUri", redirectUri);
 		}
-		
-		
-		
-		
-		
-		/*		
-		// 회원정보입력 페이지
-		@GetMapping("/signUpInfo")
-		public String signUpInfoPage(HttpSession session) {
-			// 본인인증 여부 확인(세션에 인증 여부 저장한다고 가정)
-			Boolean isCertified=(Boolean) session.getAttribute("isCertified");
-			
-			if(isCertified !=null&& isCertified) {
-				return "logIn/signUpInfo";//회원정보입력 페이지 반환
-			}else {
-				return "redirect:/signup";//인증이 완료되지 않았다면 다시 본인인증 페이지로 리다이렉트
-			}
-		}
-		
-		*/
-	
-		// 로그인 페이지
-//	@GetMapping("/login")
-//	public String loginPage() {
-//		return "logIn/login"; // login.jsp 반환
-//	}
-		@GetMapping("/login")
-		public String loginPage(@RequestParam(value = "redirectUri", required = false) String redirectUri, HttpSession session) {
-		    // 리다이렉트할 URI를 세션에 저장
-		    if (redirectUri != null && !redirectUri.contains("/login")) { // 로그인 페이지는 제외
-		        session.setAttribute("redirectUri", redirectUri);
-		    }
-		    return "logIn/login"; // 로그인 페이지 반환
-		}
+		return "logIn/login"; // 로그인 페이지 반환
+	}
 
 		
 		
@@ -398,9 +352,6 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
 	public String rspTest(String imp_uid, HttpSession session, Model model) {
-	    String impKey = "3773152135261483";
-
-	    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
 	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 	    HttpRequest request = HttpRequest.newBuilder()
 	            .uri(URI.create("https://api.iamport.kr/users/getToken"))
@@ -468,10 +419,6 @@ public class LoginController {
 		@ResponseBody
 		@PostMapping(value = "/rspTest3")
 		public String rspTest3(String imp_uid, HttpSession session) {
-			
-		     String impKey = "3773152135261483";
-		    String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
-		    
 		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
 		    HttpRequest request = HttpRequest.newBuilder()
