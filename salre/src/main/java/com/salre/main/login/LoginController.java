@@ -124,7 +124,7 @@ public class LoginController {
 		// System.out.println("user : " + user);
 		if (user != null) {
 			session.setAttribute("loggedInUser", user);
-			if (id.equals("test15")) {
+			if (id.equals("admin")) {
 				session.setAttribute("contractStatusPending", 10); // 吏꾪�? �쟾
 				session.setAttribute("contractStatusNegotiating", 5); // 議곗?�� 以�
 				session.setAttribute("contractStatusOngoing", 15); // 吏꾪�? 以�
@@ -233,7 +233,7 @@ public class LoginController {
 
 		@GetMapping("/admin/productreport")
 		public String productReport(Model model) {
-			int report_class=1;  
+			int report_class=0;  
 	        List<ReportDTO> reportedProperties = userService.getAdminPropertiesReportsByReportClass(report_class);
 	        System.out.println("reportedProperties: " + reportedProperties);
 	        model.addAttribute("reportedProperties", reportedProperties);

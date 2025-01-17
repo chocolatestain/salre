@@ -347,3 +347,19 @@ textarea {
 	display: flex;
 	justify-content: space-between;
 }
+
+#report {
+  cursor: pointer;
+  background-color: red; /* 버튼 색상 */
+  color: #fff;
+  border-radius: 10px; /* 둥근 버튼 */
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  width: 100px;
+  height: 50px;
+}
+
+#report:hover {
+  background-color: crimson;
+}

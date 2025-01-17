@@ -249,20 +249,20 @@
 
                             <div class="form-group">
                                 <label for="name">이름</label>
-                                <input type="text" id="name" name="user_name" value="${sessionScope.certifiedName}" disabled>
+                                <input type="text" id="name" name="user_name" value="${sessionScope.certifiedName}" readonly>
                             </div>
 
 
                             <div class="form-group">
                                 <label for="phone">전화번호</label>
-                                <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" disabled>
+                                <input type="text" id="phone" name="phone_num" value="${sessionScope.certifiedPhone}" readonly>
                             </div>
 
 
                             <label for="birthday">주민등록번호</label>
                             <div class="form-group-inline">
                                 <input type="text" id="birthday" name="resident_num"
-                                    value="${sessionScope.certifiedBirthday}" disabled>
+                                    value="${sessionScope.certifiedBirthday}" readonly>
                                 -
                                 <input type="password" id="birthday2" name="resident_num2" placeholder="주민등록번호 뒷자리 입력"
                                     oninput="validateNumbersOnly(this)" maxlength="7"><br>
