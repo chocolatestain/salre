@@ -5,22 +5,24 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 	  	   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
            http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
-           http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+           http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		   ">
 
 	<!-- 2024-12-23 추가, DriverManager 사용하기 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>/WEB-INF/spring/mysqlDB.properties</value>
-				<value>/WEB-INF/spring/apikey.properties</value>
-			</list>
-		</property>
+		<property name="location" value="/WEB-INF/spring/mysqlDB.properties"/>
 		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<!-- 2025-01-17 추가, apikey 분리하기 -->
+	<bean id="apikey" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="/WEB-INF/spring/apikey.properties"/>
 	</bean>
 
 	<!-- DB 연결을 위한 Bean 생성 -->

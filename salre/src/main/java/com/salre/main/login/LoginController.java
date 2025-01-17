@@ -10,10 +10,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,13 +34,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salre.main.myPage.ReportDTO;
 
 @Controller
-//@RequestMapping("/salre")
 public class LoginController {
-	private static String impKey = "3773152135261483";
-	private static String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
-
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+    private ApplicationContext applicationContext;
+    
+    private static String impKey;
+    private static String impSecret;
+    
+    @PostConstruct
+    public void init() {
+        Properties props = (Properties) applicationContext.getBean("apikey");
+        impKey = props.getProperty("impKey2");
+        impSecret = props.getProperty("impSecret");
+    }
 	
 	// 본인인증 페이지
 	@GetMapping("/signup")
@@ -89,34 +101,10 @@ public class LoginController {
 		return "logIn/login"; // 로그인 페이지 반환
 	}
 
-		
-		
-
 	@GetMapping("/admin/myPage")
 	public void admin() {
 	}
 
-	// 로그?�� 처리
-	/*
-	 * @PostMapping("/login") public String loginUser(@RequestParam String
-	 * id, @RequestParam String password, HttpSession session, Model model) {
-	 * UserDTO user = userService.loginUser(id, password); //
-	 * System.out.println("user : " + user); if (user != null) {
-	 * session.setAttribute("loggedInUser", user); model.addAttribute("user", user);
-	 * return "myPage/transactions"; // 로그?�� ?���? ?�� transactions.jsp�? ?��?��
-	 * 
-	 * // return "redirect:/home"; // 로그?�� ?���? ?�� ?��?���? ?��?��
-	 * 
-	 * } else { model.addAttribute("error", "로그?�� ?��?��: ?��?��?�� ?��?�� 비�?번호�? ?��못되?��?��?��?��."); return
-	 * "logIn/login"; // 로그?�� ?��?�� ?�� ?��?�� 로그?�� ?��?���? } }
-	 */
-	
-	
-	/*
-	 * // �?리자 myPage
-	 * 
-	 * @GetMapping("/admin/myPage") public void admin() { }
-	 */
 	// 로그?��
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {

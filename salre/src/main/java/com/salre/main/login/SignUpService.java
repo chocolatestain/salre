@@ -8,22 +8,34 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-// �׽�Ʈ Service ����.. �������� ���α�
-
 @Service
 public class SignUpService {
-	private static String impKey = "imp74358381";
-	private static String impSecret = "qgNu6fc4TSvhlM064OnoUI7L9L5VAFcacvog2ilCmiyq8C6xLbB6XnOyYNNyksDrzoMx3KN5DgKaoUaA";
+	@Autowired
+    private ApplicationContext applicationContext;
+    
+    private static String impKey;
+    private static String impSecret;
+    
+    @PostConstruct
+    public void init() {
+        Properties props = (Properties) applicationContext.getBean("apikey");
+        impKey = props.getProperty("impKey");
+        impSecret = props.getProperty("impSecret");
+    }
 
 	public static HashMap getAccessToken(String impUid) {
-//	public HashMap getAccessToken(String impUid) {
 		HashMap map = new HashMap<>();
 		System.out.println("impUid");
 		
