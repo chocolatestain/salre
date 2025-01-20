@@ -8,12 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostDTO {
-	private int board_id; // �Խñ� ID (Primary Key)
-	private int user_id; // �ۼ��� ID
-	private String board_class; // �Խñ� �з�
-	private String board_title; // �Խñ� ����
-	private String board_content; // �Խñ� ����
-	private Timestamp created_at; // ��������
-	private Timestamp updated_at; // ��������
-	private int click_cnt; // ��ȸ��
+	private int board_id; 
+	private int user_id; 
+	private String board_class;
+	private String board_title; 
+	private String board_content; 
+	private Timestamp created_at; 
+	private Timestamp updated_at; 
+	private int click_cnt; 
 }

@@ -62,22 +62,22 @@ public interface UserDAOInterface {
 			//마이페이지 - 나의 관심매물삭제  
 			public void deleteFavorite(LikeDTO userlike);
 		  
-		    //���������� - ���� �ۼ��� �� ��� ��ȸ(Ư�� ������� �Խñ� ��� ��ȸ)
+			// 사용자작성글 - 게시글 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
 		    public List<PostDTO> selectPostsByUserId(int user_id);
 		    
-			//���������� - ���� �ۼ��� �ı�
+		    // 사용자작성글 - 리뷰 작성 목록
 			public List<ReviewDTO> selectReviewsByUserId(int user_id);
 			
-			//���������� - ���� �ۼ��� �ı�(����)
+			// 사용자작성글 - 리뷰 작성 수정
 			public void updateReview(int review_id, int review_rate, String review_content);
 			
-			//���������� - ���� �ۼ��� �ı�(����)
+			// 사용자작성글 - 리뷰 작성 삭제
 			public void deleteReview(int review_id);
 			  
-			//���������� - ���� �Ű�����
+			// 사용자작성글 - 신고내역
 			public List<ReportDTO> selectReportsByUserId(int user_id);
 			  
-			// ���������� - ȸ����������
+			// 사용자정보수정 - 회원정보수정
 		    public void updateUserInfo(UserDTO user);
 		    
 			//admin-매물신고내역조회

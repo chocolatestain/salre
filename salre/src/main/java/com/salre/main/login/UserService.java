@@ -29,13 +29,13 @@ public class UserService {
 	public UserDAO userDAO;
 	@Autowired
 	public ReportDAO reportDAO;
-	// --ȸ������
+	// 회원 등록
 	public int registerUser(UserDTO user) {
-		// ��й�ȣ ��ȣȭ
+		// 비밀번호 암호화
 		String hashedPassword = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
 		user.setPassword(hashedPassword); // ��ȣȭ�� ��й�ȣ�� ����
 
-		// DB�� ����
+		// DB에 저장
 		return userDAO.insertUser(user);
 	}
 
@@ -44,29 +44,29 @@ public class UserService {
 		return userDAO.getBoardReportsByUserId(user_id);
 	}
 
-	// �α���
+	// 로그인
 	public UserDTO loginUser(String id, String password) {
-		// 1. ID�� ����� ��ȸ
+		// 1. ID로 사용자 조회
 		UserDTO user = userDAO.selectUserById(id);
 		if (user == null) {
-			return null; // ����� ������ ������ �α��� ����
+			return null; // 사용자가 없으면 로그인 실패
 		}
 
-		// 2. ��й�ȣ ����
+		// 2. 비밀번호 확인
 		boolean isPasswordMatch = at.favre.lib.crypto.bcrypt.BCrypt.verifyer()
 				.verify(password.toCharArray(), user.getPassword()).verified;
 
 		if (isPasswordMatch) {
-			// ��й�ȣ ���� ����: ��й�ȣ�� null�� �����Ͽ� ��ȯ
+			// 비밀번호 확인 성공: 비밀번호를 null로 설정하고 반환
 			user.setPassword(null);
 			return user;
 		}
 
-		// ��й�ȣ ���� ����
+		// 비밀번호 확인 실패
 		return null;
 	}
 
-	// --���̵� ã��
+	// 아이디 찾기
 	public String findIdByEmailAndName(String email, String name) {
 		String find_id = userDAO.findIdByEmailAndName(email, name);
 		System.out.println("UserService/ find Id @@@email = " + find_id);
@@ -74,7 +74,7 @@ public class UserService {
 
 	}
 
-	// --PWã��
+	// 비밀번호 찾기
 	@Autowired
 	private JavaMailSender mailSender;
 
@@ -84,39 +84,39 @@ public class UserService {
 		return userDAO.checkUser(id, email);
 	}
 
-	public void generateVerificationCode(String email) {// ������ȣ ���� �� �߼�
+	public void generateVerificationCode(String email) {// 인증코드 생성 및 전송
 		String verificationCode = String.valueOf(new Random().nextInt(900000) + 100000);
 		verificationCodes.put(email, verificationCode);
 		sendEmail(email, "[살래?]비밀번호 찾기 인증코드", "인증코드: " + verificationCode);
 	}
 
-	public boolean verifyCode(String email, String verificationCode) {// ������ȣ Ȯ��
+	public boolean verifyCode(String email, String verificationCode) {// 인증코드 확인
 		return verificationCode.equals(verificationCodes.get(email));
 	}
 
-	public void updatePassword(String email, String newPassword) {// ��й�ȣ ��ȣȭ �� ������Ʈ
+	public void updatePassword(String email, String newPassword) {// 비밀번호 암호화 후 업데이트
 		String encodedPassword = new BCryptPasswordEncoder().encode(newPassword);
 		userDAO.updatePassword(email, encodedPassword);
 	}
 
-	private void sendEmail(String to, String subject, String body) {// �̸��� �߼�
-		SimpleMailMessage message = new SimpleMailMessage(); // �̸��� �޽����� ����
-		message.setTo(to);// �̸��� ������ �ּҸ� ����
-		message.setSubject(subject);// �̸��� ������ ����
-		message.setText(body);// �̸��� ������ ����
-		mailSender.send(message);// ������ �̸��� �޽����� �߼�..mailSender�� JavaMailSender ��ü�̸�, ���� ����
-									// ������ ������� �̸����� �߼�
+	private void sendEmail(String to, String subject, String body) {// 이메일 전송
+		SimpleMailMessage message = new SimpleMailMessage(); // 이메일 메시지 객체 생성
+		message.setTo(to);// 이메일 수신자 주소 설정
+		message.setSubject(subject);// 이메일 제목 설정
+		message.setText(body);// 이메일 본문 설정
+		mailSender.send(message);// 이메일 메시지 전송
+									
 	}
 
-	// --ȸ��Ż��
+	// 회원 탈퇴
 	public void deleteUser(String id) {
 		userDAO.deleteUser(id);
 	}
 
-	// --ID�ߺ���ȸ
+	// ID 중복 체크
 	public boolean isIdAvailable(String id) {
-		// userDAO.selectUserById2(id): null-�����ͺ��̽��� �ش� ID�� �������� ���� �� ���
-		// ������ ID./���� ����-�����ͺ��̽��� �ش� ID�� ������ �� �ߺ��� ID.
+		// userDAO.selectUserById2(id): null - 데이터베이스에 해당 ID가 존재하지 않음
+		// 중복되지 않은 ID./중복 존재 - 데이터베이스에 해당 ID가 존재하면 중복된 ID.
 		return userDAO.selectUserById2(id) == null;
 	}
 
@@ -135,7 +135,7 @@ public class UserService {
 		return userDAO.getTransactionByUserId(user_id);
 	}
 
-	// ���������� - ���� �ŷ���Ȳ - �ı��ۼ�
+	// 사용자 작성글 - 리뷰 작성
 	public void registerReview(ReviewDTO review) {
 		userDAO.insertReview(review);
 	}
@@ -173,12 +173,12 @@ public class UserService {
 	  }
 	 
 
-	// ���������� - ���� �ۼ��� �� ��� ��ȸ(Ư�� ������� �Խñ� ��� ��ȸ)
+	// 사용자 작성글 - 게시글 작성한 글 목록 조회(특정 사용자의 게시글 목록 조회)
 	public List<PostDTO> getPostsByUserId(int user_id) {
 		return userDAO.selectPostsByUserId(user_id);
 	}
 
-	// ���������� - ���� �ۼ��� �ı�
+	// 사용자 작성글 - 리뷰 작성 목록 조회
 	public List<ReviewDTO> getMyreviewsByUserId(int user_id) {
 		return userDAO.selectReviewsByUserId(user_id);
 	}
@@ -192,17 +192,18 @@ public class UserService {
 	}
 
 	
-	// ���������� - ���� �ۼ��� �ı�(����)
+	// 사용자 작성글 - 리뷰 수정
 	public void updateReview(int review_id, int review_rate, String review_content) {
 		userDAO.updateReview(review_id, review_rate, review_content);
 	}
 
-	// ���������� - ���� �ŷ��ı�(����)
+
+	// 사용자 작성글 - 리뷰 삭제
 	public void deleteReview(int review_id) {
 		userDAO.deleteReview(review_id);
 	}
 
-	// ���������� - ���� �Ű�����
+	// 사용자 작성글 - 신고내역 조회
 	public List<ReportDTO> getMyreportsByUserId(int user_id) {
 		return userDAO.selectReportsByUserId(user_id);
 	}
@@ -210,7 +211,7 @@ public class UserService {
 		 reportDAO.addReport(user_id, product_id, report_content, report_class, status);
 	}
 	
-	// ���������� - ȸ����������
+	// 사용자 정보 수정
 	public void updateUserInfo(UserDTO user) {
 		userDAO.updateUserInfo(user);
 	};
