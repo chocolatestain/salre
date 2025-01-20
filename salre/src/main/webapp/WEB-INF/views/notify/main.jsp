@@ -115,6 +115,7 @@
                 <script>
                     const user_id = "${loggedInUser.user_id}";
 
+                    // 알림 키워드 리스트
                     var iconObj = {
                         "채팅": "🤗", "계약": "📜", "서명": "✒️", "송금": "💸"
                     };
@@ -134,24 +135,10 @@
                         };
                     });
 
+                    // 페이지 출력
                     function init() {
                         draw(`\${user_id}`);
                         count(`\${user_id}`);
-                    }
-
-                    // 알림 개수 조회
-                    function count(item) {
-                        $.ajax({
-                            type: "GET",
-                            url: `${pageContext.request.contextPath}/notify/unread/\${user_id}`,
-                            contentType: "application/json",
-                            success: function (data) {
-                                $('.count').html(`<h2>확인하지 않은 알림이 \${data}개 있어요</h2><hr>`);
-                            },
-                            error: function () {
-                                console.error("알림 조회 오류");
-                            }
-                        });
                     }
 
                     // Ajax 요청 함수
@@ -176,6 +163,21 @@
                                     </button>
                                 `);
                                 });
+                            },
+                            error: function () {
+                                console.error("알림 조회 오류");
+                            }
+                        });
+                    }
+
+                    // 알림 개수 조회
+                    function count(item) {
+                        $.ajax({
+                            type: "GET",
+                            url: `${pageContext.request.contextPath}/notify/unread/\${user_id}`,
+                            contentType: "application/json",
+                            success: function (data) {
+                                $('.count').html(`<h2>확인하지 않은 알림이 \${data}개 있어요</h2><hr>`);
                             },
                             error: function () {
                                 console.error("알림 조회 오류");
@@ -212,6 +214,7 @@
                         });
                     }
 
+                    // 알림 시간 계산
                     function time(timestamp) {
                         const now = Date.now(); // 현재 시간 (밀리초)
                         const diff = now - timestamp; // 차이 계산 (밀리초)

@@ -230,6 +230,7 @@
                         const bank_name = "${ loan.bank_name }";
                         const maxAmount = Number(`${loan.loan_limit}`);
 
+                        // 은행 로고 리스트
                         var bankObj = {
                             "BNK경남은행": "bnk_logo.png", "BNK부산은행": "bnk_logo.png", "IBK기업은행": "ibk_logo.png", "iM뱅크": "im_logo.png",
                             "KB국민은행": "kb_logo.png", "NH농협은행": "nh_logo.png", "SC제일은행": "sc_logo.png", "Sh수협은행": "sh_logo.png",
@@ -239,7 +240,6 @@
 
                         let bank_img = `<img src="${pageContext.request.contextPath}/resources/images/bank/\${bankObj[bank_name]}"
                                         alt="\${bank_name} 로고" class="bank-logo">`;
-
                         let loan_check = !"${loan.loan_name}".includes("중소기업청년") && !"${loan.loan_name}".includes("버팀목") ? "1.jpg" : "2.jpg";
                         let loan_img = `<img src="${pageContext.request.contextPath}/resources/images/loan/\${loan_check}"
                                         alt="대출 로고" class="loan-logo">`;
@@ -247,19 +247,20 @@
                         $('.img').html(`\${loan_img}`);
 
                         $('.info').html(`
-                        \${bank_img}
-                        <h1 style="font-size: 2rem;">${loan.loan_name}</h1>
-                        <h2 style="font-size: 1.5rem;">${loan.bank_name}</h2>
-                        <ul>
-                            <li><h3>${loan.repayment_type}</h3></li> <br>
-                            <li><h3>기준금리: ${loan.loan_rate}%</h3></li> <br>
-                            <li><h3>
-                                최대한도: \${maxAmount.toLocaleString("ko-kr")}원
-                                <span style="font-size: 1rem;">(\${maxAmount / 100000000}억원)</span>
-                            </h3></li>
-                        </ul>
+                            \${bank_img}
+                            <h1 style="font-size: 2rem;">${loan.loan_name}</h1>
+                            <h2 style="font-size: 1.5rem;">${loan.bank_name}</h2>
+                            <ul>
+                                <li><h3>${loan.repayment_type}</h3></li> <br>
+                                <li><h3>기준금리: ${loan.loan_rate}%</h3></li> <br>
+                                <li><h3>
+                                    최대한도: \${maxAmount.toLocaleString("ko-kr")}원
+                                    <span style="font-size: 1rem;">(\${maxAmount / 100000000}억원)</span>
+                                </h3></li>
+                            </ul>
                         `);
 
+                        // 대출금액 입력 헬퍼
                         $("input[name='amount']").on("input", function () {
                             let amount = parseFloat($(this).val()); // 입력값 가져오기
 
@@ -309,6 +310,7 @@
                             $(".helper").text(text); // 업데이트된 텍스트 설정
                         });
 
+                        // 대출 이자 계산
                         $("#doCalc").click(function () {
                             let amount = parseFloat($("input[name='amount']").val());
                             let period = parseFloat($("input[name='period']").val());
@@ -354,6 +356,7 @@
                             let dpLg2 = "";
                             let avg = 0;
 
+                            // 계산값 출력
                             function draw(i, principal, interest, payment, balance) {
                                 $('.calc tbody').append(`
                                     <tr>
@@ -440,6 +443,7 @@
                                 }
                             }
 
+                            // 계산 결과 출력
                             $('.calcValue').html(`
                                 <h2>계산 결과</h2>
                                 <h3>한 달에 평균 \${Math.round(avg).toLocaleString()}원씩 납부하면 돼요 🥰</h3>
@@ -483,6 +487,7 @@
                         });
                     });
 
+                    // 페이지 상단으로 이동
                     function scrollToTop() {
                         const position =
                             document.documentElement.scrollTop || document.body.scrollTop;

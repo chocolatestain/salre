@@ -1,6 +1,5 @@
 package com.salre.main.notify;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -32,8 +31,6 @@ public class NotifyRepository {
 
     // 알림 생성
     public void insert(NotifyDTO nofityDTO) {
-        nofityDTO.setNotify_time(new Timestamp(System.currentTimeMillis())); // 알림 시간을 현재 시간으로 설정
-
         sqlSession.insert(namespace + "insert", nofityDTO);
     }
 

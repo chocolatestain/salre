@@ -323,6 +323,7 @@
                             };
                             const userIncome = incomeValue.step[paramIncome];
 
+                            // 필터 설정
                             const filters = {
                                 byRate: (item, rate) => item.loan_rate <= parseFloat(rate),
                                 byLimit: (item, limit) => item.loan_limit / 100000000 <= parseFloat(limit),
@@ -334,6 +335,7 @@
                                 byOption2: (item, isChecked) => isChecked ? true : !item.loan_name.includes("버팀목")
                             };
 
+                            // 은행 로고 리스트
                             var bankObj = {
                                 "BNK경남은행": "bnk_logo.png", "BNK부산은행": "bnk_logo.png", "IBK기업은행": "ibk_logo.png", "iM뱅크": "im_logo.png",
                                 "KB국민은행": "kb_logo.png", "NH농협은행": "nh_logo.png", "SC제일은행": "sc_logo.png", "Sh수협은행": "sh_logo.png",
@@ -346,6 +348,7 @@
                                 $('#bank').append(bankLabel);
                             });
 
+                            // 이미지 미리 로드(렌더링 속도 향상)
                             function preloadImages() {
                                 Object.values(bankObj).forEach(logo => {
                                     const img = new Image();
@@ -357,14 +360,17 @@
                             let view = [];
                             let length = 0;
 
+                            // 조회 결과 저장
                             function saveList() {
                                 sessionStorage.setItem('list', JSON.stringify(list));
                             }
 
+                            // 임시 조회 결과 저장
                             function saveView() {
                                 sessionStorage.setItem('view', JSON.stringify(view));
                             }
 
+                            // 조회 결과 출력
                             function draw(view) {
                                 $('#loanResults').empty();
                                 view.forEach(function (item) {
@@ -395,6 +401,7 @@
                                 $('#resultValue').html(`총 \${list.length}개 중 \${length}개 조회 완료`);
                             }
 
+                            // Ajax 요청 함수
                             $.ajax({
                                 url: `${pageContext.request.contextPath}/loan/select`,
                                 type: 'GET',
@@ -422,6 +429,7 @@
 
                             $('#sortRate').addClass('active');
 
+                            // 금리순 정렬
                             $('#sortRate').click(function () {
                                 $('#sortRate').addClass('active');
                                 $('#sortLimit').removeClass('active');
@@ -431,12 +439,13 @@
                                     return a.loan_rate - b.loan_rate;
                                 });
 
-                                length = view.length;  // 현재 필터링된 결과의 개수 업데이트
+                                length = view.length;  // 필터링된 결과 개수 업데이트
 
                                 saveView();
                                 draw(view);
                             });
 
+                            // 한도순 정렬
                             $('#sortLimit').click(function () {
                                 $('#sortLimit').addClass('active');
                                 $('#sortRate').removeClass('active');
@@ -446,12 +455,13 @@
                                     return b.loan_limit - a.loan_limit;
                                 });
 
-                                length = view.length;  // 현재 필터링된 결과의 개수 업데이트
+                                length = view.length;  // 필터링된 결과 개수 업데이트
 
                                 saveView();
                                 draw(view);
                             });
 
+                            // 실시간 필터 처리
                             $('input[type="range"], input[name="bank"], input[id^="repay"], input[id^="option"]').on('input change', function () {
                                 const rate = $('input[type="range"]').eq(0).val();
                                 const limit = $('input[type="range"]').eq(1).val();
@@ -474,7 +484,7 @@
                                     .filter(item => filters.byOption1(item, option1))
                                     .filter(item => filters.byOption2(item, option2));
 
-                                // 정렬 상태 유지: 현재 활성화된 버튼에 따라 정렬
+                                // 현재 활성화된 버튼에 따라 정렬
                                 if ($('#sortRate').hasClass('active')) {
                                     view.sort(function (a, b) {
                                         return a.loan_rate - b.loan_rate;
@@ -491,6 +501,7 @@
                                 draw(view);
                             });
 
+                            // 전체 선택 및 전체 해제 버튼 처리
                             $('#selectAll').click(function () {
                                 $('input[name="bank"]').prop('checked', true).trigger('change');
                             });
@@ -500,6 +511,7 @@
                             });
                         });
 
+                        // 페이지 상단으로 이동
                         function scrollToTop() {
                             const position =
                                 document.documentElement.scrollTop || document.body.scrollTop;
