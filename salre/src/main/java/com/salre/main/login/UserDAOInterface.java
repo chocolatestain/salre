@@ -34,7 +34,7 @@ public interface UserDAOInterface {
 		    // 회원탈퇴
 			public void deleteUser(String id);
 			
-			// ID�ߺ�üũ
+			// ID 중복체크
 		    public UserDTO selectUserById2(String id);
 
 			//admin-handleBoardReport

@@ -105,7 +105,7 @@ public class LoginController {
 	public void admin() {
 	}
 
-	// 로그?��
+	// 로그인 처리
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String id, @RequestParam String password, HttpSession session, Model model) {
 		UserDTO user = userService.loginUser(id, password);
@@ -113,28 +113,28 @@ public class LoginController {
 		if (user != null) {
 			session.setAttribute("loggedInUser", user);
 			if (id.equals("admin")) {
-				session.setAttribute("contractStatusPending", 10); // 吏꾪�? �쟾
-				session.setAttribute("contractStatusNegotiating", 5); // 議곗?�� 以�
-				session.setAttribute("contractStatusOngoing", 15); // 吏꾪�? 以�
-				session.setAttribute("contractStatusCompleted", 20); // ?�꾩�? �셿?���?
-				session.setAttribute("propertyReportCount", 30); // 留ㅻЪ �떊?�� 嫄댁?��
-				session.setAttribute("boardReportCount", 12); // 寃뚯?���뙋 �떊?�� 嫄댁?��
-				session.setAttribute("userReportCount", 8); // ��?�� �떊?�� 嫄댁?��
-				session.setAttribute("board1PostCount", 150); // 寃뚯?���뙋 1 寃뚯?��湲� �닔
-				session.setAttribute("board2PostCount", 120); // 寃뚯?���뙋 2 寃뚯?��湲� �닔
-				session.setAttribute("board3PostCount", 130); // 寃뚯?���뙋 3 寃뚯?��湲� �닔
-				session.setAttribute("contractCount", 50); // �쟾泥� ?�꾩�? 嫄댁?��
+				session.setAttribute("contractStatusPending", 10); // 계약대기
+				session.setAttribute("contractStatusNegotiating", 5); // 계약협의 중
+				session.setAttribute("contractStatusOngoing", 15); // 계약진행 중 
+				session.setAttribute("contractStatusCompleted", 20); // 계약완료
+				session.setAttribute("propertyReportCount", 30); // 매물신고건수
+				session.setAttribute("boardReportCount", 12); // 게시판 신고 건수
+				session.setAttribute("userReportCount", 8); // 유저 신고 건수
+				session.setAttribute("board1PostCount", 150); // 게시판 1 게시물 수
+				session.setAttribute("board2PostCount", 120); // 게시판 2 게시물 수
+				session.setAttribute("board3PostCount", 130); // 게시판 3 게시물 수
+				session.setAttribute("contractCount", 50); // 전체 계약 건수
 				return "redirect:admin/productreport";
 			}
 			model.addAttribute("user", user);
-			return "redirect:/"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� transactions.jsp?��?��?�� ?��?��?��?��
+			return "redirect:/"; // 홈으로 이동
 
-			// return "redirect:/home"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?��?��?��?�� ?��?��?��?��
+			// return "redirect:/home"; 
 		}
 
 		else {
 			model.addAttribute("error", "ID 또는 PW가 잘못되었습니다.");
-			return "logIn/login"; // ?��?��깍옙?��?��?�� ?��?��?��?��?��?�� ?��?��?�� ?��?��?��?�� ?��?��깍옙?��?��?�� ?��?��?��?��?��?��?��?��?��
+			return "logIn/login"; 
 		}
 	}
 
@@ -147,7 +147,7 @@ public class LoginController {
 	// ID 찾기 처리
 	@PostMapping("/findId")
 	public String processFindId(@RequestParam("email") String email,@RequestParam("user_name") String name, Model model) {
-		// ?��메일�? ID�? 찾는 ?��비스 ?���?
+		
 		String userId = userService.findIdByEmailAndName(email,name);
 		System.out.println("userID###### : " + userId);
 
@@ -257,11 +257,11 @@ public class LoginController {
 		public String handleAdminPost(HttpSession session) {
 			UserDTO user = (UserDTO) session.getAttribute("loggedInUser");
 			if (user == null) {
-				return "redirect:/login"; // 濡쒓?���씤�릺吏� �븡�� 寃쎌?�� 濡쒓?���씤 �럹�씠吏�濡� ?��?�떎�씠�젆�듃
+				return "redirect:/login"; 
 			}
 
-			// �꽭��?? �뜲�씠�꽣 �솗�씤 �썑 �븘�슂�븯硫� ?��붽� �옉�뾽
-			return "redirect:/admin/myPage"; // GET �슂泥��쑝濡� ?��?�떎�씠�젆�듃
+			
+			return "redirect:/admin/myPage"; 
 		}
 
 		
@@ -325,11 +325,10 @@ public class LoginController {
 
 		try {
 			userService.deleteUser(id);
-			redirectAttributes.addFlashAttribute("message", "?��?��?��?���? ?��료되?��?��?��?��."); // addFlashAttribute�? ?��?��?���? 리다?��?��?��?�� ?��?���??��?���?
-																				// 메시�?�? ?��?��
+			redirectAttributes.addFlashAttribute("message", "회원탈퇴가 완료되었습니다.");																
 			return "redirect:/login";
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("error", "?��?��?��?�� �? ?��류�? 발생?��?��?��?��.");
+			redirectAttributes.addFlashAttribute("error", "회원탈퇴 중 오류가 발생했습니다.");
 			return "redirect:/myPage";
 		}
 	}
