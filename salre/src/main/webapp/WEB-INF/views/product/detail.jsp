@@ -50,6 +50,32 @@
 		    if (productStatus === "2") {
 		        document.getElementById("chatButton").style.display = "none";
 		    }
+
+            // 채팅하기 버튼 클릭 시 알림 발생
+		    $('#chatButton').click(function() {
+		    	// 알림 보내기
+				const user_id = ${product.user_id};
+				// 알림 내용 입력
+				const notify_content = "매물에 대한 새로운 채팅이 있습니다.<br>채팅을 확인해주세요.";
+				// 알림 클릭 시 이동할 URL
+				const notify_url = "${contextPath}/chat/main.do";
+				$.ajax({
+					type : "POST",
+					url : "${contextPath}/notify/send",
+					contentType : "application/json",
+					data : JSON.stringify({
+						user_id : user_id,
+						notify_content : notify_content,
+						notify_url : notify_url
+					}),
+					success : function() {
+						console.log("알림 전송 성공");
+					},
+					error : function() {
+						console.error("알림 전송 오류");
+					}
+				});
+		    });
 		</script>
 
       <div class="division-line">
