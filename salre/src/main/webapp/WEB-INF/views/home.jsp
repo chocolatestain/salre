@@ -11,13 +11,53 @@
 
     <!-- Kakao Map API -->
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}&libraries=services"></script>
-
+	
     <!-- Swiper -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
     <!-- 외부 CSS -->
     <link rel="stylesheet" href="${contextPath}/resources/css/home.css">
+    
+    <style>
+    .stats h3 {
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .stats .count {
+        font-size: 1.8em;
+        color: #007bff;
+        font-weight: bold;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats .count::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #f8f9fa;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        animation: slide-up 0.3s ease-out forwards;
+    }
+
+    @keyframes slide-up {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+</style>
 </head>
 
 <body>
@@ -32,11 +72,13 @@
             </form>
         </section>
 
-        <section class="stats">
-            <h3>현재 <span>${regionCount}</span>개의 지역에서 <span>67</span>명이 <span>${productCount}</span>개의 집을 보고
-                있습니다.</h3>
-        </section>
-
+   <section class="stats" id="stats">
+    <h3>
+        현재 <span id="regionCount">0</span>개의 지역에서 
+        <span id="userCount">0</span>명이 
+        <span id="productCount">0</span>개의 집을 보고 있습니다.
+    </h3>
+</section>
         <div id="map1" style="width: 100%; height: 600px;"></div>
 
         <!-- 추천 상품 캐러셀 -->
@@ -145,7 +187,7 @@
                 },
             });
         }
-
+ 
         function updateSwiper(products) {
             const swiperWrapper = document.querySelector('.swiper-wrapper');
             swiperWrapper.innerHTML = ''; // 기존 슬라이드 초기화
@@ -220,6 +262,39 @@
         }
 
         initializeSwiper(); // Swiper 초기화 호출
+ 		
+        const targetNumbers = {
+          regionCount : '${regionCount}',
+          userCount : 67,
+          productCount : '${productCount}'
+        };
+        
+        document.addEventListener("DOMContentLoaded", () => {
+       
+        
+
+            const duration = 1500;  
+             
+            Object.keys(targetNumbers).forEach(id => {
+                const element = document.getElementById(id);
+                const target = targetNumbers[id];
+                animateCount(element, target, duration);
+            });
+
+            function animateCount(element, target, duration) {
+                let start = 0; 
+                const increment = Math.ceil(target / (duration / 16));  
+                const interval = setInterval(() => {
+                    start += increment;
+                    if (start >= target) {
+                        start = target;  
+                        clearInterval(interval);
+                    }
+                    element.textContent = start.toLocaleString();  
+                }, 13);  
+            }
+        }); 
+        
     </script>
     <%@ include file="common/footer.jsp" %>
 </body>
