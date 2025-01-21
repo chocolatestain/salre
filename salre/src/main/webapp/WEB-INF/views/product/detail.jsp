@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>살래?</title>
 
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}&libraries=services"></script>
  	<%@ include file="../common/header.jsp" %>
     <link rel="stylesheet" href="${contextPath}/resources/css/detail.css">
 </head>

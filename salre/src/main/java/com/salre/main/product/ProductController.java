@@ -3,9 +3,13 @@ package com.salre.main.product;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-
     @Autowired
     private ProductService productService;
 
@@ -35,13 +38,23 @@ public class ProductController {
     private RegionService regionService;
     
     @Autowired
-    
     private UserService userservice;
-    
- 
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    private static String appkey;
+
+    @PostConstruct
+    public void init() {
+        Properties props = (Properties) applicationContext.getBean("apikey");
+        appkey = props.getProperty("appkey");
+    }
     
     @GetMapping("/insert.do")
-    public String showCreateForm() {
+    public String showCreateForm(Model model) {
+        model.addAttribute("appkey", appkey);
+
         return "product/insert";
     }
 
@@ -163,9 +176,6 @@ public class ProductController {
         // 첫 번째 리뷰 작성자와 두 번째 리뷰 작성자의 정보를 가져옴
         UserDTO user1 = !topReviewUserIds.isEmpty() ? userservice.getUserById(topReviewUserIds.get(0)) : null;
         UserDTO user2 = topReviewUserIds.size() > 1 ? userservice.getUserById(topReviewUserIds.get(1)) : null;
-        	
-        System.out.println(user1);
-        System.out.println(user2);
         
         // 디버깅 출력
         if (user1 != null) {
@@ -204,6 +214,7 @@ public class ProductController {
         model.addAttribute("user_nickname", user.getId());
         model.addAttribute("review", topReviews); // 첫 2개의 리뷰만 추가
         model.addAttribute("user_id", user.getUser_id());
+        model.addAttribute("appkey", appkey);
         
         // 리뷰 작성자들의 닉네임 추가
         model.addAttribute("username1", user1 != null ? user1.getId() : "알 수 없음");
@@ -239,7 +250,4 @@ public class ProductController {
 
         return "product/search";
     }
-    
- 
-
 }

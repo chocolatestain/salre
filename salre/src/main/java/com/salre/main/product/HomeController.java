@@ -2,8 +2,12 @@ package com.salre.main.product;
  
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +27,23 @@ public class HomeController {
     private ProductService productService;
     @Autowired
     private RegionService regionService;
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    private static String appkey;
+
+    @PostConstruct
+    public void init() {
+        Properties props = (Properties) applicationContext.getBean("apikey");
+        appkey = props.getProperty("appkey");
+    }
     
     @GetMapping("/")
     public String home(Model model) {
         // 기존 데이터
         model.addAttribute("productCount", productService.countProduct());
         model.addAttribute("regionCount", regionService.countRegion());
+        model.addAttribute("appkey", appkey);
 
         try {
             model.addAttribute("regions", new ObjectMapper().writeValueAsString(regionService.selectAllRegion()));
@@ -49,7 +64,5 @@ public class HomeController {
         System.out.println(regionCode);
         System.out.println(productService.findProductsByRegionCode(regionCode));
         return productService.findProductsByRegionCode(regionCode);
-        
-        
     }
 }

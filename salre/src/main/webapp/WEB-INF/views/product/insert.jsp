@@ -10,7 +10,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.ico">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58380a7fb187c1a835fded7eee3e2c78&libraries=services"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}&libraries=services"></script>
     <!-- 외부 CSS -->
     <link rel="stylesheet" href="${contextPath}/resources/css/insert.css">
 </head>
