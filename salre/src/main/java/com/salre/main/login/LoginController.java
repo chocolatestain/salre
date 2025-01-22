@@ -41,19 +41,25 @@ public class LoginController {
 	@Autowired
     private ApplicationContext applicationContext;
     
-    private static String impKey;
+	private static String impKey;
+    private static String impKey2;
     private static String impSecret;
+	private static String channelKey;
     
     @PostConstruct
     public void init() {
         Properties props = (Properties) applicationContext.getBean("apikey");
-        impKey = props.getProperty("impKey2");
+		impKey = props.getProperty("impKey");
+        impKey2 = props.getProperty("impKey2");
         impSecret = props.getProperty("impSecret");
+        channelKey = props.getProperty("channelKey");
     }
 	
 	// 본인인증 페이지
 	@GetMapping("/signup")
 	public String signupPage(Model model) {
+		model.addAttribute("impKey", impKey);
+		model.addAttribute("channelKey", channelKey);
 		return "logIn/signUpAuth"; // signup.jsp 반환
 	}
 	
@@ -339,7 +345,7 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping(value = "/rspTest2")
 	public String rspTest(String imp_uid, HttpSession session, Model model) {
-	    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+	    String jsonBody = "{\"imp_key\":\"" + impKey2 + "\", \"imp_secret\":\"" + impSecret + "\"}";
 	    HttpRequest request = HttpRequest.newBuilder()
 	            .uri(URI.create("https://api.iamport.kr/users/getToken"))
 	            .header("Content-Type", "application/json")
@@ -406,7 +412,7 @@ public class LoginController {
 		@ResponseBody
 		@PostMapping(value = "/rspTest3")
 		public String rspTest3(String imp_uid, HttpSession session) {
-		    String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+		    String jsonBody = "{\"imp_key\":\"" + impKey2 + "\", \"imp_secret\":\"" + impSecret + "\"}";
 
 		    HttpRequest request = HttpRequest.newBuilder()
 		            .uri(URI.create("https://api.iamport.kr/users/getToken"))

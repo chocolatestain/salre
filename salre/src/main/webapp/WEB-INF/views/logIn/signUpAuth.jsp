@@ -118,7 +118,7 @@
     
      <script>
     // 포트원 SDK 초기화
-    IMP.init("imp74358381"); // 예: imp00000000 
+    IMP.init("${impKey}"); // 예: imp00000000 
     /* window.onload = function(){
     	console.log("${impKey2}");
     	IMP.init("${impKey2}"); // 예: imp00000000
@@ -131,7 +131,7 @@
     IMP.certification(
       {
         // param
-        channelKey: "{channel-key-338d3c61-d13e-4639-9997-033ab26725cd}",
+        channelKey: "${channelKey}",
         merchant_uid: "ORD" + new Date().getTime(),  //"ORD20180131-0000011", // 주문 번호
         popup: false
         
